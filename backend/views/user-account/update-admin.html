@@ -1,0 +1,81 @@
+<div ng-include src="'views/header.html'"></div>
+<div class="row form-group" style="padding-top: 10px;">
+        <div class="col-lg-5">
+          <div class="row">
+            <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+              <img src="../files/img/pin-menu.png">
+              {{ (ID == null?'เพิ่ม':'แก้ไข') }}ผู้ดูแลระบบ
+
+              <span ng-show="MenuName.sub_menu != null">
+                  <img src="../files/img/pin-menu.png">
+                        {{MenuName.sub_menu.menu_name_th}}              
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+
+        </div>
+</div>
+<hr>
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="Admin.name">
+      </div>
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สกุล</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+        <input type="text" class="form-control" ng-model="Admin.lastName">
+      </div>
+ </div>
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ตำแหน่ง</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="Admin.position">
+      </div>
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">หน่วยงาน</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="Admin.department">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">เบอร์โทรศัพท์</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="Admin.phone">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">email</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="Admin.email">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">รหัสผ่าน</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="password" class="form-control" ng-model="Admin.password">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ยืนยันรหัสผ่าน</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+        <input type="password" class="form-control" ng-model="confirmPassword">
+      </div>
+ </div> 
+ <!--<div class="row form-group">
+    <label class="col-lg-2 form-control-static">
+        สถานะการใช้งาน
+    </label>
+    <div class="col-lg-10">
+        <div class="btn-group">
+            <label class="btn btn-default btn-checkbox" ng-model="Admin.status" uib-btn-radio="'Active'">ใช้งาน</label>
+            <label class="btn btn-default btn-checkbox" ng-model="Admin.status" uib-btn-radio="'Inactive'">ไม่ใช้งาน</label>
+        </div>
+    </div>
+</div>-->
+ <div class="row form-group">
+      <div class="col-lg-12 text-center">
+            <button class="btn btn-primary" ng-click="saveAdmin(Admin)" ng-disabled="(confirmPassword != '' && (confirmPassword != Admin.password))">บันทึก</button>
+            <button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
+      </div>
+</div>

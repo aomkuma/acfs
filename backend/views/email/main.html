@@ -1,0 +1,52 @@
+<div ng-include src="'views/header.html'"></div>
+<div class="row form-group" style="padding-top: 10px;">
+	  <div class="col-lg-5">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <img src="../files/img/pin-menu.png">
+	        ตั้งค่า e-mail
+
+	        <span ng-show="MenuName.sub_menu != null">
+	        	<img src="../files/img/pin-menu.png">
+				{{MenuName.sub_menu.menu_name_th}}	        	
+	        </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
+
+	  </div>
+</div>
+<hr>
+<div class="row form-group">
+	<div class="col col-lg-12">
+		<button class="btn btn-primary pull-right" ng-click="goUpdate('')">เพิ่ม e-mail</button>
+	</div>
+</div>
+<div class="row form-group">
+	<div class="col-lg-12">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>e-mail</th>
+						<th>มาตรฐานที่ใช้</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="Emails in Emails">
+						<td>{{Emails.email}}</td>
+						<td align="center">
+							<button class="btn btn-default btn-sm" ng-click="goUpdate(Emails.emailID)">
+								<span class="glyphicon glyphicon-zoom-in"></span>
+							</button>
+							<button class="btn btn-danger btn-sm" ng-click="removeEmails(Emails.emailID)">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>	
+</div>

@@ -1,0 +1,112 @@
+<div ng-include src="'views/header.html'"></div>
+<div class="row form-group" style="padding-top: 10px;">
+	  <div class="col-lg-5">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <img src="../files/img/pin-menu.png">
+	        บัญชีผู้ใช้
+
+	        <span ng-show="MenuName.sub_menu != null">
+	        	<img src="../files/img/pin-menu.png">
+				{{MenuName.sub_menu.menu_name_th}}	        	
+	        </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
+
+	  </div>
+</div>
+<hr>
+<uib-tabset active="activeJustified" justified="true">
+	<uib-tab index="0" heading="ผู้ดูแลระบบ">
+		<br>
+		<div class="row form-group">
+			<div class="col col-lg-12">
+				<button class="btn btn-primary pull-right" ng-click="goAdminUpdate('')">เพิ่มผู้ดูแลระบบ</button>
+			</div>
+		</div>
+		<div class="row form-group">
+			<div class="col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>ชื่อ</th>
+								<th>สกุล</th>
+								<th>ตำแหน่ง</th>
+								<th>หน่วยงาน</th>
+								<th>โทรศัพท์</th>
+								<th>อีเมล์</th>
+								<th>จัดการ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="Admin in Admin">
+								<td>{{Admin.name}}</td>
+								<td>{{Admin.lastName}}</td>
+								<td>{{Admin.position}}</td>
+								<td>{{Admin.department}}</td>
+								<td>{{Admin.phone}}</td>
+								<td>{{Admin.email}}</td>
+								<td align="center">
+									<button class="btn btn-default btn-sm" ng-click="goAdminUpdate(Admin.adminID)">
+										<span class="glyphicon glyphicon-edit"></span>
+									</button>
+									<button class="btn btn-danger btn-sm" ng-click="removeAdmin(Admin.adminID)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>	
+		</div>
+	</uib-tab>
+	<uib-tab index="1" heading="ผู้ใช้งาน">
+		<br>
+		<div class="row form-group">
+			<div class="col col-lg-12">
+				<button class="btn btn-primary pull-right" ng-click="goUserUpdate('')">เพิ่มผู้ใช้งาน</button>
+			</div>
+		</div>
+		<div class="row form-group">
+			<div class="col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>ชื่อ</th>
+								<th>สกุล</th>
+								<th>ตำแหน่ง</th>
+								<th>หน่วยงาน</th>
+								<th>โทรศัพท์</th>
+								<th>อีเมล์</th>
+								<th>จัดการ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="User in User">
+								<td>{{User.nameThai}}</td>
+								<td>{{User.lastNameThai}}</td>
+								<td>{{User.positionThai}}</td>
+								<td>{{User.institution}}</td>
+								<td>{{User.phone}}</td>
+								<td>{{User.email}}</td>
+								<td align="center">
+									<button class="btn btn-default btn-sm" ng-click="goUserUpdate(User.userID)">
+										<span class="glyphicon glyphicon-edit"></span>
+									</button>
+									<button class="btn btn-danger btn-sm" ng-click="removeUser(User.userID)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>	
+		</div>
+	</uib-tab>
+</uib-tabset>
