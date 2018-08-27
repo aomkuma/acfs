@@ -3,6 +3,8 @@
     namespace App\Controller;
     
     use App\Service\LoginService;
+    use App\Controller\Mailer;
+    use App\Service\EmailService;
 
     class LoginController extends Controller {
         
@@ -14,6 +16,53 @@
             $this->db = $db;
         }
 
+        public function forgotPassword($request, $response, $args){
+            try{
+                $loginObj = $request->getParsedBody();
+                $username = $loginObj['obj']['Username'];
+                
+                $newPassword = LoginService::forgotPassword($username);
+                // Send mail
+                if($newPassword != 'invalid'){
+
+                    // Get e-mail hosting for send
+                    $email_settings = EmailService::getEmailForgotPassword();
+                    // sent mail
+                    $mailer = new Mailer;
+                    $mailer->setMailHost('smtp.gmail.com');
+                    $mailer->setMailPort('465');
+                    $mailer->setMailUsername($email_settings->email);
+                    $mailer->setMailPassword($email_settings->password);
+                    $mailer->setSubject("แจ้งรหัสผ่านใหม่สำหรับการเข้าใช้งานระบบ ACFS");
+                    $mailer->isHtml(true);
+                    $mailer->setHTMLContent($this->generateForgotPasswordMailContent($username, $newPassword));
+                    $mailer->setReceiver($username);
+                    $res = $mailer->sendMail();
+                    if($res){
+                        $this->logger->info('Sent mail Room success');
+                    }else{
+                        // print_r($res);
+                        // exit;
+                        $this->logger->info('Sent mail Room failed' . $res);
+                    }
+
+                    $this->data_result['DATA'] = $result;
+                }else{
+                    $this->data_result['STATUS'] = 'ERROR';
+                    $this->data_result['DATA'] = 'ไม่พบผู้ใช้งาน';    
+                }
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        private function generateForgotPasswordMailContent($userEmail, $newPassword){
+            return "รหัสผ่านใหม่สำหรับการเข้าใช้งานระบบของผู้ใช้งานชื่อ " . $userEmail . " คือ <b>" . $newPassword ."</b>"
+                    . "<br><br><b>**นี่คืออีเมลที่สร้างขึ้นจากระบบอัตโนมัติ กรุณาอย่าตอบกลับ e-mail ฉบับนี้**</b>";
+        }
         
         public function authenticate($request, $response, $args){
     //         error_reporting(E_ERROR);
@@ -36,12 +85,21 @@
                     
                     // Get menu in this user's group
                     //$menuList = LoginService::getMenuList($user['UserID']);                    
-
+                    $user['userType'] = 'admin';
                     $this->data_result['DATA']['UserData'] = $user;
                     // $this->data_result['DATA']['MenuList'] = $menuList;
                 }else{
-                    $this->data_result['STATUS'] = 'ERROR';
-                    $this->data_result['DATA'] = 'ไม่พบผู้ใช้งาน';
+
+                    // Check authen normal user
+                    $user = LoginService::authenticate($username , $password);    
+                    $user['userType'] = 'user';
+                    if(!empty($user[userID])){
+                        unset($user[password]);
+                        $this->data_result['DATA']['UserData'] = $user;
+                    }else{
+                        $this->data_result['STATUS'] = 'ERROR';
+                        $this->data_result['DATA'] = 'ไม่พบผู้ใช้งาน';    
+                    }
                 }
                 
                 return $this->returnResponse(200, $this->data_result, $response, false);

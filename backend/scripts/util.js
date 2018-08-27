@@ -218,8 +218,12 @@ function concatDateTimeSQL(d){
     // d.setSeconds(0);
     // console.log(d);
     // return d;
-    console.log();
-    return d.getFullYear() + '-' + padLeft(""+(d.getMonth() + 1), '00') + '-' + padLeft(""+(d.getDate()), '00') + ' ' + padLeft(""+(d.getHours()), '00') + ':' + padLeft(""+(d.getMinutes()), '00') + ':00';
+    // console.log();
+    if(d != undefined && d != null && d != ''){
+        return d.getFullYear() + '-' + padLeft(""+(d.getMonth() + 1), '00') + '-' + padLeft(""+(d.getDate()), '00') + ' ' + padLeft(""+(d.getHours()), '00') + ':' + padLeft(""+(d.getMinutes()), '00') + ':00';
+    }else{
+        return '';
+    }
 }
 
 function padLeft(str, pad){
@@ -227,7 +231,7 @@ function padLeft(str, pad){
 }
 
 function makeSQLDate(dateObj){
-  return dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
+  return dateObj.getFullYear() + '-' + padLeft(""+(dateObj.getMonth() + 1), '00') + '-' + padLeft(""+(dateObj.getDate()), '00');
 }
 
 function addDays(date, days) {
@@ -674,6 +678,23 @@ app.filter('MenuFilter', function () {
             return false;
         }
     };
+});
+
+app.filter('range', function() {
+  return function(input, total, start, limitDisplay) {
+    var i=0;
+    
+    start = parseInt(start);
+    limitDisplay = parseInt(limitDisplay);
+    //console.log('Mod value : ', start%limitDisplay);
+    if(start%limitDisplay == 0){
+        i = start;
+    }
+    total = parseInt(total);
+    for (; i<total; i++)
+      input.push(i);
+    return input;
+  };
 });
 
 app.directive('convertToNumber', function() {

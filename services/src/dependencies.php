@@ -28,6 +28,10 @@ $container['db'] = function ($c) {
     return $capsule;
 };
 
+$container['Mailer'] = function ($c) {
+    return new \App\Controller\Mailer($c->get('logger'));
+};
+
 $container['LoginController'] = function ($c) {
     return new \App\Controller\LoginController($c->get('logger'), $c->get('db'));
 };
@@ -59,3 +63,17 @@ $container['UserAccountController'] = function ($c) {
 $container['EmailController'] = function ($c) {
     return new \App\Controller\EmailController($c->get('logger'), $c->get('db'));
 };
+
+$container['QuestionController'] = function ($c) {
+    return new \App\Controller\QuestionController($c->get('logger'), $c->get('db'));
+};
+
+$container['MasterfileController'] = function ($c) {
+    return new \App\Controller\MasterfileController($c->get('logger'), $c->get('db'));
+};
+
+$container['SubcommitteeController'] = function ($c) {
+    return new \App\Controller\SubcommitteeController($c->get('logger'), $c->get('db'));
+};
+
+

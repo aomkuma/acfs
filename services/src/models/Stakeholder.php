@@ -14,6 +14,7 @@ class Stakeholder extends \Illuminate\Database\Eloquent\Model {
   							, 'positionEng'
   							, 'responsible'
   							, 'experience'
+                , 'branch'
   							, 'institution'
   							, 'address'
   							, 'phone'

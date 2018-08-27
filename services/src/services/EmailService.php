@@ -54,4 +54,14 @@
             return EmailCommodity::find($emailCommodityID)->delete();
         }
 
+        public static function getEmailForgotPassword(){
+            return Email::first();
+        }
+
+        public static function getEmailAcademicBord($standardID){
+            return Email::join('Email_Commodity', 'Email_Commodity.emailID', '=' , 'Emails.emailID')
+                        ->where("Email_Commodity.standardID", $standardID)
+                        ->first();
+        }
+
     }

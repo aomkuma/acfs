@@ -4,13 +4,14 @@
     
     use App\Model\Stakeholder;
     use App\Model\CommodityStandard;
+    use App\Model\Subcommittee;
 	
     use Illuminate\Database\Capsule\Manager as DB;
     
     class AutocompleteService {
         
         public static function getStakeholderNameThai($keyword){
-            
+        
             return Stakeholder::where('status', 'Active')
                                 ->where(function($query) use ($keyword){
                                     if(!empty($keyword)){
@@ -54,6 +55,19 @@
                                     if(!empty($keyword)){
                                         $query->where('standardNameThai', 'LIKE', DB::raw("'%".$keyword."%'"));
                                         $query->orWhere('standardNameEng', 'LIKE', DB::raw("'%".$keyword."%'"));
+                                    }
+                                })
+                                ->skip(0)
+                                ->take(10)
+                                ->get();
+        }
+
+        public static function getSubcommittee($keyword){
+            
+            return Subcommittee::where(function($query) use ($keyword){
+                                    if(!empty($keyword)){
+                                        $query->where('subcommitteeName', 'LIKE', DB::raw("'%".$keyword."%'"));
+                                        
                                     }
                                 })
                                 ->skip(0)

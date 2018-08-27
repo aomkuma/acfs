@@ -11,15 +11,37 @@
     
     class UserAccountService {
 
-    	public static function getAdminList(){
-            return Admin::all();
+    	public static function getAdminList($currentPage, $limitRowPerPage){
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = Admin::count();
+            $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = Admin::skip($skip)
+                        ->take($limit)
+                        ->get();
+
+            return ['DataList'=>$DataList, 'Total' => $totalPage];
         }
 
-        public static function getUserList(){
-            return User::select("Stakeholders.*"
+        public static function getUserList($currentPage, $limitRowPerPage){
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = User::join("Stakeholders", "Stakeholders.stakeholderID", '=' , 'Users.stakeholderID')
+                        ->count();
+
+            $totalPage = ceil($totalRows / $limitRowPerPage);
+
+            $DataList = User::select("Stakeholders.*"
                                 ,"Users.*")
                         ->join("Stakeholders", "Stakeholders.stakeholderID", '=' , 'Users.stakeholderID')
+                        ->skip($skip)
+                        ->take($limit)
                         ->get();
+
+            return ['DataList'=>$DataList, 'Total' => $totalPage];
+            
         }
 
         public static function getAdminData($adminID){
@@ -31,6 +53,11 @@
                                 ,"Users.*")
                         ->join("Stakeholders", "Stakeholders.stakeholderID", '=' , 'Users.stakeholderID')
                         ->where("Users.userID", $userID)
+                        ->first();
+        }
+
+        public static function getUserDataByStakeholderID($stakeholderID){
+            return User::where("stakeholderID", $stakeholderID)
                         ->first();
         }
 
@@ -100,5 +127,18 @@
 
         private static function generateKeyID(){
             return rand(1000000, 9999999);
+        }
+
+        public static function generatePassword($username){
+            $model = User::where('email', $username)
+                    ->first();
+            if(!empty($model)){
+                $newPassword = rand(10000000, 99999999);
+                $model->password = $newPassword;
+                $model->update();
+                return $newPassword;
+            }else{
+                return 'invalid';
+            }
         }
     }

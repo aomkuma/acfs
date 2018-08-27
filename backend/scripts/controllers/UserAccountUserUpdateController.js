@@ -47,7 +47,7 @@ angular.module('app').controller('UserAccountUserUpdateController', function($sc
 
     $autocompleteUserResult = [];
     $scope.searchUserAutoComplete = function (val, qtype){
-        val = encodeURIComponent(val);
+        // val = encodeURIComponent(val);
         var params = {'qtype' : qtype, 'keyword' : val};
         return HTTPService.clientRequest('autocomplete', params).then(function(result){  
           $autocompleteUserResult = result.data.DATA;

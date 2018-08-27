@@ -23,35 +23,221 @@
 		<button class="btn btn-primary pull-right" ng-click="goUpdate('')">กำหนดมาตรฐานใหม่</button>
 	</div>
 </div>
-<div class="row form-group">
-	<div class="col col-lg-12">
-		<div class="table-responsive">
-			<table class="table table-striped">
+<uib-tabset active="activeJustified" justified="true">
+	<uib-tab index="0" heading="การดำเนินงานมาตรฐานสินค้า" ng-click="loadCommodityStandard('commodity-standard/list', 'pending')">
+		<div class="row form-group">
+			<div class="col col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>สินค้า</th>
+								<th>เลขที่</th>
+								<th>เล่มที่</th>
+								<th>วันที่</th>
+								<th>คณะกรรมการ</th>
+								<th>สถานะ</th>
+								<th>จัดการ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in dataset">
+								<td>{{data.standardNameThai}}</td>
+								<td>{{data.noThai}}</td>
+								<td>{{data.bookNumberThai}}</td>
+								<td>{{makeDateString(data.createDate)}}</td>
+								<td>
+									<button class="btn btn-default btn-sm" ng-click="loadAcademicBoard(data.standardID)"><span class="glyphicon glyphicon-zoom-in"></span></button>
+								</td>
+								<td>{{getStatusText(data.step)}}</td>
+								<td>
+									<button class="btn btn-default btn-sm" ng-click="goUpdate(data.standardID)"><span class="glyphicon glyphicon-edit"></span></button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<ul class="pagination pull-right">
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(0)" aria-label="First">
+					        <span aria-hidden="true">First</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
+					        <span aria-hidden="true">Prev.</span>
+					      </a>
+					    </li>
+					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
+					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
+					        <span aria-hidden="true">Next</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
+					        <span aria-hidden="true">Last</span>
+					      </a>
+					    </li>
+					  </ul>
+				</div>
+			</div>
+		</div>
+	</uib-tab>
+
+	<uib-tab index="1" heading="มาตรฐานสินค้าที่ประกาศใช้" ng-click="loadCommodityStandard('commodity-standard/list', 'inuse')">
+		<div class="row form-group">
+			<div class="col col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>สินค้า</th>
+								<th>วันที่ประกาศใช้</th>
+								<th>เลขที่</th>
+								<th>เล่มที่</th>
+								<th>จัดการ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in dataset">
+								<td>{{data.standardNameThai}}</td>
+								<td>{{makeDateString(data.useDate)}}</td>
+								<td>{{data.noThai}}</td>
+								<td>{{data.bookNumberThai}}</td>
+								<td>
+									<button class="btn btn-default btn-sm" ng-click="goUpdate(data.standardID)"><span class="glyphicon glyphicon-edit"></span></button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<ul class="pagination pull-right">
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(0)" aria-label="First">
+					        <span aria-hidden="true">First</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
+					        <span aria-hidden="true">Prev.</span>
+					      </a>
+					    </li>
+					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
+					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
+					        <span aria-hidden="true">Next</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
+					        <span aria-hidden="true">Last</span>
+					      </a>
+					    </li>
+					  </ul>
+				</div>
+			</div>
+		</div>
+	</uib-tab>
+
+	<uib-tab index="2" heading="มาตรฐานสินค้าที่ยกเลิก" ng-click="loadCommodityStandard('commodity-standard/list', 'cancelled')">
+		<div class="row form-group">
+			<div class="col col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>สินค้า</th>
+								<th>วันที่ประกาศใช้</th>
+								<th>วันที่ยกเลิก</th>
+								<th>เลขที่</th>
+								<th>เล่มที่</th>
+								<th>จัดการ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in dataset">
+								<td>{{data.standardNameThai}}</td>
+								<td>{{makeDateString(data.useDate)}}</td>
+								<td>{{makeDateString(data.cancelledDate)}}</td>
+								<td>{{data.noThai}}</td>
+								<td>{{data.bookNumberThai}}</td>
+								<td>
+									<button class="btn btn-default btn-sm" ng-click="goUpdate(data.standardID)"><span class="glyphicon glyphicon-edit"></span></button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<ul class="pagination pull-right">
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(0)" aria-label="First">
+					        <span aria-hidden="true">First</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
+					        <span aria-hidden="true">Prev.</span>
+					      </a>
+					    </li>
+					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
+					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
+					        <span aria-hidden="true">Next</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
+					        <span aria-hidden="true">Last</span>
+					      </a>
+					    </li>
+					  </ul>
+				</div>
+			</div>
+		</div>
+	</uib-tab>
+</uib-tabset>
+<script type="text/ng-template" id="show_academic_board.html">
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-lg-1">
+                <h3><i class="glyphicon glyphicon-user" style="color:#3D9AE1;"></i></h3>
+            </div>
+            <div class="col-lg-10 text-center">
+                <h3>คณะกรรมการ</h3>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+    	<div class="table-responsive">
+			<table class="table table-bordered table-striped">
 				<thead>
 					<tr>
-						<th>สินค้า</th>
-						<th>เลขที่</th>
-						<th>เล่มที่</th>
-						<th>วันที่</th>
-						<th>คณะกรรมการ</th>
-						<th>สถานะ</th>
-						<th>จัดการ</th>
+						<th>ชื่อ</th>
+						<th>สกุล</th>
+						<th>ตำแหน่ง</th>
+						<th>หน่วยงาน</th>
+						<th>โทรศัพท์</th>
+						<th>อีเมล์</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="data in dataset">
-						<td>{{data.standardNameThai}}</td>
-						<td>{{data.noThai}}</td>
-						<td>{{data.bookNumberThai}}</td>
-						<td>{{data.createDate}}</td>
-						<td></td>
-						<td></td>
-						<td>
-							<button class="btn btn-default btn-sm" ng-click="goUpdate(data.standardID)"><span class="glyphicon glyphicon-edit"></span></button>
-						</td>
+					<tr ng-repeat="Stakeholders in AcademicBoard">
+						<td>{{Stakeholders.nameThai}}<br>{{ Stakeholders.nameEng}}</td>
+						<td>{{Stakeholders.lastNameThai}}<br>{{Stakeholders.lastNameEng}}</td>
+						<td>{{Stakeholders.positionThai}}<br>{{Stakeholders.positionEng}}</td>
+						<td>{{Stakeholders.institution}}</td>
+						<td>{{Stakeholders.phone}}</td>
+						<td>{{Stakeholders.email}}</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-	</div>
-</div>
+    </div>
+    <div class="modal-footer">
+	    <button class="btn btn-default" ng-click="cancel()">Close</button>
+    </div>
+</script>

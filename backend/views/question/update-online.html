@@ -1,0 +1,164 @@
+<div ng-include src="'views/header.html'"></div>
+<div class="row form-group" style="padding-top: 10px;">
+        <div class="col-lg-5">
+          <div class="row">
+            <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+              <img src="../files/img/pin-menu.png">
+              {{ (ID == null?'เพิ่ม':'แก้ไข') }}แบบสอบถามออนไลน์
+
+              <span ng-show="MenuName.sub_menu != null">
+                  <img src="../files/img/pin-menu.png">
+                        {{MenuName.sub_menu.menu_name_th}}              
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+
+        </div>
+</div>
+<hr>
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ประเภทแบบสอบถาม</label>
+      <div class="col-lg-4 col-sm-10 col-xs-10">
+        <select class="form-control" ng-model="Questionnaire.questionnaireSubType">
+          <option value="">กรุณาเลือก..</option>
+          <option value="standard">ร่างมาตรฐาน</option>
+          <option value="committee">อนุกรรมการ</option>
+        </select>
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อแบบสอบถาม</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+        <input type="text" class="form-control" ng-model="Questionnaire.questionName">
+      </div>
+ </div>
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">Link Google Doc.</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+        <input type="text" class="form-control" ng-model="Questionnaire.filePath">
+      </div>
+ </div> 
+ <div class="row form-group" ng-show="Questionnaire.questionnaireSubType == 'standard'">
+    <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">
+      แบบสอบถามของมาตรฐาน
+    </label>
+    <div class="col-lg-4 col-sm-12 col-xs-12">
+      <input type="text" class="form-control" ng-model="Questionnaire.standardName" uib-typeahead="user.standardNameThai for user in searchSubcommitteeAutoComplete($viewValue, 'STANDARD') | limitTo:20" typeahead-on-select="autocompleteStandardSelected($item, $model, $label);">
+      <input type="hidden" ng-model="Questionnaire.standardID">
+    </div>
+ </div>
+ <div class="row form-group" ng-show="Questionnaire.questionnaireSubType == 'committee'">
+    <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">
+      แบบสอบถามของคณะอนุกรรมการ
+    </label>
+    <div class="col-lg-4 col-sm-12 col-xs-12">
+      <input type="text" class="form-control" ng-model="Questionnaire.subcommitteeName" uib-typeahead="user.subcommitteeName for user in searchSubcommitteeAutoComplete($viewValue, 'SUBCOMMITTEE') | limitTo:20" typeahead-on-select="autocompleteSubcommitteeSelected($item, $model, $label);">
+      <input type="hidden" ng-model="Questionnaire.subcommitteeID">
+    </div>
+    <div class="col-lg-2 col-sm-2 col-xs-2" >
+        <button class="btn btn-success btn-sm" ng-click="addQuestionnairePerson()">เพิ่มผู้รับเพิ่มเติม</button>
+      </div>
+  </div>
+ <!--<div class="row form-group">
+  <label class="col col-lg-2 form-control-static">
+    ไฟล์แนบ
+  </label>
+  <div class="col-lg-4">
+    <p class="input-group">
+          <input type="text" readonly="true" class="form-control" ng-model="AttachFile.name" />
+          <span class="input-group-btn">
+            <button class="btn btn-default" ngf-select ng-model="AttachFile" ngf-max-size="25MB"  ngf-model-invalid="AttachFile.invalidFile">เลือก</button>
+          </span>
+        </p>
+  </div>
+  <label class="col-lg-3  form-control-static">
+    <a target="_self" href="../{{Questionnaire.filePath}}" download="{{Questionnaire.fileName}}">{{Questionnaire.fileName}}</a>
+    <div class="file-alert" ng-show="AttachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{fle.attachFile.invalidFile.$errorParam}}</div>
+  </div>
+  </label> 
+ </div>
+ <div class="row form-group">
+  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">เวลาเปิดแบบสอบถาม</label>
+  <div class="col-lg-4 col-sm-12 col-xs-12">
+    <p class="input-group">
+        <input type="text" readonly="true" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="Questionnaire.openDate" is-open="popup1.opened" datepicker-options="dateOptions1" placeholder="เริ่มต้น" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+  </div>
+  <div class="col-lg-4 col-sm-12 col-xs-12">
+    <p class="input-group">
+        <input type="text" readonly="true" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="Questionnaire.closeDate" is-open="popup2.opened" datepicker-options="dateOptions2" placeholder="สิ้นสุด" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+  </div>
+ </div>
+ <fieldset>
+  <legend>คำถาม</legend>
+   <div class="row form-group" ng-repeat="data in Questionnaire.question">
+    <label class="col-lg-12  form-control-static">
+      คำถามที่ {{$index+1}}
+    </label>
+    <div class="col-lg-11 col-md-11 col-sm-10 col-xs-10">
+      <input class="form-control" ng-model="data.question">
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2">
+      <button class="btn btn-danger btn-sm" ng-click="removeQuestion(data.questionID, $index)">ลบ</button>
+    </div>
+   </div>
+   <div class="row form-group">
+    <div class="col-lg-12">
+      <button class="btn btn-success pull-right btn-sm" ng-click="addQuestion()">เพิ่มคำถาม</button>
+    </div>
+   </div>
+ </fieldset>
+ <!--<div class="row form-group">
+    <label class="col-lg-2 form-control-static">
+        สถานะการใช้งาน
+    </label>
+    <div class="col-lg-10">
+        <div class="btn-group">
+            <label class="btn btn-default btn-checkbox" ng-model="Questionnaire.status" uib-btn-radio="'Active'">ใช้งาน</label>
+            <label class="btn btn-default btn-checkbox" ng-model="Questionnaire.status" uib-btn-radio="'Inactive'">ไม่ใช้งาน</label>
+        </div>
+    </div>
+</div>-->
+ <div class="row form-group">
+      <div class="col-lg-12 text-center">
+            <button class="btn btn-primary" ng-click="saveQuestionnaire(Questionnaire)">{{ Questionnaire.questionnaireSubType=='committee'?'ส่งแบบสอบถาม':'บันทึก' }}</button>
+            <button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
+      </div>
+</div>
+<script type="text/ng-template" id="update_person.html">
+    <div class="modal-header">
+        <div class="row">
+            
+            <div class="col-lg-12 text-center">
+                <h3>จัดการผู้รับ</h3>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+      <div class="row form-group">
+        <div class="col-lg-4">
+          <input type="text" class="form-control" ng-model="keyword" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai + ' (' +user.positionThai + ')') for user in searchSubcommitteeAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteStakeholderSelected($item, $model, $label); keyword = '';">
+        </div>        
+      </div>    
+      <div class="row form-group" ng-repeat="data in Questionnaire.questionnaire_person">
+          <label class="col-lg-3 col-sm-10 col-xs-10 form-control-static">
+              {{data.nameThai}} {{data.lastNameThai}}
+          </label>
+          <div class="col-lg-2 col-sm-2 col-xs-2">
+            <button class="btn btn-danger btn-sm" ng-click="removeQuestionnairePerson(data.questionnairePersonID, $index)">ลบ</button>
+          </div>
+      </div>
+    </div>
+   <div class="modal-footer">
+      <button class="btn btn-default" ng-click="cancel()">Close</button>
+  </div>
+</script>

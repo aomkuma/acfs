@@ -18,47 +18,139 @@
 	  </div>
 </div>
 <hr>
-<div class="row form-group">
-	<div class="col col-lg-12">
-		<button class="btn btn-primary pull-right" ng-click="goUpdate('')">เพิ่มผู้มีส่วนได้ส่วนเสีย</button>
-	</div>
-</div>
-<div class="row form-group">
-	<div class="col-lg-12">
-		<div class="table-responsive">
-			<table class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<th>ชื่อ</th>
-						<th>สกุล</th>
-						<th>ตำแหน่ง</th>
-						<th>หน่วยงาน</th>
-						<th>โทรศัพท์</th>
-						<th>โทรสาร</th>
-						<th>อีเมล์</th>
-						<th>จัดการ</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="Stakeholders in Stakeholders">
-						<td>{{Stakeholders.nameThai}}<br>{{ Stakeholders.nameEng}}</td>
-						<td>{{Stakeholders.lastNameThai}}<br>{{Stakeholders.lastNameEng}}</td>
-						<td>{{Stakeholders.positionThai}}<br>{{Stakeholders.positionEng}}</td>
-						<td>{{Stakeholders.institution}}</td>
-						<td>{{Stakeholders.phone}}</td>
-						<td>{{Stakeholders.fax}}</td>
-						<td>{{Stakeholders.email}}</td>
-						<td align="center">
-							<button class="btn btn-default btn-sm" ng-click="goUpdate(Stakeholders.stakeholderID)">
-								<span class="glyphicon glyphicon-edit"></span>
-							</button>
-							<button class="btn btn-danger btn-sm" ng-click="removeStakeholders(Stakeholders.stakeholderID)">
-								<span class="glyphicon glyphicon-trash"></span>
-							</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+<uib-tabset active="activeJustified" justified="true">
+	<uib-tab index="0" heading="ผู้มีส่วนได้ส่วนเสีย" ng-click="loadStakeholder('stakeholder/list')">
+		<br><br>
+		<div class="row form-group">
+			<div class="col col-lg-12">
+				<button class="btn btn-primary pull-right" ng-click="goUpdate('')">เพิ่มผู้มีส่วนได้ส่วนเสีย</button>
+			</div>
 		</div>
+		<div class="row form-group">
+			<div class="col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>ชื่อ</th>
+								<th>สกุล</th>
+								<th>ตำแหน่ง</th>
+								<th>หน่วยงาน</th>
+								<th>โทรศัพท์</th>
+								<th>โทรสาร</th>
+								<th>อีเมล์</th>
+								<th>จัดการ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="Stakeholders in Stakeholders">
+								<td>{{Stakeholders.nameThai}}<br>{{ Stakeholders.nameEng}}</td>
+								<td>{{Stakeholders.lastNameThai}}<br>{{Stakeholders.lastNameEng}}</td>
+								<td>{{Stakeholders.positionThai}}<br>{{Stakeholders.positionEng}}</td>
+								<td>{{Stakeholders.institution}}</td>
+								<td>{{Stakeholders.phone}}</td>
+								<td>{{Stakeholders.fax}}</td>
+								<td>{{Stakeholders.email}}</td>
+								<td align="center">
+									<button class="btn btn-default btn-sm" ng-click="goUpdate(Stakeholders.stakeholderID)">
+										<span class="glyphicon glyphicon-edit"></span>
+									</button>
+									<button class="btn btn-danger btn-sm" ng-click="removeStakeholders(Stakeholders.stakeholderID)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<ul class="pagination pull-right">
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(0)" aria-label="First">
+					        <span aria-hidden="true">First</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
+					        <span aria-hidden="true">Prev.</span>
+					      </a>
+					    </li>
+					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
+					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
+					        <span aria-hidden="true">Next</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
+					        <span aria-hidden="true">Last</span>
+					      </a>
+					    </li>
+					  </ul>
+				</div>
+			</div>
+		</div>
+	</uib-tab>
+	<uib-tab index="1" heading="คณะอนุกรรมการ" ng-click="loadSubcommittee('subcommittee/list')">
+		<br><br>
+		<div class="row form-group">
+			<div class="col col-lg-12">
+				<button class="btn btn-primary pull-right" ng-click="goUpdateSubcommittee('')">เพิ่มคณะอนุกรรมการ</button>
+			</div>
+		</div>
+		<div class="row form-group">
+			<div class="col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>คณะ</th>
+								<th>จัดการ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="Subcommittee in Subcommittee">
+								<td>{{Subcommittee.subcommitteeName}}</td>
+								<td align="center">
+									<button class="btn btn-default btn-sm" ng-click="goUpdateSubcommittee(Subcommittee.subcommitteeID)">
+										<span class="glyphicon glyphicon-edit"></span>
+									</button>
+									<button class="btn btn-danger btn-sm" ng-click="removeSubcommittee(Subcommittee.subcommitteeID)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<ul class="pagination pull-right">
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(0)" aria-label="First">
+					        <span aria-hidden="true">First</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
+					        <span aria-hidden="true">Prev.</span>
+					      </a>
+					    </li>
+					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
+					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
+					        <span aria-hidden="true">Next</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
+					        <span aria-hidden="true">Last</span>
+					      </a>
+					    </li>
+					  </ul>
+				</div>
+			</div>
+		</div>
+	</uib-tab>
+</uib-tabset>
 	</div>	
 </div>

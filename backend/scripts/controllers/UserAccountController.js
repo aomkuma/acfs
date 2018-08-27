@@ -12,12 +12,16 @@ angular.module('app').controller('UserAccountController', function($scope, $comp
     $scope.$parent.menu_selected = 'user-account';
 
     $scope.loadAdmin = function(action){
-        var params = null;
+        var params = {'currentPage': $scope.currentPage
+                    , 'limitRowPerPage': $scope.limitRowPerPage 
+                    };
+        IndexOverlayFactory.overlayShow();
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.Admin = result.data.DATA.Admin;
-                 IndexOverlayFactory.overlayHide();
+                $scope.totalPages = result.data.DATA.Total;
+                IndexOverlayFactory.overlayHide();
             }else{
                 IndexOverlayFactory.overlayHide();
             }
@@ -25,12 +29,15 @@ angular.module('app').controller('UserAccountController', function($scope, $comp
     }
 
     $scope.loadUser = function(action){
-        var params = null;
+        var params = {'currentPage': $scope.currentPage
+                    , 'limitRowPerPage': $scope.limitRowPerPage 
+                    };
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.User = result.data.DATA.User;
-                 IndexOverlayFactory.overlayHide();
+                $scope.totalPages = result.data.DATA.Total;
+                IndexOverlayFactory.overlayHide();
             }else{
                 IndexOverlayFactory.overlayHide();
             }
@@ -106,6 +113,27 @@ angular.module('app').controller('UserAccountController', function($scope, $comp
     $scope.goUserUpdate = function(id){
         window.location.href = '#/user-account/update/user/' + id;
     }
+
+    $scope.goUserTab = function(){
+        $scope.totalPages = 0;
+        $scope.currentPage = 0;
+        $scope.limitRowPerPage = 10;
+        $scope.limitDisplay = 5;
+        $scope.loadUser('user-account/list/user');
+    }
+
+    $scope.goAdminTab = function(){
+        $scope.totalPages = 0;
+        $scope.currentPage = 0;
+        $scope.limitRowPerPage = 10;
+        $scope.limitDisplay = 5;
+        $scope.loadAdmin('user-account/list/admin');
+    }
+
+    $scope.totalPages = 0;
+    $scope.currentPage = 0;
+    $scope.limitRowPerPage = 10;
+    $scope.limitDisplay = 5;
 
     IndexOverlayFactory.overlayHide();
     

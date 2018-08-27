@@ -13,6 +13,7 @@ angular.module('app').controller('EmailController', function($scope, $compile, $
 
     $scope.loadEmail = function(action){
         var params = null;
+        IndexOverlayFactory.overlayShow();
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){

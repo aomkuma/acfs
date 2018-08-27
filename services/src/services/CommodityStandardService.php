@@ -9,9 +9,96 @@
     
     class CommodityStandardService {
 
-    	public static function getCommodityStandardList(){
-            return CommodityStandard::orderBy('standardID', 'DESC')
-            		->get();      
+    	public static function getCommodityStandardList($currentPage, $limitRowPerPage, $_standardIDToIgnore, $stepList){
+            // 
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = CommodityStandard::whereNotIn("standardID", $_standardIDToIgnore)
+                        ->where(function($query) use ($stepList){
+                            if($stepList[0] == 11){
+                                $query->where('status', 'Inactive');
+                            }else{
+                                $query->whereIn('step', $stepList);
+                                $query->where('status', 'Active');
+                            }
+                        })
+                        ->count();
+
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = CommodityStandard::whereNotIn("standardID", $_standardIDToIgnore)
+                        ->where(function($query) use ($stepList){
+                            if($stepList[0] == 11){
+                                $query->where('status', 'Inactive');
+                            }else{
+                                $query->whereIn('step', $stepList);
+                                $query->where('status', 'Active');
+                            }
+                        })
+                        ->orderBy('standardID', 'DESC')
+                        ->skip($skip)
+                        ->take($limit)
+                		->get();      
+
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
+        }
+
+        public static function getCommodityStandardListWithCheckDate($currentPage, $limitRowPerPage){
+            // 
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = CommodityStandard::where(DB::raw("DATEDIFF('".date('Y-m-d')."',createDate)"), '>', '1735')
+                        ->count();
+
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = CommodityStandard::where( DB::raw("DATEDIFF('".date('Y-m-d')."',createDate)"), '>', '1735')
+                        ->orderBy('standardID', 'DESC')
+                        ->skip($skip)
+                        ->take($limit)
+                        ->get();      
+
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
+        }
+
+        public static function getCommodityStandardListForUser($userID, $currentPage, $limitRowPerPage, $_standardIDToIgnore){
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = CommodityStandard::whereNotIn("Commodity_Standards.standardID", $_standardIDToIgnore)
+                        ->join("Academic_Boards", 'Academic_Boards.standardID', '=', 'Commodity_Standards.standardID')
+                        ->count();
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = CommodityStandard::select("Commodity_Standards.*")
+                        ->whereNotIn("Commodity_Standards.standardID", $_standardIDToIgnore)
+                        ->join("Academic_Boards", 'Academic_Boards.standardID', '=', 'Commodity_Standards.standardID')
+                        ->groupBy('Commodity_Standards.standardID')
+                        ->orderBy('Commodity_Standards.standardID', 'DESC')
+                        ->skip($skip)
+                        ->take($limit)
+                        ->get();      
+
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
+        }
+
+        public static function getCommodityStandardListWithCheckDateForUser($userID, $currentPage, $limitRowPerPage){
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = CommodityStandard::where(DB::raw("DATEDIFF('".date('Y-m-d')."',Commodity_Standards.createDate)"), '>', '1735')
+                        ->join("Academic_Boards", 'Academic_Boards.standardID', '=', 'Commodity_Standards.standardID')
+                        ->count();
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = CommodityStandard::select("Commodity_Standards.*")
+                        ->where(DB::raw("DATEDIFF('".date('Y-m-d')."',Commodity_Standards.createDate)"), '>', '1735')
+                        ->join("Academic_Boards", 'Academic_Boards.standardID', '=', 'Commodity_Standards.standardID')
+                        ->groupBy('Commodity_Standards.standardID')
+                        ->orderBy('Commodity_Standards.standardID', 'DESC')
+                        ->skip($skip)
+                        ->take($limit)
+                        ->get();      
+
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
         }
 
         public static function getCommodityStandard($standardID){

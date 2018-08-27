@@ -26,6 +26,13 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 								, 'updateBy':$scope.currentUser.adminID});
 	}
 
+    $scope.checkStep = function(step){
+        if(step != 9){
+            $scope.Commodity_Standards.useDate = null;
+            $scope.AttachFile = null;
+        }
+    }
+
 	$scope.loadCommodityStandard = function(action, id){
 		var params = {
 					'id':id
@@ -75,12 +82,32 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
         });
 	}
 
+    $scope.loadMasterfile = function(masterType){
+        var params = {
+                    'masterType':masterType
+                    };
+        HTTPService.clientRequest('masterfile/get', params).then(function(result){
+            console.log(result);
+            if(result.data.STATUS == 'OK'){
+                if(masterType == 'AccreditationScope'){
+                    $scope.AccrediationScopeList = result.data.DATA;
+                }else if(masterType == 'Branch'){
+                    $scope.BranchList = result.data.DATA;
+                }
+                IndexOverlayFactory.overlayHide();
+            }else{
+                IndexOverlayFactory.overlayHide();
+            }
+        });
+    }
+
 	$scope.save = function(){
 		$scope.Commodity_Standards.updateBy = $scope.currentUser.adminID;
 		var params = {
 					'Commodity_Standards':$scope.Commodity_Standards
 					, 'Commodity_Keywords_TH':$scope.Commodity_Keywords_TH
 					, 'Commodity_Keywords_EN':$scope.Commodity_Keywords_EN
+                    , 'AttachFile':$scope.AttachFile
 					};
 		IndexOverlayFactory.overlayShow();
         HTTPService.uploadRequest('commodity-standard/update', params).then(function(result){
@@ -179,7 +206,7 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 
 	$autocompleteUserResult = [];
     $scope.searchUserAutoComplete = function (val, qtype){
-		val = encodeURIComponent(val);
+		// val = encodeURIComponent(val);
 		var params = {'qtype' : qtype, 'keyword' : val};
 		return HTTPService.clientRequest('autocomplete', params).then(function(result){  
           $autocompleteUserResult = result.data.DATA;
@@ -223,6 +250,10 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
     	$scope.startMin = 0;
     	$scope.endHour = 0;
     	$scope.endMin = 0;
+        $scope.emailSentHour = 0;
+        $scope.emailSentMin = 0;
+        $scope.Meeting = null;
+        $scope.AttendeeList = [];
     	$scope.MeetingFileList = [];
     	$scope.InviteFileList = [];
     	if(data != null){
@@ -233,7 +264,21 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 	    	$scope.startMin = $scope.Meeting.startDate.getMinutes();
 	    	$scope.endHour = $scope.Meeting.endDate.getHours();
 	    	$scope.endMin = $scope.Meeting.endDate.getMinutes();
+            if($scope.Meeting.emailSentDate != null){
+                $scope.Meeting.emailSentDate = makeDateTime($scope.Meeting.emailSentDate);
+                $scope.emailSentHour = $scope.Meeting.emailSentDate.getHours();
+                $scope.emailSentMin = $scope.Meeting.emailSentDate.getMinutes();
+            }
     	}
+
+        // load meeting attendee
+        var params = {'meetingID' : $scope.Meeting.meetingID};
+        HTTPService.uploadRequest('meeting/view/attendee', params).then(function(result){
+            console.log(result);
+            if(result.data.STATUS == 'OK'){
+                $scope.AttendeeList = result.data.DATA.Attendee;
+            }
+        });
     	var modalInstance = $uibModal.open({
             animation: true,
             templateUrl: 'update_meeting.html',
@@ -248,7 +293,7 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
             },
         });
         modalInstance.result.then(function (valResult) {
-            $scope.saveMeeting($scope.Meeting, $scope.MeetingFileList, $scope.InviteFileList);
+            $scope.saveMeeting($scope.Meeting, $scope.AttendeeList, $scope.MeetingFileList, $scope.InviteFileList);
         });
     }
 
@@ -258,6 +303,15 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
       };
 
     $scope.dateOptions2 = {
+        minDate: new Date(),
+        showWeeks: true
+      };
+      $scope.dateOptions3 = {
+        minDate: new Date(),
+        showWeeks: true
+      };
+
+      $scope.dateOptions4 = {
         minDate: new Date(),
         showWeeks: true
       };
@@ -276,6 +330,19 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
         $scope.dateOptions2.minDate = $scope.Meeting.startDate==null?new Date():$scope.Meeting.startDate;
         $scope.popup2.opened = true;
     };
+    $scope.popup3 = {
+        opened: false
+    };
+    $scope.open3 = function() {
+        $scope.popup3.opened = true;
+    };
+
+    $scope.popup4 = {
+        opened: false
+    };
+    $scope.open4 = function() {
+        $scope.popup4.opened = true;
+    };
 
     $scope.changeStartTime = function(hour, min){
     	var d = new Date($scope.Meeting.startDate);
@@ -289,6 +356,15 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
     	d.setHours(hour);
     	d.setMinutes(min);
     	$scope.Meeting.endDate = d;
+    }
+
+    $scope.changeSentEmailTime = function(hour, min){
+        console.log($scope.Meeting.emailSentDate);
+        var d = new Date($scope.Meeting.emailSentDate);
+        d.setHours(hour);
+        d.setMinutes(min);
+        $scope.Meeting.emailSentDate = d;
+        console.log($scope.Meeting.emailSentDate);
     }
 
     $scope.checkBetweenDate = function(changeType){
@@ -322,16 +398,19 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
     	$scope.InviteFileList.push({'attachFile':null});
     }
 
-    $scope.saveMeeting = function(Meeting, MeetingFileList, InviteFileList){
+    $scope.saveMeeting = function(Meeting, AttendeeList, MeetingFileList, InviteFileList){
     	Meeting.startDate = concatDateTimeSQL(Meeting.startDate);
     	Meeting.endDate = concatDateTimeSQL(Meeting.endDate);
+        Meeting.emailSentDate = concatDateTimeSQL(Meeting.emailSentDate);
+        
     	var params = {
 					'Meeting':Meeting
+                    ,'AttendeeList':AttendeeList
 					,'MeetingFileList':MeetingFileList
 					,'InviteFileList':InviteFileList
 					};
 		console.log(params);
-		// IndexOverlayFactory.overlayShow();			
+		IndexOverlayFactory.overlayShow();			
 		HTTPService.uploadRequest('meeting/update', params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
@@ -371,6 +450,98 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
         });
     }
 
+    $scope.viewAttendee = function(meetingID){
+        $scope.meetingID = meetingID;
+        var params = {'meetingID' : meetingID};
+        HTTPService.uploadRequest('meeting/view/attendee', params).then(function(result){
+            console.log(result);
+            if(result.data.STATUS == 'OK'){
+                $scope.AttendeeList = result.data.DATA.Attendee;
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'view_attendee.html',
+                    size: 'lg',
+                    scope: $scope,
+                    backdrop: 'static',
+                    controller: 'ModalDialogReturnFromOKBtnCtrl',
+                    resolve: {
+                        params: function () {
+                            return {};
+                        }
+                    },
+                });
+                modalInstance.result.then(function (valResult) {
+                   
+                });
+
+                IndexOverlayFactory.overlayHide();
+            }else{
+                IndexOverlayFactory.overlayHide();
+            }
+        });
+        
+    }
+
+    $scope.autocompleteAttendeeSelected = function($item, $model, $label){
+        var attendee = {'meetingAttendeeID':''
+                            ,'attendeeID':$item.stakeholderID
+                            ,'meetingID':$scope.meetingID
+                            ,'standardID':$scope.ID
+                            ,'nameThai':$item.nameThai
+                            ,'lastNameThai':$item.lastNameThai
+                            ,'positionThai':$item.positionThai
+                            ,'createBy':$scope.currentUser.adminID
+                            ,'createDate':''
+                            ,'updateBy':$scope.currentUser.adminID
+                            ,'updateDate':''
+                            };
+        if($scope.meetingID != undefined && $scope.meetingID != null && $scope.meetingID != ''){
+            var params = {'Attendee' : attendee};
+            HTTPService.uploadRequest('meeting/add/attendee', params).then(function(result){
+                if(result.data.STATUS == 'OK'){
+                    attendee.meetingAttendeeID = result.data.DATA.Attendee.meetingAttendeeID;
+                    $scope.AttendeeList.push(attendee);
+                    
+                }
+            });
+        }else{
+            $scope.AttendeeList.push(attendee);
+        }
+        $scope.keyword = '';    
+    }
+
+    $scope.removeAttendee = function(id, index){
+        console.log(id);
+        if(id != undefined){
+            var params = {'id' : id};
+
+            HTTPService.clientRequest('meeting/delete/attendee', params).then(function(result){
+                
+                if(!result.data.DATA.result){
+                    $scope.alertMessage = 'ไม่สามารถลบข้อมูลได้ กรุณาติดต่อผู้ดูแลระบบ';
+                    var modalInstance = $uibModal.open({
+                        animation : true,
+                        templateUrl : 'html/custom_alert.html',
+                        size : 'sm',
+                        scope : $scope,
+                        backdrop : 'static',
+                        controller : 'ModalDialogCtrl',
+                        resolve : {
+                            params : function() {
+                                return {};
+                            } 
+                        },
+                    });
+                }else{
+                    $scope.AttendeeList.splice(index, 1);
+                }
+                IndexOverlayFactory.overlayHide();
+            });
+        }else{
+            $scope.AttendeeList.splice(index, 1);
+        }
+    }
+
     $scope.setMeeting = function(meetingType, standardID){
     	$scope.Meeting = {
     						'meetingID':''
@@ -381,6 +552,9 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
     						,'endDate':''
     						,'meetingType':meetingType
     						,'ConvenedStatus':'Y'
+                            ,'sentEmailStatus':'Default'
+                            ,'isSendMail':'N'
+                            ,'remark':''
     						,'createBy':$scope.currentUser.adminID
     						,'createDate':''
     						,'updateBy':$scope.currentUser.adminID
@@ -437,6 +611,20 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 							};
 	}
 
+    $scope.makeDateTimeString = function(d){
+
+        if(d!= null && d != ''){
+            var datetime = d.split(' ');
+            var date = datetime[0];
+            var time = datetime[1];
+            d = new Date(date);
+            d.setHours(time.split(':')[0]);
+            d.setMinutes(time.split(':')[1]);
+            return convertDateToFullThaiDate(d);    
+        }
+        return '';
+    }
+
 
 	$scope.Commodity_Standards = {'standardID':''
 								,'standardType':''
@@ -454,12 +642,16 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 	$scope.MeetingFileList = [];
 	$scope.InviteFileList = [];
 	$scope.meetingType = '';
+    $scope.meetingID = '';
+    $scope.AttachFile = null;
 
 	// Begin Program
 	$scope.addKeywordTH();
 	$scope.addKeywordEN();
 	$scope.setStakeholder();
 	$scope.setSubstitute();
+    $scope.loadMasterfile('AccreditationScope');
+    $scope.loadMasterfile('Branch');
 	if($scope.ID !== undefined){
 		$scope.loadCommodityStandard('commodity-standard/get', $scope.ID);
 	}

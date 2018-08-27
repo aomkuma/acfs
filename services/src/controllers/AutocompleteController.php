@@ -21,12 +21,12 @@
                 $keyword = $loginObj['obj']['keyword'];
                 $qtype = filter_var($qtype, FILTER_SANITIZE_STRING);
                 $keyword = filter_var($keyword, FILTER_SANITIZE_STRING);
-                $this->logger->info('Find by $qtype : '.$qtype.', $keyword : '.$keyword);
                 
                 switch($qtype){
                     case 'STAKEHOLDERNAMETHAI' : $this->data_result['DATA'] = AutocompleteService::getStakeholderNameThai($keyword); break;
                     case 'STAKEHOLDERNAMEENG' : $this->data_result['DATA'] = AutocompleteService::getStakeholderNameEng($keyword); break;
                     case 'STANDARD' : $this->data_result['DATA'] = AutocompleteService::getCommodityStandard($keyword); break;
+                    case 'SUBCOMMITTEE' : $this->data_result['DATA'] = AutocompleteService::getSubcommittee($keyword); break;
                     default : null;
                 }
                 

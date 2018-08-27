@@ -2,35 +2,40 @@
     
     namespace App\Service;
     
-    use App\Model\Account;
+    use App\Model\User;
     use App\Model\Admin;
 
     use Illuminate\Database\Capsule\Manager as DB;
     
     class LoginService {
+
+        public static function forgotPassword($username){
+            $model = User::where('email', $username)
+                    ->first();
+            if(!empty($model)){
+                $newPassword = rand(10000000, 99999999);
+                $model->password = $newPassword;
+                $model->update();
+                return $newPassword;
+            }else{
+                return 'invalid';
+            }
+        }
         
         public static function authenticate($username , $password){
-            return Account::where('email', $username)->where('password',$password)->first();      
-        }
-
-        public static function findWithIDCard($username , $password){
-            return Attendee::where('IDCard', $username)->first();      
-        }
-
-        public static function checkDuplicateName($obj){
-            return Attendee::where('Firstname', trim($obj['Firstname']))->where('Lastname', trim($obj['Lastname']))->first();      
+            return User::select(DB::raw("Stakeholders.stakeholderID AS adminID")
+                                , "Users.*"
+                                , DB::raw("Stakeholders.nameThai AS name")
+                                , DB::raw("Stakeholders.lastNameThai AS lastName")
+                            )
+                    ->join('Stakeholders', 'Stakeholders.stakeholderID', '=', 'Users.stakeholderID')
+                    ->where('Users.email', $username)
+                    ->where('Users.password',$password)
+                    ->first();      
         }
 
         public static function authenticateAdmin($username , $password){
             return Admin::where('email', $username)->where('password',$password)->first();      
-        }
-
-        public static function checkDuplicateIDCard($IDCard){
-            return Attendee::where('IDCard', trim($IDCard))->first();      
-        }
-
-        public static function checkDuplicateMobile($Mobile){
-            return Attendee::where('Mobile', trim($Mobile))->first();      
         }
 
         public static function registerMember($obj){

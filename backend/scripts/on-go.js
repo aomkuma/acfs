@@ -24,25 +24,13 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
 		}
 	})
 
-	.when("/update/pages/:pagetype", {
-        templateUrl : "views/update/pages.html",
-        controller : "UpdatePageController",
+	.when("/member/forgot-password", {
+        templateUrl : "views/forgot-password.html",
+        controller : "ForgotPasswordController",
         resolve : {
 			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
 				return $ocLazyLoad.load({
-					files : [ "scripts/controllers/UpdatePageController.js" ]
-				});
-			} ]
-		}
-	})
-
-	.when("/update/links/:linktype", {
-        templateUrl : "views/update/link.html",
-        controller : "UpdateLinkController",
-        resolve : {
-			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
-				return $ocLazyLoad.load({
-					files : [ "scripts/controllers/UpdateLinkController.js" ]
+					files : [ "scripts/controllers/ForgotPasswordController.js" ]
 				});
 			} ]
 		}
@@ -95,6 +83,18 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
 			} ]
 		}
 	})
+
+	.when("/subcommittee/update/:id?", {
+        templateUrl : "views/stakeholder/update-subcommittee.html",
+        controller : "SubcommitteeUpdateController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/SubcommitteeUpdateController.js" ]
+				});
+			} ]
+		}
+	})	
 
 	.when("/user-account", {
         templateUrl : "views/user-account/main.html",
@@ -156,6 +156,42 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
 		}
 	})
 
+	.when("/question", {
+        templateUrl : "views/question/main.html",
+        controller : "QuestionController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/QuestionController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/questionnaire/update/normal/:id?", {
+        templateUrl : "views/question/update-normal.html",
+        controller : "QuestionNormalUpdateController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/QuestionNormalUpdateController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/questionnaire/update/online/:id?", {
+        templateUrl : "views/question/update-online.html",
+        controller : "QuestionOnlineUpdateController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/QuestionOnlineUpdateController.js" ]
+				});
+			} ]
+		}
+	})
+	
 	$locationProvider.hashPrefix('');
 	// $locationProvider.html5Mode({
  //                 enabled: true,

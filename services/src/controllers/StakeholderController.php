@@ -18,10 +18,15 @@
             try{
                 $params = $request->getParsedBody();
                 //$stakeholderID = $params['obj']['stakeholderID'];
+                $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
+                $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
 
-                $_List = StakeholderService::getList();
+                $_Result = StakeholderService::getList($currentPage, $limitRowPerPage);
+                $_List = $_Result['DataList'];
+                $_Total = $_Result['Total'];
 
                 $this->data_result['DATA']['Stakeholder'] = $_List;
+                $this->data_result['DATA']['Total'] = $_Total;
 
                 return $this->returnResponse(200, $this->data_result, $response, false);
                 

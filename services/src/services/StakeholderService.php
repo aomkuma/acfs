@@ -9,8 +9,17 @@
     
     class StakeholderService {
 
-    	public static function getList(){
-            return Stakeholder::all();
+    	public static function getList($currentPage, $limitRowPerPage){
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = Stakeholder::count();
+            $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = Stakeholder::skip($skip)
+                        ->take($limit)
+                        ->get();
+
+            return ['DataList'=>$DataList, 'Total' => $totalPage];
         }
 
         public static function getData($stakeholderID){
