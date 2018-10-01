@@ -7,6 +7,7 @@ angular.module('e-homework').controller('UpdatePageController', function($scope,
     }else{
        window.location.replace('#/guest/logon');
     }
+    alert('asd');
     console.log('Hello ! Page page');
 	$scope.DEFAULT_LANGUAGE = 'TH';
     $scope.$parent.menu_selected = 'Page';

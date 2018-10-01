@@ -7,17 +7,17 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
     }else{
        window.location.replace('#/guest/logon');
     }
-
+    
     console.log('Hello ! Menu Update page');
 
     var ckEditorConfig = {
                             extraPlugins: 'uploadimage,image2,filebrowser,colorbutton',
                             height: 300,
-                            uploadUrl: '/mots/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
-                            filebrowserBrowseUrl: '/mots/ckfinder/ckfinder.html',
-                            filebrowserImageBrowseUrl: '/mots/ckfinder/ckfinder.html?type=Images',
-                            filebrowserUploadUrl: '/mots/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-                            filebrowserImageUploadUrl: '/mots/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+                            uploadUrl: '/acfs/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+                            filebrowserBrowseUrl: '/acfs/ckfinder/ckfinder.html',
+                            filebrowserImageBrowseUrl: '/acfs/ckfinder/ckfinder.html?type=Images',
+                            filebrowserUploadUrl: '/acfs/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+                            filebrowserImageUploadUrl: '/acfs/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
                             contentsCss: [ CKEDITOR.basePath + 'contents.css', 'https://sdk.ckeditor.com/samples/assets/css/widgetstyles.css' ],
                             image2_alignClasses: [ 'image-align-left', 'image-align-center', 'image-align-right' ],
                             image2_disableResizer: true,
