@@ -3,25 +3,42 @@ angular.module('e-homework').controller('PageController', function($scope, $comp
     console.log('Hello ! About page');
 	
     console.log($scope.DEFAULT_LANGUAGE);
-    $scope.$parent.menu_selected = 'about';
-    $scope.$parent.menu_selected_th = 'เกี่ยวกับซีไอโอ';
-    
-    $scope.$parent.menu_selected_th = 'อำนาจหน้าที่ของ CIO';
-    $scope.load = function(action, page_type){
-        var params = {'page_type': page_type};
+    $scope.ID = $routeParams.id;
+    $scope.$parent.menu_selected = $scope.ID;
+    $scope.load = function(action, menu_id){
+        var params = {'menu_id': menu_id};
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.Page = result.data.DATA.Page;
+            $scope.FileList = result.data.DATA.FileList;
             IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.loadMenu = function(action){
+        HTTPService.clientRequest(action, null).then(function(result){
+            //console.log(result);
+            $scope.Menu = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
+            $(document).ready(function(){
+                // console.log('asd');
+              $('a.test').on("click", function(e){
+                // alert('aa');
+                // $('ul.dropdown-menu').hide();
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+              });
+            });
+
+            $scope.load('menu/page/get', $scope.ID);
+            
         });
     }
 
     $scope.FileList = [];
     $scope.Page = {'contents':null};
-    $scope.page_type = $routeParams.pagetype;
-    $scope.MenuName = getMenuName($scope.page_type);
-    console.log($scope.MenuName);
-    $scope.load('pages', $scope.page_type);
+    $scope.loadMenu('menu/list');
     
-
-});
+})
+;

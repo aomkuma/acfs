@@ -1,4 +1,4 @@
-var serviceUrl = '../MTSService/public/';
+var serviceUrl = '../services/public/';
 
 var app = angular.module('e-homework', ['ui.bootstrap' , 'ngRoute' , 'ngAnimate', 'ngCookies', 'ui.router', 'oc.lazyLoad', 'ngFileUpload', 'angular-bind-html-compile']);
 
@@ -56,4 +56,20 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
     window.location.href = '#/' + page;
   }
     
-}]);
+}])
+.directive('embedSrc', function () {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      scope.$watch(
+        function() {
+          return attrs.embedSrc;
+        },
+        function() {
+          element.attr('src', attrs.embedSrc);
+        }
+      );
+    }
+  };
+})
+;

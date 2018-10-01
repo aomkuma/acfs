@@ -1,239 +1,115 @@
 <div ng-include src="'views/header.html'"></div>
-<div class="row form-group">
-	<div class="col-lg-10 col-lg-offset-1">
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h4>มาตรฐานสินค้าเกษตร</h4>
-			</div>
-			<div class="panel-body">
-				<div class="table-responsive">
-					<!--
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>สินค้า</th>
-								<th>เลขที่</th>
-								<th>เล่มที่</th>
-								<th>วันที่</th>
-								<th>สถานะ</th>
-								<th>จัดการ</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="data in dataset">
-								<td>{{data.standardNameThai}}</td>
-								<td>{{data.noThai}}</td>
-								<td>{{data.bookNumberThai}}</td>
-								<td>{{makeDateString(data.createDate)}}</td>
-								<td>{{getStatusText(data.step)}}</td>
-								<td>
-									<button class="btn btn-default btn-sm" ng-click="goUpdateStandard(data.standardID)"><span class="glyphicon glyphicon-edit"></span></button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					-->
-					<table class="table table-striped table-bordered">
-						<thead>
-							<tr>
-								<th rowspan="2"  style="vertical-align: middle;">
-									มาตรฐาน
-								</th>
-								<th rowspan="2" style="vertical-align: middle;">ปีงบประมาณ</th>
-								<th colspan="9"  style="vertical-align: middle; text-align: center;">สถานะการดำเนินงาน</th>
-							</tr>
-							<tr>
-								<th>ขั้นที่ 1</th>
-								<th>ขั้นที่ 2</th>
-								<th>ขั้นที่ 3</th>
-								<th>ขั้นที่ 4</th>
-								<th>ขั้นที่ 5</th>
-								<th>ขั้นที่ 6</th>
-								<th>ขั้นที่ 7</th>
-								<th>ขั้นที่ 8</th>
-								<th>ขั้นที่ 9</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="data in dataset">
-								<td><a ng-click="goUpdateStandard(data.standardID)" style="cursor: pointer;">{{data.standardNameThai}}</a></td>
-								<td>{{data.years}}</td>
-								<td style="text-align: center;"><span class="glyphicon" ng-class="{'glyphicon-check' : data.step == 1}"></span></td>
-								<td style="text-align: center;"><span class="glyphicon" ng-class="{'glyphicon-check' : data.step == 2}"></span></td>
-								<td style="text-align: center;"><span class="glyphicon" ng-class="{'glyphicon-check' : data.step == 3}"></span></td>
-								<td style="text-align: center;"><span class="glyphicon" ng-class="{'glyphicon-check' : data.step == 4}"></span></td>
-								<td style="text-align: center;"><span class="glyphicon" ng-class="{'glyphicon-check' : data.step == 5}"></span></td>
-								<td style="text-align: center;"><span class="glyphicon" ng-class="{'glyphicon-check' : data.step == 6}"></span></td>
-								<td style="text-align: center;"><span class="glyphicon" ng-class="{'glyphicon-check' : data.step == 7}"></span></td>
-								<td style="text-align: center;"><span class="glyphicon" ng-class="{'glyphicon-check' : data.step == 8}"></span></td>
-								<td style="text-align: center;"><span class="glyphicon" ng-class="{'glyphicon-check' : data.step == 9}"></span></td>
+<div class="row form-group" style="padding-top: 10px;">
+	  <div class="col-lg-5">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <img src="../cio-files/img/pin-menu.png">
+	        Slide Show
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
 
-							</tr>
-						</tbody>
-					</table>
-					<ul class="pagination pull-right">
-				    <li ng-show="totalPages > 1">
-				      <a ng-click="goToPage(0)" aria-label="First">
-				        <span aria-hidden="true">First</span>
-				      </a>
-				    </li>
-				    <li ng-show="totalPages > 1">
-				      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
-				        <span aria-hidden="true">Prev.</span>
-				      </a>
-				    </li>
-				    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
-				    	<a ng-click="goToPage(page)">{{page + 1}}</a>
-				    </li>
-				    <li ng-show="totalPages > 1">
-				      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
-				        <span aria-hidden="true">Next</span>
-				      </a>
-				    </li>
-				    <li ng-show="totalPages > 1">
-				      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
-				        <span aria-hidden="true">Last</span>
-				      </a>
-				    </li>
-				  </ul>
-				</div>
-			</div>
-		</div>
-	</div>
+	  </div>
 </div>
 
-<div class="row form-group">
-	<div class="col-lg-10 col-lg-offset-1">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h4>ปฏิทิน</h4>
-			</div>
-			<div class="panel-body">
-				<div class="calendar-header">
-				    <div class="row form-group" class="calendar-month" style="">
-				      <div class="col-lg-2" ng-click="goToLastMonth()" style="text-align: center; vertical-align: middle; font-size: 2.5em;cursor: pointer;">
-				      		<
-				      </div>
-				      <div class="col-lg-8">
-				      	<div class="row">
-				      		<!--<div class="col-lg-4" style="text-align: center; vertical-align: middle; padding-top: 7px;">
-						      	<span style="font-weight: bolder; font-size: 1.5em; top: 7px;">{{currentDate}}</span>
-						      	
-						    </div>-->
-				      		<div class="col-lg-12" style="text-align: center; vertical-align: middle; padding-top: 7px;">
-						      	<span style="font-weight: bolder; font-size: 1.5em; top: 7px;">{{currentMonth}}</span>
-						      	<br><span style="font-weight: bolder; font-size: 1em; top: 0px;">{{currentYear}}</span>
-						      	<br>
-						    </div>
-						    
-					      </div>
-					  </div>
-				      <div class="col-lg-2" ng-click="goToNextMonth()" style="text-align: center; vertical-align: middle;  font-size: 2.5em;cursor: pointer;">
-				      	>
-				      </div>
-				    </div>
-				  </div>
-				  <div class="calendar-body">
-				    <div style="text-align: center;">
-				      <div class="row" class="calendar-weekday">
-				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 10px;"><span style="color:#C32E09;">SUN</span></div>
-				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 10px;">MON</div>
-				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 10px;">TUE</div>
-				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 10px;">WED</div>
-				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 10px;">THU</div>
-				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 10px;">FRI</div>
-				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 10px;"><span style="color:#C32E09;">SAT</span></div>
-				      </div>
-				      <div class="row form-group" class="calendar-date">
-				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 7px; color: #ccc; height: 60px;" ng-repeat="lastDay in daysInLastMonth" class="last-month" style="border-bottom: 0.1em solid #ccc; padding-top: 15px; padding-bottom: 15px;" >{{lastDay}}</div>
-				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 7px; height: 60px;" ng-repeat="day in daysInThisMonth" style="border-bottom: 0.1em solid #ccc; padding-top: 15px; padding-bottom: 15px;">
-				          <!--<span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>-->
-				          <!--<span class="currentDate" *ngIf="checkEventDate(day); else otherDate">{{day}}</span>-->
-				          <span ng-class="{'currentDate':day == currentDate}">{{day}}</span>
-				          <div ng-repeat="meeting in findMeetingInDay(day)" style="font-size: 0.8em;">
-				          	<a ng-click="showMeetingDetail(meeting)">{{meeting.meetingName}}</a>
-				          </div>
-				        </div>
-				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 7px; color: #ccc; height: 60px;" ng-repeat="nextDay in daysInNextMonth" class="next-month" style="border-bottom: 0.1em solid #ccc; padding-top: 15px; padding-bottom: 15px;">{{nextDay}}</div>
-				      </div>
-				    </div>
-				  </div>
-			</div>
+<div ng-show="PAGE == 'UPDATE'">
+	<div class="row form-group">
+		<div class="col-lg-12 text-center">
+			<!--<img ngf-thumbnail="AttachFile" style="" ng-show="AttachFile != null && SlideShow.image_path == null">-->
+			<img
+			  ngf-src="AttachFile" style="height: 100px; width: auto;"
+			>
+			<video
+			  ngf-src="AttachFile" 
+			  ngf-resize="{width: 20, height: 20, quality: 0.9}" 
+			  ngf-no-object-url="true" 
+			  style="height: 100px; width: auto;"
+			>
+			<img src="{{ '../' + SlideShow.file_path}}" style="" ng-show="SlideShow.file_path != null && AttachFile == null" alt="" title="" style="height: 100px; width: auto;">
+			<video src="{{ '../' + SlideShow.file_path}}" style="" ng-show="SlideShow.file_path != null && AttachFile == null" style="height: 100px; width: auto;">
 		</div>
 	</div>
-</div>
-<style type="text/css">
-	.currentDate{
-		color: #93CAFA;
-		font-weight: bolder;
-	}
-</style>
-<script type="text/ng-template" id="meeting_detail.html">
-    <div class="modal-header">
-        <div class="row">
-            <div class="col-lg-1">
-                <h3><i class="glyphicon glyphicon-calendar" style="color:#3D9AE1;"></i></h3>
-            </div>
-            <div class="col-lg-10 text-center">
-                <h3>รายละเอียดการประชุม/สัมมนา</h3>
-            </div>
-        </div>
-    </div>
-    <div class="modal-body">
-    	<div class="row form-group">
-    		<div class="col-lg-2">
-    			<b>หัวข้อ</b>
-    		</div>
-    		<div class="col-lg-10">
-    			{{MeetingDetail.meetingName}}
-    		</div>
-    	</div>
-    	<div class="row form-group">
-    		<div class="col-lg-2">
-    			<b>สถานที่</b>
-    		</div>
-    		<div class="col-lg-10">
-    			{{MeetingDetail.address}}
-    		</div>
-    	</div>
-    	<div class="row form-group">
-    		<div class="col-lg-2">
-    			<b>เวลาเริ่มต้น / สิ้นสุด</b>
-    		</div>
-    		<div class="col-lg-10">
-    			{{makeDateTimeString(MeetingDetail.startDate)}} ถึง {{makeDateTimeString(MeetingDetail.endDate)}} 
-    		</div>
-    	</div>
-    	<div class="row form-group">
-       		<div class="col-lg-12 col-sm-12 col-xs-12">
-				<fieldset>
-					<legend>ไฟล์แนบวาระการประชุม</legend>
-					<div class="row form-group" ng-repeat="file in MeetingDetail.meeting_file">
-						<div class="col-lg-12">
-							
-							<a target="_self" href="{{file.filePath}}" download="{{file.fileName}}">{{file.fileName}}</a>
-								
-						</div>
-					</div>
-				</fieldset>
-			</div>
-		</div>
-    
-    	<div class="row form-group">
-       		<div class="col-lg-12 col-sm-12 col-xs-12">
-				<fieldset>
-					<legend>ไฟล์แนบเชิญเข้าร่วม</legend>
-					<div class="row form-group" ng-repeat="file in MeetingDetail.invite_file">
-						<div class="col-lg-12">
-							<a target="_self" href="{{file.filePath}}" download="{{file.fileName}}">{{file.fileName}}</a>	
-						</div>
-					</div>
-				</fieldset>
-			</div>
-		</div>
-    </div>
-    <div class="modal-footer">
-	    <button class="btn btn-default" ng-click="cancel()">Close</button>
-    </div>
-</script>
 
+	<div class="row form-group">
+		<label class="col-lg-2 form-control-static">
+			รูปภาพ / วีดีโอ 
+		</label>
+		<div class="col-lg-4" >
+			<p class="input-group">
+	          <input type="text" readonly="true" class="form-control" ng-model="AttachFile.name" />
+	          <span class="input-group-btn">
+	            <button class="btn btn-default" ngf-select ng-model="AttachFile" ngf-max-size="50MB"  ngf-model-invalid="AttachFile.invalidFile" accept="image/*,video/*" >เลือก</button>
+	          </span>
+	        </p>
+		</div>
+		<div class="col-lg-3">
+			<div class="file-alert" ng-show="fle.attachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{AttachFile.invalidFile.$errorParam}}</div>
+		</div>
+	</div>
+	<!--<div class="row form-group">
+		<label class="col-lg-2 col-xs-12 form-control-static">
+			ประเภท Slide Show
+		</label>
+		<div class="col-lg-4 col-xs-12">
+			<select class="form-control" ng-model="SlideShow.slideshow_type">
+				<option value="">กรุณาเลือก</option>
+				<option value="IMAGE">รูปภาพ</option>
+				<option value="VIDEO">วีดีโอ</option>
+			</select>
+		</div>
+		
+	</div>-->
+	<div class="row form-group">
+		<label class="col-lg-2 col-xs-12 form-control-static">
+			ข้อความอธิบาย
+		</label>
+		<div class="col-lg-4 col-xs-12">
+			<input type="text" class="form-control" ng-model="SlideShow.text_desc">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="col-lg-2 col-xs-12 form-control-static">
+			สถานะ
+		</label>
+		<div class="col-lg-10">
+			<div class="btn-group">
+                <label class="btn btn-default btn-checkbox" ng-model="SlideShow.actives" uib-btn-radio="'Y'">ใช้</label>
+                <label class="btn btn-default btn-checkbox" ng-model="SlideShow.actives" uib-btn-radio="'N'">ไม่ใช้</label>
+            </div>
+		</div>
+	</div>
+	<div class="page-header text-center">
+		<button class="btn btn-info" ng-click="save('slideshow/update', SlideShow, AttachFile)">บันทึก</button>
+		<button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
+	</div>
+</div>
+<div class="row form-group" ng-show="PAGE == 'MAIN'">
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<caption><button ng-click="add()" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</button></caption>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>รูปภาพ / วีดีโอ</th>
+					<th>ประเภท</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="data in SlideShowList">
+					<td>
+						<button class="btn btn-default btn-xs" ng-click="edit(data)"><span class="glyphicon glyphicon-edit"></span></button>
+						<button class="btn btn-danger btn-xs" ng-click="remove('slideshow/delete', data.id)"><span class="glyphicon glyphicon-trash"></span></button>
+					</td>
+					<td>
+						<img src="{{ '../' + data.file_path }}" alt="" title="" style="height: 100px; width: auto;">
+						<video src="{{ '../' + data.file_path }}" style="height: 100px; width: auto;"></video>
+					</td>
+					<td>{{data.contents_type}}</td>
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

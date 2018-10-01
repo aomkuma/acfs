@@ -76,4 +76,20 @@ $container['SubcommitteeController'] = function ($c) {
     return new \App\Controller\SubcommitteeController($c->get('logger'), $c->get('db'));
 };
 
+$container['MenuController'] = function ($c) {
+    return new \App\Controller\MenuController($c->get('logger'), $c->get('db'));
+};
+
+$container['SlideShowController'] = function ($c) {
+    return new \App\Controller\SlideShowController($c->get('logger'), $c->get('db'));
+};
+
+$container['NewsController'] = function ($c) {
+    return new \App\Controller\NewsController($c->get('logger'), $c->get('db'));
+};
+
+$container['LinkUrlController'] = function ($c) {
+    return new \App\Controller\LinkUrlController($c->get('logger'), $c->get('db'));
+};
+
 

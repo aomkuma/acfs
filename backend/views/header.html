@@ -1,7 +1,7 @@
 <div class="page-header">
-  <h3><strong>ACFS</strong></h3>
+  <h3><strong>ACFS Web Management</strong></h3>
 </div>
-<nav class="navbar navbar-inverse" role="navigation" >
+<nav class="navbar navbar-inverse" role="navigation" ng-show="DEFAULT_LANGUAGE == 'TH'">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
 
@@ -19,12 +19,29 @@
       
         <ul class="nav navbar-nav">
           <li ng-class="{'active':menu_selected == 'home'}"><a href="#/"  style="border-left: 0px solid #000000;">หน้าหลัก</a></li>
-          <li ng-class="{'active':menu_selected == 'commodity-standard'}"><a href="#/commodity-standard">มาตรฐานสินค้าเกษตร</a></li>
-          <li ng-class="{'active':menu_selected == 'stakeholder'}"><a href="#/stakeholder">รายชื่อผู้มีส่วนได้ส่วนเสีย</a></li>
-          <li ng-class="{'active':menu_selected == 'question'}"><a href="#/question">ตั้งค่าแบบสอบถาม</a></li>
-          <li ng-class="{'active':menu_selected == 'email'}"><a href="#/email">ตั้งค่า e-mail</a></li>
-          <li ng-class="{'active':menu_selected == 'user-account'}"><a href="#/user-account">บัญชีผู้ใช้</a></li>
-          <li ng-class="{'active':menu_selected == 'report'}"><a href="#/update/pages/report">รายงาน</a></li>
+          <li ng-class="{'active':menu_selected == 'menu'}"><a href="#/menu-manage">จัดการเมนู</a></li>
+          <li ng-class="{'active':menu_selected == 'services'}"><a href="#/services">งานบริการ</a></li>
+          <li ng-class="{'active':menu_selected == 'news'}"><a href="#/update/news">ข่าวประชาสัมพันธ์</a></li>
+          <li ng-class="{'active':menu_selected == 'relatelink'}"><a href="#/link-url/manage">ลิ้งค์ที่เกี่ยวข้อง</a></li>
+          <li ng-class="{'active':menu_selected == 'palace'}"><a href="#/palace/manage">บุคลากร</a></li>
+          <li ng-class="{'active':menu_selected == 'video'}"><a href="#/video">วีดีโอ</a></li>
+          <li ng-class="{'active':menu_selected == 'question'}"><a href="#/question">คำถามที่พบบ่อย</a></li>
+          <!--<li class="menu-item dropdown" ng-class="{'active':menu_selected == ''}">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">เกี่ยวกับหน่วยงาน <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/update/pages/history">ประวัติความเป็นมา</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/update/pages/authority">อำนาจหน้าที่</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/update/links/structure">โครงสร้างหน่วยงาน</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/palace/manage">บุคลากร</a></li>
+                  
+                  
+              </ul>
+          </li>
+          <li ng-class="{'active':menu_selected == 'law'}"><a href="#/update/laws">กฎหมาย/ระเบียบที่เกี่ยวข้อง</a></li>
+          <li ng-class="{'active':menu_selected == 'news'}"><a href="#/update/news">ข่าวประชาสัมพันธ์</a></li>
+          <li ng-class="{'active':menu_selected == 'tradition'}"><a href="#/update/pages/tradition">ขั้นตอนปฏิบัติเกี่ยวกับการเสนอต่อ ครม.</a></li>
+          <li ng-class="{'active':menu_selected == 'resolution'}"><a href="#/update/links/resolution">มติ ครม. ที่เกี่ยวข้อง</a></li>
+          <li ng-class="{'active':menu_selected == 'relatelink'}"><a href="#/link-url/manage">ลิ้งค์ที่เกี่ยวข้อง</a></li>
           
           <!--<li><a href="#">แก้ไขข้อมูลส่วนตัว</a></li>-->
           <!--<li dropdown>
@@ -40,13 +57,12 @@
           
         </ul>
         
-        <form class="navbar-form navbar-right" role="search" style="color:#ffffff;">
+        <!--<form class="navbar-form navbar-right" role="search">
           <div class="form-group">
-            {{currentUser.name + ' ' + currentUser.lastName}}
+            <input type="text" class="form-control" placeholder="Search">
           </div>
-          <button type="submit" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-user"></span></button>
-          <button type="submit" class="btn btn-danger btn-sm" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span></button>
-        </form>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>-->
         </ul>
       </div><!-- /.navbar-collapse -->
     </nav>

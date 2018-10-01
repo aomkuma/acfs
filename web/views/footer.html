@@ -1,61 +1,168 @@
 <div class="page-header"></div>
-<div class="row" style="padding-top: 10px;">
-    <div class="col-lg-12" style=" margin: 0px; padding: 0px; padding-top: 10px;">
-        <img src="img/cio_footer.png" style="max-width: 100%;" />
-        <div class="col-lg-12 visible-lg" style="position: absolute; bottom: 45%; text-align: center; margin: 0 auto;">
-		        สงวนลิขสิทธิ์ 2557 กระทรวงการท่องเที่ยวและกีฬา เลขที่ 4 ถนนราชดำเนินนอก แขวงวัดโสมนัส เขตป้อมปราบศัตรูพ่าย กรุงเทพมหานคร 10100
-		        <br>
-				โทร: 0-2283-1500 โทรสาร : 0-2356-0746 
-		</div>
-		<div class="col-lg-12 visible-lg" style="position: absolute; bottom: 25%; text-align: center; margin: 0 auto;">
-		        <nav class="navbar navbar-inverse" role="navigation" ng-show="DEFAULT_LANGUAGE == 'TH'">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-
-        <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        
+<div class="row form-group">
+  <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+    <div class="row">
+      <div class="col-lg-2 col-lg-offset-1">
+            พ.ร.บ.มาตรฐานสินค้าเกษตร
+            <br>พ.ร.บ.มาตรฐานสินค้าเกษตร
+            <br>ประกาศกระทรวงเกษตรฯ
+            <br>ระบบฐานข้อมูลพนักงานเจ้าหน้าที่
+            <br>มาตรฐานสินค้าเกษตร
+            <br>การกำหนดมาตรฐานสินค้าเกษตร
+            <br>มาตรฐานสินค้าเกษตร
+            <br>มาตรฐาน HALAL
+            <br>CODEX Thailand
+            <br>สุขอนามัยและสุขอนามัยพืช SPS, TBT/WTO
+            <br>กฎระเบียบเพื่อการส่งออก
+            <br>AEC
+            <br>AEC
       </div>
-    
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
-      
-        <ul class="nav navbar-nav">
-          <li ng-class="{'active':menu_selected == 'home'}"><a href  style="border-left: 0px solid #000000;">หน้าหลัก</a></li>
-          <li class="menu-item dropdown" ng-class="{'active':menu_selected == ''}">
-              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">เกี่ยวกับหน่วยงาน <b class="caret"></b></a>
-              <ul class="dropdown-menu dropdown-menu-bottom-page">
-                  <li class="menu-item dropdown dropdown-submenu" ng-click="newWindows('http://www6.sat.or.th/th/about/executive/ifr_staff.aspx?id=4')">ประวัติความเป็นมา</li>
-                  <li class="menu-item dropdown dropdown-submenu" ng-click="newWindows('http://www.dpe.go.th/th/cio')">อำนาจหน้าที่</li>
-                  <li class="menu-item dropdown dropdown-submenu" ng-click="newWindows('http://www.tourism.go.th/view/2/CIO/TH-TH')">โครงสร้างหน่วยงาน</li>
-                  <li class="menu-item dropdown dropdown-submenu" ng-click="newWindows('http://www.tourism.go.th/view/1/%E0%B8%A3%E0%B8%AD%E0%B8%87%E0%B8%AD%E0%B8%98%E0%B8%B4%E0%B8%9A%E0%B8%94%E0%B8%B5%E0%B8%81%E0%B8%A3%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7_CIO%E0%B9%80%E0%B8%81%E0%B9%88%E0%B8%B2/TH-TH')">ทำเนียบรัฐมนตรี</li>
-                  <li class="menu-item dropdown dropdown-submenu" ng-click="newWindows('http://www.tourism.go.th/view/1/%E0%B8%A3%E0%B8%AD%E0%B8%87%E0%B8%AD%E0%B8%98%E0%B8%B4%E0%B8%9A%E0%B8%94%E0%B8%B5%E0%B8%81%E0%B8%A3%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7_CIO%E0%B9%80%E0%B8%81%E0%B9%88%E0%B8%B2/TH-TH')">บุคลากร</li>
-                  
-                  
-              </ul>
-          </li>
-          <li ng-class="{'active':menu_selected == 'palace'}"><a href="#/palace">กฎหมาย/ระเบียบที่เกี่ยวข้อง</a></li>
-          <li ng-class="{'active':menu_selected == 'policy'}"><a href="#/policy">ข่าวประชาสัมพันธ์</a></li>
-          <li ng-class="{'active':menu_selected == 'project'}"><a href="#/project">ขั้นตอนปฏิบัติเกี่ยวกับการเสนอต่อ ครม.</a></li>
-          <li ng-class="{'active':menu_selected == 'palace'}"><a href="#/palace">มติ ครม. ที่เกี่ยวข้อง</a></li>
-          <li ng-class="{'active':menu_selected == 'palace'}"><a href="#/palace">ลิ้งค์ที่เกี่ยวข้อง</a></li>
-          
-        </ul>
-        
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </nav>
-
-		</div>
-        <div class="col-lg-12" style="position: absolute; bottom: 10%; text-align: center; margin: 0 auto;">
-		        สงวนลิขสิทธิ์ 2557 กระทรวงการท่องเที่ยวและกีฬา เลขที่ 4 ถนนราชดำเนินนอก แขวงวัดโสมนัส เขตป้อมปราบศัตรูพ่าย กรุงเทพมหานคร 10100
-		        <br>
-				โทร: 0-2283-1500 โทรสาร : 0-2356-0746 
-		</div>
+      <div class="col-lg-2">
+          การรับรอง
+          <br>การตรวจสอบและรับรอง
+          <br>ฐานข้อมูลลูกค้าหน่วยรับรอง
+          <br>การถ่ายโอนภารกิจด้านการตรวจสอบรับรอง
+          <br>ค้นหามาตรฐานสินค้าเกษตร 
+          <br>บริการค้นหา
+          <br>ค้นหาค่าสารพิษตกค้างในอาหาร
+          <br>ค้นหาคำศัพท์ด้านสุขอนามัยพืช
+          <br>ค้นหาข้อมูลเกี่ยวกับผลไม้ไทย
+      </div>
+      <div class="col-lg-2">
+          ความปลอดภัยอาหาร
+          <br>ยุทธศาสตร์ความปลอดภัยอาหาร
+          <br>รายงานการประชุมคณะกรรมการด้านความปลอดภัยอาหาร
+          <br>องค์การด้านความปลอดภัยอาหาร
+          <br>ผลการประชุมนานาชาติ
+          <br>ASEAN FOOD SAFTY NETWORK
+          <br>Q Mark
+          <br>เกี่ยวกับ Q Mark
+          <br>Q Restaurant
+          <br>Q Modern Trade
+          <br>ตลาดสีเขียว
+      </div>
+      <div class="col-lg-2">
+          ข่าวและกิจกรรม
+          <br>ข่าวประชาสัมพันธ์
+          <br>ภาพข่าวกิจกรรม
+          <br>บทความ
+          <br>ข่าวตัดประจำวัน (Clipping News)
+          <br>ข่าวแจกสื่อมวลชน
+          <br>ข่าวจัดซื้อ - จัดจ้าง
+          <br>ข่าวสมัครงาน
+          <br>ข่าวการประชุมสัมมนา
+          <br>สถานการณ์ด้านสุขอนามัยและสุขอนามัยพืช
+          <br>ข่าวเกษตรรายวัน
+          <br>ประกาศ มกอช.
+          <br>เตือนภัยสินค้าเกษตร
+          <br>FAQ
+      </div>
+      <div class="col-lg-2">
+          การส่งเสริมและประชาสัมพันธ์
+          <br>ส่งเสริมระบบรับรอง
+          <br>Q อาสา
+          <br>สื่อประชาสัมพันธ์
+          <br>เอกสารเพื่อการเผยแพร่
+          <br>จดหมายข่าว มกอช.
+          <br>Staff Zone
+          <br>ACFS Intranet
+          <br>ACFS Web Mail
+          <br>กลุ่มงานคุ้มครองจริยธรรม
+          <br>สารสนเทศด้านอาหารสุขภาพ สำหรับหญิงชาย
+          <br>เว็บบอร์ด
+          <br>ศูนย์ข้อมูลข่าวสาร มกอช.
+      </div>
     </div>
-    
+  </div>
 </div>
+<div class="row">
+  <div class="col-lg-12" style="background-color: #1D2355;">
+  <div class="row" style="background-color: #2F64DF;">
+    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="color: #FFF; padding-bottom: 10px;">
+      <span style="font-size: 1.8em;">ลงทะเบียนรับข้อมูลข่าวสาร</span> <span style="font-size: 1.4em;">ข้อมูลกิจกรรมสำคัญ ของกระทรวงเกาตรและสหกรณ์</span>
+      <input type="taxt" class="input-subscribe" ng-model="news_subscribe" placeholder="e-mail address">
+      <button class="button-subscribe">  <span class="text-button">SUBSCRIBE </span> </button>
+    </div>
+  </div>
+  <nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 0px;">
+        
+        <div class="navbar-header">
+
+          <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          
+        </div>
+      
+        
+        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+        
+          <ul class="nav navbar-nav" style="background-color: #1D2355; color: #FFF; padding: 30px; font-size: 1.2em;">
+            <li ng-class="{'active':menu_selected == 'home'}"><a href="#/"  style="border-left: 0px solid #000000;">
+              หน้าหลัก</a></li>
+
+            <li ng-repeat="menu in Menu" ng-class="{'active':menu_selected == menu.menu_url, 'menu-item dropdown':menu.sub_menu.length > 0}" class="dropdown">
+              
+              <a ng-show="menu.sub_menu.length == 0" 
+                href="#/{{ menu.menu_url }}">
+              {{DEFAULT_LANGUAGE=='TH'?menu.menu_name_th:menu.menu_name_en}}
+              </a>
+
+              <a tabindex="-1" ng-show="menu.sub_menu.length > 0"
+              href="" 
+              class="dropdown-toggle" 
+              data-toggle="dropdown" 
+              role="button" 
+              aria-haspopup="true" 
+              aria-expanded="false" >
+                {{DEFAULT_LANGUAGE=='TH'?menu.menu_name_th:menu.menu_name_en}} <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu  dropdown-menu-bottom-page"><!-- style="min-width: 400px; overflow: scroll; height: 500px;"-->
+                  <li ng-repeat="sub_menu1 in menu.sub_menu"
+                   ng-class="{'dropdown-submenu':sub_menu1.sub_menu.length > 0}">
+                    <a ng-show="sub_menu1.menu_type == 'EXLINK'" href="{{ sub_menu1.menu_url }}" target="_blank">
+                      {{DEFAULT_LANGUAGE=='TH'?sub_menu1.menu_name_th:sub_menu1.menu_name_en}}
+                    </a>
+                    <a href="#/{{sub_menu1.menu_url}}" ng-show="sub_menu1.sub_menu.length == 0 && sub_menu1.menu_type != 'EXLINK'">{{DEFAULT_LANGUAGE=='TH'?sub_menu1.menu_name_th:sub_menu1.menu_name_en}}
+                    </a>
+                    <a href="" tabindex="-1" class="test" ng-show="sub_menu1.sub_menu.length > 0 && sub_menu1.menu_type != 'EXLINK'">
+                      {{DEFAULT_LANGUAGE=='TH'?sub_menu1.menu_name_th:sub_menu1.menu_name_en}}
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li ng-repeat="sub_menu2 in sub_menu1.sub_menu" 
+                      ng-class="{'dropdown-submenu':sub_menu2.sub_menu.length > 0}">
+                        <a ng-show="sub_menu2.menu_type == 'EXLINK'" href="{{ sub_menu2.menu_url }}" target="_blank">
+                          {{DEFAULT_LANGUAGE=='TH'?sub_menu2.menu_name_th:sub_menu2.menu_name_en}}
+                        </a>
+                        <a href="#/{{sub_menu2.menu_url}}" ng-show="sub_menu2.menu_type != 'EXLINK' && sub_menu2.sub_menu.length == 0">{{DEFAULT_LANGUAGE=='TH'?sub_menu2.menu_name_th:sub_menu2.menu_name_en}}
+                        </a>
+                        <a href="" tabindex="-1" class="test" ng-show="sub_menu2.menu_type == 'PARENT' && sub_menu2.sub_menu.length > 0">{{DEFAULT_LANGUAGE=='TH'?sub_menu2.menu_name_th:sub_menu2.menu_name_en}}
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li ng-repeat="sub_menu3 in sub_menu2.sub_menu">
+                            <a ng-show="sub_menu3.menu_type == 'PAGE'" href="#/{{ sub_menu3.menu_url }}">
+                              {{DEFAULT_LANGUAGE=='TH'?sub_menu3.menu_name_th:sub_menu3.menu_name_en}}
+                            </a>
+                            <a ng-show="sub_menu3.menu_type == 'EXLINK'" href="{{ sub_menu3.menu_url }}" target="_blank">
+                              {{DEFAULT_LANGUAGE=='TH'?sub_menu3.menu_name_th:sub_menu3.menu_name_en}}
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+
+              </ul>
+
+            </li>
+            
+          </ul>
+          
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </nav>
+    </div>
+  </div>

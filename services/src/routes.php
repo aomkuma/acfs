@@ -69,6 +69,30 @@ $app->post('/questionnaire/person/update/', 'QuestionController:updateQuestionna
 $app->post('/questionnaire/person/delete/', 'QuestionController:deleteQuestionnairePerson');
 $app->post('/questionnaire/question/delete/', 'QuestionController:deleteQuestion');
 
+$app->post('/menu/list/', 'MenuController:getMenuList');
+$app->post('/menu/list/manage/', 'MenuController:getMenuListManage');
+$app->post('/menu/get/', 'MenuController:getMenu');
+$app->post('/menu/update/', 'MenuController:updateMenu');
+$app->post('/menu/page/get/', 'MenuController:GetMenuPage');
+$app->post('/menu/get/parent/', 'MenuController:GetMenuParent');
+
+$app->post('/slideshow/view/', 'SlideShowController:getSlideShowView');
+$app->post('/slideshow/', 'SlideShowController:getSlideShow');
+$app->post('/slideshow/update/', 'SlideShowController:updateSlideShow');
+$app->delete('/slideshow/delete/{id}', 'SlideShowController:removeSlideShow');
+
+$app->post('/news/', 'NewsController:getNewsList');
+$app->post('/news/home/', 'NewsController:getNewsListHomepage');
+$app->post('/news/view/', 'NewsController:getNews');
+$app->post('/news/update/', 'NewsController:updateNews');
+$app->delete('/news/delete/{id}', 'NewsController:removeNews');
+
+$app->post('/linkurl/', 'LinkUrlController:getLinkUrl');
+$app->post('/linkurlView/', 'LinkUrlController:getLinkUrlView');
+$app->post('/linkurl/update/', 'LinkUrlController:updateLinkUrl');
+$app->delete('/linkurl/delete/{id}', 'LinkUrlController:removeLinkUrl');
+
+
 // Default action
 $app->get('/[{name}]', function ($request, $response, $args) {
     // Sample log message

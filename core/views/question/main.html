@@ -1,0 +1,226 @@
+<div ng-include src="'views/header.html'"></div>
+<div class="row form-group" style="padding-top: 10px;">
+	  <div class="col-lg-5">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <img src="../files/img/pin-menu.png">
+	        แบบสอบถาม
+
+	        <span ng-show="MenuName.sub_menu != null">
+	        	<img src="../files/img/pin-menu.png">
+				{{MenuName.sub_menu.menu_name_th}}	        	
+	        </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
+
+	  </div>
+</div>
+<hr>
+<uib-tabset active="activeJustified" justified="true">
+	<uib-tab index="0" heading="แบบสอบถามทั่วไป" ng-click="loadQuestionnaire('questionnaire/list' , 'normal')">
+		<br><br>
+		<div class="row form-group">
+			<div class="col col-lg-12">
+				<button class="btn btn-primary pull-right" ng-click="goUpdate('', 'normal')">เพิ่มแบบสอบถามทั่วไป</button>
+			</div>
+		</div>
+		<div class="row form-group">
+			<div class="col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>แบบสอบถาม</th>
+								<th>มาตรฐาน</th>
+								<th>จัดการ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="Questionnaire in Questionnaire">
+								<td>{{Questionnaire.questionName}}</td>
+								<td>{{ Questionnaire.questionnaireSubType == 'standard'?Questionnaire.standardNameThai:'' }}</td>
+								<td align="center">
+									<button class="btn btn-default btn-sm" ng-click="goUpdate(Questionnaire.questionnaireID, Questionnaire.questionnaireType)">
+										<span class="glyphicon glyphicon-edit"></span>
+									</button>
+									<button class="btn btn-danger btn-sm" ng-click="removeQuestionnaire(Questionnaire.questionnaireID, Questionnaire.questionnaireType)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<ul class="pagination pull-right">
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(0)" aria-label="First">
+					        <span aria-hidden="true">First</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
+					        <span aria-hidden="true">Prev.</span>
+					      </a>
+					    </li>
+					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
+					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
+					        <span aria-hidden="true">Next</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
+					        <span aria-hidden="true">Last</span>
+					      </a>
+					    </li>
+					  </ul>
+				</div>
+			</div>
+		</div>
+	</uib-tab>
+	<uib-tab index="1" heading="แบบฟอร์มแสดงความคิดเห็นทั่วไปแบบ Word Online" ng-click="loadQuestionnaire('questionnaire/list' , 'online')">
+		<br><br>
+		<div class="row form-group">
+			<div class="col col-lg-12">
+				<button class="btn btn-primary pull-right" ng-click="goUpdate('', 'online')">เพิ่มแบบฟอร์ม Online</button>
+			</div>
+		</div>
+		<div class="row form-group">
+			<div class="col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>แบบสอบถาม</th>
+								<th>มาตรฐาน</th>
+								<th>จัดการ</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="Questionnaire in Questionnaire">
+								<td>{{Questionnaire.questionName}}</td>
+								<td>{{Questionnaire.standardNameThai}}</td>
+								<td align="center">
+									<button class="btn btn-default btn-sm" ng-click="goUpdate(Questionnaire.questionnaireID, 'online')">
+										<span class="glyphicon glyphicon-edit"></span>
+									</button>
+									<button class="btn btn-danger btn-sm" ng-click="removeQuestionnaire(Questionnaire.questionnaireID, Questionnaire.questionnaireType)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<ul class="pagination pull-right">
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(0)" aria-label="First">
+					        <span aria-hidden="true">First</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
+					        <span aria-hidden="true">Prev.</span>
+					      </a>
+					    </li>
+					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
+					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
+					        <span aria-hidden="true">Next</span>
+					      </a>
+					    </li>
+					    <li ng-show="totalPages > 1">
+					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
+					        <span aria-hidden="true">Last</span>
+					      </a>
+					    </li>
+					  </ul>
+				</div>
+			</div>
+		</div>
+	</uib-tab>
+</uib-tabset>
+	</div>	
+</div>
+
+<!--<div ng-include src="'views/header.html'"></div>
+<div class="row form-group" style="padding-top: 10px;">
+	  <div class="col-lg-5">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <img src="../files/img/pin-menu.png">
+	        ตั้งค่าแบบสอบถาม
+
+	        <span ng-show="MenuName.sub_menu != null">
+	        	<img src="../files/img/pin-menu.png">
+				{{MenuName.sub_menu.menu_name_th}}	        	
+	        </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
+
+	  </div>
+</div>
+<hr>
+<div class="row form-group">
+	<label class="col col-lg-2 form-control-static">
+		มาตรฐาน
+	</label>
+	<div class="col-lg-6">
+		<select class="form-control" ng-model="Questionaire.standardID" ng-options="data.standardID as data.standardNameThai for data in StandardList">
+			<option value="">กรุณาเลือก..</option>
+		</select>
+	</div>
+</div>
+<div class="row form-group">
+	<label class="col col-lg-2 form-control-static">
+		ชื่อแบบสอบถาม
+	</label>
+	<div class="col-lg-6">
+		<input type="text" class="form-control" ng-model="Questionaire.questionName">
+	</div>
+</div>
+<div class="row form-group">
+	<label class="col col-lg-2 form-control-static">
+		ไฟล์แนบ
+	</label>
+	<div class="col-lg-6">
+		<p class="input-group">
+          <input type="text" readonly="true" class="form-control" ng-model="AttachFile.name" />
+          <span class="input-group-btn">
+            <button class="btn btn-default" ngf-select ng-model="AttachFile" ngf-max-size="25MB"  ngf-model-invalid="AttachFile.invalidFile">เลือก</button>
+          </span>
+        </p>
+	</div>
+	<div class="col-lg-3">
+		<div class="file-alert" ng-show="AttachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{fle.attachFile.invalidFile.$errorParam}}</div>
+	</div>
+</div>
+<fieldset>
+	<legend>คำถาม</legend>
+	<div class="row form-group" ng-repeat="q in QuestionList">
+		<label class="col col-lg-12 form-control-static">
+			คำถามที่  {{ ($index + 1) }}
+		</label>
+		<div class="col-lg-12">
+			<input type="text" class="form-control" ng-model="q.question" maxlength="500">
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-lg-12">
+			<button class="btn btn-success btn-sm pull-right" ng-click="addQuestion(Questionaire.questionaireID)"><span class="glyphicon glyphicon-plus"></span> เพิ่มคำถาม</button>
+		</div>
+	</div>
+</fieldset>
+<div class="row form-group">
+	<div class="col-lg-12 text-center">
+		<button class="btn btn-primary" ng-click="saveQuestion()">บันทึก</button>
+		<button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
+	</div>
+</div>
+-->

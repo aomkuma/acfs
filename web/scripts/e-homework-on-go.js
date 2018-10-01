@@ -24,7 +24,7 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
-	.when("/pages/:pagetype", {
+	.when("/page/:id", {
         templateUrl : "views/page/page.html",
         controller : "PageController",
         resolve : {
@@ -48,13 +48,49 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
-	.when("/about", {
-        templateUrl : "views/about/about.html",
-        controller : "AboutController",
+	.when("/relate-link", {
+        templateUrl : "views/page/linkurl.html",
+        controller : "LinkUrlController",
         resolve : {
 			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
 				return $ocLazyLoad.load({
-					files : [ "scripts/controllers/AboutController.js" ]
+					files : [ "scripts/controllers/LinkUrlController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/news/:NEWS_TYPE?", {
+        templateUrl : "views/page/news.html",
+        controller : "NewsController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/NewsController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/news/detail/:NEWS_ID", {
+        templateUrl : "views/page/news-detail.html",
+        controller : "NewsDetailController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/NewsDetailController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/law", {
+        templateUrl : "views/page/law.html",
+        controller : "LawController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/LawController.js" ]
 				});
 			} ]
 		}
@@ -127,6 +163,54 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
 				return $ocLazyLoad.load({
 					files : [ "scripts/controllers/ContactController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/video", {
+        templateUrl : "views/video/main.html",
+        controller : "VideoController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/VideoController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/video/detail/:id", {
+        templateUrl : "views/video/detail.html",
+        controller : "VideoDetailController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/VideoDetailController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/questions", {
+        templateUrl : "views/question/main.html",
+        controller : "QuestionController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/QuestionController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/services", {
+        templateUrl : "views/services/main.html",
+        controller : "ServicesController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/ServicesController.js" ]
 				});
 			} ]
 		}

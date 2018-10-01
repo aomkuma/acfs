@@ -1,0 +1,59 @@
+<div class="page-header">
+  <h3><strong>ACFS</strong></h3>
+</div>
+<nav class="navbar navbar-inverse" role="navigation" >
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+
+        <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        
+      </div>
+    
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+      
+        <ul class="nav navbar-nav">
+          <li ng-class="{'active':menu_selected == 'home'}"><a href="#/"  style="border-left: 0px solid #000000;">หน้าหลัก</a></li>
+          <li ng-class="{'active':menu_selected == 'commodity-standard'}"><a href="#/commodity-standard">มาตรฐานสินค้าเกษตร</a></li>
+          <li ng-class="{'active':menu_selected == 'stakeholder'}"><a href="#/stakeholder">รายชื่อผู้มีส่วนได้ส่วนเสีย</a></li>
+          <li ng-class="{'active':menu_selected == 'question'}"><a href="#/question">ตั้งค่าแบบสอบถาม</a></li>
+          <li ng-class="{'active':menu_selected == 'email'}"><a href="#/email">ตั้งค่า e-mail</a></li>
+          <li ng-class="{'active':menu_selected == 'user-account'}"><a href="#/user-account">บัญชีผู้ใช้</a></li>
+          <li ng-class="{'active':menu_selected == 'report'}"><a href="#/update/pages/report">รายงาน</a></li>
+          
+          <!--<li><a href="#">แก้ไขข้อมูลส่วนตัว</a></li>-->
+          <!--<li dropdown>
+            <a href="#" dropdown-toggle>Dropdown <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li><a href="#">Separated link</a></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>-->
+          
+        </ul>
+        
+        <form class="navbar-form navbar-right" role="search" style="color:#ffffff;">
+          <div class="form-group">
+            {{currentUser.name + ' ' + currentUser.lastName}}
+          </div>
+          <button type="submit" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-user"></span></button>
+          <button type="submit" class="btn btn-danger btn-sm" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span></button>
+        </form>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </nav>
+
+<style type="text/css" media="screen">
+    .navbar 
+    {
+
+    }
+</style>

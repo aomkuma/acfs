@@ -1,4 +1,4 @@
-angular.module('app').controller('LoginController',function($scope, $routeParams, HTTPService, IndexOverlayFactory){
+angular.module('e-homework').controller('LoginController',function($scope, $routeParams, HTTPService, IndexOverlayFactory){
 	
 	$scope.user = {'Username':'','Password':''};
 
