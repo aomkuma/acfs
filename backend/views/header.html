@@ -23,7 +23,22 @@
           <li ng-class="{'active':menu_selected == 'services'}"><a href="#/services">งานบริการ</a></li>
           <li ng-class="{'active':menu_selected == 'news'}"><a href="#/update/news">ข่าวประชาสัมพันธ์</a></li>
           <li ng-class="{'active':menu_selected == 'relatelink'}"><a href="#/link-url/manage">ลิ้งค์ที่เกี่ยวข้อง</a></li>
-          <li ng-class="{'active':menu_selected == 'palace'}"><a href="#/palace/manage">บุคลากร</a></li>
+          
+          <li class="menu-item dropdown" ng-class="{'active':menu_selected == 'palace'}">
+              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">เกี่ยวกับหน่วยงาน <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/palace/current-board">ผู้บริหารปัจจุบัน</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/palace/current-cio">CIO</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/palace/current-consult">ที่ปรึกษา มกอช.</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/palace/current-specialist">ผู้เชี่ยวชาญ มกอช.</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/palace/history-secretary">ทำเนียบเลขาธิการ มกอช.</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/palace/history-deputy-secretary">ทำเนียบรองเลขาธิการ มกอช.</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/palace/history-cio">ทำเนียบ CIO</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/palace/history-consult">ทำเนียบที่ปรึกษา มกอช.</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/palace/history-specialist">ทำเนียบผู้เชี่ยวชาญ มกอช.</a></li>
+                  <li class="menu-item dropdown dropdown-submenu"><a href="#/budget-disbursement">ผลการเบิกจ่ายงบประมาณ</a></li>
+              </ul>
+          </li>
           <li ng-class="{'active':menu_selected == 'video'}"><a href="#/video">วีดีโอ</a></li>
           <li ng-class="{'active':menu_selected == 'question'}"><a href="#/question">คำถามที่พบบ่อย</a></li>
           <!--<li class="menu-item dropdown" ng-class="{'active':menu_selected == ''}">

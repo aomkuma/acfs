@@ -157,7 +157,7 @@ $config['cache'] = array(
 /*============================ Temp Directory settings ================================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_tempDirectory
 
-$config['tempDirectory'] = sys_get_temp_dir();
+$config['tempDirectory'] = '/Applications/XAMPP/xamppfiles/temp/';//sys_get_temp_dir();
 
 /*============================ Session Cause Performance Issues =======================*/
 // http://docs.cksource.com/ckfinder3-php/configuration.html#configuration_options_sessionWriteClose

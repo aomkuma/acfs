@@ -9,6 +9,129 @@
     
     class CommodityStandardService {
 
+        public static function getListActive($years){
+            return CommodityStandard::where('status' , 'Active')
+                    ->where('years', $years)
+                    ->orderBy('standardID', 'DESC')
+                    ->get();
+        }
+
+        public static function getCommodityStandardListSearch($currentPage, $limitRowPerPage, $keyword){
+            // 
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = CommodityStandard::
+                        where(function($query) use ($stepList, $keyword){
+                            //$query->where('step', '9');
+                            $query->where('status', 'Active');
+                            if(!empty($keyword)){
+                                $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                            }
+                        })
+                        ->count();
+
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = CommodityStandard::where(function($query) use ($stepList, $keyword){
+                            //$query->where('step', '9');
+                            $query->where('status', 'Active');
+                            if(!empty($keyword)){
+                                $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                            }
+                        })
+                        ->orderBy('standardID', 'DESC')
+                        ->skip($skip)
+                        ->take($limit)
+                        ->get();      
+            // print_r($DataList);exit;
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
+        }
+
+        public static function searchCommodityStandard($keyword){
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            return CommodityStandard::where(function($query) use ($keyword){
+                            //$query->where('step', '9');
+                            $query->where('status', 'Active');
+                            if(!empty($keyword)){
+                                $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('standardNameEng', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                            }
+                        })
+                        ->orderBy('standardID', 'DESC')
+                        ->get();      
+        }
+
+        public static function getCommodityStandardListPlan($currentPage, $limitRowPerPage, $keyword){
+            // 
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = CommodityStandard::
+                        where(function($query) use ($stepList, $keyword){
+                            //$query->where('step', '9');
+                            $query->where('status', 'Active');
+                            if(!empty($keyword)){
+                                $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                            }
+                        })
+                        ->count();
+
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = CommodityStandard::where(function($query) use ($stepList, $keyword){
+                            //$query->where('step', '9');
+                            $query->where('status', 'Active');
+                            if(!empty($keyword)){
+                                $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                            }
+                        })
+                        ->orderBy('standardID', 'DESC')
+                        ->skip($skip)
+                        ->take($limit)
+                        ->get();      
+            // print_r($DataList);exit;
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
+        }
+
+        public static function getCommodityStandardListByType($currentPage, $limitRowPerPage, $keyword, $defineType, $standardType){
+            // 
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = CommodityStandard::
+                        where(function($query) use ($stepList, $keyword, $defineType, $standardType){
+                            //$query->where('step', '9');
+                            $query->where('status', 'Active');
+                            $query->where('standardDefineType', $defineType);
+                            if(!empty($keyword)){
+                                $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                            }
+                            if(!empty($standardType)){
+                                $query->where('standardType', $standardType);
+                            }
+                        })
+                        ->count();
+
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = CommodityStandard::
+                        where(function($query) use ($stepList, $keyword, $defineType, $standardType){
+                            //$query->where('step', '9');
+                            $query->where('status', 'Active');
+                            $query->where('standardDefineType', $defineType);
+                            if(!empty($keyword)){
+                                $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                            }
+                            if(!empty($standardType)){
+                                $query->where('standardType', $standardType);
+                            }
+                        })
+                        ->orderBy('standardID', 'DESC')
+                        ->skip($skip)
+                        ->take($limit)
+                        ->get();      
+            // print_r($DataList);exit;
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
+        }
+
     	public static function getCommodityStandardList($currentPage, $limitRowPerPage, $_standardIDToIgnore, $stepList){
             // 
             $limit = $limitRowPerPage;
@@ -98,6 +221,29 @@
                         ->take($limit)
                         ->get();      
 
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
+        }
+
+        public static function getListAcademicBoard($currentPage, $limitRowPerPage){
+            // 
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = CommodityStandard::where('academicBoardName', '<>', '')
+                        ->whereNotNull('academicBoardName')
+                        ->count();
+
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = CommodityStandard::where('academicBoardName', '<>', '')
+                        ->whereNotNull('academicBoardName')
+                        ->with(array('academicBoard' => function($query){
+                                    $query->join('Stakeholders', 'Stakeholders.stakeholderID', '=', 'Academic_Boards.stakeholderID');
+                                }))
+                        ->orderBy('academicBoardName', 'ASC')
+                        ->skip($skip)
+                        ->take($limit)
+                        ->get();      
+            // print_r($DataList);exit;
             return ['DataList'=>$DataList, 'Total' => $totalRows];
         }
 

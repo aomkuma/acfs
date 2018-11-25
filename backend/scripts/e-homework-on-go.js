@@ -96,7 +96,7 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
-	.when("/palace/manage", {
+	.when("/palace/:palace_type?", {
         templateUrl : "views/palace/palace.html",
         controller : "PalaceController",
         resolve : {
@@ -187,6 +187,294 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
 				return $ocLazyLoad.load({
 					files : [ "scripts/controllers/ServicesController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/budget-disbursement", {
+        templateUrl : "views/budget-disbursement/main.html",
+        controller : "BudgetDisbursementController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/BudgetDisbursementController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/attachfile-multi/:page_type", {
+        templateUrl : "views/attachfile-multi/main.html",
+        controller : "AttachFileMultiController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/AttachFileMultiController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/attachfile-multi2/:page_type", {
+        templateUrl : "views/attachfile-multi2/main.html",
+        controller : "AttachFileMulti2Controller",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/AttachFileMulti2Controller.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/attachfile-multi3/:page_type", {
+        templateUrl : "views/attachfile-multi3/main.html",
+        controller : "AttachFileMulti3Controller",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/AttachFileMulti3Controller.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/listening", {
+        templateUrl : "views/listening/main.html",
+        controller : "ListeningController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/ListeningController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/appeal", {
+        templateUrl : "views/appeal/main.html",
+        controller : "AppealController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/AppealController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/form-data1/:page_type", {
+        templateUrl : "views/form-data1/main.html",
+        controller : "FormData1Controller",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/FormData1Controller.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/seminar/:page_type", {
+        templateUrl : "views/seminar/main.html",
+        controller : "SeminarController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/SeminarController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/purchase/:page_type", {
+        templateUrl : "views/purchase/main.html",
+        controller : "PurchaseController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/PurchaseController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/media", {
+        templateUrl : "views/media/main.html",
+        controller : "MediaController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/MediaController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/infographic", {
+        templateUrl : "views/infographic/main.html",
+        controller : "InfographicController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/InfographicController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/contact-us", {
+        templateUrl : "views/contact-us/main.html",
+        controller : "ContactUsController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/ContactUsController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/officer-contact", {
+        templateUrl : "views/officer-contact/main.html",
+        controller : "OfficerContactController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/OfficerContactController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/question-answer", {
+        templateUrl : "views/question-answer/main.html",
+        controller : "QuestionAnswerController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/QuestionAnswerController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/freq-question", {
+        templateUrl : "views/freq-question/main.html",
+        controller : "FreqQuestionController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/FreqQuestionController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/form-data1-operator/operator-list", {
+        templateUrl : "views/form-data1/operator.html",
+        controller : "FormData1OperatorController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/FormData1OperatorController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/form-data1-customer/customer-list", {
+        templateUrl : "views/form-data1/customer.html",
+        controller : "FormData1CustomerController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/FormData1CustomerController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/form-data1-inspection-operator/inspection-operator", {
+        templateUrl : "views/form-data1/inspection-operator.html",
+        controller : "FormData1InspectionOperatorController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/FormData1InspectionOperatorController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/meeting-result", {
+        templateUrl : "views/meeting-result/main.html",
+        controller : "MeetingResultController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/MeetingResultController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/licensees", {
+        templateUrl : "views/licensees/main.html",
+        controller : "LicenseesController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/LicenseesController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/product-code", {
+        templateUrl : "views/product-code/main.html",
+        controller : "ProductCodeController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/ProductCodeController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/country-list/:page_type", {
+        templateUrl : "views/country-list/main.html",
+        controller : "CountryListController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/CountryListController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/certification-code/:page_type", {
+        templateUrl : "views/certification-code/main.html",
+        controller : "CertificationCodeController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/CertificationCodeController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/license-register", {
+        templateUrl : "views/license-register/main.html",
+        controller : "LicenseRegisterController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/LicenseRegisterController.js" ]
 				});
 			} ]
 		}

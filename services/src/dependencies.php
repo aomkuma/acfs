@@ -92,4 +92,99 @@ $container['LinkUrlController'] = function ($c) {
     return new \App\Controller\LinkUrlController($c->get('logger'), $c->get('db'));
 };
 
+$container['PalaceController'] = function ($c) {
+    return new \App\Controller\PalaceController($c->get('logger'), $c->get('db'));
+};
+
+$container['ReportController'] = function ($c) {
+    return new \App\Controller\ReportController($c->get('logger'), $c->get('db'));
+};
+
+$container['BudgetDisbursementController'] = function ($c) {
+    return new \App\Controller\BudgetDisbursementController($c->get('logger'), $c->get('db'));
+};
+
+$container['AttachFileMultiController'] = function ($c) {
+    return new \App\Controller\AttachFileMultiController($c->get('logger'), $c->get('db'));
+};
+
+$container['ListeningController'] = function ($c) {
+    return new \App\Controller\ListeningController($c->get('logger'), $c->get('db'));
+};
+
+$container['AppealController'] = function ($c) {
+    return new \App\Controller\AppealController($c->get('logger'), $c->get('db'));
+};
+
+$container['FormData1Controller'] = function ($c) {
+    return new \App\Controller\FormData1Controller($c->get('logger'), $c->get('db'));
+};
+
+$container['AttachFileController'] = function ($c) {
+    return new \App\Controller\AttachFileController($c->get('logger'), $c->get('db'));
+};
+
+$container['SeminarController'] = function ($c) {
+    return new \App\Controller\SeminarController($c->get('logger'), $c->get('db'));
+};
+
+$container['PurchaseController'] = function ($c) {
+    return new \App\Controller\PurchaseController($c->get('logger'), $c->get('db'));
+};
+
+$container['MediaController'] = function ($c) {
+    return new \App\Controller\MediaController($c->get('logger'), $c->get('db'));
+};
+
+$container['InfographicController'] = function ($c) {
+    return new \App\Controller\InfographicController($c->get('logger'), $c->get('db'));
+};
+
+$container['FreqQuestionController'] = function ($c) {
+    return new \App\Controller\FreqQuestionController($c->get('logger'), $c->get('db'));
+};
+
+$container['ContactUsController'] = function ($c) {
+    return new \App\Controller\ContactUsController($c->get('logger'), $c->get('db'));
+};
+
+$container['OfficerContactController'] = function ($c) {
+    return new \App\Controller\OfficerContactController($c->get('logger'), $c->get('db'));
+};
+
+$container['QuestionAnswerController'] = function ($c) {
+    return new \App\Controller\QuestionAnswerController($c->get('logger'), $c->get('db'));
+};
+
+$container['MeetingResultController'] = function ($c) {
+    return new \App\Controller\MeetingResultController($c->get('logger'), $c->get('db'));
+};
+
+$container['LicenseesController'] = function ($c) {
+    return new \App\Controller\LicenseesController($c->get('logger'), $c->get('db'));
+};
+
+$container['ProductCodeController'] = function ($c) {
+    return new \App\Controller\ProductCodeController($c->get('logger'), $c->get('db'));
+};
+
+$container['CountryListController'] = function ($c) {
+    return new \App\Controller\CountryListController($c->get('logger'), $c->get('db'));
+};
+
+$container['CertificationCodeController'] = function ($c) {
+    return new \App\Controller\CertificationCodeController($c->get('logger'), $c->get('db'));
+};
+
+$container['SearchController'] = function ($c) {
+    return new \App\Controller\SearchController($c->get('logger'), $c->get('db'));
+};
+
+$container['LicenseRegisterController'] = function ($c) {
+    return new \App\Controller\LicenseRegisterController($c->get('logger'), $c->get('db'));
+};
+
+
+
+
 

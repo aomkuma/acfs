@@ -1,0 +1,48 @@
+angular.module('e-homework').controller('ContactUsController', function($scope, $compile, $cookies, $filter, $state, $routeParams, HTTPService, IndexOverlayFactory) {
+    IndexOverlayFactory.overlayShow();
+    
+    var $user_session = sessionStorage.getItem('user_session');
+    
+    if($user_session != null){
+        $scope.$parent.currentUser = angular.fromJson($user_session);
+    }else{
+       window.location.replace('#/guest/logon');
+    }
+    console.log('Hello ! AttachFile Multi page');
+    $scope.DEFAULT_LANGUAGE = 'TH';
+    $scope.$parent.menu_selected = 'authority';
+
+    $scope.page_type = 'contact-us';
+
+    $scope.saveData = function(Data, ImageFile, MapFile){
+        
+        var params = {'Data' : Data, 'ImageFile' : ImageFile, 'MapFile' : MapFile};
+        // IndexOverlayFactory.overlayShow();
+        HTTPService.uploadRequest('contact-us/update', params).then(function(result){
+            console.log(result);
+            if(result.data.STATUS == 'OK'){
+                
+                window.location.reload();
+             
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.loadData = function(){
+        HTTPService.clientRequest('contact-us/get', null).then(function(result){
+            console.log(result);
+            $scope.Data = result.data.DATA;
+            if($scope.Data == null){
+                $scope.Data = {'image_name' : '', 'map_name' : ''};
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    
+
+    IndexOverlayFactory.overlayHide();
+    $scope.loadData();
+
+});

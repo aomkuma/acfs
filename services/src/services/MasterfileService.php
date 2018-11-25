@@ -5,6 +5,9 @@
     use App\Model\AccreditationScope;
     use App\Model\Branch;
     use App\Model\Stakeholder;
+    use App\Model\Province;
+    use App\Model\CommodityStandard;
+    use App\Model\MasterType;
     
     use Illuminate\Database\Capsule\Manager as DB;
     
@@ -16,6 +19,16 @@
 
         public static function getBranch(){
             return Branch::all();
+        }
+
+        public static function getProvince(){
+            return Province::all();
+        }
+
+        public static function getAcademicBoard(){
+            return CommodityStandard::where('academicBoardName', '<>', '')
+                        ->whereNotNull('academicBoardName')
+                        ->get();
         }
 
         public static function updateBranch($obj){
@@ -34,9 +47,22 @@
             }
         }
 
+        public static function addMasterFile($obj){
+            
+            $model = MasterType::create($obj);
+            return $model->id;
+        
+        }
+
         public static function deleteBranch($id){
             return Branch::find($id)->delete();
-        }        
+        }    
+
+        public static function getMasterfile($master_type){
+            
+            return  MasterType::where('menu_type' ,$master_type)->get();
+            
+        }
 
         
     }

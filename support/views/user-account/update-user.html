@@ -1,0 +1,121 @@
+<div ng-include src="'views/header.html'"></div>
+<div class="row form-group" style="padding-top: 10px;">
+        <div class="col-lg-5">
+          <div class="row">
+            <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+              <img src="../files/img/pin-menu.png">
+              {{ (ID == null?'เพิ่ม':'แก้ไข') }}ผู้ใช้งาน
+
+              <span ng-show="MenuName.sub_menu != null">
+                  <img src="../files/img/pin-menu.png">
+                        {{MenuName.sub_menu.menu_name_th}}              
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+
+        </div>
+</div>
+<hr>
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาไทย)</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.nameThai" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai + ' (' +user.positionThai + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteUserSelected($item, $model, $label)">
+      </div>
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาอังกฤษ)</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.nameEng" uib-typeahead="(user.nameEng + ' ' + user.lastNameEng + ' (' +user.positionEng + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMEENG') | limitTo:20" typeahead-on-select="autocompleteUserSelected($item, $model, $label)">
+      </div>
+ </div>
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สกุล (ภาษาไทย)</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.lastNameThai">
+      </div>
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สกุล (ภาษาอังกฤษ)</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.lastNameEng">
+      </div>
+ </div>
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ตำแหน่ง (ภาษาไทย)</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.positionThai">
+      </div>
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ตำแหน่ง (ภาษาอังกฤษ)</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.positionEng">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">หน้าที่รับผิดชอบ</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.responsible">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">คุณวุฒิ /ประสบการณ์</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.experience">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">หน่วยงาน</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.institution">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สถานที่ติดต่อ</label>
+      <div class="col-lg-6 col-sm-12 col-xs-12">
+      	<textarea class="form-control" rows="4" ng-model="User.address"></textarea>
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">โทรศัพท์</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.phone">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">โทรสาร</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="text" class="form-control" ng-model="User.fax">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">email</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+      	<input type="email" class="form-control" ng-model="User.email">
+      </div>
+ </div>
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">รหัสผ่าน</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+        <input type="password" class="form-control" ng-model="User.password">
+      </div>
+ </div> 
+ <div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ยืนยันรหัสผ่าน</label>
+      <div class="col-lg-4 col-sm-12 col-xs-12">
+        <input type="password" class="form-control" ng-model="confirmPassword">
+      </div>
+ </div> 
+ <!--<div class="row form-group">
+    <label class="col-lg-2 form-control-static">
+        สถานะการใช้งาน
+    </label>
+    <div class="col-lg-10">
+        <div class="btn-group">
+            <label class="btn btn-default btn-checkbox" ng-model="User.status" uib-btn-radio="'Active'">ใช้งาน</label>
+            <label class="btn btn-default btn-checkbox" ng-model="User.status" uib-btn-radio="'Inactive'">ไม่ใช้งาน</label>
+        </div>
+    </div>
+</div>-->
+ <div class="row form-group">
+      <div class="col-lg-12 text-center">
+            <button class="btn btn-primary" ng-click="saveUser(User)" ng-disabled="(confirmPassword != '' && (confirmPassword != User.password))">บันทึก</button>
+            <button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
+      </div>
+</div>

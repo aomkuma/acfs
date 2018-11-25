@@ -15,6 +15,21 @@
             $this->db = $db;
         }
 
+        public function getListActive($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                
+                $_List = SubcommitteeService::getListActive();
+                
+                $this->data_result['DATA']['Subcommittee'] = $_List;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
         public function getList($request, $response, $args){
             try{
                 $params = $request->getParsedBody();

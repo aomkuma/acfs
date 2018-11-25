@@ -8,15 +8,19 @@
 	<label class=" form-control-static col-lg-2 col-md-2 col-sm-12 col-xs-12">
 		ประเภทเมนู
 	</label>
-	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 		​<select class="form-control" ng-model="Menu.menu_type">
 			<option value="">กรุณาเลือก..</option>
 			<option value="PARENT">เมนูหลักประกอบด้วยเมนูย่อย (PARENT)</option>
 			<option value="PAGE">เนื้อหาข้อมูล, แนบไฟล์เพื่อดาวน์โหลด (PAGE)</option>
 			<!--<option value="INLINK"></option>-->
 			<option value="EXLINK">เมนูลิ้งค์ไปเว็บไซต์ภายนอก (EXTERNAL LINK)</option>
+			<option value="CUSTOM">เมนูที่มีการทำงานในรูปแบบเฉพาะ (CUSTOM PAGE)</option>
 		</select>
 	</div>
+	<label class=" form-control-static col-lg-2 col-md-2 col-sm-12 col-xs-12" ng-show="Menu.menu_type == 'CUSTOM'">
+		<a href="#/{{Menu.menu_url}}" style="margin-top: 30px;">ไปยังหน้าจัดการเมนู</a>
+	</label>
 </div>
 <div class="row form-group">
 	<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
@@ -182,3 +186,9 @@
 	<button class="btn btn-info" ng-click="save('menu/update', Menu, PageContent, FileList, EXLink)">บันทึก</button>
 	<button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
 </div>
+
+<style type="text/css">
+	.form-control-static{
+		padding-top: 25px;
+	}
+</style>

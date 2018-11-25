@@ -47,6 +47,10 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
         $scope.FileList.push({'attachFile':null});
     }
 
+    $scope.addPictures = function(){
+        $scope.News.PictureList.push({'attachFile':null});
+    }
+
     $scope.load = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             console.log(result);
@@ -74,6 +78,7 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
         // CKEDITOR.config.height = '400px';
 
         CKEDITOR.replace( 'editor2',ckEditorConfig );
+        console.log($scope.News);
         $scope.PAGE = 'UPDATE';
     }
 
@@ -90,6 +95,7 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
         // CKEDITOR.config.height = '400px';
 
         CKEDITOR.replace( 'editor2',ckEditorConfig );
+        $scope.News = {'PictureList':[{'attachFile':null}]};
         $scope.PAGE = 'UPDATE';
     }
 
@@ -116,10 +122,11 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
             console.log(result);
             $scope.PAGE = 'MAIN';
             if(result.data.STATUS == 'OK'){
-                $scope.AttachFile = null;
-                $scope.FileList = [];
-                $scope.load('news');
-                $scope.cancelUpdate();
+                // $scope.AttachFile = null;
+                // $scope.FileList = [];
+                // $scope.load('news');
+                // $scope.cancelUpdate();
+                window.location.reload();
                 IndexOverlayFactory.overlayHide();
             }else{
                 IndexOverlayFactory.overlayHide();
@@ -138,17 +145,17 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
         $scope.show_preview_en = true;
     }
 
-    $scope.removeAttach = function(action, id, index){
+    $scope.removeAttach = function(action, id, index, obj){
         HTTPService.deleteRequest(action, id).then(function(result){
             // $scope.load('Newss');
-            $scope.News.AttachFiles.splice(index, 1);
+            obj.splice(index, 1);
             IndexOverlayFactory.overlayHide();
         });
     }
 
     $scope.FileList = [];
     $scope.AttachFile = null;
-    $scope.News = null;
+    
     $scope.popup1 = {
         opened: false
     };

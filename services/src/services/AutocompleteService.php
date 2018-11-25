@@ -5,6 +5,9 @@
     use App\Model\Stakeholder;
     use App\Model\CommodityStandard;
     use App\Model\Subcommittee;
+    use App\Model\Purchase;
+    use App\Model\Geographies;
+    use App\Model\Provinces;
 	
     use Illuminate\Database\Capsule\Manager as DB;
     
@@ -73,6 +76,45 @@
                                 ->skip(0)
                                 ->take(10)
                                 ->get();
+        }
+
+        public static function getPurchase($keyword){
+            
+            $List = Purchase::where(function($query) use ($keyword){
+                                    if(!empty($keyword)){
+                                        $query->where('project_th', 'LIKE', DB::raw("'%".$keyword."%'"));
+                                        $query->orWhere('project_en', 'LIKE', DB::raw("'%".$keyword."%'"));
+                                    }
+                                })
+                                ->where('echo_status', '<>', 'N')
+                                ->where('actives', 'Y')
+                                ->skip(0)
+                                ->take(10)
+                                ->get();
+
+            $DataList = [];
+            foreach ($List as $key => $value) {
+                $value['AttachFileList'] = [];
+                array_push($DataList, $value); 
+            }
+
+            return $DataList;
+        }
+
+        public static function getRegion(){
+            
+            return Geographies::all();
+
+        }
+
+        public static function getProvinces($region_id){
+            
+            return Provinces::where(function($query) use ($region_id){
+                                    if(!empty($region_id)){
+                                        where('geography_name' ,$region_id);
+                                    }
+                                })->get();
+
         }
         
     }    

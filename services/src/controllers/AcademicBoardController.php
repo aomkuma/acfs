@@ -106,14 +106,15 @@
                         $CommodityStandard = CommodityStandardService::getCommodityStandard($standardID);
 
                         // Get e-mail hosting for send
-                        $email_settings = EmailService::getEmailAcademicBord($standardID);
-                        if(!empty($email_settings)){
+                        // $email_settings = EmailService::getEmailAcademicBord($standardID);
+                        // if(!empty($email_settings)){
+                        $this->logger->info('PREPARE Sent mail');
                             // sent mail
                             $mailer = new Mailer;
-                            $mailer->setMailHost('smtp.gmail.com');
-                            $mailer->setMailPort('465');
-                            $mailer->setMailUsername($email_settings->email);
-                            $mailer->setMailPassword($email_settings->password);
+                            $mailer->setMailHost('mail.acfs.go.th');
+                            $mailer->setMailPort('587');
+                            $mailer->setMailUsername('standarddevelopment@acfs.go.th');
+                            $mailer->setMailPassword('279sktX2DX');
                             $mailer->setSubject("รหัสผ่านเข้าสู่ระบบสำหรับคณะกรรมการวิชาการพิจารณามาตรฐานสินค้าเกษตร");
                             $mailer->isHtml(true);
                             $mailer->setHTMLContent($this->generateAcademicBoardMailContent($CommodityStandard->standardNameThai, $userData->email, $userData->password));
@@ -124,9 +125,9 @@
                             }else{
                                 // print_r($res);
                                 // exit;
-                                $this->logger->info('Sent mail Room failed' . $res);
+                                $this->logger->info('Sent mail Room failed' . $res->ErrorInfo);
                             }
-                        }
+                        // }
                     }
                 }
                 

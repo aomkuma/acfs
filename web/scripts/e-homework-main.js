@@ -55,6 +55,15 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
   $scope.goTo = function(page){
     window.location.href = '#/' + page;
   }
+
+  $scope.goSearch = function(keyword){
+    window.location.href = '#/search/' + keyword;
+  }
+  $scope.checkEnter = function(event, keyword){
+    if(event.keyCode == 13){
+      window.location.href = '#/search/' + keyword;
+    }
+  }
     
 }])
 .directive('embedSrc', function () {

@@ -37,5 +37,9 @@ class CommodityStandard extends \Illuminate\Database\Eloquent\Model {
    //  {
   	// 	return $this->hasMany('App\Model\AttachFile', 'parent_id');
    //  }
-    
+
+    public function academicBoard()
+    {
+     return $this->hasMany('App\Model\AcademicBoard', 'standardID');
+    }
 }

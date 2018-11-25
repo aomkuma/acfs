@@ -1,24 +1,35 @@
 <div id="box" class="" style="position: fixed; top: 0px; z-index: 99999; width: 100%; ">
 <div style="position: absolute; right: 5%; top : 60px; z-index: 9999999;">
   <div style="width:100%; display: none; ">
-    <a ng-click="changeLanguage('TH')" ng-class="{'selected-language':DEFAULT_LANGUAGE == 'TH'}">Thai</a> / <a ng-click="changeLanguage('EN')" ng-class="{'selected-language':DEFAULT_LANGUAGE == 'EN'}">Eng</a>
-    &nbsp;&nbsp;&nbsp;
-    <a ng-click="changeFontSize(1)" style="font-size: 1em;" ng-class="{'selected-language':FONT_SIZE == 1}">A</a>&nbsp;&nbsp;
-    <a ng-click="changeFontSize(1.2)" style="font-size: 1.2em;" ng-class="{'selected-language':FONT_SIZE == 1.2}">A</a>&nbsp;&nbsp;
-    <a ng-click="changeFontSize(1.4)" style="font-size: 1.4em;" ng-class="{'selected-language':FONT_SIZE == 1.4}">A</a>
+    
   </div>
-  <div>
-    <input type="text" id="search-text-input"><span class="glyphicon glyphicon-search search-icon"></span>
-  </div>
+  
 </div>
 <div class="row" style="padding-top: 15px; padding-bottom: 10px; color:#3766FF;  background-color: #FFF;">
-  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2" style=" padding-top:2%;">
-    <img src="../files/img/logo_acfs.tif" style="height: 80px; width: auto; padding-left:10%;">
+  <div class="col-lg-1 col-md-1 col-sm-8 col-xs-6" style=" padding-top:2%;">
+    <img src="../files/img/logo_acfs.png" style="height: 80px; width: auto; padding-left:10%;">
   </div>
-  <div class="col-lg-11 col-md-11 visible-lg visible-md" style="padding-left: 0%; padding-top:1.5%; color: #393D65;">
+  <div class="col-lg-6 col-md-6 visible-lg visible-md" style="padding-left: 0%; padding-top:1.5%; color: #393D65;">
     <h3>สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ</h3>
     
     <h5>National Bureau of Agricultural Commodity and Food Standards</h5>
+  </div>
+  <div class="col-lg-5 col-md-5 col-sm-4 col-xs-6" style=" padding-top:2%;">
+    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+      <div class="input-group add-on">
+        <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" ng-model="keyword" ng-keyup="checkEnter($event, keyword)" style="height: 37px;">
+        <div class="input-group-btn">
+          <button class="btn btn-default" ng-click="goSearch(keyword)"><i class="glyphicon glyphicon-search"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 text-center">
+        <a ng-click="changeLanguage('TH')" ng-class="{'selected-language':DEFAULT_LANGUAGE == 'TH'}">Thai</a> / <a ng-click="changeLanguage('EN')" ng-class="{'selected-language':DEFAULT_LANGUAGE == 'EN'}">Eng</a>
+        &nbsp;&nbsp;&nbsp;
+        <a ng-click="changeFontSize(1)" style="font-size: 1em;" ng-class="{'selected-language':FONT_SIZE == 1}">A</a>&nbsp;&nbsp;
+        <a ng-click="changeFontSize(1.2)" style="font-size: 1.2em;" ng-class="{'selected-language':FONT_SIZE == 1.2}">A</a>&nbsp;&nbsp;
+        <a ng-click="changeFontSize(1.4)" style="font-size: 1.4em;" ng-class="{'selected-language':FONT_SIZE == 1.4}">A</a>
+    </div>
   </div>
 </div>
 <div class="row" style="background-color: #FFF;">
@@ -79,9 +90,9 @@
                       </a>
                       <a href="" tabindex="-1" class="test" ng-show="sub_menu2.menu_type == 'PARENT' && sub_menu2.sub_menu.length > 0">{{DEFAULT_LANGUAGE=='TH'?sub_menu2.menu_name_th:sub_menu2.menu_name_en}}
                       </a>
-                      <ul class="dropdown-menu">
+                      <ul class="dropdown-menu" style="margin-right: 300px;">
                         <li ng-repeat="sub_menu3 in sub_menu2.sub_menu">
-                          <a ng-show="sub_menu3.menu_type == 'PAGE'" href="#/{{ sub_menu3.menu_url }}">
+                          <a ng-show="sub_menu3.menu_type != 'EXLINK'" href="#/{{ sub_menu3.menu_url }}">
                             {{DEFAULT_LANGUAGE=='TH'?sub_menu3.menu_name_th:sub_menu3.menu_name_en}}
                           </a>
                           <a ng-show="sub_menu3.menu_type == 'EXLINK'" href="{{ sub_menu3.menu_url }}" target="_blank">

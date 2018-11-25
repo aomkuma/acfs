@@ -23,8 +23,25 @@
                 switch($masterType){
                     case 'AccreditationScope' : $this->data_result['DATA'] = MasterfileService::getAccreditationScope(); break;
                     case 'Branch' : $this->data_result['DATA'] = MasterfileService::getBranch(); break;
-                    default : null;
+                    case 'Province' : $this->data_result['DATA'] = MasterfileService::getProvince(); break;
+                    case 'AcademicBoard' : $this->data_result['DATA'] = MasterfileService::getAcademicBoard(); break;
+                    default : $this->data_result['DATA'] = MasterfileService::getMasterfile($masterType); break;
                 }
+                
+                return $this->returnResponse(200, $this->data_result, $response, false);
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $e, $response);
+            }
+            
+        }
+
+        public function addMasterfile($request, $response, $args){
+            try{
+                $loginObj = $request->getParsedBody();
+                $Data = $loginObj['obj']['Data'];
+                $id = MasterfileService::addMasterfile($Data);
+
+                $this->data_result['DATA']['id'] = $id;
                 
                 return $this->returnResponse(200, $this->data_result, $response, false);
             }catch(\Exception $e){

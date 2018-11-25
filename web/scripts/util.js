@@ -329,7 +329,12 @@ function convertDateToFullThaiDateIgnoreTime(dateObj){
         case 10 : monthTxt = 'พฤศจิกายน';break;
         case 11 : monthTxt = 'ธันวาคม';break;
     }
-    return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear());
+    if(!isNaN(dateObj.getDate())){
+        return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear());
+    }else{
+        return '';
+    }
+    
 }
 
 function convertDateToReportDate(dateObj){
@@ -676,6 +681,23 @@ app.filter('MenuFilter', function () {
             return false;
         }
     };
+});
+
+app.filter('range', function() {
+  return function(input, total, start, limitDisplay) {
+    var i=0;
+    
+    start = parseInt(start);
+    limitDisplay = parseInt(limitDisplay);
+    //console.log('Mod value : ', start%limitDisplay);
+    if(start%limitDisplay == 0){
+        i = start;
+    }
+    total = parseInt(total);
+    for (; i<total; i++)
+      input.push(i);
+    return input;
+  };
 });
 
 app.directive('convertToNumber', function() {

@@ -8,6 +8,10 @@
     use Illuminate\Database\Capsule\Manager as DB;
     
     class SubcommitteeService {
+
+        public static function getListActive(){
+            return Subcommittee::all();
+        }
         
         public static function getList($currentPage, $limitRowPerPage){
             

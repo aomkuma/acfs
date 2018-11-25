@@ -26,6 +26,9 @@
                 foreach($_News as $k => $v){
                     $_AttachFiles = AttachFileService::getAttachFiles($v['id'], 'news');
                     $v['AttachFiles'] = $_AttachFiles;
+
+                    $_PictureList = AttachFileService::getAttachFiles($v['id'], 'news-picture');
+                    $v['PictureList'] = $_PictureList;
                     // print_r($v);exit;
                     array_push($_NewsList, $v);
                 }
@@ -75,7 +78,8 @@
                 $_AttachFiles = AttachFileService::getAttachFiles($_News['id'], 'news');
                 $_News['AttachFiles'] = $_AttachFiles;
 
-
+                $_PictureList = AttachFileService::getAttachFiles($_News['id'], 'news-picture');
+                $_News['PictureList'] = $_PictureList;
 
                 $this->data_result['DATA']['News'] = $_News;
                 return $this->returnResponse(200, $this->data_result, $response, false);
@@ -94,6 +98,13 @@
                 // error_reporting(E_ERROR);
                 // error_reporting(E_ALL);
                 // ini_set('display_errors','On');
+                $files = $request->getUploadedFiles();
+                $upload_files = $request->getUploadedFiles();
+                $picture_files = $upload_files['obj']['NewsObj']['PictureList'];
+                $attach_files = $upload_files['obj']['AttachFileList'];
+
+                // print_r($attach_files);
+                // exit;
                 $params = $request->getParsedBody();
 
                 // print_r($params);exit;
@@ -102,36 +113,37 @@
 
                 // Save News 
                 $id = NewsService::updateNews($_News);
+                
                 // Update Attach files
-                $files = $request->getUploadedFiles();
-                if($files != null){
-                    foreach($files as $key => $val){
-                        foreach($val['AttachFileList'] as $k => $v){
-                            // print_r($v['attachFile']);
-                            $f = $v['attachFile'];
-                            // print_r($f);
-                            if($f != null){
-                                if($f->getClientFilename() != ''){
-                                    $ext = pathinfo($f->getClientFilename(), PATHINFO_EXTENSION);
-                                    $FileName = $id . '_' . date('YmdHis').'_'.rand(100000,999999). '.'.$ext;
-                                    $FilePath = $_WEB_FILE_PATH . '/news/'.$FileName;
+                if($attach_files != null){
+                    
+                    foreach($attach_files as $k => $v){
+                        // print_r($v['attachFile']);
+                        $f = $v['attachFile'];
+                        // print_r($f);
+                        if($f != null){
+                            if($f->getClientFilename() != ''){
+                                $ext = pathinfo($f->getClientFilename(), PATHINFO_EXTENSION);
+                                $FileName = $id . '_' . date('YmdHis').'_'.rand(100000,999999). '.'.$ext;
+                                $FilePath = $_WEB_FILE_PATH . '/news/'.$FileName;
 
-                                    $AttachFile = ['parent_id'=>$id
-                                                    ,'page_type'=>'news'
-                                                    ,'file_name'=>$f->getClientFilename()
-                                                    ,'file_path'=>$FilePath
-                                                    ,'content_type'=>$f->getClientMediaType()
-                                                    ,'file_size'=>number_format($f->getSize()/1024, 2)
+                                $AttachFile = ['parent_id'=>$id
+                                                ,'menu_id'=>$id
+                                                ,'page_type'=>'news'
+                                                ,'file_name'=>$f->getClientFilename()
+                                                ,'file_path'=>$FilePath
+                                                ,'content_type'=>$f->getClientMediaType()
+                                                ,'file_size'=>number_format($f->getSize()/1024, 2)
 
-                                                ];
-                                    // print_r($AttachFile);exit;
-                                    AttachFileService::addAttachFiles($AttachFile);
-                                    $f->moveTo('../../' . $FilePath);
-                                    
-                                }
+                                            ];
+                                // print_r($AttachFile);exit;
+                                AttachFileService::addAttachFiles($AttachFile);
+                                $f->moveTo('../../' . $FilePath);
+                                
                             }
                         }
                     }
+                    
                 }
 
                 // Update Attach files
@@ -151,6 +163,36 @@
                         NewsService::updateNewsImagePath($id, $FilePath);
                         $f->moveTo('../../' . $FilePath);
                     }        
+                }
+
+                // save news picture
+                if($picture_files != null){
+                    foreach($picture_files as $k => $v){
+                        // print_r($v['attachFile']);
+                        $f = $v['attachFile'];
+                        // print_r($f);
+                        if($f != null){
+                            if($f->getClientFilename() != ''){
+                                $ext = pathinfo($f->getClientFilename(), PATHINFO_EXTENSION);
+                                $FileName = $id . '_' . date('YmdHis').'_'.rand(100000,999999). '.'.$ext;
+                                $FilePath = $_WEB_IMAGE_PATH . '/news/'.$FileName;
+
+                                $AttachFile = ['parent_id'=>$id
+                                                ,'menu_id'=>$id
+                                                ,'page_type'=>'news-picture'
+                                                ,'file_name'=>$f->getClientFilename()
+                                                ,'file_path'=>$FilePath
+                                                ,'content_type'=>$f->getClientMediaType()
+                                                ,'file_size'=>number_format($f->getSize()/1024, 2)
+
+                                            ];
+                                // print_r($AttachFile);exit;
+                                AttachFileService::addAttachFiles($AttachFile);
+                                $f->moveTo('../../' . $FilePath);
+                                
+                            }
+                        }
+                    }
                 }
 
                 // exit;

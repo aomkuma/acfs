@@ -1,8 +1,8 @@
 angular.module('e-homework').controller('NewsController', function($scope, $compile, $cookies, $filter, $state, $routeParams, HTTPService, IndexOverlayFactory) {
 	$scope.$parent.menu_selected = 'news';
     $scope.$parent.menu_selected_th = 'ข่าว';
-    $scope.NEWS_TYPE = $routeParams.NEWS_TYPE;
-    console.log($routeParams.NEWS_TYPE);
+    $scope.page_type = 'news';//$routeParams.page_type;
+    console.log($routeParams.page_type);
     $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
@@ -18,6 +18,15 @@ angular.module('e-homework').controller('NewsController', function($scope, $comp
                 e.preventDefault();
               });
             });
+        });
+    }
+
+    $scope.getMenu = function(action, menu_type){
+        var params = {'menu_type' : menu_type};
+        HTTPService.clientRequest(action, params).then(function(result){
+            console.log(result);
+            $scope.MenuName = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
         });
     }
 
@@ -54,5 +63,6 @@ angular.module('e-homework').controller('NewsController', function($scope, $comp
     }
     
     $scope.loadMenu('menu/list');
+    $scope.getMenu('menu/get/type' ,$scope.page_type);
     $scope.load('news', $scope.NEWS_TYPE, 'Y');
 });

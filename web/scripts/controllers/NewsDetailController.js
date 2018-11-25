@@ -25,7 +25,10 @@ angular.module('e-homework').controller('NewsDetailController', function($scope,
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.News = result.data.DATA.News;
+            $scope.slideImage($scope.next_index);
+            // $scope.PictureList = $scope.News.PictureList;
             IndexOverlayFactory.overlayHide();
+            console.log($scope.PictureList);
         });
     }
 
@@ -33,7 +36,30 @@ angular.module('e-homework').controller('NewsDetailController', function($scope,
         console.log(date);
         return convertDateToFullThaiDateIgnoreTime(new Date(date));
     }
+
+    $scope.slideImage = function(index){
+        var cnt = 0;
+        var position = index;
+        $scope.PictureList = [];
+
+        while(cnt < 3 && position < $scope.News.PictureList.length){
+            
+            $scope.PictureList.push($scope.News.PictureList[position]);
+            position++;
+            cnt++;
+            console.log('do : '+cnt);
+            console.log('index : ' + index);
+        }
+        $scope.next_index = index + 1;
+        $scope.prev_index = index - 1;
+        console.log($scope.next_index);
+        console.log($scope.prev_index);
+    }
     
+    $scope.next_index = 0;
+    $scope.prev_index = 0;
+    $scope.PictureList = [];
+
     $scope.NEWS_ID = $routeParams.NEWS_ID;
     $scope.loadMenu('menu/list');
     $scope.load('news/view', 'visitor', $scope.NEWS_ID);

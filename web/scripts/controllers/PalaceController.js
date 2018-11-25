@@ -1,57 +1,55 @@
-angular.module('e-homework').controller('PalaceController', function($scope, $compile, $cookies, $filter, $state, HTTPService, IndexOverlayFactory) {
+angular.module('e-homework').controller('PalaceController', function($scope, $compile, $cookies, $filter, $state, $routeParams, HTTPService, IndexOverlayFactory) {
     IndexOverlayFactory.overlayShow();
     console.log('Hello ! Palace page');
 	
     $scope.$parent.menu_selected = 'palace';
     $scope.$parent.menu_selected_th = 'ทำเนียบ CIO กระทรวง';
-    $scope.load = function(action){
+
+    $scope.palace_type = $routeParams.palace_type;
+
+    $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
+            //console.log(result);
+            $scope.Menu = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
+            $(document).ready(function(){
+                // console.log('asd');
+              $('a.test').on("click", function(e){
+                // alert('aa');
+                // $('ul.dropdown-menu').hide();
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+              });
+            });
+
+            // $scope.load('menu/page/get', $scope.ID);
+            
+        });
+    }
+
+    $scope.getMenu = function(action, menu_type){
+        var params = {'menu_type' : menu_type};
+        HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
+            $scope.MenuName = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.load = function(action){
+        var params = {'palace_type':$scope.palace_type};
+        HTTPService.clientRequest(action, params).then(function(result){
+            
             $scope.Palace = null;
             $scope.PalaceList = result.data.DATA.Palace;
+            console.log($scope.PalaceList);
             IndexOverlayFactory.overlayHide();
         });
     }
 
-    $scope.edit = function(data){
-        $scope.AttachFile = null;
-        $scope.Palace = angular.copy(data);
-        if($scope.Palace.position_start_date != null && $scope.Palace.position_start_date != undefined && $scope.Palace.position_start_date != ''){
-            $scope.Palace.position_start_date = makeDate($scope.Palace.position_start_date);
-        }
-        if($scope.Palace.position_end_date != null && $scope.Palace.position_end_date != undefined && $scope.Palace.position_end_date != ''){
-            $scope.Palace.position_end_date = makeDate($scope.Palace.position_end_date);
-        }
-    }
-
-    $scope.save = function(action, Palace, AttachFile){
-        // console.log($scope.Palace);
-        IndexOverlayFactory.overlayShow();
-        if(Palace.position_start_date != null && Palace.position_start_date != undefined && Palace.position_start_date != ''){
-            Palace.position_start_date = makeSQLDate(Palace.position_start_date);
-        }
-        if(Palace.position_end_date != null && Palace.position_end_date != undefined && Palace.position_end_date != ''){
-            Palace.position_end_date = makeSQLDate(Palace.position_end_date);
-        }
-       
-        var params = {'Palace':Palace, 'AttachFile':AttachFile};
-        HTTPService.uploadRequest(action, params).then(function(result){
-            console.log(result);
-            if(result.data.STATUS == 'OK'){
-                $scope.AttachFile = null;
-                $scope.load('palaces');
-                IndexOverlayFactory.overlayHide();
-            }else{
-                IndexOverlayFactory.overlayHide();
-            }
-        });
-    }
-
-    $scope.removeAttach = function(action, id){
-        HTTPService.deleteRequest(action, id).then(function(result){
-            $scope.load('palaces');
-            IndexOverlayFactory.overlayHide();
-        });
+    $scope.checkHistory = function(palace_type){
+        return palace_type.indexOf('history') > -1;
     }
 
     $scope.AttachFile = null;
@@ -72,10 +70,12 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
         $scope.popup2.opened = true;
     };
 
-    $scope.page_type = 'palace';
-    $scope.MenuName = getMenuName($scope.page_type);
-    console.log($scope.MenuName);
+    // $scope.page_type = 'palace';
+    // $scope.MenuName = getMenuName($scope.page_type);
+    // console.log($scope.MenuName);
 
-    $scope.load('palaces');
+    $scope.loadMenu('menu/list');
+    $scope.getMenu('menu/get/type' ,$scope.palace_type);
+    $scope.load('palaces/list');
 
 });

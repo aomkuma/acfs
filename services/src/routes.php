@@ -8,13 +8,24 @@ use \Psr\Http\Message\ResponseInterface as Response;
 $app->post('/login/', 'LoginController:authenticate');
 $app->post('/forgot-password/', 'LoginController:forgotPassword');
 
+$app->delete('/attach/delete/{id}', 'AttachFileController:removeAttachFile');
+
+$app->post('/search/', 'SearchController:search');
+
 $app->post('/autocomplete/', 'AutocompleteController:getAutocomplete');
 $app->post('/masterfile/get/', 'MasterfileController:getMasterfile');
+$app->post('/masterfile/add/', 'MasterfileController:addMasterfile');
 $app->post('/masterfile/update/', 'MasterfileController:updateMasterfile');
 $app->post('/masterfile/remove/', 'MasterfileController:deleteMasterfile');
 
 $app->post('/commodity-standard/list/home/', 'CommodityStandardController:getListForHomepage');
+$app->post('/commodity-standard/list/active/', 'CommodityStandardController:getListActive');
 $app->post('/commodity-standard/list/', 'CommodityStandardController:getList');
+$app->post('/commodity-standard/academic-board/list/', 'CommodityStandardController:getListAcademicBoard');
+$app->post('/commodity-standard/search/', 'CommodityStandardController:getListSearch');
+$app->post('/commodity-standard/plan/', 'CommodityStandardController:getListPlan');
+$app->post('/commodity-standard/general/', 'CommodityStandardController:getListGeneral');
+$app->post('/commodity-standard/mandatory/', 'CommodityStandardController:getListMandatory');
 $app->post('/commodity-standard/get/', 'CommodityStandardController:getData');
 $app->post('/commodity-standard/update/', 'CommodityStandardController:updateData');
 
@@ -37,6 +48,7 @@ $app->post('/stakeholder/get/', 'StakeholderController:getData');
 $app->post('/stakeholder/update/', 'StakeholderController:updateData');
 $app->post('/stakeholder/delete/', 'StakeholderController:deleteData');
 
+$app->post('/subcommittee/list/active/', 'SubcommitteeController:getListActive');
 $app->post('/subcommittee/list/', 'SubcommitteeController:getList');
 $app->post('/subcommittee/get/', 'SubcommitteeController:getData');
 $app->post('/subcommittee/update/', 'SubcommitteeController:updateData');
@@ -58,6 +70,7 @@ $app->post('/email/update/', 'EmailController:updateData');
 $app->post('/email/delete/', 'EmailController:deleteData');
 $app->post('/email/delete/commodity/', 'EmailController:deleteEmailCommodityData');
 
+$app->post('/questionnaire/list/active/', 'QuestionController:getListActive');
 $app->post('/questionnaire/list/', 'QuestionController:getList');
 $app->post('/questionnaire/get/', 'QuestionController:getData');
 $app->post('/questionnaire/update/', 'QuestionController:updateData');
@@ -72,7 +85,9 @@ $app->post('/questionnaire/question/delete/', 'QuestionController:deleteQuestion
 $app->post('/menu/list/', 'MenuController:getMenuList');
 $app->post('/menu/list/manage/', 'MenuController:getMenuListManage');
 $app->post('/menu/get/', 'MenuController:getMenu');
+$app->post('/menu/get/type/', 'MenuController:getMenuByType');
 $app->post('/menu/update/', 'MenuController:updateMenu');
+$app->post('/menu/update/page/', 'MenuController:updateMenuPage');
 $app->post('/menu/page/get/', 'MenuController:GetMenuPage');
 $app->post('/menu/get/parent/', 'MenuController:GetMenuParent');
 
@@ -92,6 +107,108 @@ $app->post('/linkurlView/', 'LinkUrlController:getLinkUrlView');
 $app->post('/linkurl/update/', 'LinkUrlController:updateLinkUrl');
 $app->delete('/linkurl/delete/{id}', 'LinkUrlController:removeLinkUrl');
 
+$app->post('/palaces/list/', 'PalaceController:getList');
+$app->post('/palaces/get/', 'PalaceController:getData');
+$app->post('/palaces/current/', 'PalaceController:getPalaceCurrent');
+$app->post('/palaces/update/', 'PalaceController:updateData');
+$app->delete('/palaces/delete/{id}', 'PalaceController:removePicture');
+
+$app->post('/report/export/', 'ReportController:exportReport');
+
+$app->post('/budget-disbursement/', 'BudgetDisbursementController:getList');
+$app->post('/budget-disbursement/update/', 'BudgetDisbursementController:updateData');
+$app->delete('/budget-disbursement/delete/{id}', 'BudgetDisbursementController:removeData');
+
+$app->post('/attachfile-multi/get/type/', 'AttachFileMultiController:getList');
+$app->post('/attachfile-multi/get/master/', 'AttachFileMultiController:getMasterList');
+$app->post('/attachfile-multi/update/', 'AttachFileMultiController:updateData');
+$app->post('/attachfile-multi/update/active/', 'AttachFileMultiController:updateActiveStatus');
+$app->delete('/attachfile-multi/delete/{id}', 'AttachFileMultiController:removeData');
+
+$app->post('/listening/list/', 'ListeningController:getList');
+$app->post('/listening/get/', 'ListeningController:getData');
+$app->post('/listening/update/', 'ListeningController:updateData');
+$app->post('/listening/comment/add/', 'ListeningController:updateComment');
+$app->post('/listening/comment/view/', 'ListeningController:viewComment');
+
+$app->post('/appeal/list/', 'AppealController:getList');
+$app->post('/appeal/page/', 'AppealController:getPage');
+$app->post('/appeal/update/', 'AppealController:updateData');
+
+$app->post('/form-data1/list/', 'FormData1Controller:getList');
+$app->post('/form-data1/list/iso/', 'FormData1Controller:getListIso');
+$app->post('/form-data1/get/', 'FormData1Controller:getData');
+$app->post('/form-data1/update/', 'FormData1Controller:updateData');
+$app->post('/form-data1/update/iso/', 'FormData1Controller:updateIso');
+$app->post('/form-data1/delete/', 'FormData1Controller:deleteData');
+
+$app->post('/form-data1/operator/list/', 'FormData1Controller:getListOperator');
+$app->post('/form-data1/operator/get/', 'FormData1Controller:getOperatorData');
+$app->post('/form-data1/operator/update/', 'FormData1Controller:updateOperatorData');
+
+$app->post('/form-data1/customer/list/', 'FormData1Controller:getListCustomer');
+$app->post('/form-data1/customer/get/', 'FormData1Controller:getCustomerData');
+$app->post('/form-data1/customer/update/', 'FormData1Controller:updateCustomerData');
+
+$app->post('/seminar/list/', 'SeminarController:getList');
+$app->post('/seminar/update/', 'SeminarController:updateData');
+$app->post('/seminar/delete/', 'SeminarController:deleteData');
+$app->post('/seminar/response/list/', 'SeminarController:getListResponse');
+$app->post('/seminar/response/add/', 'SeminarController:addResponse');
+
+$app->post('/purchase/list/', 'PurchaseController:getList');
+$app->post('/purchase/update/', 'PurchaseController:updateData');
+$app->post('/purchase/delete/', 'PurchaseController:deleteData');
+
+$app->post('/media/list/', 'MediaController:getList');
+$app->post('/media/update/', 'MediaController:updateData');
+$app->post('/media/visit-count/update/', 'MediaController:updateVisitCountData');
+$app->post('/media/video/delete/', 'MediaController:deleteVideoData');
+$app->post('/media/delete/', 'MediaController:deleteData');
+
+$app->post('/infographic/list/', 'InfographicController:getList');
+$app->post('/infographic/update/', 'InfographicController:updateData');
+$app->post('/infographic/visit-count/update/', 'InfographicController:updateVisitCountData');
+$app->post('/infographic/delete/', 'InfographicController:deleteData');
+
+$app->post('/contact-us/get/', 'ContactUsController:getData');
+$app->post('/contact-us/update/', 'ContactUsController:updateData');
+
+$app->post('/officer-contact/dep/list/', 'OfficerContactController:getDepList');
+$app->post('/officer-contact/dep/update/', 'OfficerContactController:updateDepData');
+$app->post('/officer-contact/dep/delete/', 'OfficerContactController:deleteDepData');
+$app->post('/officer-contact/officer/list/', 'OfficerContactController:getOfficerList');
+$app->post('/officer-contact/officer/update/', 'OfficerContactController:updateOfficerData');
+$app->post('/officer-contact/officer/delete/', 'OfficerContactController:deleteOfficerData');
+
+$app->post('/question-answer/list/', 'QuestionAnswerController:getList');
+$app->post('/question-answer/question/update/', 'QuestionAnswerController:updateQuestionData');
+$app->post('/question-answer/answer/update/', 'QuestionAnswerController:updateAnswerData');
+$app->post('/question-answer/delete/', 'QuestionAnswerController:deleteData');
+
+$app->post('/freq-question/list/', 'FreqQuestionController:getList');
+$app->post('/freq-question/update/', 'FreqQuestionController:updateData');
+$app->post('/freq-question/delete/', 'FreqQuestionController:deleteData');
+
+$app->post('/meeting-result/list/', 'MeetingResultController:getList');
+$app->post('/meeting-result/update/', 'MeetingResultController:updateData');
+
+$app->post('/licensees/list/', 'LicenseesController:getList');
+$app->post('/licensees/update/', 'LicenseesController:updateData');
+
+$app->post('/product-code/list/', 'ProductCodeController:getList');
+$app->post('/product-code/update/', 'ProductCodeController:updateData');
+
+$app->post('/country-list/list/', 'CountryListController:getList');
+$app->post('/country-list/update/', 'CountryListController:updateData');
+
+$app->post('/certification-code/list/', 'CertificationCodeController:getList');
+$app->post('/certification-code/update/', 'CertificationCodeController:updateData');
+
+$app->post('/license-register/list/', 'LicenseRegisterController:getList');
+$app->post('/license-register/get/', 'LicenseRegisterController:getData');
+$app->post('/license-register/request/', 'LicenseRegisterController:requestData');
+$app->post('/license-register/update/', 'LicenseRegisterController:updateData');
 
 // Default action
 $app->get('/[{name}]', function ($request, $response, $args) {

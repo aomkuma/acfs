@@ -1,4 +1,4 @@
-angular.module('e-homework').controller('PalaceController', function($scope, $compile, $cookies, $filter, $state, HTTPService, IndexOverlayFactory) {
+angular.module('e-homework').controller('PalaceController', function($scope, $compile, $cookies, $filter, $state, $routeParams, HTTPService, IndexOverlayFactory) {
     IndexOverlayFactory.overlayShow();
     var $user_session = sessionStorage.getItem('user_session');
     
@@ -10,13 +10,26 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
     console.log('Hello ! Palace page');
 	$scope.DEFAULT_LANGUAGE = 'TH';
     $scope.$parent.menu_selected = 'palace';
+    $scope.palace_type = $routeParams.palace_type;
+
+    console.log('Hello ! Palace page ' + $scope.palace_type);
 
     $scope.addFiles = function(){
         $scope.FileList.push({'attachFile':null});
     }
 
+    $scope.getMenu = function(action, menu_type){
+        var params = {'menu_type' : menu_type};
+        HTTPService.clientRequest(action, params).then(function(result){
+            console.log(result);
+            $scope.Menu = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
     $scope.load = function(action){
-        HTTPService.clientRequest(action, null).then(function(result){
+        var params = {'palace_type':$scope.palace_type};
+        HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.Palace = null;
             $scope.PalaceList = result.data.DATA.Palace;
@@ -38,7 +51,12 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
 
     $scope.add = function(){
         $scope.AttachFile = null;
-        $scope.Palace = null;
+
+        $scope.Palace = {'palace_type' : $scope.palace_type, 'position_th' : '', 'position_en':''};
+        if($scope.palace_type == 'current-cio' || $scope.palace_type == 'history-cio'){
+            $scope.Palace = {'palace_type' : $scope.palace_type, 'position_th':'CIO' , 'position_en':'CIO'};
+        }
+        console.log($scope.Palace);
         $scope.PAGE = 'UPDATE';
     }
 
@@ -66,7 +84,7 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
             if(result.data.STATUS == 'OK'){
                 $scope.AttachFile = null;
                 $scope.FileList = [];
-                $scope.load('palaces');
+                $scope.load('palaces/list');
                 $scope.cancelUpdate();
                 IndexOverlayFactory.overlayHide();
             }else{
@@ -85,7 +103,8 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
 
     $scope.FileList = [];
     $scope.AttachFile = null;
-    $scope.Palace = null;
+    $scope.Palace = {'position_th' : "", 'position_en' : "", 'palace_type' : $scope.palace_type};
+
     $scope.popup1 = {
         opened: false
     };
@@ -103,6 +122,9 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
     };
 
     $scope.PAGE = 'MAIN';
-    $scope.load('palaces');
+    $scope.load('palaces/list');
+    $scope.getMenu('menu/get/type' ,$scope.palace_type);
+
+
 
 });

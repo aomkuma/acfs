@@ -3,7 +3,7 @@
 	  <div class="col-lg-5">
 	    <div class="row">
 	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
-	        <img src="../cio-files/img/pin-menu.png">
+	        <img src="../files/img/pin-menu.png">
 	        ข่าวประชาสัมพันธ์
 	      </div>
 	    </div>
@@ -34,31 +34,34 @@
 	        </p>
 		</div>
 		<div class="col-lg-3">
-			<div class="file-alert" ng-show="fle.attachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{AttachFile.invalidFile.$errorParam}}</div>
+			<div class="file-alert" ng-show="AttachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{AttachFile.invalidFile.$errorParam}}</div>
 		</div>
 	</div>
-	<div class="page-header">
-		<h3>สถานะ</h3>
+	<div class="row form-group" ng-repeat="file in News.PictureList">
+		<label class="col-lg-2 form-control-static">
+			รูปภาพ
+		</label>
+		<div class="col-lg-4" >
+			<p class="input-group">
+	          <input type="text" readonly="true" class="form-control" ng-model="file.attachFile.name" />
+	          <span class="input-group-btn">
+	            <button class="btn btn-default" ngf-select ng-model="file.attachFile" ngf-max-size="10MB"  ngf-model-invalid="file.attachFile.invalidFile" accept="image/*">เลือก</button>
+	          </span>
+	        </p>
+		</div>
+		<div class="col-lg-4">
+			<button class="btn btn-danger btn-xs" ng-click="removeAttach('attach/delete', file.id, $index, News.PictureList)" ng-show="file.file_path != undefined && file.file_path != null && file.file_path != ''"><span class="glyphicon glyphicon-trash"></span></button>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src="../{{file.file_path}}" alt="" style="height: 150px;" ng-show="file.file_path != null">
+				
+		</div>
 	</div>
 	<div class="row form-group">
-		<div class="col-lg-10">
-			<div class="btn-group">
-                <label class="btn btn-default btn-checkbox" ng-model="News.actives" uib-btn-radio="'Y'">ใช้</label>
-                <label class="btn btn-default btn-checkbox" ng-model="News.actives" uib-btn-radio="'N'">ไม่ใช้</label>
-            </div>
-		</div>
+		<div class="col-lg-3">
+			<button class="btn btn-primary" ng-click="addPictures()">เพิ่มรูปภาพ</button>
+		</div>	
 	</div>
-	<div class="page-header">
-		<h3>แสดงหน้าแรก</h3>
-	</div>
-	<div class="row form-group">
-		<div class="col-lg-10">
-			<div class="btn-group">
-                <label class="btn btn-default btn-checkbox" ng-model="News.show_homepage" uib-btn-radio="'Y'">แสดง</label>
-                <label class="btn btn-default btn-checkbox" ng-model="News.show_homepage" uib-btn-radio="'N'">ไม่แสดง</label>
-            </div>
-		</div>
-	</div>
+
 	<div class="page-header">
 		<h3>วันที่ข่าว</h3>
 	</div>
@@ -121,6 +124,42 @@
 		</div>
 	</div>
 
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			แบนเนอร์
+		</label>
+		<div class="col-lg-10">
+			<div class="btn-group">
+                <label class="btn btn-default btn-checkbox" ng-model="News.show_banner" uib-btn-radio="'Y'">แสดง</label>
+                <label class="btn btn-default btn-checkbox" ng-model="News.show_banner" uib-btn-radio="'N'">ไม่แสดง</label>
+            </div>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			แสดงหน้าแรก
+		</label>
+		<div class="col-lg-10">
+			<div class="btn-group">
+                <label class="btn btn-default btn-checkbox" ng-model="News.show_homepage" uib-btn-radio="'Y'">แสดง</label>
+                <label class="btn btn-default btn-checkbox" ng-model="News.show_homepage" uib-btn-radio="'N'">ไม่แสดง</label>
+            </div>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			สถานะ
+		</label>
+		<div class="col-lg-10">
+			<div class="btn-group">
+                <label class="btn btn-default btn-checkbox" ng-model="News.actives" uib-btn-radio="'Y'">ใช้</label>
+                <label class="btn btn-default btn-checkbox" ng-model="News.actives" uib-btn-radio="'N'">ไม่ใช้</label>
+            </div>
+		</div>
+	</div>
+
 	<div class="page-header">
 		<h3>ไฟล์แนบ</h3>
 	</div>
@@ -128,7 +167,7 @@
 	<div class="row form-group" ng-repeat="file in News.AttachFiles">
 		<div class="col-lg-12">
 			
-					<button class="btn btn-danger btn-xs" ng-click="removeAttach('attach/delete', file.id)"><span class="glyphicon glyphicon-trash"></span></button>
+					<button class="btn btn-danger btn-xs" ng-click="removeAttach('attach/delete', file.id, $index, News.AttachFiles)"><span class="glyphicon glyphicon-trash" ></span></button>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a target="_self" href="{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
 				

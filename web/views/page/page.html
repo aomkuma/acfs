@@ -1,13 +1,23 @@
 <div ng-include src="'views/header.html'"></div>
 
-<div  style="margin-top:300px;">
-	
-	<div class="row form-group" style="margin-top: 20px; color: #071CA5; font-weight: bolder; font-size: 1.5em;">
-		<div class="col-lg-12 text-center">
-			{{ (DEFAULT_LANGUAGE == 'TH'?Page.title_th:Page.title_en) }}
-			<br>
-			<div style="background: url('../cio-files/img/line-bottom.png') no-repeat; height: 3px; width:480px; margin:0px auto; margin-top:20px;margin-bottom:15px;"></div>
-		</div>
+<div  style="margin-top:180px;">
+	<div class="row form-group" style="padding-top: 70px;">
+	  <div class="col-lg-5 col-lg-offset-1">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <img src="../files/img/pin-menu.png">
+	        {{ (DEFAULT_LANGUAGE == 'TH'?Page.title_th:Page.title_en) }}
+
+	        <span ng-show="MenuName.sub_menu != null">
+	        	<img src="../files/img/pin-menu.png">
+				{{MenuName.sub_menu.menu_name_th}}	        	
+	        </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
+
+	  </div>
 	</div>
 	<div class="row form-group">
 		<div class="col-lg-10 col-lg-offset-1" bind-html-compile="(DEFAULT_LANGUAGE == 'TH'?Page.contents:Page.contents_en)">

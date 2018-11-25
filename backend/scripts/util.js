@@ -226,7 +226,10 @@ function padLeft(str, pad){
 }
 
 function makeSQLDate(dateObj){
-  return dateObj.getFullYear() + '-' + (dateObj.getMonth() + 1) + '-' + dateObj.getDate();
+    console.log(dateObj);
+  var m = ((dateObj.getMonth() + 1) < 10)?('0'+(dateObj.getMonth() + 1)):(dateObj.getMonth() + 1);  
+  var d = dateObj.getDate() < 10?('0'+dateObj.getDate()):dateObj.getDate(); 
+  return dateObj.getFullYear() + '-' + m + '-' + d;
 }
 
 function addDays(date, days) {
@@ -387,6 +390,26 @@ function convertSQLDateTimeToReportDate(d){
     return parseInt(date[2]) + ' ' + monthTxt + ' ' + (parseInt(date[0]) + 543);
 }
 
+function getThaiMonthName(month){
+    var monthTxt = '';
+    switch(month){
+        case 1 : monthTxt = 'มกราคม';break;
+        case 2 : monthTxt = 'กุมภาพันธ์';break;
+        case 3 : monthTxt = 'มีนาคม';break;
+        case 4 : monthTxt = 'เมษายน';break;
+        case 5 : monthTxt = 'พฤษภาคม';break;
+        case 6 : monthTxt = 'มิถุนายน';break;
+        case 7 : monthTxt = 'กรกฎาคม';break;
+        case 8 : monthTxt = 'สิงหาคม';break;
+        case 9 : monthTxt = 'กันยายน';break;
+        case 10 : monthTxt = 'ตุลาคม';break;
+        case 11 : monthTxt = 'พฤศจิกายน';break;
+        case 12 : monthTxt = 'ธันวาคม';break;
+    }
+
+    return monthTxt;
+}
+
 function getYearList(loop)
 {
     var startYear = 2017;
@@ -395,6 +418,22 @@ function getYearList(loop)
         yearList.push({'yearValue': startYear + i + 543, 'yearText' : startYear + i});
     }
     return yearList;
+}
+
+function getMonthList(){
+    return [{'monthValue' : 1, 'monthText' : 'มกราคม'}
+            , {'monthValue' : 2, 'monthText' : 'กุมภาพันธ์'}
+            , {'monthValue' : 3, 'monthText' : 'มีนาคม'}
+            , {'monthValue' : 4, 'monthText' : 'เมษายน'}
+            , {'monthValue' : 5, 'monthText' : 'พฤษภาคม'}
+            , {'monthValue' : 6, 'monthText' : 'มิถุนายน'}
+            , {'monthValue' : 7, 'monthText' : 'กรกฎาคม'}
+            , {'monthValue' : 8, 'monthText' : 'สิงหาคม'}
+            , {'monthValue' : 9, 'monthText' : 'กันยายน'}
+            , {'monthValue' : 10, 'monthText' : 'ตุลาคม'}
+            , {'monthValue' : 11, 'monthText' : 'พฤศจิกายน'}
+            , {'monthValue' : 12, 'monthText' : 'ธันวาคม'}
+            ];
 }
 
 function getThaiMonth()

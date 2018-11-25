@@ -27,6 +27,9 @@
                     case 'STAKEHOLDERNAMEENG' : $this->data_result['DATA'] = AutocompleteService::getStakeholderNameEng($keyword); break;
                     case 'STANDARD' : $this->data_result['DATA'] = AutocompleteService::getCommodityStandard($keyword); break;
                     case 'SUBCOMMITTEE' : $this->data_result['DATA'] = AutocompleteService::getSubcommittee($keyword); break;
+                    case 'PURCHASE' : $this->data_result['DATA'] = AutocompleteService::getPurchase($keyword); break;
+                    case 'REGION' : $this->data_result['DATA'] = AutocompleteService::getRegion(); break;
+                    case 'PROVINCES' : $this->data_result['DATA'] = AutocompleteService::getProvinces($keyword); break;
                     default : null;
                 }
                 

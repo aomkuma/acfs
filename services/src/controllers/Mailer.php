@@ -69,6 +69,10 @@ class Mailer
             $this->mailer->SMTPDebug = 2;
             $this->mailer->SMTPAuth   = true;     
             $this->mailer->SMTPSecure = "ssl";     
+        }else if($data == '587'){
+            $this->mailer->SMTPDebug = 2;
+            $this->mailer->SMTPSecure = 'tls';
+            $this->mailer->SMTPAuth = true;
         }else{
             $this->mailer->SMTPDebug = 2;
             $this->mailer->SMTPSecure = false;

@@ -22,6 +22,13 @@
             return ['DataList'=>$DataList, 'Total' => $totalPage];
         }
 
+        public static function getListByBranch($branch){
+            return Stakeholder::where('branch', $branch)
+                        ->get();
+
+            
+        }
+
         public static function getData($stakeholderID){
             return Stakeholder::find($stakeholderID);
         }

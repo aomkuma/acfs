@@ -1,0 +1,71 @@
+angular.module('e-homework').controller('LicenseRegisterController', function($scope, $compile, $cookies, $filter, $state, $routeParams, $uibModal, HTTPService, IndexOverlayFactory) {
+
+    $scope.page_type = 'license-register';
+
+    $scope.loadMenu = function(action){
+        HTTPService.clientRequest(action, null).then(function(result){
+            //console.log(result);
+            $scope.Menu = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
+            $(document).ready(function(){
+                // console.log('asd');
+              $('a.test').on("click", function(e){
+                // alert('aa');
+                // $('ul.dropdown-menu').hide();
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+              });
+            });
+
+            // $scope.load('menu/page/get', $scope.ID);
+            
+        });
+    }
+
+    $scope.getMenu = function(action, menu_type){
+        var params = {'menu_type' : menu_type};
+        HTTPService.clientRequest(action, params).then(function(result){
+            console.log(result);
+            $scope.MenuName = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.loadData = function(condition){
+        var params = {'condition': condition};
+        HTTPService.clientRequest('license-register/list', params).then(function(result){
+            $scope.DataList = result.data.DATA.List;
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.saveData = function(Data){
+        
+        var params = {'Data' : Data};
+        HTTPService.uploadRequest('license-register/update', params).then(function(result){
+            if(result.data.STATUS == 'OK'){
+                $scope.PAGE = 'MAIN';
+                $scope.loadData($scope.condition);
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.updateData = function(data){
+        $scope.Data = angular.copy(data);
+        
+        $scope.PAGE = 'UPDATE';
+    }
+
+    $scope.cancel = function(page){
+        $scope.PAGE = page;
+    }
+
+    $scope.PAGE = 'MAIN';
+
+    $scope.loadMenu('menu/list');
+    $scope.getMenu('menu/get/type', $scope.page_type);
+    $scope.loadData(null);
+
+});

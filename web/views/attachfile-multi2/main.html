@@ -1,0 +1,50 @@
+<div ng-include src="'views/header.html'"></div>
+
+<div  style="margin-top:180px;">
+	<div class="row form-group" style="padding-top: 70px;">
+	  <div class="col-lg-5 col-lg-offset-1">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <img src="../files/img/pin-menu.png">
+	        {{MenuName.menu_name_th}}
+
+	        <span ng-show="MenuName.sub_menu != null">
+	        	<img src="../files/img/pin-menu.png">
+				{{MenuName.sub_menu.menu_name_th}}	        	
+	        </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
+
+	  </div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-1 col-lg-offset-1">
+			ค้นหา
+		</label> 
+		<div class="col-lg-3">
+			<input class="form-control" ng-model="condition.keyword">
+		</div>
+		<label class="form-control-static col-lg-1" ng-show="MasterList.length > 0">
+			แสดงข้อมูล
+		</label> 
+		<div class="col-lg-2" ng-show="MasterList.length > 0">
+			<select class="form-control" ng-model="condition.type" ng-options="data.type_name as data.type_name for data in MasterList">
+				<option value="">ทั้งหมด</option>
+			</select>
+		</div>
+		<div class="col-lg-2">
+			<button class="btn btn-primary" ng-click="search(condition)"> <span class="glyphicon glyphicon-search"></span> ค้นหา</button>
+		</div>
+	</div>
+	<div class="row form-group" >
+		<div class="col-lg-10 col-lg-offset-1">
+			<ul>
+				<li ng-repeat="data in DataList"><a href="../{{data.AttachFiles[0].file_path}}">{{data.AttachFiles[0].file_name}}</a></li>
+			</ul>
+			
+		</div>
+	</div>
+	<div ng-include src="'views/footer.html'"></div>
+</div>

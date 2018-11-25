@@ -94,18 +94,33 @@
             }
         }
 
+        public function getMenuByType($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $menu_type = $params['obj']['menu_type'];
+                $_Menu = MenuService::getMenuByType($menu_type);
+                
+                $this->data_result['DATA']['Menu'] = $_Menu;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }        
+
         public function getMenu($request, $response, $args){
             try{
                 $params = $request->getParsedBody();
                 $menu_id = $params['obj']['id'];
                 $_Menu = MenuService::getMenu($menu_id);
                 
-                if($_Menu->menu_type == 'EXLINK'){
-                    // Get ex link
-                    $EXLink = MenuService::getEXLink($_Menu->id);
+                // if($_Menu->menu_type == 'EXLINK'){
+                //     // Get ex link
+                //     $EXLink = MenuService::getEXLink($_Menu->id);
                     
-                    $this->data_result['DATA']['EXLink'] = $EXLink;
-                }else{
+                //     $this->data_result['DATA']['EXLink'] = $EXLink;
+                // }else{
                     // Get content
                     $PageContent = MenuService::getPageContent($_Menu->id);
                     // Get attach file
@@ -113,7 +128,7 @@
 
                     $this->data_result['DATA']['PageContent'] = $PageContent;
                     $this->data_result['DATA']['AttachFiles'] = $AttachFiles;
-                }
+                // }
                 
                 $_ParentMenuList = MenuService::getMenuListParent($_Menu->id);
                 $this->data_result['DATA']['Menu'] = $_Menu;
@@ -127,6 +142,20 @@
                 return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
             }
         }
+
+        public function updateMenuPage($request, $response, $args){   
+        
+            try{
+                $params = $request->getParsedBody();
+                $_Page = $params['obj']['PageObj'];
+                $menu_id = MenuService::updatePage($_Page);
+                $this->data_result['DATA']['menu_id'] = $menu_id;
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }   
 
         public function updateMenu($request, $response, $args){
             

@@ -15,6 +15,21 @@
             $this->db = $db;
         }
 
+        public function getListActive($request, $response, $args){
+            try{
+
+                $params = $request->getParsedBody();
+                $years = filter_var($params['obj']['years'], FILTER_SANITIZE_NUMBER_INT);
+                $years += 543;
+                $CommodityStandard = CommodityStandardService::getListActive($years);
+                $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
+                
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
         public function getListForHomepage($request, $response, $args){
             try{
                 $params = $request->getParsedBody();
@@ -31,16 +46,6 @@
 
                     // Check data compare create date with current date
                     /*
-                    $_Result = CommodityStandardService::getCommodityStandardListWithCheckDate($currentPage, $limitRowPerPage);
-                    $_CommodityStandard = $_Result['DataList'];
-                    $_Total = $_Result['Total'];
-                    
-                    foreach ($_CommodityStandard as $key => $value) {
-                        $standardIDToIgnore[] = $value['standardID'];
-                        $value['step'] = 11;
-                        array_push($CommodityStandard, $value);
-                    }
-                    $Total += $_Total;
                     */
                     $limitRow = $limitRowPerPage;
                     $_Result = CommodityStandardService::getCommodityStandardList($currentPage, $limitRow, $standardIDToIgnore, $stepList);
@@ -54,16 +59,6 @@
 
                 }else{
                     /*
-                    $_Result = CommodityStandardService::getCommodityStandardListWithCheckDateForUser($userID, $currentPage, $limitRowPerPage);
-                    $_CommodityStandard = $_Result['DataList'];
-                    $_Total = $_Result['Total'];
-
-                    foreach ($_CommodityStandard as $key => $value) {
-                        $standardIDToIgnore[] = $value['standardID'];
-                        $value['step'] = 11;
-                        array_push($CommodityStandard, $value);
-                    }
-                    $Total += $_Total;
                     */
                     $limitRow = $limitRowPerPage;
                     $_Result = CommodityStandardService::getCommodityStandardListForUser($userID, $currentPage, $limitRow, $standardIDToIgnore, $stepList);
@@ -142,6 +137,167 @@
             }
         }
 
+        public function getListSearch($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
+                $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
+                $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
+                $stepList = [1,2,3,4,5,6,7,8,9];
+                
+                $CommodityStandard = [];
+                $Total = 0;
+
+                $limitRow = $limitRowPerPage - $Total;
+                $_Result = CommodityStandardService::getCommodityStandardListSearch($currentPage, $limitRow, $keyword);
+                $_CommodityStandard = $_Result['DataList'];
+                $_Total = $_Result['Total'];
+                foreach ($_CommodityStandard as $key => $value) {
+                    array_push($CommodityStandard, $value);
+                }
+                $Total += $_Total;
+
+                $Total = ceil($Total / $limitRowPerPage);
+                $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
+                $this->data_result['DATA']['Total'] = $Total;
+                $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function getListPlan($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
+                $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
+                $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
+                $stepList = [1,2,3,4,5,6,7,8,9];
+                
+                $CommodityStandard = [];
+                $Total = 0;
+
+                $limitRow = $limitRowPerPage - $Total;
+                $_Result = CommodityStandardService::getCommodityStandardListPlan($currentPage, $limitRow, $keyword);
+                $_CommodityStandard = $_Result['DataList'];
+                $_Total = $_Result['Total'];
+                foreach ($_CommodityStandard as $key => $value) {
+                    array_push($CommodityStandard, $value);
+                }
+                $Total += $_Total;
+
+                $Total = ceil($Total / $limitRowPerPage);
+                $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
+                $this->data_result['DATA']['Total'] = $Total;
+                $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function getListGeneral($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
+                $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
+                $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
+                $standardType = filter_var($params['obj']['standardType'], FILTER_SANITIZE_STRING);
+                $stepList = [1,2,3,4,5,6,7,8,9];
+                $defineType = 'ทั่วไป';
+                $CommodityStandard = [];
+                $Total = 0;
+
+                $limitRow = $limitRowPerPage - $Total;
+                $_Result = CommodityStandardService::getCommodityStandardListByType($currentPage, $limitRow, $keyword, $defineType, $standardType);
+                $_CommodityStandard = $_Result['DataList'];
+                $_Total = $_Result['Total'];
+                foreach ($_CommodityStandard as $key => $value) {
+                    array_push($CommodityStandard, $value);
+                }
+                $Total += $_Total;
+
+                $Total = ceil($Total / $limitRowPerPage);
+                $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
+                $this->data_result['DATA']['Total'] = $Total;
+                $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function getListMandatory($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
+                $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
+                $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
+                $standardType = filter_var($params['obj']['standardType'], FILTER_SANITIZE_STRING);
+                $defineType = 'บังคับ';
+                $stepList = [1,2,3,4,5,6,7,8,9];
+                
+                $CommodityStandard = [];
+                $Total = 0;
+
+                $limitRow = $limitRowPerPage - $Total;
+                $_Result = CommodityStandardService::getCommodityStandardListByType($currentPage, $limitRow, $keyword, $defineType, $standardType);
+                $_CommodityStandard = $_Result['DataList'];
+                $_Total = $_Result['Total'];
+                foreach ($_CommodityStandard as $key => $value) {
+                    array_push($CommodityStandard, $value);
+                }
+                $Total += $_Total;
+
+                $Total = ceil($Total / $limitRowPerPage);
+                $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
+                $this->data_result['DATA']['Total'] = $Total;
+                $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function getListAcademicBoard($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
+                $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
+                
+                $AcademicBoard = [];
+                $Total = 0;
+
+                $limitRow = $limitRowPerPage - $Total;
+                $_Result = CommodityStandardService::getListAcademicBoard($currentPage, $limitRow);
+                $_AcademicBoard = $_Result['DataList'];
+                $_Total = $_Result['Total'];
+                foreach ($_AcademicBoard as $key => $value) {
+                    array_push($AcademicBoard, $value);
+                }
+                $Total += $_Total;
+
+                $Total = ceil($Total / $limitRowPerPage);
+                $this->data_result['DATA']['AcademicBoard'] = $AcademicBoard;
+                $this->data_result['DATA']['Total'] = $Total;
+                $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
         public function getData($request, $response, $args){
             try{
             	$params = $request->getParsedBody();
@@ -175,7 +331,11 @@
                 $_CommodityStandard = $params['obj']['Commodity_Standards']; 
                 $_Commodity_Keywords_TH = $params['obj']['Commodity_Keywords_TH']; 
                 $_Commodity_Keywords_EN = $params['obj']['Commodity_Keywords_EN']; 
-
+                foreach ($_CommodityStandard as $key => $value) {
+                    if($value == 'null'){
+                        $_CommodityStandard[$key] = '';
+                    }
+                }
                 $files = $request->getUploadedFiles();
                 $f = $files['obj']['AttachFile'];
                 // print_r($f);

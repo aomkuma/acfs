@@ -12,6 +12,10 @@
     
     class QuestionService {
 
+        public static function getListActive(){
+            return Questionnaire::all();
+        }
+
     	public static function getList($currentPage, $limitRowPerPage, $questionType = 'normal'){
             $limit = $limitRowPerPage;
             $offset = $currentPage;

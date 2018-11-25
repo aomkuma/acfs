@@ -1,0 +1,168 @@
+<div ng-include src="'views/header.html'"></div>
+<div class="row form-group" style="padding-top: 10px;">
+	  <div class="col-lg-5">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <img src="../files/img/pin-menu.png">
+	        รายงาน
+
+	        <span ng-show="MenuName.sub_menu != null">
+	        	<img src="../files/img/pin-menu.png">
+				{{MenuName.sub_menu.menu_name_th}}	        	
+	        </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
+
+	  </div>
+</div>
+<hr>
+
+<div class="row form-group">
+	<div class="col-lg-10 col-lg-offset-1">
+		<div class="row form-group" ng-form="form1">
+			<div class="col-lg-12">
+				<fieldset>
+					<legend>รายงานผลการจัดทำมาตรฐานสินค้าเกษตร</legend>
+					<div class="row">
+						<div class="col-lg-2">
+							ปีงบประมาณ
+						</div>
+						<div class="col-lg-2">
+							<select name="Year" class="form-control" ng-model="condition1.YearFrom" ng-options="year.yearText as year.yearValue for year in YearList" required="required" ng-change="loadCommodityStandard('commodity-standard/list/active', condition1.YearFrom)">
+								<option value="">กรุณาเลือก..</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							มาตรฐานสินค้าเกษตร
+						</div>
+						<div class="col-lg-4">
+							<select name="Year" class="form-control" ng-model="condition1.Standard" ng-options="data.standardID as data.standardNameThai for data in StandardList" required="required">
+								<option value="">กรุณาเลือก..</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							<button class="btn btn-primary" ng-disabled="!form1.$valid" ng-click="exportReport('academic-board', condition1)"><span class="glyphicon glyphicon-export"></span> ออกรายงาน</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<br><br><br>
+		<!--
+		<div class="row form-group" ng-form="form2">
+			<div class="col-lg-12">
+				<fieldset>
+					<legend>รายงานแผนงานประจำปี</legend>
+					<div class="row">
+						<div class="col-lg-2">
+							ปีงบประมาณ
+						</div>
+						<div class="col-lg-2">
+							<select name="Year" class="form-control" ng-model="condition2.YearFrom" ng-options="year.yearText as year.yearValue for year in YearList" required="required">
+								<option value="">กรุณาเลือก..</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							<button class="btn btn-primary" ng-disabled="!form2.$valid" ng-click="exportReport('annual-plan', condition2)"><span class="glyphicon glyphicon-export"></span> ออกรายงาน</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	-->
+		<br><br><br>
+		<div class="row form-group" ng-form="form3">
+			<div class="col-lg-12">
+				<fieldset>
+					<legend>รายงานแบบสอบถาม</legend>
+					<div class="row">
+						<div class="col-lg-2">
+							ปีงบประมาณ
+						</div>
+						<div class="col-lg-2">
+							<select name="Year" class="form-control" ng-model="condition3.YearFrom" ng-options="year.yearText as year.yearValue for year in YearList" required="required">
+								<option value="">กรุณาเลือก..</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							ชื่อแบบสอบถาม
+						</div>
+						<div class="col-lg-4">
+							<select name="Year" class="form-control" ng-model="condition3.Standard" ng-options="data.questionnaireID as data.questionName for data in QuestionnaireList" required="required">
+								<option value="">กรุณาเลือก..</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							<button class="btn btn-primary" ng-disabled="!form3.$valid" ng-click="exportReport('questionnaire', condition3)"><span class="glyphicon glyphicon-export"></span> ออกรายงาน</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<br><br><br>
+		<div class="row form-group"  ng-form="form4">
+			<div class="col-lg-12">
+				<fieldset>
+					<legend>รายชื่อคณะกรรมการวิชาการ</legend>
+					<div class="row">
+						<div class="col-lg-2">
+							กลุ่มคณะกรรมการวิชาการ
+						</div>
+						<div class="col-lg-2">
+							<select name="Year" class="form-control" ng-model="condition4.AcademicBoardGroup" ng-options="data.standardID as data.academicBoardName for data in AcademicBoardList" required="required">
+								<option value="">กรุณาเลือก..</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							<button class="btn btn-primary" ng-disabled="!form4.$valid" ng-click="exportReport('academicboardgroup', condition4)"><span class="glyphicon glyphicon-export"></span> ออกรายงาน</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<br><br><br>
+		<div class="row form-group"  ng-form="form5">
+			<div class="col-lg-12">
+				<fieldset>
+					<legend>รายชื่อผู้มีส่วนได้ส่วนเสีย</legend>
+					<div class="row">
+						<div class="col-lg-2">
+							สาขา
+						</div>
+						<div class="col-lg-2">
+							<select name="Year" class="form-control" ng-model="condition5.Branch" ng-options="data.branchNameThai as data.branchNameThai for data in BranchList" required="required">
+								<option value="">กรุณาเลือก..</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							<button class="btn btn-primary" ng-disabled="!form5.$valid" ng-click="exportReport('stackholder', condition5)"><span class="glyphicon glyphicon-export"></span> ออกรายงาน</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<br><br><br>
+		<div class="row form-group"  ng-form="form6">
+			<div class="col-lg-12">
+				<fieldset>
+					<legend>รายชือคณะอนุกรรมการ</legend>
+					<div class="row">
+						<div class="col-lg-2">
+							กลุ่มอนุกรรมการ
+						</div>
+						<div class="col-lg-2">
+							<select name="Year" class="form-control" ng-model="condition6.Subcommittee" ng-options="data.subcommitteeID as data.subcommitteeName for data in SubcommitteeList" required="required">
+								<option value="">กรุณาเลือก..</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							<button class="btn btn-primary" ng-disabled="!form6.$valid" ng-click="exportReport('subcommittee', condition6)"><span class="glyphicon glyphicon-export"></span> ออกรายงาน</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>	
+</div>

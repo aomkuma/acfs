@@ -36,6 +36,11 @@
             return Menu::find($menu_id);      
         }
 
+        public static function getMenuByType($menu_type){
+            // echo $menu_type ;exit;
+            return Menu::where('page_type', $menu_type)->first();      
+        }
+
         public static function getPage($menu_id){
             return Page::where('menu_id', $menu_id)->first();      
         }

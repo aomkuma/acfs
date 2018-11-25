@@ -9,6 +9,10 @@
     
     class EmailService {
 
+        public static function getEmailDefault(){
+            return Email::first();
+        }
+
     	public static function getList(){
             return Email::all();
         }

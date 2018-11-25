@@ -8,6 +8,12 @@
     
     class NewsService {
 
+        public static function searchNews($keyword){
+            return News::where('title_th', 'LIKE', DB::raw("'%" . $keyword . "%'"))
+                        ->orWhere('contents', 'LIKE', DB::raw("'%" . $keyword . "%'"))
+                        ->get();
+        } 
+
         public static function getNewsList($news_type = '', $actives = ''){
             return News::where(function($query) use ($news_type, $actives){
                         if(!empty($news_type)){
@@ -59,8 +65,11 @@
             $model->contents = $obj['contents'];
             $model->contents_en = $obj['contents_en'];
             $model->actives = $obj['actives'];
+            $model->show_homepage = $obj['show_homepage'];
+            $model->show_banner = $obj['show_banner'];
             $model->news_date = $obj['news_date'];
             $model->update_date = date('Y-m-d H:i:s');
+
             $model->save();
             return $model->id;
         }
