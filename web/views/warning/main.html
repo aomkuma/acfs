@@ -1,0 +1,35 @@
+<div ng-include src="'views/header.html'"></div>
+
+<div  style="margin-top:180px;">
+	<div class="row form-group" style="padding-top: 70px;">
+	  <div class="col-lg-10 col-lg-offset-1">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <span ng-repeat="data in MenuName">
+		        <img src="../files/img/pin-menu.png">
+		        {{data.menu_name_th}}
+		    </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
+
+	  </div>
+	</div>
+	<div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1">
+			
+			
+			<div class="row form-group">
+				
+				<ul> 
+					<li ng-repeat="data in DataList">
+						<a href="{{data.link}}" target="_blank">{{data.title}}</a> 
+					</li>
+				</ul>
+			</div>
+		
+		</div>
+	</div>
+</div>
+<div ng-include src="'views/footer.html'"></div>

@@ -9,7 +9,7 @@
 		ประเภทเมนู
 	</label>
 	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-		​<select class="form-control" ng-model="Menu.menu_type">
+		​<select class="form-control" ng-model="MenuData.menu_type">
 			<option value="">กรุณาเลือก..</option>
 			<option value="PARENT">เมนูหลักประกอบด้วยเมนูย่อย (PARENT)</option>
 			<option value="PAGE">เนื้อหาข้อมูล, แนบไฟล์เพื่อดาวน์โหลด (PAGE)</option>
@@ -18,8 +18,8 @@
 			<option value="CUSTOM">เมนูที่มีการทำงานในรูปแบบเฉพาะ (CUSTOM PAGE)</option>
 		</select>
 	</div>
-	<label class=" form-control-static col-lg-2 col-md-2 col-sm-12 col-xs-12" ng-show="Menu.menu_type == 'CUSTOM'">
-		<a href="#/{{Menu.menu_url}}" style="margin-top: 30px;">ไปยังหน้าจัดการเมนู</a>
+	<label class=" form-control-static col-lg-2 col-md-2 col-sm-12 col-xs-12" ng-show="MenuData.menu_type == 'CUSTOM'">
+		<a href="#/{{MenuData.menu_url}}" style="margin-top: 30px;">ไปยังหน้าจัดการเมนู</a>
 	</label>
 </div>
 <div class="row form-group">
@@ -27,7 +27,7 @@
 		ชื่อเมนูภาษาไทย
 	</label>
 	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-		​<input type="text" class="form-control" ng-model="Menu.menu_name_th">
+		​<input type="text" class="form-control" ng-model="MenuData.menu_name_th">
 	</div>
 </div>
 <div class="row form-group">
@@ -35,7 +35,7 @@
 		ชื่อเมนูภาษาอังกฤษ
 	</label>
 	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-		​<input type="text" class="form-control" ng-model="Menu.menu_name_en">
+		​<input type="text" class="form-control" ng-model="MenuData.menu_name_en">
 	</div>
 </div>
 <div class="row form-group">
@@ -43,7 +43,7 @@
 		เมนูหลัก
 	</label>
 	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-		​<select class="form-control" ng-model="Menu.parent_menu" ng-options="item.id as item.menu_name_th for item in ParentMenuList">
+		​<select class="form-control" ng-model="MenuData.parent_menu" ng-options="item.id as item.menu_name_th for item in ParentMenuList">
 			<option value="">กรุณาเลือก..</option>
 			
 		</select>
@@ -54,24 +54,33 @@
 		ลำดับเมนู
 	</label>
 	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-		​<input type="number" class="form-control" ng-model="Menu.menu_order">
+		​<input type="number" class="form-control" ng-model="MenuData.menu_order">
 	</div>
 </div>
+<div class="row form-group" ng-show="MenuData.menu_type == 'CUSTOM'">
+		<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
+			URL
+		</label>
+		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+			<!--​<textarea class="form-control" ng-model="EXLink.link_url"></textarea>-->
+			<textarea class="form-control" ng-model="MenuData.menu_url"></textarea>
+		</div>
+	</div>
 <div class="row form-group">
 	<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
 		สถานะ
 	</label>
 	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" >
 		<div class="btn-group">
-			<label class="btn btn-default btn-checkbox" ng-model="Menu.actives" uib-btn-radio="'Y'" >ใช้</label>
-            <label class="btn btn-default btn-checkbox" ng-model="Menu.actives" uib-btn-radio="'N'" >ไม่ใช้</label>
+			<label class="btn btn-default btn-checkbox" ng-model="MenuData.actives" uib-btn-radio="'Y'" >ใช้</label>
+            <label class="btn btn-default btn-checkbox" ng-model="MenuData.actives" uib-btn-radio="'N'" >ไม่ใช้</label>
         </div>
 	</div>
 </div>
 
 <br><br>
 
-<fieldset ng-show="Menu.menu_type == 'EXLINK'">
+<fieldset ng-show="MenuData.menu_type == 'EXLINK'">
 	<legend>เมนูลิ้งค์ไปเว็บไซต์ภายนอก (EXTERNAL LINK)</legend>
 	<div class="row form-group">
 		<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
@@ -79,11 +88,11 @@
 		</label>
 		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
 			<!--​<textarea class="form-control" ng-model="EXLink.link_url"></textarea>-->
-			<textarea class="form-control" ng-model="Menu.menu_url"></textarea>
+			<textarea class="form-control" ng-model="MenuData.menu_url"></textarea>
 		</div>
 	</div>
 </fieldset>
-<fieldset ng-show="Menu.menu_type == 'PAGE'">
+<fieldset ng-show="MenuData.menu_type == 'PAGE'">
 	<legend>เนื้อหาข้อมูล, แนบไฟล์เพื่อดาวน์โหลด (PAGE)</legend>
 	<div class="row form-group">
 		<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
@@ -183,7 +192,7 @@
 </fieldset>
 
 <div class="page-header text-center">
-	<button class="btn btn-info" ng-click="save('menu/update', Menu, PageContent, FileList, EXLink)">บันทึก</button>
+	<button class="btn btn-info" ng-click="save('menu/update', MenuData, PageContent, FileList, EXLink)">บันทึก</button>
 	<button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
 </div>
 

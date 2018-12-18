@@ -23,11 +23,21 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
   }
 
   if(sessionStorage.getItem('FONT_SIZE') == undefined || sessionStorage.getItem('FONT_SIZE') == null || sessionStorage.getItem('FONT_SIZE') == ''){
-    sessionStorage.setItem('FONT_SIZE' , 1.4);
+    sessionStorage.setItem('FONT_SIZE' , 1.2);
+  }
+
+  if(sessionStorage.getItem('BG_COLOR') == undefined || sessionStorage.getItem('BG_COLOR') == null || sessionStorage.getItem('BG_COLOR') == ''){
+    sessionStorage.setItem('BG_COLOR' , '#FFF');
+  }
+
+  if(sessionStorage.getItem('FONT_COLOR') == undefined || sessionStorage.getItem('FONT_COLOR') == null || sessionStorage.getItem('FONT_COLOR') == ''){
+    sessionStorage.setItem('FONT_COLOR' , '#000');
   }
 
   $scope.DEFAULT_LANGUAGE = sessionStorage.getItem('DEFAULT_LANGUAGE');
   $scope.FONT_SIZE = sessionStorage.getItem('FONT_SIZE');
+  $scope.BG_COLOR = sessionStorage.getItem('BG_COLOR');
+  $scope.FONT_COLOR = sessionStorage.getItem('FONT_COLOR');
 
   $scope.changeLanguage = function(lang){
     sessionStorage.setItem('DEFAULT_LANGUAGE' , lang);
@@ -38,6 +48,14 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
   $scope.changeFontSize = function(size){
     sessionStorage.setItem('FONT_SIZE' , size);
     $scope.FONT_SIZE = sessionStorage.getItem('FONT_SIZE');
+  }
+
+  $scope.changeColor = function(BG_COLOR, FONT_COLOR){
+    sessionStorage.setItem('BG_COLOR' , BG_COLOR);
+    $scope.BG_COLOR = sessionStorage.getItem('BG_COLOR');
+
+    sessionStorage.setItem('FONT_COLOR' , FONT_COLOR);
+    $scope.FONT_COLOR = sessionStorage.getItem('FONT_COLOR');
   }
 
   $scope.newWindows = function(url){

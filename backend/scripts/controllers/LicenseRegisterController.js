@@ -1,5 +1,19 @@
 angular.module('e-homework').controller('LicenseRegisterController', function($scope, $compile, $cookies, $filter, $state, $routeParams, $uibModal, HTTPService, IndexOverlayFactory) {
 
+    IndexOverlayFactory.overlayShow();
+    
+    var $user_session = sessionStorage.getItem('user_session');
+    
+    if($user_session != null){
+        $scope.$parent.currentUser = angular.fromJson($user_session);
+    }else{
+       window.location.replace('#/guest/logon');
+    }
+    console.log('Hello ! AttachFile Multi page');
+    $scope.DEFAULT_LANGUAGE = 'TH';
+    $scope.$parent.menu_selected = 'authority';
+
+
     $scope.page_type = 'license-register';
 
     $scope.loadMenu = function(action){

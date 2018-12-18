@@ -100,7 +100,23 @@
                 $menu_type = $params['obj']['menu_type'];
                 $_Menu = MenuService::getMenuByType($menu_type);
                 
-                $this->data_result['DATA']['Menu'] = $_Menu;
+                // find parent menu
+                $MenuList = [];
+                $menu_check = $_Menu;
+                $cnt = 0;
+                do{
+                    // echo $menu_check->parent_id;
+                    // print_r($menu_check);
+                    $menu = MenuService::getMenu($menu_check['parent_menu']);
+                    // print_r($menu);
+                    $menu_check = $menu;
+                    array_unshift($MenuList, $menu);
+                    //exit;
+                    $cnt++;
+                }while($menu['parent_menu'] != '0' && $cnt < 5);
+                array_push($MenuList, $_Menu);
+                // exit;
+                $this->data_result['DATA']['Menu'] = $MenuList;
 
                 return $this->returnResponse(200, $this->data_result, $response, false);
 
@@ -176,6 +192,10 @@
                 // print_r($params['obj']);exit;
                 // Update Menu
                 $menu_id = MenuService::updateMenu($_Menu);
+                if($_Menu['menu_type'] == 'PAGE'){
+                    MenuService::updateMenuURL($menu_id);
+                }
+
                 // Logo image
                 $files = $request->getUploadedFiles();
                 if($files['obj']['LogoObj'] != null){

@@ -47,6 +47,29 @@ angular.module('e-homework').controller('QuestionDetailController', function($sc
     $scope.$parent.question_selected = 'question';
     $scope.ID = $routeParams.id;
 
+     $scope.loadMenu = function(action){
+        HTTPService.clientRequest(action, null).then(function(result){
+            //console.log(result);
+            $scope.Menu = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
+            $(document).ready(function(){
+                // console.log('asd');
+              $('a.test').on("click", function(e){
+                // alert('aa');
+                // $('ul.dropdown-menu').hide();
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+              });
+            });
+
+            // $scope.load('menu/page/get', $scope.ID);
+            
+        });
+    }
+
+    $scope.loadMenu('menu/list');
+
     $scope.load = function(action, id){
         var params = {'id' : id};
         HTTPService.clientRequest(action, params).then(function(result){

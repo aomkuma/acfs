@@ -184,6 +184,22 @@ $container['LicenseRegisterController'] = function ($c) {
     return new \App\Controller\LicenseRegisterController($c->get('logger'), $c->get('db'));
 };
 
+$container['OnlineServiceController'] = function ($c) {
+    return new \App\Controller\OnlineServiceController($c->get('logger'), $c->get('db'));
+};
+
+$container['HearingReportController'] = function ($c) {
+    return new \App\Controller\HearingReportController($c->get('logger'), $c->get('db'));
+};
+
+$container['FruitController'] = function ($c) {
+    return new \App\Controller\FruitController($c->get('logger'), $c->get('db'));
+};
+
+$container['WarningController'] = function ($c) {
+    return new \App\Controller\WarningController($c->get('logger'), $c->get('db'));
+};
+
 
 
 

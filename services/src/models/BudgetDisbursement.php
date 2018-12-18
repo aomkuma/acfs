@@ -14,4 +14,9 @@ class BudgetDisbursement extends \Illuminate\Database\Eloquent\Model {
                 , 'createDate'
                 , 'createBy'
               );
+
+    public function item()
+    {
+     return $this->hasMany('App\Model\BudgetDisbursementItem', 'budget_id');
+    }
 }

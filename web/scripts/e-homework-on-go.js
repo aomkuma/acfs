@@ -264,6 +264,18 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
+	.when("/budget-disbursement", {
+        templateUrl : "views/budget-disbursement/main.html",
+        controller : "BudgetDisbursementController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/BudgetDisbursementController.js" ]
+				});
+			} ]
+		}
+	})
+
 	.when("/listening", {
         templateUrl : "views/listening/main.html",
         controller : "ListeningController",
@@ -571,6 +583,66 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
 				return $ocLazyLoad.load({
 					files : [ "scripts/controllers/LicenseRegisterController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/online-service", {
+        templateUrl : "views/online-service/main.html",
+        controller : "OnlineServiceController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/OnlineServiceController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/hearing-report", {
+        templateUrl : "views/hearing-report/main.html",
+        controller : "HearingReportController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/HearingReportController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/fruit", {
+        templateUrl : "views/fruit/main.html",
+        controller : "FruitController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/FruitController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/doc-people", {
+        templateUrl : "views/doc-people/main.html",
+        controller : "DocPeopleController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/DocPeopleController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/warning", {
+        templateUrl : "views/warning/main.html",
+        controller : "WarningController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/WarningController.js" ]
 				});
 			} ]
 		}

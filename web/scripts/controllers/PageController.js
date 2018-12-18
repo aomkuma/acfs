@@ -36,9 +36,20 @@ angular.module('e-homework').controller('PageController', function($scope, $comp
         });
     }
 
+    $scope.getMenu = function(action, menu_type){
+        var params = {'menu_type' : menu_type};
+        HTTPService.clientRequest(action, params).then(function(result){
+            console.log(result);
+            $scope.MenuName = result.data.DATA.Menu;
+            $scope.loadPage('appeal/page', $scope.MenuName.id);
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
     $scope.FileList = [];
     $scope.Page = {'contents':null};
     $scope.loadMenu('menu/list');
+    $scope.getMenu('menu/get/type' ,$scope.ID);
     
 })
 ;

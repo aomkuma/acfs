@@ -24,6 +24,9 @@
 		<script type="text/javascript" src="scripts/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
 		<script type="text/javascript" src="scripts/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
 		<script type="text/javascript" src="scripts/node_modules/angular-bind-html-compile-ci-dev/angular-bind-html-compile.min.js"></script>
+
+		<script type="text/javascript" src="scripts/node_modules/chart.js/dist/Chart.bundle.min.js"></script>
+		
 		<script type="text/javascript" src='scripts/e-homework-main.js' charset="utf-8"></script>
 		<script type="text/javascript" src='scripts/e-homework-on-go.js' charset="utf-8"></script>
 		<script type="text/javascript" src='scripts/factory.js' charset="utf-8"></script>
@@ -58,7 +61,21 @@
 		<style type="text/css" media="screen">
 			body{
 				font-size: {{FONT_SIZE}}em;
+				color: {{FONT_COLOR}};
+				background-color : {{BG_COLOR}};
 			}	
+			a{
+				color: {{FONT_COLOR}};
+			}
+			.navbar-inverse{
+				background-color : {{BG_COLOR}};
+				color: {{FONT_COLOR}};
+			}
+
+			.navbar-inverse .navbar-nav>li>a{
+				color: {{ (FONT_COLOR=='#000'?'#FFF':FONT_COLOR) }};
+			}
+			
 		</style>
 		<div class="overlay" ng-show="overlay.overlay" style="padding-top: 0px;"><img src="img/spin.gif"  style="width:10%; margin: 0 auto; margin-top:20%; padding-top: 50%;" /></div>
 		<div class="ng-view container"></div>   

@@ -33,6 +33,19 @@
 		<script src="scripts/ckeditor_sdk/samples/assets/picoModal-2.0.1.min.js"></script>
 		<script src="scripts/ckeditor_sdk/samples/assets/contentloaded.js"></script>
 		<script src="scripts/ckeditor_sdk/samples/assets/beautify-html.js"></script>
+		<script src="scripts/jquery.min.js"></script>
+		<script src="scripts/bootstrap.min.js"></script>
+		<script type="text/javascript">
+		  $(document).ready(function(){
+		    console.log('asd');
+		  $('.dropdown-submenu a.test').on("click", function(e){
+		  	alert('asd');
+		    $(this).next('ul').toggle();
+		    e.stopPropagation();
+		    e.preventDefault();
+		  });
+		});
+		</script>
 		<!-- include js end -->
 
 		<!-- include css -->
@@ -60,6 +73,5 @@
 		}
 		
 	</style>
-	<script src="scripts/jquery.min.js"></script>
-	<script src="scripts/bootstrap.min.js"></script>
+	
 </html>

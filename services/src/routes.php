@@ -116,8 +116,9 @@ $app->delete('/palaces/delete/{id}', 'PalaceController:removePicture');
 $app->post('/report/export/', 'ReportController:exportReport');
 
 $app->post('/budget-disbursement/', 'BudgetDisbursementController:getList');
+$app->post('/budget-disbursement/get/', 'BudgetDisbursementController:getData');
 $app->post('/budget-disbursement/update/', 'BudgetDisbursementController:updateData');
-$app->delete('/budget-disbursement/delete/{id}', 'BudgetDisbursementController:removeData');
+$app->post('/budget-disbursement/delete/', 'BudgetDisbursementController:deleteData');
 
 $app->post('/attachfile-multi/get/type/', 'AttachFileMultiController:getList');
 $app->post('/attachfile-multi/get/master/', 'AttachFileMultiController:getMasterList');
@@ -209,6 +210,19 @@ $app->post('/license-register/list/', 'LicenseRegisterController:getList');
 $app->post('/license-register/get/', 'LicenseRegisterController:getData');
 $app->post('/license-register/request/', 'LicenseRegisterController:requestData');
 $app->post('/license-register/update/', 'LicenseRegisterController:updateData');
+
+$app->post('/online-service/list/', 'OnlineServiceController:getList');
+$app->post('/online-service/request/', 'OnlineServiceController:requestData');
+$app->post('/online-service/update/', 'OnlineServiceController:updateData');
+
+$app->post('/hearing-report/list/', 'HearingReportController:getList');
+$app->post('/hearing-report/update/', 'HearingReportController:updateData');
+
+$app->post('/fruit/list/', 'FruitController:getList');
+$app->post('/fruit/update/', 'FruitController:updateData');
+$app->post('/fruit/delete/', 'FruitController:deleteData');
+
+$app->post('/warning/get/', 'WarningController:getData');
 
 // Default action
 $app->get('/[{name}]', function ($request, $response, $args) {

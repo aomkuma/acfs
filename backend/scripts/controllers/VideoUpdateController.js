@@ -47,6 +47,29 @@ angular.module('e-homework').controller('VideoUpdateController', function($scope
     $scope.$parent.video_selected = 'video';
     $scope.ID = $routeParams.id;
 
+     $scope.loadMenu = function(action){
+        HTTPService.clientRequest(action, null).then(function(result){
+            //console.log(result);
+            $scope.Menu = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
+            $(document).ready(function(){
+                // console.log('asd');
+              $('a.test').on("click", function(e){
+                // alert('aa');
+                // $('ul.dropdown-menu').hide();
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+              });
+            });
+
+            // $scope.load('menu/page/get', $scope.ID);
+            
+        });
+    }
+
+    $scope.loadMenu('menu/list');
+
     $scope.trustUrl = function(){
         $scope.previewVideo = $sce.trustAsResourceUrl($scope.Video.video_url);
         $("#video_frame").prop('src', $scope.previewVideo);

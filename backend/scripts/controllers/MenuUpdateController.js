@@ -45,6 +45,29 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
     $scope.$parent.menu_selected = 'menu';
     $scope.ID = $routeParams.id;
 
+     $scope.loadMenu = function(action){
+        HTTPService.clientRequest(action, null).then(function(result){
+            //console.log(result);
+            $scope.Menu = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
+            $(document).ready(function(){
+                // console.log('asd');
+              $('a.test').on("click", function(e){
+                // alert('aa');
+                // $('ul.dropdown-menu').hide();
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+              });
+            });
+
+            // $scope.load('menu/page/get', $scope.ID);
+            
+        });
+    }
+
+    $scope.loadMenu('menu/list');
+
     $scope.loadParentMenuList = function(){
         HTTPService.clientRequest('menu/get/parent', null).then(function(result){
             $scope.ParentMenuList = result.data.DATA.ParentMenuList;
@@ -57,8 +80,8 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
             //console.log(result);
 
             $scope.ParentMenuList = result.data.DATA.ParentMenuList;
-            $scope.Menu = result.data.DATA.Menu;
-            if($scope.Menu.menu_type == 'PAGE'){
+            $scope.MenuData = result.data.DATA.Menu;
+            if($scope.MenuData.menu_type == 'PAGE'){
                 $scope.PageContent =  result.data.DATA.PageContent;
                 if($scope.PageContent == null){
                     $scope.setPage();
@@ -117,7 +140,7 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
             if(result.data.STATUS == 'OK'){
                 $scope.FileList = [];
                 if($scope.ID == undefined && $scope.ID == null){
-                    window.location.href = '#/menu-manage/update/' + result.data.DATA.menu_id;
+                    window.location.href = '#/page/' + result.data.DATA.menu_id;
                 }else{
                     $scope.load('menu/get', result.data.DATA.menu_id);
                 }
@@ -159,7 +182,7 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
     if($scope.ID != undefined && $scope.ID != null){
         $scope.load('menu/get', $scope.ID);
     }else{
-        $scope.Menu = {'actives':'Y'};
+        $scope.MenuData = {'actives':'Y'};
         $scope.loadParentMenuList();
         CKEDITOR.config.extraPlugins = 'colorbutton';
         CKEDITOR.config.colorButton_enableAutomatic = false;

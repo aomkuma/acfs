@@ -35,6 +35,41 @@ function getMenuName(page_type){
     }
 }
 
+function getMonthList(){
+    return [{'monthValue' : 1, 'monthText' : 'มกราคม'}
+            , {'monthValue' : 2, 'monthText' : 'กุมภาพันธ์'}
+            , {'monthValue' : 3, 'monthText' : 'มีนาคม'}
+            , {'monthValue' : 4, 'monthText' : 'เมษายน'}
+            , {'monthValue' : 5, 'monthText' : 'พฤษภาคม'}
+            , {'monthValue' : 6, 'monthText' : 'มิถุนายน'}
+            , {'monthValue' : 7, 'monthText' : 'กรกฎาคม'}
+            , {'monthValue' : 8, 'monthText' : 'สิงหาคม'}
+            , {'monthValue' : 9, 'monthText' : 'กันยายน'}
+            , {'monthValue' : 10, 'monthText' : 'ตุลาคม'}
+            , {'monthValue' : 11, 'monthText' : 'พฤศจิกายน'}
+            , {'monthValue' : 12, 'monthText' : 'ธันวาคม'}
+            ];
+}
+
+function getThaiMonthName(m)
+{
+    switch(m){
+        case 1 : return 'มกราคม';break;
+        case 2 : return 'กุมภาพันธ์';break;
+        case 3 : return 'มีนาคม';break;
+        case 4 : return 'เมษายน';break;
+        case 5 : return 'พฤษภาคม';break;
+        case 6 : return 'มิถุนายน';break;
+        case 7 : return 'กรกฎาคม';break;
+        case 8 : return 'สิงหาคม';break;
+        case 9 : return 'กันยายน';break;
+        case 10 : return 'ตุลาคม';break;
+        case 11 : return 'พฤศจิกายน';break;
+        case 12 : return 'ธันวาคม';break;
+
+    }
+}
+
 function encodeValue(val) {
 
 	var dt = new Date();

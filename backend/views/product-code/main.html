@@ -1,14 +1,12 @@
 <div ng-include src="'views/header.html'"></div>
 <div class="row form-group" style="padding-top: 10px;">
-	  <div class="col-lg-12">
+	  <div class="col-lg-10">
 	    <div class="row">
 	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
-	        <img src="../files/img/pin-menu.png">
-	        มาตรฐานสินค้าเกษตรที่มีกำหนดไว้เพื่อปฏิบัติตาม และขอรับการรับรองการตรวจสอบรับรอง 
-	        <span ng-show="MenuName.sub_menu != null">
-	        	<img src="../files/img/pin-menu.png">
-				{{MenuName.sub_menu.menu_name_th}}	        	
-	        </span>
+	        <span ng-repeat="data in MenuName">
+		        <img src="../files/img/pin-menu.png">
+		        {{data.menu_name_th}}
+		    </span>
 	      </div>
 	    </div>
 	  </div>

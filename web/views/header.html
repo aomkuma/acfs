@@ -5,8 +5,8 @@
   </div>
   
 </div>
-<div class="row" style="padding-top: 15px; padding-bottom: 10px; color:#3766FF;  background-color: #FFF;">
-  <div class="col-lg-1 col-md-1 col-sm-8 col-xs-6" style=" padding-top:2%;">
+<div class="row" style="padding-top: 0px; padding-bottom: 10px; color:#3766FF;  background-color: {{BG_COLOR}};">
+  <div class="col-lg-1 col-md-1 col-sm-4 col-xs-6" style=" padding-top:2%;">
     <img src="../files/img/logo_acfs.png" style="height: 80px; width: auto; padding-left:10%;">
   </div>
   <div class="col-lg-6 col-md-6 visible-lg visible-md" style="padding-left: 0%; padding-top:1.5%; color: #393D65;">
@@ -14,21 +14,46 @@
     
     <h5>National Bureau of Agricultural Commodity and Food Standards</h5>
   </div>
-  <div class="col-lg-5 col-md-5 col-sm-4 col-xs-6" style=" padding-top:2%;">
-    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
-      <div class="input-group add-on">
-        <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" ng-model="keyword" ng-keyup="checkEnter($event, keyword)" style="height: 37px;">
-        <div class="input-group-btn">
-          <button class="btn btn-default" ng-click="goSearch(keyword)"><i class="glyphicon glyphicon-search"></i></button>
+  <div class="col-lg-5 col-md-5 col-sm-8 col-xs-6" style=" padding-top:1%;">
+    <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+      <div class="row form-group">
+        <div class="col-lg-12">
+          &nbsp;
         </div>
       </div>
+      <div class="row form-group">
+        <div class="col-lg-12">
+          <div class="input-group add-on" style="padding-top: 10px;">
+            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" ng-model="keyword" ng-keyup="checkEnter($event, keyword)" style="height: 34px;">
+            <div class="input-group-btn">
+              <button class="btn btn-default" ng-click="goSearch(keyword)"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 text-center">
-        <a ng-click="changeLanguage('TH')" ng-class="{'selected-language':DEFAULT_LANGUAGE == 'TH'}">Thai</a> / <a ng-click="changeLanguage('EN')" ng-class="{'selected-language':DEFAULT_LANGUAGE == 'EN'}">Eng</a>
-        &nbsp;&nbsp;&nbsp;
-        <a ng-click="changeFontSize(1)" style="font-size: 1em;" ng-class="{'selected-language':FONT_SIZE == 1}">A</a>&nbsp;&nbsp;
-        <a ng-click="changeFontSize(1.2)" style="font-size: 1.2em;" ng-class="{'selected-language':FONT_SIZE == 1.2}">A</a>&nbsp;&nbsp;
-        <a ng-click="changeFontSize(1.4)" style="font-size: 1.4em;" ng-class="{'selected-language':FONT_SIZE == 1.4}">A</a>
+    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12 text-center">
+        <div class="row form-group">
+          <div style="margin-top:2%; float: left;border-radius: 50%; background-color: #FFF; color: #000; width: 30px; border: 1px solid #000; cursor: pointer;" ng-click="changeColor('#FFF', '#000')">C</div> &nbsp; 
+          <div style="margin-top:2%; float: left;border-radius: 50%; background-color: #000; color: #FFF; width: 30px;border: 1px solid #000; cursor: pointer;" ng-click="changeColor('#000', '#FFF')">C</div> &nbsp; 
+          <div style="margin-top:2%; float: left; border-radius: 50%; background-color: #000; color: #F5F500; width: 30px;border: 1px solid #000; cursor: pointer;" ng-click="changeColor('#000', '#F5F500')">C</div>
+          <a ng-click="changeLanguage('TH')" ng-class="{'selected-language':DEFAULT_LANGUAGE == 'TH'}">Thai</a> / <a ng-click="changeLanguage('EN')" ng-class="{'selected-language':DEFAULT_LANGUAGE == 'EN'}">Eng</a>
+          &nbsp;&nbsp;&nbsp;
+          <a ng-click="changeFontSize(1.2)" style="font-size: 1.2em;" ng-class="{'selected-language':FONT_SIZE == 1.2}">A</a>&nbsp;&nbsp;
+          <a ng-click="changeFontSize(1.4)" style="font-size: 1.4em;" ng-class="{'selected-language':FONT_SIZE == 1.4}">A</a>&nbsp;&nbsp;
+          <a ng-click="changeFontSize(1.6)" style="font-size: 1.6em;" ng-class="{'selected-language':FONT_SIZE == 1.6}">A</a>
+        </div>
+        <div class="row form-group">
+          <div class="col-lg-10">
+            <div class="input-group add-on">
+              <input type="text" class="form-control" placeholder="e-mail address" name="srch-term" id="srch-term" ng-model="keyword" ng-keyup="checkEnter($event, keyword)" style="height: 34px;">
+              <div class="input-group-btn">
+                <button class="btn btn-default" ng-click="goSearch(keyword)"><i class="glyphicon glyphicon-arrow-right"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 </div>
@@ -139,8 +164,8 @@
 </div>
 <style type="text/css">
   .glyphicon-search{
-    padding-top: 2px;
-    padding-bottom: 7px;
+    /*padding-top: 2px;
+    padding-bottom: 7px;*/
     padding-right: 5px;
   }
 </style>

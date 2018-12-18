@@ -81,6 +81,14 @@
             return $model->id;
         }
 
+        public static function updateMenuURL($id){
+
+            $model = Menu::find($id);
+            $model->menu_url = 'page/'. $id;
+            $model->save();
+            return $model->id;
+        }
+
         public static function getPageContent($menu_id){
             return Page::where('menu_id', $menu_id)->first();
         }

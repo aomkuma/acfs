@@ -6,6 +6,7 @@
     use App\Service\AcademicBoardService;
     use App\Service\SubcommitteeService;
     use App\Service\StakeholderService;
+    use App\Service\HearingReportService;
 
     use PhpOffice\PhpSpreadsheet\Spreadsheet;
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -46,6 +47,7 @@
                     case 'academicboardgroup' : $objPHPExcel = $this->generateAcademicBoardGroup($objPHPExcel, $condition); break;
                     case 'stackholder' : $objPHPExcel = $this->generateStackholder($objPHPExcel, $condition); break;
                     case 'subcommittee' : $objPHPExcel = $this->generateSubcommittee($objPHPExcel, $condition); break;
+                    case 'hearing-report' : $objPHPExcel = $this->generateHearingReport($objPHPExcel, $condition); break;
                     default : $result = null;
                 }
                 
@@ -251,6 +253,435 @@
 
         }
 
+        private function generateHearingReport($objPHPExcel, $condition){
+            $months = $condition['months'];
+            $years = $condition['years'];
+            if(!empty($condition['months']) && !empty($condition['years'])){
+                $date_from = $condition['years'] . '-' . str_pad($condition['months'], 2, '0', STR_PAD_LEFT) . '-01'; 
+                $maxDay = date('t', strtotime($date_from));
+                $date_to = $condition['years'] . '-' . str_pad($condition['months'], 2, '0', STR_PAD_LEFT) . '-' . $maxDay; 
+                $create_date = [$date_from, $date_to];
+            }
+            print_r($create_date);
+            // Get total of data
+            $total = HearingReportService::getCountReport($create_date);
+
+            // Get data by column name
+            $service_type_1 = HearingReportService::getReportDataByColumn('service_type', 'หน่วยงานราชการ / รัฐวิสาหกิจ', $create_date);
+            $service_type_2 = HearingReportService::getReportDataByColumn('service_type', 'บริษัท/ห้างร้าน/เอกชน', $create_date);
+            $service_type_3 = HearingReportService::getReportDataByColumn('service_type', 'สื่อมวลชน', $create_date);
+            $service_type_4 = HearingReportService::getReportDataByColumn('service_type', 'ประชาชนทั่วไป', $create_date);
+            $service_type_5 = HearingReportService::getReportDataByColumn('service_type', 'นักเรียน/นิสิต/นักศึกษา', $create_date);
+            $service_type_6 = HearingReportService::getReportDataByColumn('service_type', 'องค์กรอิสระ/หน่วยงานอิสระ', $create_date);
+            $service_type_7 = HearingReportService::getReportDataByColumn('service_type', 'อื่นๆ', $create_date);
+
+            $gender_1 = HearingReportService::getReportDataByColumn('gender', 'ชาย', $create_date);
+            $gender_2 = HearingReportService::getReportDataByColumn('gender', 'หญิง', $create_date);
+
+            $age_1 = HearingReportService::getReportDataByColumn('age', 'ต่ำกว่า 18 ปี', $create_date);
+            $age_2 = HearingReportService::getReportDataByColumn('age', '18-25 ปี', $create_date);
+            $age_3 = HearingReportService::getReportDataByColumn('age', '26-35 ปี', $create_date);
+            $age_4 = HearingReportService::getReportDataByColumn('age', '36-45 ปี', $create_date);
+            $age_5 = HearingReportService::getReportDataByColumn('age', '46-55 ปี', $create_date);
+            $age_6 = HearingReportService::getReportDataByColumn('age', '56 ปี ขึ้นไป', $create_date);
+
+            $chanel_detail_1 = HearingReportService::getReportDetailDataByColumn('เว็บไซต์ www.acfs.go.th', 'Chanel', $create_date);
+            $chanel_detail_2 = HearingReportService::getReportDetailDataByColumn('แผ่นพับ/โบรชัวร์', 'Chanel', $create_date);
+            $chanel_detail_3 = HearingReportService::getReportDetailDataByColumn('การจัดนิทรรศการ', 'Chanel', $create_date);
+            $chanel_detail_4 = HearingReportService::getReportDetailDataByColumn('ผ่านสถานีวิทยุกระจายเสียง', 'Chanel', $create_date);
+            $chanel_detail_5 = HearingReportService::getReportDetailDataByColumn('ผ่านรายการโทรทัศน์', 'Chanel', $create_date);
+            $chanel_detail_6 = HearingReportService::getReportDetailDataByColumn('ป้ายโปสเตอร์', 'Chanel', $create_date);
+            $chanel_detail_7 = HearingReportService::getReportDetailDataByColumn('หนังสือ', 'Chanel', $create_date);
+            $chanel_detail_8 = HearingReportService::getReportDetailDataByColumn('อื่นๆ', 'Chanel', $create_date);
+
+            $datatype_detail_1 = HearingReportService::getReportDetailDataByColumn('มาตรฐานสินค้าเกษตรและอาหาร/คู่มือขั้นตอนในการกำหนดมาตรฐานสินค้าเกษตรและอาหาร', 'DataType', $create_date);
+            $datatype_detail_2 = HearingReportService::getReportDetailDataByColumn('พระราชบัญญัติมาตรฐานสินค้าเกษตรและอาหาร พ.ศ.2551', 'DataType', $create_date);
+            $datatype_detail_3 = HearingReportService::getReportDetailDataByColumn('กฎหมาย/ระเบียบ ความปลอดภัย', 'DataType', $create_date);
+            $datatype_detail_4 = HearingReportService::getReportDetailDataByColumn('รายชื่อหน่วยงานที่ได้รับการรับรอง/คู่มือขั้นตอนในการตรวจประเมินเพื่อรับรองระบบงาน', 'DataType', $create_date);
+            $datatype_detail_5 = HearingReportService::getReportDetailDataByColumn('โครงสร้าง อำนาจ หน้าที่ของ มกอช.', 'DataType', $create_date);
+            $datatype_detail_6 = HearingReportService::getReportDetailDataByColumn('นโยบายและงบประมาณของ มกอช.', 'DataType', $create_date);
+            $datatype_detail_7 = HearingReportService::getReportDetailDataByColumn('การประกวดราคา/ประกาศผลสอบ/ผลพิจารณาจัดซื้อจัดจ้าง', 'DataType', $create_date);
+            $datatype_detail_8 = HearingReportService::getReportDetailDataByColumn('อื่นๆ', 'DataType', $create_date);
+
+            $total_visit = HearingReportService::getSumReportDataByColumn('total_visit', $create_date);
+            
+            $time_visit = HearingReportService::getSumReportDataByColumn('time_visit', $create_date);
+
+            $visit_website_time_1 = HearingReportService::getReportDataByColumn('visit_website_time', '06.00-10.00 น.', $create_date);
+            $visit_website_time_2 = HearingReportService::getReportDataByColumn('visit_website_time', '10.00-14.00 น.', $create_date);
+            $visit_website_time_3 = HearingReportService::getReportDataByColumn('visit_website_time', '14.00-18.00 น.', $create_date);
+            $visit_website_time_4 = HearingReportService::getReportDataByColumn('visit_website_time', '18.00-22.00 น.', $create_date);
+            $visit_website_time_5 = HearingReportService::getReportDataByColumn('visit_website_time', '22.00-02.00 น.', $create_date);
+            $visit_website_time_6 = HearingReportService::getReportDataByColumn('visit_website_time', '02.00-06.00 น.', $create_date);
+
+            $color_font_size_1 = HearingReportService::getReportDataByColumn('color_font_size', 'ดี', $create_date);            
+            $color_font_size_2 = HearingReportService::getReportDataByColumn('color_font_size', 'พอใช้', $create_date);            
+            $color_font_size_3 = HearingReportService::getReportDataByColumn('color_font_size', 'ควรปรับปรุง', $create_date);            
+
+            $picture_symbol_1 = HearingReportService::getReportDataByColumn('picture_symbol', 'ดี', $create_date);            
+            $picture_symbol_2 = HearingReportService::getReportDataByColumn('picture_symbol', 'พอใช้', $create_date);            
+            $picture_symbol_3 = HearingReportService::getReportDataByColumn('picture_symbol', 'ควรปรับปรุง', $create_date);            
+
+            $group_data_1 = HearingReportService::getReportDataByColumn('group_data', 'ดี', $create_date);            
+            $group_data_2 = HearingReportService::getReportDataByColumn('group_data', 'พอใช้', $create_date);            
+            $group_data_3 = HearingReportService::getReportDataByColumn('group_data', 'ควรปรับปรุง', $create_date);            
+
+            $external_link_1 = HearingReportService::getReportDataByColumn('external_link', 'ดี', $create_date);            
+            $external_link_2 = HearingReportService::getReportDataByColumn('external_link', 'พอใช้', $create_date);            
+            $external_link_3 = HearingReportService::getReportDataByColumn('external_link', 'ควรปรับปรุง', $create_date);            
+
+            $user_friendly_1 = HearingReportService::getReportDataByColumn('user_friendly', 'ดี', $create_date);            
+            $user_friendly_2 = HearingReportService::getReportDataByColumn('user_friendly', 'พอใช้', $create_date);            
+            $user_friendly_3 = HearingReportService::getReportDataByColumn('user_friendly', 'ควรปรับปรุง', $create_date);            
+
+            $up_to_date_1 = HearingReportService::getReportDataByColumn('up_to_date', 'ดี', $create_date);            
+            $up_to_date_2 = HearingReportService::getReportDataByColumn('up_to_date', 'พอใช้', $create_date);            
+            $up_to_date_3 = HearingReportService::getReportDataByColumn('up_to_date', 'ควรปรับปรุง', $create_date);            
+
+            $correction_1 = HearingReportService::getReportDataByColumn('correction', 'ดี', $create_date);            
+            $correction_2 = HearingReportService::getReportDataByColumn('correction', 'พอใช้', $create_date);            
+            $correction_3 = HearingReportService::getReportDataByColumn('correction', 'ควรปรับปรุง', $create_date);            
+
+            $attractive_1 = HearingReportService::getReportDataByColumn('attractive', 'ดี', $create_date);            
+            $attractive_2 = HearingReportService::getReportDataByColumn('attractive', 'พอใช้', $create_date);            
+            $attractive_3 = HearingReportService::getReportDataByColumn('attractive', 'ควรปรับปรุง', $create_date);            
+
+            $clarity_1 = HearingReportService::getReportDataByColumn('clarity', 'ดี', $create_date);            
+            $clarity_2 = HearingReportService::getReportDataByColumn('clarity', 'พอใช้', $create_date);            
+            $clarity_3 = HearingReportService::getReportDataByColumn('clarity', 'ควรปรับปรุง', $create_date);            
+
+            $speed_data_1 = HearingReportService::getReportDataByColumn('speed_data', 'ดี', $create_date);            
+            $speed_data_2 = HearingReportService::getReportDataByColumn('speed_data', 'พอใช้', $create_date);            
+            $speed_data_3 = HearingReportService::getReportDataByColumn('speed_data', 'ควรปรับปรุง', $create_date);            
+
+            $benefit_1 = HearingReportService::getReportDataByColumn('benefit', 'ดี', $create_date);            
+            $benefit_2 = HearingReportService::getReportDataByColumn('benefit', 'พอใช้', $create_date);            
+            $benefit_3 = HearingReportService::getReportDataByColumn('benefit', 'ควรปรับปรุง', $create_date);            
+
+            // print_r(($service_type_2['totals'] / $total));
+            // print_r($service_type_2['totals']);
+            // exit;
+            $objPHPExcel->getActiveSheet()->setCellValue('D2', 'รายงานการรับฟังความคิดเห็น');
+            $objPHPExcel->getActiveSheet()->getStyle('D2')->getFont()->setBold(true);
+
+            $objPHPExcel->getActiveSheet()->setCellValue('B4', 'ประจำเดือน');
+            $objPHPExcel->getActiveSheet()->getStyle('B4')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->setCellValue('C4', $this->getMonthName($months));
+            $objPHPExcel->getActiveSheet()->getStyle('C4')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->setCellValue('D4', $years + 543);
+            $objPHPExcel->getActiveSheet()->getStyle('D4')->getFont()->setBold(true);    
+
+            $objPHPExcel->getActiveSheet()->setCellValue('C7', 'ข้อมูลทั่วไป');
+            $objPHPExcel->getActiveSheet()->getStyle('C7')->getFont()->setBold(true);
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D8', 'ประเภทของผู้รับบริการ');
+            $start_row = 9;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'หน่วยงานราชการ / รัฐวิสาหกิจ');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($service_type_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'บริษัท/ห้างร้าน/เอกชน');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($service_type_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'สื่อมวลชน');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($service_type_3['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ประชาชนทั่วไป');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($service_type_4['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'นักเรียน/นิสิต/นักศึกษา');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($service_type_5['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'องค์กรอิสระ/หน่วยงานอิสระ');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($service_type_6['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'อื่นๆ');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($service_type_7['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'เพศของผู้รับบริการ');
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ชาย');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($gender_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'หญิง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($gender_2['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'อายุของผู้รับบริการ');
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ต่ำกว่า 18 ปี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($age_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '18-25 ปี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($age_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '26-35 ปี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($age_3['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '36-45 ปี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($age_4['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '46-55 ปี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($age_5['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '56 ปี ขึ้นไป');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($age_6['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ช่องทางการทราบข้อมูล');
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'เว็บไซต์ www.acfs.go.th');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($chanel_detail_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'แผ่นพับ/โบรชัวร์');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($chanel_detail_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'การจัดนิทรรศการ');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($chanel_detail_3['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ผ่านสถานีวิทยุกระจายเสียง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($chanel_detail_4['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ผ่านรายการโทรทัศน์');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($chanel_detail_5['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ป้ายโปสเตอร์');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($chanel_detail_6['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'หนังสือ');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($chanel_detail_7['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'อื่นๆ');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($chanel_detail_8['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ประเภทข้อมูลต้องการทราบเป็น');
+            $start_row++;
+
+            
+            
+            
+
+            
+
+            
+            
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'มาตรฐานสินค้าเกษตรและอาหาร/คู่มือขั้นตอนในการกำหนดมาตรฐานสินค้าเกษตรและอาหาร');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($datatype_detail_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พระราชบัญญัติมาตรฐานสินค้าเกษตรและอาหาร พ.ศ.2551');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($datatype_detail_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'กฎหมาย/ระเบียบ ความปลอดภัย');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($datatype_detail_3['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'รายชื่อหน่วยงานที่ได้รับการรับรอง/คู่มือขั้นตอนในการตรวจประเมินเพื่อรับรองระบบงาน');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($datatype_detail_4['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'โครงสร้าง อำนาจ หน้าที่ของ มกอช.');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($datatype_detail_5['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'นโยบายและงบประมาณของ มกอช.');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($datatype_detail_6['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'การประกวดราคา/ประกาศผลสอบ/ผลพิจารณาจัดซื้อจัดจ้าง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($datatype_detail_7['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'อื่นๆ');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($datatype_detail_8['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('C'.$start_row, 'ข้อมูลการเข้าใช้บริการ');
+            $objPHPExcel->getActiveSheet()->getStyle('C'.$start_row)->getFont()->setBold(true);
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '"จำนวนครั้งที่เข้าใช้บริการเว็บไซต์ www.acfs.go.th   ต่อสัปดาห์
+"');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($total_visit['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ระยะเวลาที่เข้าใช้บริการเว็บไซต์ (นาที) www.acfs.go.th ต่อครั้ง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($time_visit['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ใช้บริการเว็บไซต์ในช่วงเวลา');
+            $start_row++;
+              
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '06.00-10.00 น.');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($visit_website_time_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '10.00-14.00 น.');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($visit_website_time_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '14.00-18.00 น.');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($visit_website_time_3['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '18.00-22.00 น.');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($visit_website_time_4['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '22.00-02.00 น.');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($visit_website_time_5['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, '02.00-06.00 น.');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($visit_website_time_6['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('C'.$start_row, 'ข้อมูลการแสดงความคิดเห็นของผู้ใช้บริการ');
+            $objPHPExcel->getActiveSheet()->getStyle('C'.$start_row)->getFont()->setBold(true);
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'สีและขนาดตัวอักษร');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($color_font_size_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($color_font_size_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($color_font_size_3['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ภาพหรือสัญลักษณ์ที่ใช้');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($picture_symbol_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($picture_symbol_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($picture_symbol_3['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'การจัดหมวดหมู่ข้อมูล');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($group_data_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($group_data_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($group_data_3['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'การเชื่อมโยงเว็บไซต์ต่าง ๆ');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($external_link_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($external_link_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($external_link_3['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ความง่ายในการใช้งาน');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($user_friendly_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($user_friendly_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($user_friendly_3['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ความทันสมัยของข้อมูล');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($up_to_date_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($up_to_date_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($up_to_date_3['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ความถูกต้องของข้อมูล');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($correction_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($correction_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($correction_3['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ความน่าสนใจของข้อมูล');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($attractive_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($attractive_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($attractive_3['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ความชัดเจนของข้อมูล');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($clarity_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($clarity_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($clarity_3['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ความรวดเร็วในการเข้าถึงข้อมูล');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($speed_data_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($speed_data_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($speed_data_3['totals'] , $total));
+            $start_row++;
+
+            $objPHPExcel->getActiveSheet()->setCellValue('D'.$start_row, 'ประโยชน์ของข้อมูลข่าวสารที่ได้รับ');
+            $start_row++;  
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ดี');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($benefit_1['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'พอใช้');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($benefit_2['totals'] , $total));
+            $start_row++;
+            $objPHPExcel->getActiveSheet()->setCellValue('E'.$start_row, 'ควรปรับปรุง');
+            $objPHPExcel->getActiveSheet()->setCellValue('F'.$start_row, $this->calcHearingReport($benefit_3['totals'] , $total));
+            $start_row++;
+
+            
+
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+
+            $objPHPExcel->getActiveSheet()
+            ->getStyle("C7:F" . $objPHPExcel->getActiveSheet()->getHighestRow())
+            ->applyFromArray($this->getDefaultStyle());
+
+            return $objPHPExcel;
+
+        }
+
+        private function calcHearingReport($value, $total){
+            return (($value / $total) * 100) . ' %';
+        }
+
         private function getDefaultStyle(){
             return array(                  
                     'allborders' => array(
@@ -268,6 +699,24 @@
                 );
         }
 
-
+        private function getMonthName($month){
+            
+            $monthTxt = '';
+            switch($month){
+                case 1 : $monthTxt = 'มกราคม';break;
+                case 2 : $monthTxt = 'กุมภาพันธ์';break;
+                case 3 : $monthTxt = 'มีนาคม';break;
+                case 4 : $monthTxt = 'เมษายน';break;
+                case 5 : $monthTxt = 'พฤษภาคม';break;
+                case 6 : $monthTxt = 'มิถุนายน';break;
+                case 7 : $monthTxt = 'กรกฎาคม';break;
+                case 8 : $monthTxt = 'สิงหาคม';break;
+                case 9 : $monthTxt = 'กันยายน';break;
+                case 10 : $monthTxt = 'ตุลาคม';break;
+                case 11 : $monthTxt = 'พฤศจิกายน';break;
+                case 12 : $monthTxt = 'ธันวาคม';break;
+            }
+            return $monthTxt;
+        }
     
     }

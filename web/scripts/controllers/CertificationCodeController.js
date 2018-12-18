@@ -29,7 +29,6 @@ angular.module('e-homework').controller('CertificationCodeController', function(
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.MenuName = result.data.DATA.Menu;
-            $scope.loadPage('appeal/page', $scope.MenuName.id);
             IndexOverlayFactory.overlayHide();
         });
     }

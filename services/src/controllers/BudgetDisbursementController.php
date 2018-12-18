@@ -3,6 +3,8 @@
     namespace App\Controller;
     
     use App\Service\BudgetDisbursementService;
+    use PhpOffice\PhpSpreadsheet\Spreadsheet;
+    use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
     class BudgetDisbursementController extends Controller {
         
@@ -29,6 +31,24 @@
                 return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
             }
         }
+
+        public function getData($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $condition = $params['obj']['condition'];
+                
+                $_List = BudgetDisbursementService::getData($condition);
+
+                $this->data_result['DATA']['Data'] = $_List;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        
 
         public function updateData($request, $response, $args){
             $_WEB_IMAGE_PATH = 'files/img';
@@ -62,6 +82,16 @@
                 }
                 $_BudgetDisbursement['createBy'] = $user_session['adminID'];
                 $id = BudgetDisbursementService::updateData($_BudgetDisbursement);
+
+                // read file 
+                $file = '../../' . $FilePath;
+                $ItemList = $this->readExcelFile($file, $id);
+
+                // add Items
+                foreach ($ItemList as $key => $value) {
+                    BudgetDisbursementService::updateItemData($value);
+                }
+                
                 
                 $this->data_result['DATA']['id'] = $id;
 
@@ -83,6 +113,45 @@
             }catch(\Exception $e){
                 return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
             }
+        }
+
+        private function readExcelFile($file, $budget_id){
+
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+            $sheetData = $spreadsheet->getActiveSheet()->toArray();
+
+            $field_array = ['item', 'staff', 'operating', 'investing', 'subsidy', 'other', 'subtotal'];
+            $cnt_row = 1;
+
+            $ItemList = [];
+            foreach ($sheetData as $key => $value) {
+                
+                if($cnt_row >= 4){
+                    
+                    $cnt_col = 0;
+                    $cnt_field = 0;
+                    $Item = [];
+                    $Item[ 'budget_id' ] = $budget_id;
+
+                    foreach ($value as $k => $v) {
+                        if($cnt_col >= 1 && $cnt_col <= 7){
+                            
+                            $Item[ $field_array[$cnt_field] ] = $v;
+                            $cnt_field++;
+                            
+                        }
+                        $cnt_col++;
+                    }
+                    
+                    array_push($ItemList, $Item);
+                    
+                }
+
+                $cnt_row++;
+
+            }
+            
+            return $ItemList;
         }
 
     
