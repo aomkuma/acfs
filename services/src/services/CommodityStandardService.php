@@ -4,6 +4,7 @@
     
     use App\Model\CommodityStandard;
     use App\Model\CommodityKeyword;
+    use App\Model\APICaller;
 
     use Illuminate\Database\Capsule\Manager as DB;
     
@@ -285,5 +286,21 @@
 
         public static function removeCommodityStandard($id){
             return CommodityStandard::find($id)->delete();
+        }
+
+        public static function getListAPI(){
+            return CommodityStandard::where('status' , 'Active')
+                    ->with(array('academicBoard' => function($query){
+                                    $query->with('stakeholders');
+                                }))
+                    ->with('meeting')
+                    ->orderBy('standardID', 'DESC')
+                    ->get()->toArray();
+        }
+
+        public static function updateAPICaller($obj){
+            $obj['call_datetime'] = date('Y-m-d H:i:s');
+            $model = APICaller::create($obj);
+            return $model->id;
         }
     }

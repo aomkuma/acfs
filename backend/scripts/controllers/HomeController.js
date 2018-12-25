@@ -114,4 +114,68 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     $scope.PAGE = 'MAIN';
     $scope.load('slideshow');
 
+    // Link Footer
+
+    $scope.loadFooterLink = function(){
+        $scope.setFooterLink();
+        HTTPService.clientRequest('footer-link/list', null).then(function(result){
+            console.log(result);
+            $scope.FooterLinkList = result.data.DATA.List;
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.saveFooterLink = function(Data){
+        var params = {'Data':Data};
+        HTTPService.clientRequest('footer-link/update', params).then(function(result){
+            console.log(result);
+            $scope.PAGE = 'MAIN';
+            if(result.data.STATUS == 'OK'){
+                
+                $scope.loadFooterLink();
+                $scope.cancelUpdate();
+                IndexOverlayFactory.overlayHide();
+            }else{
+                IndexOverlayFactory.overlayHide();
+            }
+        });
+    }
+
+    $scope.removeFooterLink = function(id){
+        $scope.alertMessage = 'ต้องการลบ link นี้ ใช่หรือไม่ ?';
+        var modalInstance = $uibModal.open({
+            animation : true,
+            templateUrl : 'views/dialog_confirm.html',
+            size : 'sm',
+            scope : $scope,
+            backdrop : 'static',
+            controller : 'ModalDialogCtrl',
+            resolve : {
+                params : function() {
+                    return {};
+                } 
+            },
+        });
+
+        modalInstance.result.then(function (valResult) {
+            IndexOverlayFactory.overlayShow();
+            HTTPService.clientRequest('footer-link/delete', {'id':id}).then(function(result){
+            // $scope.load('SlideShows');
+            $scope.loadFooterLink();
+            IndexOverlayFactory.overlayHide();
+        });
+        });
+        
+    }
+
+    $scope.updateFooterLink = function(data){
+        $scope.FooterLink = angular.copy(data);
+    }
+
+    $scope.setFooterLink = function(){
+        $scope.FooterLink = {'id':'', 'link_type' : '', 'link_name' : '', 'link_url' : ''};
+    }
+
+    $scope.loadFooterLink();
+
 });

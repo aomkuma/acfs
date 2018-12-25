@@ -714,6 +714,23 @@ app.filter('MenuFilter', function () {
     };
 });
 
+app.filter('range', function() {
+  return function(input, total, start, limitDisplay) {
+    var i=0;
+    
+    start = parseInt(start);
+    limitDisplay = parseInt(limitDisplay);
+    //console.log('Mod value : ', start%limitDisplay);
+    if(start%limitDisplay == 0){
+        i = start;
+    }
+    total = parseInt(total);
+    for (; i<total; i++)
+      input.push(i);
+    return input;
+  };
+});
+
 app.directive('convertToNumber', function() {
   return {
     require: 'ngModel',

@@ -167,5 +167,49 @@
                 return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
             }
         }
+
+
+        public function getUserAccountList($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                //$stakeholderID = $params['obj']['stakeholderID'];
+                $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
+                $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
+
+                $_Result = UserAccountService::getUserAccountList($currentPage, $limitRowPerPage);
+
+                $_List = $_Result['DataList'];
+                $_Total = $_Result['Total'];
+
+                $this->data_result['DATA']['DataList'] = $_List;
+                $this->data_result['DATA']['Total'] = $_Total;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
     
+        public function updateUserAccountData($request, $response, $args){
+            
+            try{
+                // error_reporting(E_ERROR);
+                // error_reporting(E_ALL);
+                // ini_set('display_errors','On');
+                $params = $request->getParsedBody();
+                $_Data = $params['obj']['Data'];
+                $user_session = $params['user_session'];
+                unset($_Data['role_name']);
+                $userID = UserAccountService::updateUserAccountData($_Data);
+
+                $this->data_result['DATA']['userID'] = $userID;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
     }

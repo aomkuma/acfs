@@ -42,4 +42,9 @@ class CommodityStandard extends \Illuminate\Database\Eloquent\Model {
     {
      return $this->hasMany('App\Model\AcademicBoard', 'standardID');
     }
+
+    public function meeting()
+    {
+     return $this->hasMany('App\Model\Meeting', 'standardID');
+    }
 }

@@ -60,6 +60,18 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
+	.when("/user-account", {
+        templateUrl : "views/user-account/main.html",
+        controller : "UserAccountController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/UserAccountController.js" ]
+				});
+			} ]
+		}
+	})
+
 	.when("/page/:id?", {
         templateUrl : "views/menu/update.html",
         controller : "MenuUpdateController",

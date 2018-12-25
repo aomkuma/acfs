@@ -35,6 +35,13 @@ angular.module('e-homework').controller('NewsController', function($scope, $comp
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.NewsList = result.data.DATA.News;
+            setTimeout(function(){
+                for(var i = 0; i < $scope.NewsList.length; i++){
+                    console.log('do iframe');
+                    $("#if" + i).prop('src', 'https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2F61.19.221.109%2Facfs%2Fweb%2F%23%2Fnews%2Fdetail%2F'+$scope.NewsList[i].id+'%2F&layout=button&size=small&mobile_iframe=true&appId=190072441615269&width=59&height=20');
+                }
+            }, 200);
+            
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -47,6 +54,12 @@ angular.module('e-homework').controller('NewsController', function($scope, $comp
     $scope.getThaiDate = function(date){
         console.log(date);
         return convertDateToFullThaiDateIgnoreTime(new Date(date));
+    }
+
+    $scope.getUrl = function(url){
+        // console.log('http://61.19.221.109/acfs/web/#/news/detail/'+url);
+        // return encodeURIComponent('http://61.19.221.109/acfs/web/#/news/detail/'+url);
+        return 'https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&layout=button&size=small&mobile_iframe=true&appId=190072441615269&width=59&height=20';
     }
     
     if($routeParams.NEWS_TYPE != undefined || $routeParams.NEWS_TYPE != null){

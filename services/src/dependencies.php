@@ -200,6 +200,14 @@ $container['WarningController'] = function ($c) {
     return new \App\Controller\WarningController($c->get('logger'), $c->get('db'));
 };
 
+$container['FooterLinkController'] = function ($c) {
+    return new \App\Controller\FooterLinkController($c->get('logger'), $c->get('db'));
+};
+
+$container['UserRoleController'] = function ($c) {
+    return new \App\Controller\UserRoleController($c->get('logger'), $c->get('db'));
+};
+
 
 
 

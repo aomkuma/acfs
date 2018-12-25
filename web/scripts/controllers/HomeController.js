@@ -35,6 +35,14 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         });
     }
 
+    $scope.loadFooterLink = function(){
+        
+        HTTPService.clientRequest('footer-link/list/view', null).then(function(result){
+            //console.log(result);
+            $scope.FooterLinkList = result.data.DATA.List;
+        });
+    }
+
     $scope.loadSlide = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
@@ -65,6 +73,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         HTTPService.clientRequest(action, null).then(function(result){
             console.log(result);
             $scope.LinkUrl = result.data.DATA.LinkUrl;
+            $scope.slideLinkImage($scope.link_next_index);
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -74,6 +83,12 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.NewsList1 = result.data.DATA.NewsList1;
+            setTimeout(function(){
+                for(var i = 0; i < $scope.NewsList1.length; i++){
+                    console.log('do iframe');
+                    $("#if" + i).prop('src', 'https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2F61.19.221.109%2Facfs%2Fweb%2F%23%2Fnews%2Fdetail%2F'+$scope.NewsList1[i].id+'%2F&layout=button&size=small&mobile_iframe=true&appId=190072441615269&width=59&height=20');
+                }
+            }, 200);
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -99,8 +114,12 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         window.location.href = '#/video';
     }
 
-    $scope.Minister = null;
+    $scope.goPage = function(url){
+        window.location.href=url;
+    }
 
+    $scope.Minister = null;
+    $scope.ShowLinkUrl = [];
     $scope.ShowHighlightList = [];
     $scope.HighlightList = [
                                 {'img_path':'files/img/h1.png'}
@@ -115,6 +134,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     $scope.loadLinkUrl('linkurl');
     $scope.loadNews('news/home');
     $scope.loadMenuFavourite();
+    $scope.loadFooterLink();
     // $scope.loadVideo('video/list');
     // $scope.loadNewsEcho('news', 'ข่าวประกาศจัดซื้อจัดจ้าง', 'Y');
 
@@ -123,6 +143,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         // setInterval(function(){showSlides();},5000);
     },500);
 
+    // Highlight
     $scope.slideImage = function(index){
         var cnt = 0;
         var position = index;
@@ -144,6 +165,30 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     
     $scope.next_index = 0;
     $scope.prev_index = 0;
+
+    // Link
+    $scope.slideLinkImage = function(index){
+        console.log('ฺำเรื หสรกำ สรืา');
+        var cnt = 0;
+        var position = index;
+        $scope.ShowLinkUrl = [];
+
+        while(cnt < 6 && position < $scope.LinkUrl.length){
+            
+            $scope.ShowLinkUrl.push($scope.LinkUrl[position]);
+            position++;
+            cnt++;
+            console.log('do : '+cnt);
+            console.log('index : ' + index);
+        }
+        $scope.link_next_index = index + 1;
+        $scope.link_prev_index = index - 1;
+        console.log($scope.link_next_index);
+        console.log($scope.link_prev_index);
+    }
+    
+    $scope.link_next_index = 0;
+    $scope.link_prev_index = 0;
 
 });
 

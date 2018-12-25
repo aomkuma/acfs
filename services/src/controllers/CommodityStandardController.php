@@ -317,6 +317,30 @@
             }
         }
 
+        public function getDataAPI($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $RequestDescription = $params['obj']['RequestDescription'];
+                $RequestName = $RequestDescription['RequestName'];
+
+                $_CommodityStandard = CommodityStandardService::getListAPI();
+                
+                // Update caller
+                $RequestName = 'test';
+                $caller['caller_name'] = $RequestName;
+                $caller['api_called'] = '-';
+                CommodityStandardService::updateAPICaller($caller);
+                
+                $this->data_result['DATA']['CommodityStandard'] = $_CommodityStandard;
+                
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
         public function updateData($request, $response, $args){
             
             $_WEB_FILE_PATH = 'files/files';

@@ -1,5 +1,12 @@
 <div ng-include src="'views/header.html'"></div>
-
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=190072441615269&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div  style="margin-top:180px;">
 <div class="row" style="margin-top:200px;">
 	<div class="col-lg-12">
 		<div class="row form-group">
@@ -43,9 +50,9 @@
 	          <div style="height: 1px; background-color: #13569A; width: 100%; margin-top:3em;"></div>
 	        </div>
 	        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-	        	<button class="button-news">  <span class="text-button">ข่าวประชาสัมพันธ์ </span> </button>
-	        	<button class="button-news yellow">  <span class="text-button">จัดซื้อ / จัดจ้าง</span>  </button>
-	        	<button class="button-news yellow">  <span class="text-button">สมัครงาน</span>  </button>
+	        	<button class="button-news" ng-click="goPage('#/update/news')">  <span class="text-button">ข่าวประชาสัมพันธ์ </span> </button>
+	        	<button class="button-news yellow" ng-click="goPage('#/purchase/purchase-plan')">  <span class="text-button">จัดซื้อ / จัดจ้าง</span>  </button>
+	        	<button class="button-news yellow" ng-click="goPage('#/attachfile-multi3/work-application')">  <span class="text-button">สมัครงาน</span>  </button>
 	        </div>
 	    </div>
 	    <div class="row form-group">
@@ -56,9 +63,17 @@
 					</div>
 				</div>
 				<div class="row form-group">
-					<div class="col-lg-12 col-sm-12">
+					<div class="col-lg-10 col-lg-offset-1 col-sm-12">
 						<a href="#/news/detail/{{data.id}}" style="cursor: pointer; color: #999;" bind-html-compile="data.title_th | htmlToPlaintext"></a>
 						
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-lg-10 col-lg-offset-1  col-sm-12">
+						<span class="pull-right">
+							<iframe id="if{{$index}}" src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&layout=button&size=small&mobile_iframe=true&appId=190072441615269&width=59&height=20" width="59" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media">
+							</iframe>
+						</span>
 					</div>
 				</div>
 			</div>
@@ -79,7 +94,9 @@
 			    </div>
 			    <div class="row form-group">
 			    	<div class="col-lg-1">
+			    		&nbsp;
 			    		<a ng-click="slideImage(prev_index)" ng-show="prev_index >= 0">
+			    			
 				    		<span style="font-size: 3em; color: #FFF; font-weight: bold;"><</span>
 				    	</a>
 			    	</div>
@@ -87,6 +104,7 @@
 						<a href="{{'#/' + data.menu_url}}"><img src="../{{data.menu_image}}" style="width: 100%;"></a>
 					</div>
 					<div class="col-lg-1 text-right">
+						&nbsp;
 						<a ng-click="slideImage(next_index)" ng-show="next_index < HighlightList.length && ShowHighlightList.length == 5">
 				    		<span style="font-size: 3em; color: #FFF; font-weight: bold;">></span>
 				    	</a>
@@ -97,19 +115,48 @@
 		<div class="row form-group"" style="background-color: #ccc; padding: 10px;">
 			<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
 				<div class="row form-group">
-					<div class="col-lg-4 col-md-3 col-sm-3 col-xs-6" ng-repeat="link in LinkUrl | limitTo:12">
-						<br>
-						<a target="_blank" href="{{link.link_url}}">
-							<img src="{{ '../' + link.image_path }}" style="height:100px;">
-						</a>			
-						<br>
+					<div class="col-lg-1">
+						&nbsp;
+			    		<a ng-click="slideLinkImage(link_prev_index)" ng-show="link_prev_index >= 0">
+			    			
+				    		<span style="font-size: 3em; color: #FFF; font-weight: bold;"><</span>
+				    	</a>
+			    	</div>
+			    	<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+						<div class="col-lg-4 col-md-3 col-sm-3 col-xs-6" ng-repeat="link in ShowLinkUrl | limitTo:6">
+							<br>
+							<a target="_blank" href="{{link.link_url}}">
+								<img src="{{ '../' + link.image_path }}" style="height:100px;">
+							</a>			
+							<br>
+						</div>
 					</div>
+					<div class="col-lg-1 text-right">
+						&nbsp;
+						<a ng-click="slideLinkImage(link_next_index)" ng-show="link_next_index < LinkUrl.length && ShowLinkUrl.length == 6">
+				    		<span style="font-size: 3em; color: #FFF; font-weight: bold;">></span>
+				    	</a>
+			    	</div>
 				</div>
 			</div>
 		</div>
 		<div class="row form-group">
   <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
     <div class="row">
+    	<div class="col-lg-1">
+    		&nbsp;
+    	</div>
+    	<div class="col-lg-2" ng-repeat="data in FooterLinkList">
+    		<span>
+    			{{data.link_type}}
+    		</span>
+    		<br>
+    		<span ng-repeat="sub_data in data.Links">
+    			<a href="{{sub_data.link_url}}" target="_blank">{{sub_data.link_name}}</a>
+    			<br>
+    		</span>
+    	</div>	
+      <!--
       <div class="col-lg-2 col-lg-offset-1">
             พ.ร.บ.มาตรฐานสินค้าเกษตร
             <br>พ.ร.บ.มาตรฐานสินค้าเกษตร
@@ -180,6 +227,7 @@
           <br>เว็บบอร์ด
           <br>ศูนย์ข้อมูลข่าวสาร มกอช.
       </div>
+  		-->
     </div>
   </div>
 </div>

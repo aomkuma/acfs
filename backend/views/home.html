@@ -113,3 +113,66 @@
 		</table>
 	</div>
 </div>
+<hr>
+<div class="page-header">
+	<h4>จัดการ link หน้าแรก (Footer)</h4>
+</div>
+<div class="row form-group" ng-show="PAGE == 'MAIN'">
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<caption>
+				<div class="row form-group">
+					<div class="col-lg-1">
+						ประเภท
+					</div>
+					<div class="col-lg-3">
+						<select class="form-control" ng-model="FooterLink.link_type">
+							<option value="">กรุณาเลือก..</option> 
+							<option value="พ.ร.บ.มาตรฐานสินค้าเกษตร">พ.ร.บ.มาตรฐานสินค้าเกษตร</option> 
+							<option value="การรับรอง">การรับรอง</option> 
+							<option value="ความปลอดภัยอาหาร">ความปลอดภัยอาหาร</option> 
+							<option value="ข่าวและกิจกรรม">ข่าวและกิจกรรม</option> 
+							<option value="การส่งเสริมและประชาสัมพันธ์">การส่งเสริมและประชาสัมพันธ์</option> 
+						</select>
+					</div>
+					<div class="col-lg-1">
+						Link
+					</div>
+					<div class="col-lg-6">
+						<input class="form-control" ng-model="FooterLink.link_url">
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-lg-1">
+						ชื่อ Link
+					</div>
+					<div class="col-lg-6">
+						<input class="form-control" ng-model="FooterLink.link_name">
+					</div>
+					<div class="col-lg-1">
+						<button ng-click="saveFooterLink(FooterLink)" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> บันทึก</button>
+					</div>
+				</div>
+				
+			</caption>
+			<thead>
+				<tr>
+					<th>ประเภท</th>
+					<th>link</th>
+					<th>จัดการ</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="data in FooterLinkList">
+					
+					<td>{{data.link_type}}</td>
+					<td><a href="{{data.link_url}}" target="_blank">{{data.link_name}}</a></td>
+					<td>
+						<button ng-click="updateFooterLink(data)" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> แก้ไข</button>
+						<button ng-click="removeFooterLink(data.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> ลบ</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

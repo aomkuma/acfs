@@ -22,7 +22,8 @@
             หน้าหลัก</a></li>
           <li ng-class="{'active':menu_selected == 'menu-manage'}"><a href="#/menu-manage"  style="border-left: 0px solid #000000;">
           จัดการเมนู</a></li>
-
+          <li ng-class="{'active':menu_selected == 'relatelink'}"><a href="#/link-url/manage">ลิ้งค์ที่เกี่ยวข้อง</a></li>
+          <li ng-class="{'active':menu_selected == 'user-account'}"><a href="#/user-account">ผู้ใช้งาน</a></li>
           <li ng-repeat="menu in Menu" ng-class="{'active':menu_selected == menu.menu_url, 'menu-item dropdown':menu.sub_menu.length > 0}" class="dropdown">
             
             <a ng-show="menu.sub_menu.length == 0" 

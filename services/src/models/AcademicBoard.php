@@ -13,5 +13,10 @@ class AcademicBoard extends \Illuminate\Database\Eloquent\Model {
   							, 'updateBy'
   							, 'updateDate'
   						);
+
+    public function stakeholders()
+    {
+     return $this->hasMany('App\Model\Stakeholder', 'stakeholderID');
+    }
     
 }

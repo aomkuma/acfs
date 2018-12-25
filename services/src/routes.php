@@ -28,6 +28,7 @@ $app->post('/commodity-standard/general/', 'CommodityStandardController:getListG
 $app->post('/commodity-standard/mandatory/', 'CommodityStandardController:getListMandatory');
 $app->post('/commodity-standard/get/', 'CommodityStandardController:getData');
 $app->post('/commodity-standard/update/', 'CommodityStandardController:updateData');
+$app->post('/commodity-standard/api/get/', 'CommodityStandardController:getDataAPI');
 
 $app->post('/academic-board/list/', 'AcademicBoardController:getList');
 $app->post('/academic-board/update/', 'AcademicBoardController:updateData');
@@ -63,6 +64,8 @@ $app->post('/user-account/list/user/', 'UserAccountController:getUserList');
 $app->post('/user-account/get/user/', 'UserAccountController:getUserData');
 $app->post('/user-account/update/user/', 'UserAccountController:updateUserData');
 $app->post('/user-account/delete/user/', 'UserAccountController:deleteUserData');
+$app->post('/user-account/list/user-account/', 'UserAccountController:getUserAccountList');
+$app->post('/user-account/update/user-account/', 'UserAccountController:updateUserAccountData');
 
 $app->post('/email/list/', 'EmailController:getList');
 $app->post('/email/get/', 'EmailController:getData');
@@ -224,6 +227,14 @@ $app->post('/fruit/update/', 'FruitController:updateData');
 $app->post('/fruit/delete/', 'FruitController:deleteData');
 
 $app->post('/warning/get/', 'WarningController:getData');
+
+$app->post('/footer-link/list/', 'FooterLinkController:getList');
+$app->post('/footer-link/list/view/', 'FooterLinkController:getListView');
+$app->post('/footer-link/update/', 'FooterLinkController:updateData');
+$app->post('/footer-link/delete/', 'FooterLinkController:deleteData');
+
+$app->post('/user-role/list/', 'UserRoleController:getList');
+$app->post('/user-role/upadte/', 'UserRoleController:updateData');
 
 // Default action
 $app->get('/[{name}]', function ($request, $response, $args) {

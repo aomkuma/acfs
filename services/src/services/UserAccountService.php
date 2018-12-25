@@ -5,6 +5,7 @@
     use App\Model\Admin;
     use App\Model\User;
     use App\Model\Stakeholder;
+    use App\Model\UserAccount;
 
 
     use Illuminate\Database\Capsule\Manager as DB;
@@ -139,6 +140,33 @@
                 return $newPassword;
             }else{
                 return 'invalid';
+            }
+        }
+
+        // User Account Zone
+        public static function getUserAccountList($currentPage, $limitRowPerPage){
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = UserAccount::count();
+
+            $DataList = UserAccount::join('UserRole', 'UserRole.id', '=' ,'User_Account.role')
+                        ->skip($skip)
+                        ->take($limit)
+                        ->get();  
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
+        }
+
+        public static function updateUserAccountData($obj){
+            if(empty($obj['id'])){
+                $obj['create_date'] = date('Y-m-d H:i:s');
+                $obj['update_date'] = date('Y-m-d H:i:s');
+                $model = UserAccount::create($obj);
+                return $model->id;    
+            }else{
+                $obj['update_date'] = date('Y-m-d H:i:s');
+                UserAccount::where('id', $obj['id'])->update($obj);
+                return $obj['id'];
             }
         }
     }
