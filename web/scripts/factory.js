@@ -56,9 +56,10 @@ app.factory('IndexOverlayFactory', function(){
 });
 
 app.factory('HTTPService', ['$http', '$q', 'Upload', function($http, $q, Upload){
+    var user_session = angular.fromJson(sessionStorage.getItem('USER_LOGIN'));
     return {
         clientRequest : function(action, obj) {
-            return $http.post(serviceUrl + action + '/',{"obj":obj})
+            return $http.post(serviceUrl + action + '/',{"obj":obj, 'user_session' : user_session})
                 .then(
                     function(response){
                         return returnResponse(response);                    

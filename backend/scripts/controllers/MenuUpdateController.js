@@ -113,8 +113,9 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
                             });
     }
 
-    $scope.save = function(action, MenuObj, PageObj, AttachFileObj, EXLinkObj){
+    $scope.save = function(action, MenuObj, PageObj, AttachFileObj, EXLinkObj, AttachFile){
         // console.log(action, MenuObj, PageObj, AttachFileObj, EXLinkObj);
+        // console.log(AttachFile);
         console.log(CKEDITOR.instances.editor1.getData());
         
         if(MenuObj.menu_type == 'PAGE'){
@@ -133,6 +134,7 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
                     , 'PageObj':PageObj
                     , 'AttachFileObj':AttachFileObj
                     , 'EXLinkObj':EXLinkObj
+                    , 'MenuImageFile':AttachFile
                     };
         IndexOverlayFactory.overlayShow();
         HTTPService.uploadRequest(action, params).then(function(result){

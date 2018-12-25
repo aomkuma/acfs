@@ -78,9 +78,19 @@
 			        </div>
 			    </div>
 			    <div class="row form-group">
-					<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-repeat="data in HighlightList  | limitTo:4">
-						<img src="../{{data.img_path}}" style="height: 400px;">
+			    	<div class="col-lg-1">
+			    		<a ng-click="slideImage(prev_index)" ng-show="prev_index >= 0">
+				    		<span style="font-size: 3em; color: #FFF; font-weight: bold;"><</span>
+				    	</a>
+			    	</div>
+					<div class="col-lg-2 col-md-6 col-sm-6 col-xs-12" ng-repeat="data in ShowHighlightList">
+						<a href="{{'#/' + data.menu_url}}"><img src="../{{data.menu_image}}" style="width: 100%;"></a>
 					</div>
+					<div class="col-lg-1 text-right">
+						<a ng-click="slideImage(next_index)" ng-show="next_index < HighlightList.length && ShowHighlightList.length == 5">
+				    		<span style="font-size: 3em; color: #FFF; font-weight: bold;">></span>
+				    	</a>
+			    	</div>
 				</div>
 			</div>
 		</div>

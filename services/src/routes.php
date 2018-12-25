@@ -88,8 +88,9 @@ $app->post('/menu/get/', 'MenuController:getMenu');
 $app->post('/menu/get/type/', 'MenuController:getMenuByType');
 $app->post('/menu/update/', 'MenuController:updateMenu');
 $app->post('/menu/update/page/', 'MenuController:updateMenuPage');
-$app->post('/menu/page/get/', 'MenuController:GetMenuPage');
-$app->post('/menu/get/parent/', 'MenuController:GetMenuParent');
+$app->post('/menu/page/get/', 'MenuController:getMenuPage');
+$app->post('/menu/get/parent/', 'MenuController:getMenuParent');
+$app->post('/menu/get/favourite/', 'MenuController:getMenuFavourite');
 
 $app->post('/slideshow/view/', 'SlideShowController:getSlideShowView');
 $app->post('/slideshow/', 'SlideShowController:getSlideShow');

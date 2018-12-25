@@ -5,10 +5,19 @@
     use App\Model\Menu;
     use App\Model\Page;
     use App\Model\AttachFile;
+    use App\Model\MenuFavourite;
 
     use Illuminate\Database\Capsule\Manager as DB;
     
     class MenuService {
+
+        public static function getMenuFavourite($email){
+            return Menu::join('menu_favourite', 'menu_favourite.menu_id', '=', 'menus.id')
+                    ->where('email', $email)
+                    ->where('menus.actives', 'Y')
+                    ->orderBy('menu_count', 'DESC')
+                    ->get();      
+        }
 
         public static function getMenuList($parent_menu){
             return Menu::where('actives', 'Y')
@@ -60,6 +69,7 @@
             $model->menu_url = $obj['menu_url'];
             $model->menu_order = $obj['menu_order'];
             $model->menu_logo = $obj['menu_logo'];
+            $model->menu_image = $obj['menu_image'];
             $model->save();
             return $model->id;
         }
@@ -95,6 +105,19 @@
 
         public static function getAttachFiles($menu_id){
             return AttachFile::where('menu_id', $menu_id)->get();
+        }
+
+        public static function updateVisit($email, $menu_id){
+            $model = MenuFavourite::where('menu_id', $menu_id)->where('email', $email)->first();
+            if(empty($model)){
+                $model = new MenuFavourite;
+                $model->menu_id = $menu_id;
+                $model->email = $email;
+                $model->menu_count = 1;
+            }else{
+                $model->menu_count = intval($model->menu_count) + 1;
+            }
+            return $model->save();
         }
 
     }

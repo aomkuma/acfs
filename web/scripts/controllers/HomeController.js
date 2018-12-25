@@ -3,7 +3,8 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     // $scope.DEFAULT_LANGUAGE = 'TH';
     $scope.$parent.menu_selected = 'home';
     $scope.$parent.menu_selected_th = 'หน้าหลัก';
-
+    var $user_session = sessionStorage.getItem('USER_LOGIN');
+    $scope.$parent.currentUser = angular.fromJson($user_session);
     // $scope.slides = [{'id':1, 'path':'../cio-files/img/slide/studio_x9450.jpg'}
     // 				,{'id':2, 'path':'../cio-files/img/slide/studio_x9450.jpg'}];
     $scope.loadMenu = function(action){
@@ -21,6 +22,16 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
                 e.preventDefault();
               });
             });
+        });
+    }
+
+    $scope.loadMenuFavourite = function(){
+        
+        var params = {'user_session' : $scope.currentUser};
+        HTTPService.clientRequest('menu/get/favourite', params).then(function(result){
+            //console.log(result);
+            $scope.HighlightList = result.data.DATA.Menu;
+            $scope.slideImage($scope.next_index);
         });
     }
 
@@ -90,6 +101,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
 
     $scope.Minister = null;
 
+    $scope.ShowHighlightList = [];
     $scope.HighlightList = [
                                 {'img_path':'files/img/h1.png'}
                                 ,{'img_path':'files/img/h2.png'}
@@ -102,6 +114,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     // $scope.loadPalace('palaces');
     $scope.loadLinkUrl('linkurl');
     $scope.loadNews('news/home');
+    $scope.loadMenuFavourite();
     // $scope.loadVideo('video/list');
     // $scope.loadNewsEcho('news', 'ข่าวประกาศจัดซื้อจัดจ้าง', 'Y');
 
@@ -109,6 +122,28 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         //showSlides();   
         // setInterval(function(){showSlides();},5000);
     },500);
+
+    $scope.slideImage = function(index){
+        var cnt = 0;
+        var position = index;
+        $scope.ShowHighlightList = [];
+
+        while(cnt < 5 && position < $scope.HighlightList.length){
+            
+            $scope.ShowHighlightList.push($scope.HighlightList[position]);
+            position++;
+            cnt++;
+            console.log('do : '+cnt);
+            console.log('index : ' + index);
+        }
+        $scope.next_index = index + 1;
+        $scope.prev_index = index - 1;
+        console.log($scope.next_index);
+        console.log($scope.prev_index);
+    }
+    
+    $scope.next_index = 0;
+    $scope.prev_index = 0;
 
 });
 

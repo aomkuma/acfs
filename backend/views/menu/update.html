@@ -3,7 +3,30 @@
 <div class="page-header">
 	<h3>จัดการเมนู</h3>
 </div>
+<div class="row form-group">
+		<div class="col-lg-12 text-center">
+			<img ngf-thumbnail="AttachFile" style="width: auto; height: 200px; " ng-show="AttachFile != null && MenuData.menu_image == null">
+			<img src="{{'../'+ MenuData.menu_image}}" style="width: auto height: 200px; " ng-show="MenuData.menu_image != null && AttachFile == null">
+		</div>
+	</div>
 
+<div class="row form-group">
+	<label class=" form-control-static col-lg-2 col-md-2 col-sm-12 col-xs-12">
+		รูปภาพเมนู (แสดงส่วน Highlight ในหน้าแรก)
+	</label>
+	<div class="col-lg-4" >
+		<p class="input-group">
+          <input type="text" readonly="true" class="form-control" ng-model="AttachFile.name" />
+          <span class="input-group-btn">
+            <button class="btn btn-default" ngf-select ng-model="AttachFile" ngf-max-size="5MB"  ngf-model-invalid="AttachFile.invalidFile" accept="image/*" ngf-pattern="'.png,.jpg,.gif'" >เลือก</button>
+          </span>
+        </p>
+	</div>
+	<div class="col-lg-3">
+		<div class="file-alert" ng-show="fle.attachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{AttachFile.invalidFile.$errorParam}}</div>
+	</div>
+
+</div>
 <div class="row form-group">
 	<label class=" form-control-static col-lg-2 col-md-2 col-sm-12 col-xs-12">
 		ประเภทเมนู
@@ -192,7 +215,7 @@
 </fieldset>
 
 <div class="page-header text-center">
-	<button class="btn btn-info" ng-click="save('menu/update', MenuData, PageContent, FileList, EXLink)">บันทึก</button>
+	<button class="btn btn-info" ng-click="save('menu/update', MenuData, PageContent, FileList, EXLink, AttachFile)">บันทึก</button>
 	<button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
 </div>
 

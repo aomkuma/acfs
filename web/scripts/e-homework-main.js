@@ -14,6 +14,7 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $pro
 
 angular.module('e-homework').controller('AppController', ['$cookies','$scope', '$filter', '$uibModal','IndexOverlayFactory', function($cookies, $scope, $filter, $uibModal, IndexOverlayFactory) {
 	$scope.overlay = IndexOverlayFactory;
+  $scope.currentUser = null;
 	$scope.overlayShow = false;
 	$scope.menu_selected = '';
   
@@ -81,6 +82,24 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
     if(event.keyCode == 13){
       window.location.href = '#/search/' + keyword;
     }
+  }
+
+  $scope.checkLogin = function(email){
+    // console.log({'email' : email});
+    // return;
+    sessionStorage.setItem('USER_LOGIN', JSON.stringify({'email' : email}));
+    var $user_session = sessionStorage.getItem('USER_LOGIN');
+    console.log($user_session);
+    // sessionStorage.removeItem('USER_LOGIN');
+    $scope.currentUser = angular.fromJson($user_session);
+    console.log('current ', $scope.currentUser);
+    // window.location.reload();
+  
+  }
+
+  $scope.checkLogout = function(){
+    sessionStorage.removeItem('USER_LOGIN');
+    $scope.currentUser = null;
   }
     
 }])

@@ -46,10 +46,18 @@
         </div>
         <div class="row form-group">
           <div class="col-lg-10">
-            <div class="input-group add-on">
-              <input type="text" class="form-control" placeholder="e-mail address" name="srch-term" id="srch-term" ng-model="keyword" ng-keyup="checkEnter($event, keyword)" style="height: 34px;">
+            <div class="input-group add-on" ng-show="currentUser == undefined || currentUser == null">
+              <input type="text" class="form-control" placeholder="e-mail address" name="srch-term" id="srch-term" ng-model="email"  style="height: 34px;">
               <div class="input-group-btn">
-                <button class="btn btn-default" ng-click="goSearch(keyword)"><i class="glyphicon glyphicon-arrow-right"></i></button>
+                <button class="btn btn-default" ng-click="checkLogin(email)"><i class="glyphicon glyphicon-arrow-right"></i></button>
+              </div>
+            </div>
+            <div class="input-group add-on" ng-show="currentUser != undefined || currentUser != null">
+              <label class="form-control-static">
+                ยินดีต้อนรับ {{currentUser.email}}
+              </label>
+              <div class="input-group-btn">
+                <button class="btn btn-danger" ng-click="checkLogout()"><i class="glyphicon glyphicon-log-out"></i></button>
               </div>
             </div>
           </div>

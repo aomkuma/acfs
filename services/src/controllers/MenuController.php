@@ -49,6 +49,21 @@
             }
         }
 
+        public function getMenuFavourite($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $user_session = $params['obj']['user_session'];
+                // get main menu
+                $_Menu = MenuService::getMenuFavourite($user_session['email']);
+                
+                $this->data_result['DATA']['Menu'] = $_Menu;
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
         public function getMenuListManage($request, $response, $args){
             try{
                 $params = $request->getParsedBody();
@@ -68,10 +83,12 @@
             try{
                 $params = $request->getParsedBody();
                 $menu_id = $params['obj']['menu_id'];
+                
                 // get main menu
                 $_Page = MenuService::getPage($menu_id);
                 $_AttachFiles = MenuService::getAttachFiles($menu_id);
-                
+
+
                 $this->data_result['DATA']['Page'] = $_Page;
                 $this->data_result['DATA']['FileList'] = $_AttachFiles;
 
@@ -98,8 +115,10 @@
             try{
                 $params = $request->getParsedBody();
                 $menu_type = $params['obj']['menu_type'];
+                $user_session = $params['user_session'];
+
                 $_Menu = MenuService::getMenuByType($menu_type);
-                
+                $menu_id = $_Menu['id'];
                 // find parent menu
                 $MenuList = [];
                 $menu_check = $_Menu;
@@ -116,6 +135,10 @@
                 }while($menu['parent_menu'] != '0' && $cnt < 5);
                 array_push($MenuList, $_Menu);
                 // exit;
+                if(!empty($user_session['email'])){
+                // Update User visit page
+                    MenuService::updateVisit($user_session['email'], $menu_id);
+                }
                 $this->data_result['DATA']['Menu'] = $MenuList;
 
                 return $this->returnResponse(200, $this->data_result, $response, false);
@@ -175,8 +198,8 @@
 
         public function updateMenu($request, $response, $args){
             
-            $_WEB_FILE_PATH = 'cio-files/files';
-            $_WEB_IMG_PATH = 'cio-files/img';
+            $_WEB_FILE_PATH = 'files/files';
+            $_WEB_IMG_PATH = 'files/img';
 
             try{
                 // error_reporting(E_ERROR);
@@ -189,11 +212,29 @@
                 $_Page = $params['obj']['PageObj'];
                 $_EXLink = $params['obj']['EXLinkObj'];
                 $AttachFileObj = $params['obj']['AttachFileObj'];
-                // print_r($params['obj']);exit;
+                $MenuImageFile = $params['obj']['MenuImageFile'];
+                
                 // Update Menu
                 $menu_id = MenuService::updateMenu($_Menu);
                 if($_Menu['menu_type'] == 'PAGE'){
                     MenuService::updateMenuURL($menu_id);
+                }
+
+                // Menu image
+                $files = $request->getUploadedFiles();
+                // print_r($params);exit;
+                if($files['obj']['MenuImageFile'] != null){
+                    
+                    $files = $files['obj']['MenuImageFile'];
+                    // print_r($files);
+                    if($files->getClientFilename() != ''){
+                        $ext = pathinfo($files->getClientFilename(), PATHINFO_EXTENSION);
+                        $FileName = $menu_id . '_' . date('YmdHis').'_'.rand(100000,999999). '.'.$ext;
+                        $FilePath = $_WEB_IMG_PATH . '/' . $FileName;
+                        $_Menu['menu_image'] = $FilePath;
+                        MenuService::updateMenu($_Menu);
+                        $files->moveTo('../../' . $FilePath);
+                    }   
                 }
 
                 // Logo image
