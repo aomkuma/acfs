@@ -48,7 +48,7 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
 		}
 	})
 
-	.when("/commodity-standard/update/:id?", {
+	.when("/commodity-standard/update/:id?/:disabled_form?", {
         templateUrl : "views/commodity-standard/update.html",
         controller : "CommodityStandardUpdateController",
         resolve : {

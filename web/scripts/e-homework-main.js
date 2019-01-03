@@ -12,7 +12,7 @@ app.config(function($controllerProvider, $compileProvider, $filterProvider, $pro
   };
 });
 
-angular.module('e-homework').controller('AppController', ['$cookies','$scope', '$filter', '$uibModal','IndexOverlayFactory', function($cookies, $scope, $filter, $uibModal, IndexOverlayFactory) {
+angular.module('e-homework').controller('AppController', ['$cookies','$scope', '$filter', '$uibModal','IndexOverlayFactory', 'HTTPService', function($cookies, $scope, $filter, $uibModal, IndexOverlayFactory, HTTPService) {
 	$scope.overlay = IndexOverlayFactory;
   $scope.currentUser = null;
 	$scope.overlayShow = false;
@@ -87,12 +87,26 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
   $scope.checkLogin = function(email){
     // console.log({'email' : email});
     // return;
-    sessionStorage.setItem('USER_LOGIN', JSON.stringify({'email' : email}));
-    var $user_session = sessionStorage.getItem('USER_LOGIN');
-    console.log($user_session);
-    // sessionStorage.removeItem('USER_LOGIN');
-    $scope.currentUser = angular.fromJson($user_session);
-    console.log('current ', $scope.currentUser);
+    var params = {'email' : email};
+      HTTPService.clientRequest('subscribe/mail/login', params).then(function(result){
+        if(result.data.STATUS == 'OK'){
+          sessionStorage.setItem('USER_LOGIN', JSON.stringify({'email' : email}));
+          var $user_session = sessionStorage.getItem('USER_LOGIN');
+          console.log($user_session);
+          // sessionStorage.removeItem('USER_LOGIN');
+          $scope.currentUser = angular.fromJson($user_session);
+          console.log('current ', $scope.currentUser);
+
+          var fav_menu = result.data.DATA.Menu;
+          if(fav_menu != null){
+            window.location.href = '#/' + fav_menu.menu_url;
+          }
+        }else{
+          var alertMsg = ($scope.DEFAULT_LANGUAGE == 'TH'?result.data.DATA.TH:result.data.DATA.EN);
+          alert(alertMsg);
+        }
+        
+      });
     // window.location.reload();
   
   }
@@ -101,6 +115,51 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
     sessionStorage.removeItem('USER_LOGIN');
     $scope.currentUser = null;
   }
+// sessionStorage.removeItem('ShowLandingPage');
+  $scope.VisitorCount = sessionStorage.getItem('VisitorCount');
+  // $scope.LandingPage = sessionStorage.getItem('LandingPage');
+  $scope.ShowLandingPage = sessionStorage.getItem('ShowLandingPage');
+  console.log($scope.ShowLandingPage);
+  $scope.loadLandingPage = function(){
+      var params = {'actives' : 'Y'};
+      HTTPService.clientRequest('landing-page/list/view', params).then(function(result){
+          console.log('landing', result);
+          $scope.LandingPage = result.data.DATA;
+          // sessionStorage.setItem('ShowLandingPage', true);
+          if($scope.LandingPage != null){
+            $scope.ShowLandingPage  = true;
+          }
+      });
+  }
+
+  $scope.closeLandingPage = function(){
+    sessionStorage.setItem('ShowLandingPage', false);
+    $scope.ShowLandingPage = false;
+  }
+
+  if($scope.ShowLandingPage == null){
+    $scope.loadLandingPage();
+    
+  }
+
+  $scope.subscribeMail = function(email){
+      var params = {'email' : email};
+      HTTPService.clientRequest('subscribe/mail/register', params).then(function(result){
+          // console.log('landing', result);
+          if(result.data.STATUS == 'OK'){
+            var alertMsg = ($scope.DEFAULT_LANGUAGE == 'TH'?'ลงทะเบียนสำเร็จ!':'Register successful!');
+            alert(alertMsg);
+            
+          }else{
+            var alertMsg = ($scope.DEFAULT_LANGUAGE == 'TH'?result.data.DATA.TH:result.data.DATA.EN);
+            alert(alertMsg);
+            
+          }
+          $scope.mail_subscribe = '';
+      });
+  }
+
+  $scope.mail_subscribe = '';
     
 }])
 .directive('embedSrc', function () {

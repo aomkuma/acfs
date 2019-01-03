@@ -1,6 +1,6 @@
 var serviceUrl = '../services/public/';
 
-var app = angular.module('e-homework', ['ui.bootstrap' , 'ngRoute' , 'ngAnimate', 'ngCookies', 'ui.router', 'oc.lazyLoad', 'ngFileUpload', 'angular-bind-html-compile']);
+var app = angular.module('e-homework', ['ui.bootstrap' , 'ngRoute' , 'ngAnimate', 'ngCookies', 'ui.router', 'oc.lazyLoad', 'ngFileUpload', 'angular-bind-html-compile', 'dndLists']);
 
 app.config(function($controllerProvider, $compileProvider, $filterProvider, $provide) {
   app.register = {

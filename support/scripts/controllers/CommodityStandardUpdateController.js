@@ -10,6 +10,12 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
     }
 	console.log('id : ', $scope.$parent.currentUser.adminID);
 	$scope.ID = $routeParams.id;
+    $scope.disabled_form = $routeParams.disabled_form;
+
+    $scope.DisabledForm = false;
+    if($scope.disabled_form == 'disabled'){
+        $scope.DisabledForm = true;
+    }
 	$scope.$parent.menu_selected = 'commodity-standard';
 
 	$scope.addKeywordTH = function(){
@@ -26,10 +32,37 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 								, 'updateBy':$scope.currentUser.adminID});
 	}
 
+    $scope.IDReplaced = {'id':''};
     $scope.checkStep = function(step){
         if(step != 9){
             $scope.Commodity_Standards.useDate = null;
             $scope.AttachFile = null;
+            if(step == 10){
+                $scope.CommodityStandardReplaceList = [];
+                var params = {'standardID' : $scope.Commodity_Standards.standardID};
+                HTTPService.clientRequest('commodity-standard/list/replace', params).then(function(result){
+
+                    $scope.CommodityStandardReplaceList = result.data.DATA.List;
+
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: 'choose_standard_replace.html',
+                        size: 'md',
+                        scope: $scope,
+                        backdrop: 'static',
+                        controller: 'ModalDialogReturnFromOKBtnCtrl',
+                        resolve: {
+                            params: function () {
+                                return {};
+                            }
+                        },
+                    });
+                    modalInstance.result.then(function (valResult) {
+                        $scope.ID_Replaced = valResult;
+                        console.log($scope.ID_Replaced);
+                    });
+                });
+            }
         }
     }
 
@@ -110,6 +143,7 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 					'Commodity_Standards':$scope.Commodity_Standards
 					, 'Commodity_Keywords_TH':$scope.Commodity_Keywords_TH
 					, 'Commodity_Keywords_EN':$scope.Commodity_Keywords_EN
+                    , 'ID_Replaced':($scope.ID_Replaced==undefined?'':$scope.ID_Replaced.id)
                     , 'AttachFile':$scope.AttachFile
 					};
 		IndexOverlayFactory.overlayShow();

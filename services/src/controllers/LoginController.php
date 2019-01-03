@@ -5,6 +5,9 @@
     use App\Service\LoginService;
     use App\Controller\Mailer;
     use App\Service\EmailService;
+    use App\Service\UserRoleService;
+    use App\Service\MenuService;
+    
 
     class LoginController extends Controller {
         
@@ -348,7 +351,111 @@
             }catch(\Exception $e){
                 return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
             }
+        } 
+
+        public function registerMailSubscribe($request, $response, $args){
+            try{
+                $loginObj = $request->getParsedBody();
+                $obj = $loginObj['obj'];
+                
+                // check duplicate Username
+                $duplicate = LoginService::checkDuplicateMailSubscribe($obj['email']);    
+                if(!$duplicate){
+                    // add new admin
+                    $data = [];
+                    $data['email'] = $obj['email'];
+                    $data['actives'] = 'Y';
+                    $data['create_date'] = date('Y-m-d H:i:s');
+
+                    $result = LoginService::addMailSubscribe($data);    
+                    
+                    if($result){
+                        $this->data_result['DATA'] = 'Success';
+                    }else{
+                        $this->data_result['STATUS'] = 'ERROR';
+                        $this->data_result['DATA'] = 'กรุณาลองใหม่ภายหลัง';
+                    }
+                }else{
+                    $this->data_result['STATUS'] = 'ERROR';
+                    $this->data_result['DATA']['TH'] = 'email นี้มีในระบบอยู่แล้ว';
+                    $this->data_result['DATA']['EN'] = 'This email is already exist.';
+                }
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
         }   
+
+        public function loginMailSubscribe($request, $response, $args){
+            try{
+                $loginObj = $request->getParsedBody();
+                $obj = $loginObj['obj'];
+                
+                // check duplicate Username
+                $DATA = LoginService::checkMailSubscribeLogin($obj['email']);    
+                if(!empty($DATA)){
+                    
+                    // find most visit menu
+                    $menu = MenuService::getMostVisit($obj['email']);
+                    $this->data_result['DATA'] = $DATA;
+                    $this->data_result['DATA']['Menu'] = $menu;
+                    
+                }else{
+                    $this->data_result['STATUS'] = 'ERROR';
+                    $this->data_result['DATA']['TH'] = 'ไม่พบ email นี้ในระบบ กรุณาลงทะเบียนก่อนเข้าใช้งาน';
+                    $this->data_result['DATA']['EN'] = 'Email not found, please register.';
+                }
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }   
+
+        public function authenticateBackend($request, $response, $args){
+    //         error_reporting(E_ERROR);
+    // error_reporting(E_ALL);
+    // ini_set('display_errors','On');
+            try{
+                $error_msg = '';
+
+                $loginObj = $request->getParsedBody();
+                $username = $loginObj['obj']['Username'];
+                $password = $loginObj['obj']['Password'];
+                
+                $this->logger->info('Find by username : '. $username . " Password : " . $password);
+                // System login
+                $user = LoginService::authenticateBackend($username , $password);    
+                
+                $this->logger->info($user);
+                if(!empty($user[id])){
+                    unset($user[password]);
+                    
+                    // Get menu in this user's group
+                    //$menuList = LoginService::getMenuList($user['UserID']);                    
+                    $this->data_result['DATA']['UserData'] = $user;
+
+                    // Load menu permission
+                    $MenuPermission = UserRoleService::getDetails($user['role']);
+
+                    $this->data_result['DATA']['MenuPermission'] = $MenuPermission;
+                }else{
+                
+                    $this->data_result['STATUS'] = 'ERROR';
+                    $this->data_result['DATA'] = 'ไม่พบผู้ใช้งาน';    
+                
+                }
+                
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+            
+        }
 
         private function diff($date1, $date2) {
             $to_time = strtotime($date2);

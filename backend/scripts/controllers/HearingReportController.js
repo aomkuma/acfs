@@ -13,7 +13,8 @@ angular.module('e-homework').controller('HearingReportController', function($sco
 
     $scope.page_type = 'hearing-report';
     
-    $scope.loadMenu = function(action){
+    $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
+     $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
             $scope.Menu = result.data.DATA.Menu;
@@ -28,7 +29,7 @@ angular.module('e-homework').controller('HearingReportController', function($sco
                 e.preventDefault();
               });
             });
-
+            $scope.Menu = $filter('MenuPermission')($scope.MenuPermission, $scope.Menu);     
             // $scope.load('menu/page/get', $scope.ID);
             
         });

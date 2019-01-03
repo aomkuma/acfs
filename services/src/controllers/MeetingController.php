@@ -116,6 +116,10 @@
 
 
         public function updateData($request, $response, $args){
+
+            error_reporting(E_ERROR);
+                error_reporting(E_ALL);
+                ini_set('display_errors','On');
             $_WEB_FILE_PATH = 'files/files';
             try{
 
@@ -213,7 +217,7 @@
                 }
                 
                 // send e-mail if sentMailStatus = 'Default'
-                if($_Meeting['isSendMail'] == 'N'){
+                if($_Meeting['sentEmailStatus'] == 'Default'){
                     // Get e-mail hosting for send to attendee & academic board
                     $email_settings = EmailService::getEmailAcademicBord($_Meeting['standardID']);
 
@@ -333,6 +337,8 @@
                     // End of send to academic board
                 }
 
+                $this->data_result['DATA']['meetingID'] = $meetingID;
+
                 return $this->returnResponse(200, $this->data_result, $response, false);
                 
             }catch(\Exception $e){
@@ -393,16 +399,16 @@
 
         private function makeThaiDateTime($date){
             $date = str_replace('.000', '', $date);
-            $dateTimeObj = split(' ', $date);
+            $dateTimeObj = explode(' ', $date);
             $dateObj = $dateTimeObj[0]; 
             $timeObj = $dateTimeObj[1];
 
-            $dateObj = split('-' , $dateObj);
+            $dateObj = explode('-' , $dateObj);
             $day = $dateObj[2];
             $month = $dateObj[1];
             $year = $dateObj[0];
 
-            $timeObj = split(':' , $timeObj);
+            $timeObj = explode(':' , $timeObj);
             $hour = $timeObj[0];
             $minute = $timeObj[1];
 
@@ -428,16 +434,16 @@
         private function replyDate($date){
             $date = date('Y-m-d H:i:s', strtotime("-3 day", strtotime($date)));
             $date = str_replace('.000', '', $date);
-            $dateTimeObj = split(' ', $date);
+            $dateTimeObj = explode(' ', $date);
             $dateObj = $dateTimeObj[0]; 
             $timeObj = $dateTimeObj[1];
 
-            $dateObj = split('-' , $dateObj);
+            $dateObj = explode('-' , $dateObj);
             $day = $dateObj[2];
             $month = $dateObj[1];
             $year = $dateObj[0];
 
-            $timeObj = split(':' , $timeObj);
+            $timeObj = explode(':' , $timeObj);
             $hour = $timeObj[0];
             $minute = $timeObj[1];
 
@@ -462,11 +468,11 @@
 
         private function makeTime($date){
             $date = str_replace('.000', '', $date);
-            $dateTimeObj = split(' ', $date);
+            $dateTimeObj = explode(' ', $date);
             $dateObj = $dateTimeObj[0]; 
             $timeObj = $dateTimeObj[1];
 
-            $timeObj = split(':' , $timeObj);
+            $timeObj = explode(':' , $timeObj);
             $hour = $timeObj[0];
             $minute = $timeObj[1];
 

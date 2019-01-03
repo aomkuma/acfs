@@ -4,6 +4,7 @@ angular.module('app').controller('UserAccountUserUpdateController', function($sc
     
     if($user_session != null){
         $scope.$parent.currentUser = angular.fromJson($user_session);
+        console.log($scope.$parent.currentUser);
     }else{
        window.location.replace('#/guest/logon');
     }

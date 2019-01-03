@@ -1,4 +1,4 @@
-angular.module('e-homework').controller('AttachFileMulti3Controller', function($scope, $compile, $cookies, $filter, $state, $routeParams, HTTPService, IndexOverlayFactory) {
+angular.module('e-homework').controller('AttachFileMulti3Controller', function($scope, $compile, $cookies, $filter, $state, $routeParams, $uibModal, HTTPService, IndexOverlayFactory) {
     IndexOverlayFactory.overlayShow();
     var $user_session = sessionStorage.getItem('user_session');
     
@@ -7,6 +7,9 @@ angular.module('e-homework').controller('AttachFileMulti3Controller', function($
     }else{
        window.location.replace('#/guest/logon');
     }
+
+    $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
+    
     console.log('Hello ! AttachFile Multi page');
 	$scope.DEFAULT_LANGUAGE = 'TH';
     $scope.$parent.menu_selected = 'authority';
@@ -28,7 +31,7 @@ angular.module('e-homework').controller('AttachFileMulti3Controller', function($
                 e.preventDefault();
               });
             });
-
+            $scope.Menu = $filter('MenuPermission')($scope.MenuPermission, $scope.Menu);     
             // $scope.load('menu/page/get', $scope.ID);
             
         });
@@ -49,7 +52,8 @@ angular.module('e-homework').controller('AttachFileMulti3Controller', function($
         var params = {'menu_type' : menu_type, 'file_type' : $scope.FileType};
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
-            $scope.DataList = result.data.DATA.DataList;
+            $scope.model.list.DataList = result.data.DATA.DataList;
+            console.log($scope.model.list.DataList);
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -148,19 +152,47 @@ angular.module('e-homework').controller('AttachFileMulti3Controller', function($
         $scope.addFiles();
         // create Data obj
         var order_no = 0;
-        if($scope.DataList == null || $scope.DataList.length == 0){
+        if($scope.model.list.DataList == null || $scope.model.list.DataList.length == 0){
             order_no = 1;
         }else{
-            order_no = $scope.DataList.length + 1;
+            order_no = $scope.model.list.DataList.length + 1;
         }
 
-        $scope.Data = {'menu_type' : $scope.page_type, 'file_type' : filetype, 'order_no' : order_no, 'actives' : 'Y',};
+        $scope.Data = {'menu_type' : $scope.page_type, 'file_type' : filetype, 'order_no' : order_no, 'actives' : 'Y'};
         console.log($scope.Data);
         $scope.PAGE = 'UPDATE';
     }
 
     $scope.cancel = function(){
         $scope.PAGE = 'MAIN';
+    }
+
+    $scope.removeData = function(id){
+        $scope.alertMessage = 'ต้องการลบข้อมูลนี้ ใช่หรือไม่ ?';
+        var modalInstance = $uibModal.open({
+            animation : true,
+            templateUrl : 'views/dialog_confirm.html',
+            size : 'sm',
+            scope : $scope,
+            backdrop : 'static',
+            controller : 'ModalDialogCtrl',
+            resolve : {
+                params : function() {
+                    return {};
+                } 
+            },
+        });
+
+        modalInstance.result.then(function (valResult) {
+            IndexOverlayFactory.overlayShow();
+            var params = {'id' : id};
+            HTTPService.clientRequest('attachfile-multi/delete', params).then(function(result){
+                // $scope.load('Datas');
+                $scope.loadDataList('attachfile-multi/get/type' ,$scope.page_type);
+                IndexOverlayFactory.overlayHide();
+            });
+        });
+        
     }
 
     $scope.popup1 = {
@@ -207,5 +239,29 @@ angular.module('e-homework').controller('AttachFileMulti3Controller', function($
     $scope.getMenu('menu/get/type' ,$scope.page_type);
     $scope.loadDataList('attachfile-multi/get/type' ,$scope.page_type);
     $scope.loadMasterList('attachfile-multi/get/master' ,$scope.page_type);
+
+
+    // Drag & drop zone
+
+    $scope.$watch('model', function(model) {
+        $scope.modelAsJson = angular.toJson(model, true);
+    }, true);
+
+    $scope.model = {selected: null,
+        list: {"DataList": []}
+    };
+
+    $scope.dropCallback = function(DataList){
+        // DataList.splice($index, 1);
+        // alert('Drop!' + index);
+        // return ;
+        var params = {'DataList' : DataList};
+        HTTPService.clientRequest('attachfile-multi/update/sort', params).then(function (result) {
+            if (result.data.STATUS == 'OK') {
+                $scope.loadDataList('attachfile-multi/get/type' ,$scope.page_type);
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
 
 });

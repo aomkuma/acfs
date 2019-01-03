@@ -38,7 +38,10 @@
 	<div class="row form-group" >
 		<div class="col-lg-10 col-lg-offset-1">
 			<ul>
-				<li ng-repeat="data in DataList"><a href="../{{data.AttachFiles[0].file_path}}">{{data.AttachFiles[0].file_name}}</a></li>
+				<li ng-repeat="data in DataList">
+					<a ng-show="DEFAULT_LANGUAGE == 'TH'" href="../{{data.AttachFiles[0].file_path}}" download="{{data.AttachFiles[0].file_name}}">{{data.AttachFiles[0].display_name==''?data.AttachFiles[0].file_name:data.AttachFiles[0].display_name}}</a>
+					<a ng-show="DEFAULT_LANGUAGE == 'EN'" href="../{{data.AttachFiles[1].file_path}}" download="{{data.AttachFiles[1].file_name}}">{{data.AttachFiles[1].display_name==''?data.AttachFiles[1].file_name:data.AttachFiles[1].display_name}}</a>
+				</li>
 			</ul>
 			
 		</div>

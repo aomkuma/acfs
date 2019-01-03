@@ -47,6 +47,27 @@
             }
         }
 
+        public function updateSortData($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $_Palace = $params['obj']['PalaceList'];
+
+                $order = 1;
+                foreach ($_Palace as $key => $value) {
+                    PalaceService::updateSort($value['id'], $order);
+                    $order++;
+                }
+
+                $this->data_result['DATA']['id'] = $id;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
         public function updateData($request, $response, $args){
             $_WEB_IMAGE_PATH = 'files/img';
             $_WEB_FILE_PATH = 'files/files';
@@ -56,6 +77,13 @@
                 // ini_set('display_errors','On');
                 $params = $request->getParsedBody();
                 $_Palace = $params['obj']['Palace'];
+
+                foreach ($_Palace as $key => $value) {
+                    if($value == 'null'){
+                        $_Palace[$key] = '';
+                    }
+                }
+
                 $user_session = $params['user_session'];
 
                 // Update Attach files
@@ -84,11 +112,29 @@
 
                 $id = PalaceService::updateData($_Palace);
 
+                if($_Palace['position_end_date']!='' && $_Palace['position_end_date']!='null'){
+                    // Move to history
+                    if($_Palace['palace_type'] == 'current-board'){
+                        $_Palace['palace_type'] = 'history-board';
+                    }else if($_Palace['palace_type'] == 'current-cio'){
+                        $_Palace['palace_type'] = 'history-cio';
+                    }else if($_Palace['palace_type'] == 'current-consult'){
+                        $_Palace['palace_type'] = 'current-consult';
+                    }else if($_Palace['palace_type'] == 'current-specialist'){
+                        $_Palace['palace_type'] = 'history-specialist';
+                    }
 
-                
+                    $_Palace['id'] = '';
+                    $new_id = PalaceService::updateData($_Palace);
+                    if(!empty($new_id)){
+                        PalaceService::removeData($id);
+                    }
+                }
+
                 $this->data_result['DATA']['id'] = $id;
 
                 return $this->returnResponse(200, $this->data_result, $response, false);
+                
                 
             }catch(\Exception $e){
                 return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);

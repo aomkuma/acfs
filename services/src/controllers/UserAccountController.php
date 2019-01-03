@@ -201,6 +201,8 @@
                 $_Data = $params['obj']['Data'];
                 $user_session = $params['user_session'];
                 unset($_Data['role_name']);
+                // print_r($_Data);
+                // exit;
                 $userID = UserAccountService::updateUserAccountData($_Data);
 
                 $this->data_result['DATA']['userID'] = $userID;

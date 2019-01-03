@@ -55,4 +55,10 @@
             $model->actives = $active_status;
             return $model->save();
         }
+
+        public static function updateSort($id, $orderNo){
+            $model = AttachFileMulti::find($id);
+            $model->order_no = $orderNo;
+            return $model->save();
+        }
     }

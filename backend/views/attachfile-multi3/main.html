@@ -136,7 +136,7 @@
 <div ng-show="PAGE == 'MAIN'">
 	<div class="table-responsive">
 		<div class="col-lg-12">
-			<table class="table table-striped" ng-show="page_type != 'skr' && page_type != 'rule-food' && page_type != 'patrol' && page_type != 'standard-logo'">
+			<table class="table table-striped" ng-show="page_type != 'skr' && page_type != 'rule-food' && page_type != 'patrol' && page_type != 'standard-logo'" ng-repeat="(listName, list) in model.list">
 				<caption>
 					<button class="btn btn-primary" ng-click="add()"><span class="glyphicon glyphicon-plus"></span></button>
 				</caption>
@@ -148,8 +148,12 @@
 						<th>จัดการข้อมูล</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr ng-repeat="data in DataList">
+				<tbody dnd-list="list">
+					<tr ng-repeat="data in list" dnd-draggable="data"
+					        dnd-moved="list.splice($index, 1)"
+					        dnd-effect-allowed="move"
+					        dnd-selected="model.selected = data" 
+					        dnd-dragend="dropCallback(list)">
 						<td>{{ $index + 1}}</td>
 						<td>
 							{{data.AttachFiles[0].display_name}}
@@ -162,13 +166,13 @@
 						</td>
 						<td>
 							<button class="btn btn-default" ng-click="edit(data)"><span class="glyphicon glyphicon-edit"></span></button>
-							<button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+							<button class="btn btn-danger" ng-click="removeData(data.id)"><span class="glyphicon glyphicon-trash"></span></button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 
-			<table class="table table-striped" ng-show="page_type == 'skr'">
+			<table class="table table-striped" ng-show="page_type == 'skr'" ng-repeat="(listName, list) in model.list">
 				<caption>
 					<div class="row form-group">
 						<label class="form-control-static col-lg-1">
@@ -192,21 +196,25 @@
 						<th>จัดการข้อมูล</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr ng-repeat="data in DataList">
+				<tbody dnd-list="list">
+					<tr ng-repeat="data in list" dnd-draggable="data"
+					        dnd-moved="list.splice($index, 1)"
+					        dnd-effect-allowed="move"
+					        dnd-selected="model.selected = data" 
+					        dnd-dragend="dropCallback(list)">
 						<td>{{data.AttachFiles[0].file_code}}
 							<br>
 							{{data.AttachFiles[1].file_code}}
 						</td>
 						<td>
 							<button class="btn btn-default" ng-click="edit(data)"><span class="glyphicon glyphicon-edit"></span></button>
-							<button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+							<button class="btn btn-danger" ng-click="removeData(data.id)"><span class="glyphicon glyphicon-trash"></span></button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 
-			<table class="table table-striped" ng-show="page_type == 'rule-food'">
+			<table class="table table-striped" ng-show="page_type == 'rule-food'" ng-repeat="(listName, list) in model.list">
 				<caption>
 					<div class="row form-group">
 						<label class="form-control-static col-lg-1">
@@ -230,15 +238,19 @@
 						<th>จัดการข้อมูล</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr ng-repeat="data in DataList">
+				<tbody dnd-list="list">
+					<tr ng-repeat="data in list" dnd-draggable="data"
+					        dnd-moved="list.splice($index, 1)"
+					        dnd-effect-allowed="move"
+					        dnd-selected="model.selected = data" 
+					        dnd-dragend="dropCallback(list)">
 						<td>{{data.AttachFiles[0].display_name}}
 							<br>
 							{{data.AttachFiles[1].display_name}}
 						</td>
 						<td>
 							<button class="btn btn-default" ng-click="edit(data)"><span class="glyphicon glyphicon-edit"></span></button>
-							<button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+							<button class="btn btn-danger" ng-click="removeData(data.id)"><span class="glyphicon glyphicon-trash"></span></button>
 						</td>
 					</tr>
 				</tbody>
@@ -253,7 +265,7 @@
 					</div>
 					<div class="col-lg-10">
 
-						<table class="table table-bordered table-striped">
+						<table class="table table-bordered table-striped" ng-repeat="(listName, list) in model.list">
 							<caption>
 								<div class="row form-group">
 									<label class="form-control-static col-lg-6">
@@ -276,8 +288,12 @@
 									<th>ดาวน์โหลด</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr ng-repeat="data in DataList">
+							<tbody dnd-list="list">
+								<tr ng-repeat="data in list" dnd-draggable="data"
+							        dnd-moved="list.splice($index, 1)"
+							        dnd-effect-allowed="move"
+							        dnd-selected="model.selected = data" 
+							        dnd-dragend="dropCallback(list)">
 									<td>{{data.AttachFiles[0].display_name}}</td>
 									<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><span class="glyphicon glyphicon-download"></span></a></td>
 								</tr>
@@ -292,7 +308,7 @@
 					
 					<div class="col-lg-12">
 
-						<table class="table table-bordered table-striped">
+						<table class="table table-bordered table-striped" ng-repeat="(listName, list) in model.list">
 							<caption>
 								<button class="btn btn-primary" ng-click="add()"><span class="glyphicon glyphicon-plus"></span></button>
 							</caption>
@@ -303,15 +319,19 @@
 									<th>แก้ไข</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr ng-repeat="data in DataList">
+							<tbody dnd-list="list">
+								<tr ng-repeat="data in list" dnd-draggable="data"
+							        dnd-moved="list.splice($index, 1)"
+							        dnd-effect-allowed="move"
+							        dnd-selected="model.selected = data" 
+							        dnd-dragend="dropCallback(list)">
 									<td>{{data.AttachFiles[0].display_name}}</td>
 									<td>
 										<img src="../{{data.AttachFiles[0].file_path}}" alt="" height="40">
 									</td>
 									<td>
 										<button class="btn btn-default" ng-click="edit(data)"><span class="glyphicon glyphicon-edit"></span></button>
-										<button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+										<button class="btn btn-danger" ng-click="removeData(data.id)"><span class="glyphicon glyphicon-trash"></span></button>
 									</td>
 								</tr>
 							</tbody>

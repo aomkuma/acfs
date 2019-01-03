@@ -10,6 +10,7 @@ angular.module('e-homework').controller('BudgetDisbursementController', function
        window.location.replace('#/guest/logon');
     }
 
+    $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
      $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
@@ -25,7 +26,7 @@ angular.module('e-homework').controller('BudgetDisbursementController', function
                 e.preventDefault();
               });
             });
-
+            $scope.Menu = $filter('MenuPermission')($scope.MenuPermission, $scope.Menu);     
             // $scope.load('menu/page/get', $scope.ID);
             
         });

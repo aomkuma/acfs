@@ -65,8 +65,8 @@ angular.module('app').controller('CommodityStandardController', function($scope,
         });
     }
 
-    $scope.goUpdate = function(id){
-        window.location.href = '#/commodity-standard/update/' + id;
+    $scope.goUpdate = function(id, disabled_form){
+        window.location.href = '#/commodity-standard/update/' + id + '/' + disabled_form;
     }
 
     $scope.getStatusText = function(step){

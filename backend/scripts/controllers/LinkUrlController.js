@@ -11,6 +11,7 @@ angular.module('e-homework').controller('LinkUrlController', function($scope, $c
     $scope.DEFAULT_LANGUAGE = 'TH';
     $scope.$parent.menu_selected = 'relatelink';
 
+     $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
      $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
@@ -26,7 +27,7 @@ angular.module('e-homework').controller('LinkUrlController', function($scope, $c
                 e.preventDefault();
               });
             });
-
+            $scope.Menu = $filter('MenuPermission')($scope.MenuPermission, $scope.Menu);     
             // $scope.load('menu/page/get', $scope.ID);
             
         });

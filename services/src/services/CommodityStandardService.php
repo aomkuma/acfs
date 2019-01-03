@@ -3,12 +3,21 @@
     namespace App\Service;
     
     use App\Model\CommodityStandard;
+    use App\Model\CommodityStandardCancelled;
     use App\Model\CommodityKeyword;
     use App\Model\APICaller;
 
     use Illuminate\Database\Capsule\Manager as DB;
     
     class CommodityStandardService {
+
+        public static function getListReplace($standardID){
+            return CommodityStandard::where('status' , 'Active')
+                    ->where('standardID' , '<>', $standardID)
+                    ->whereIn('step' , [9,11])
+                    ->orderBy('standardID', 'DESC')
+                    ->get();
+        }
 
         public static function getListActive($years){
             return CommodityStandard::where('status' , 'Active')
@@ -93,39 +102,56 @@
             return ['DataList'=>$DataList, 'Total' => $totalRows];
         }
 
-        public static function getCommodityStandardListByType($currentPage, $limitRowPerPage, $keyword, $defineType, $standardType){
+        public static function getCommodityStandardListByType($currentPage, $limitRowPerPage, $keyword, $defineType, $standardType,$stepList){
             // 
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
             $totalRows = CommodityStandard::
-                        where(function($query) use ($stepList, $keyword, $defineType, $standardType){
+                        where(function($query) use ($keyword){
                             //$query->where('step', '9');
-                            $query->where('status', 'Active');
-                            $query->where('standardDefineType', $defineType);
                             if(!empty($keyword)){
                                 $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('Commodity_Keywords.keyword', 'LIKE', DB::raw("'%" . $keyword . "%'"));
                             }
+                            
+                        })
+                        ->where(function($query) use ($standardType){
+                            //$query->where('step', '9');
+                            
                             if(!empty($standardType)){
                                 $query->where('standardType', $standardType);
                             }
                         })
+                        ->where('status', 'Active')
+                        ->whereIn('step', $stepList)
+                        ->where('standardDefineType', $defineType)
+                        ->leftJoin("Commodity_Keywords", 'Commodity_Keywords.standardID', '=', 'Commodity_Standards.standardID')
                         ->count();
 
             // $totalPage = ceil($totalRows / $limitRowPerPage);
             $DataList = CommodityStandard::
-                        where(function($query) use ($stepList, $keyword, $defineType, $standardType){
+                        where(function($query) use ($keyword){
                             //$query->where('step', '9');
-                            $query->where('status', 'Active');
-                            $query->where('standardDefineType', $defineType);
                             if(!empty($keyword)){
                                 $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('Commodity_Keywords.keyword', 'LIKE', DB::raw("'%" . $keyword . "%'"));
                             }
+                            
+                        })
+                        ->where(function($query) use ($standardType){
+                            //$query->where('step', '9');
+                            
                             if(!empty($standardType)){
                                 $query->where('standardType', $standardType);
                             }
                         })
-                        ->orderBy('standardID', 'DESC')
+                        ->where('status', 'Active')
+                        ->whereIn('step', $stepList)
+                        ->where('standardDefineType', $defineType)
+                        ->leftJoin("Commodity_Keywords", 'Commodity_Keywords.standardID', '=', 'Commodity_Standards.standardID')
+                        ->groupBy('Commodity_Keywords.standardID')
+                        ->orderBy('Commodity_Standards.standardID', 'DESC')
                         ->skip($skip)
                         ->take($limit)
                         ->get();      
@@ -303,4 +329,16 @@
             $model = APICaller::create($obj);
             return $model->id;
         }
+
+        public static function updateCommodityStandardCancelled($obj){
+            $model = CommodityStandardCancelled::create($obj);
+            return $model->id;
+        }
+
+        public static function findCommodityStandardCancelled($id){
+            return CommodityStandardCancelled::where('id_replaced', $id)
+                ->join('Commodity_Standards', 'Commodity_Standards.standardID', '=' ,'Commodity_Standard_Cancelled.id_cancelled')
+                ->first();
+        }
+
     }

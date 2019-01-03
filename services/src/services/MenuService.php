@@ -6,21 +6,28 @@
     use App\Model\Page;
     use App\Model\AttachFile;
     use App\Model\MenuFavourite;
+    use App\Model\Visitor;
 
     use Illuminate\Database\Capsule\Manager as DB;
     
     class MenuService {
 
-        public static function getMenuFavourite($email){
-            return Menu::join('menu_favourite', 'menu_favourite.menu_id', '=', 'menus.id')
+        public static function getMenuFavourite(){
+            return Menu::where('show_index', 'Y')
+                    ->where('Menus.actives', 'Y')
+                    ->orderBy('id', 'DESC')
+                    ->get();      
+            /*
+            return Menu::join('Menu_Favourite', 'Menu_Favourite.menu_id', '=', 'Menus.id')
                     ->where('email', $email)
-                    ->where('menus.actives', 'Y')
+                    ->where('Menus.actives', 'Y')
                     ->orderBy('menu_count', 'DESC')
                     ->get();      
+                    */
         }
 
         public static function getMenuList($parent_menu){
-            return Menu::where('actives', 'Y')
+            return Menu::select("Menus.*", DB::raw("'N' AS checked_menu"))->where('actives', 'Y')
                     ->where('parent_menu', $parent_menu)
                     ->orderBy('menu_order', 'ASC')
                     ->get();      
@@ -66,6 +73,7 @@
             $model->parent_menu = $obj['parent_menu'];
             $model->menu_type = $obj['menu_type'];
             $model->actives = $obj['actives'];
+            $model->show_index = $obj['show_index'];
             $model->menu_url = $obj['menu_url'];
             $model->menu_order = $obj['menu_order'];
             $model->menu_logo = $obj['menu_logo'];
@@ -107,6 +115,14 @@
             return AttachFile::where('menu_id', $menu_id)->get();
         }
 
+        public static function getMostVisit($email){
+            return Menu::select("Menus.*")
+                    ->join("Menu_Favourite", "Menu_Favourite.menu_id", '=' , 'Menus.id')
+                    ->where("email", $email)
+                    ->orderBy('menu_count', 'DESC')
+                    ->first();
+        }        
+
         public static function updateVisit($email, $menu_id){
             $model = MenuFavourite::where('menu_id', $menu_id)->where('email', $email)->first();
             if(empty($model)){
@@ -118,6 +134,14 @@
                 $model->menu_count = intval($model->menu_count) + 1;
             }
             return $model->save();
+        }
+
+        public static function updateVisitorCount(){
+
+            $model = Visitor::find(1);
+            $model->visitor_count = $model->visitor_count + 1;
+            $model->save();
+            return $model->visitor_count;
         }
 
     }

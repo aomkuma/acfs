@@ -15,6 +15,22 @@
             $this->db = $db;
         }
 
+        public function getListReplace($request, $response, $args){
+            try{
+
+                $params = $request->getParsedBody();
+                $standardID = filter_var($params['obj']['standardID'], FILTER_SANITIZE_NUMBER_INT);
+                
+                $List = CommodityStandardService::getListReplace($standardID);
+                $this->data_result['DATA']['List'] = $List;
+                
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
         public function getListActive($request, $response, $args){
             try{
 
@@ -208,13 +224,13 @@
                 $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
                 $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
                 $standardType = filter_var($params['obj']['standardType'], FILTER_SANITIZE_STRING);
-                $stepList = [1,2,3,4,5,6,7,8,9];
+                $stepList = ['9','11'];//[1,2,3,4,5,6,7,8,9];
                 $defineType = 'ทั่วไป';
                 $CommodityStandard = [];
                 $Total = 0;
 
                 $limitRow = $limitRowPerPage - $Total;
-                $_Result = CommodityStandardService::getCommodityStandardListByType($currentPage, $limitRow, $keyword, $defineType, $standardType);
+                $_Result = CommodityStandardService::getCommodityStandardListByType($currentPage, $limitRow, $keyword, $defineType, $standardType, $stepList);
                 $_CommodityStandard = $_Result['DataList'];
                 $_Total = $_Result['Total'];
                 foreach ($_CommodityStandard as $key => $value) {
@@ -242,16 +258,30 @@
                 $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
                 $standardType = filter_var($params['obj']['standardType'], FILTER_SANITIZE_STRING);
                 $defineType = 'บังคับ';
-                $stepList = [1,2,3,4,5,6,7,8,9];
+                $stepList = ['9','11'];//[1,2,3,4,5,6,7,8,9];
                 
                 $CommodityStandard = [];
                 $Total = 0;
 
                 $limitRow = $limitRowPerPage - $Total;
-                $_Result = CommodityStandardService::getCommodityStandardListByType($currentPage, $limitRow, $keyword, $defineType, $standardType);
+                $_Result = CommodityStandardService::getCommodityStandardListByType($currentPage, $limitRow, $keyword, $defineType, $standardType, $stepList);
                 $_CommodityStandard = $_Result['DataList'];
                 $_Total = $_Result['Total'];
                 foreach ($_CommodityStandard as $key => $value) {
+                    // Find cancelled history
+                    $replace_id = $value['standardID'];
+                    $replace_title = $value['standardNameThai'];
+                    $cancelled_description = '';
+                    do{
+                        $cancelled_data = CommodityStandardService::findCommodityStandardCancelled($replace_id);
+                        if(!empty($cancelled_data)){
+                            $cancelled_description .= $replace_title . ' ใช้แทน ' . $cancelled_data['standardNameThai'] . '<br>';
+                            $replace_id = $cancelled_data['id_cancelled'];
+                            $replace_title = $cancelled_data['standardNameThai'];
+                        }
+
+                    }while(!empty($cancelled_data));
+                    $value['cancelled_data'] = $cancelled_description;
                     array_push($CommodityStandard, $value);
                 }
                 $Total += $_Total;
@@ -326,7 +356,7 @@
                 $_CommodityStandard = CommodityStandardService::getListAPI();
                 
                 // Update caller
-                $RequestName = 'test';
+                // $RequestName = 'test';
                 $caller['caller_name'] = $RequestName;
                 $caller['api_called'] = '-';
                 CommodityStandardService::updateAPICaller($caller);
@@ -389,6 +419,16 @@
                 	$v['standardID'] = $id;
                 	unset($v['$hashKey']);
                 	CommodityStandardService::updateCommodityKeyword($v);
+                }
+
+                // UPdate when cancelled
+                if($_CommodityStandard['step'] == '10' && !empty($params['obj']['ID_Replaced'])){
+
+                    $id_replaced = $params['obj']['ID_Replaced']; 
+                    $cancelled_data = [];
+                    $cancelled_data['id_cancelled'] = $id;
+                    $cancelled_data['id_replaced'] = $id_replaced;
+                    CommodityStandardService::updateCommodityStandardCancelled($cancelled_data);
                 }
 
                 $this->data_result['DATA']['standardID'] = $id;

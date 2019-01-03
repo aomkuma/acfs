@@ -80,11 +80,11 @@
       </div>
     
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+      <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" style="background-color: #1D2355;">
       
         <ul class="nav navbar-nav" style="background-color: #1D2355; color: #FFF; padding: 30px; font-size: 1.2em;">
           <li ng-class="{'active':menu_selected == 'home'}"><a href="#/"  style="border-left: 0px solid #000000;">
-            หน้าหลัก</a></li>
+            {{DEFAULT_LANGUAGE=='TH'?'หน้าหลัก':'Home'}}</a></li>
 
           <li ng-repeat="menu in Menu" ng-class="{'active':menu_selected == menu.menu_url, 'menu-item dropdown':menu.sub_menu.length > 0}" class="dropdown">
             
@@ -102,7 +102,7 @@
             aria-expanded="false" >
               {{DEFAULT_LANGUAGE=='TH'?menu.menu_name_th:menu.menu_name_en}} <b class="caret"></b>
             </a>
-            <ul class="dropdown-menu"><!-- style="min-width: 400px; overflow: scroll; height: 500px;"-->
+            <ul class="dropdown-menu  sub-menu" ng-show="menu.sub_menu.length > 0"><!-- style="min-width: 400px; overflow: scroll; height: 500px;"-->
                 <li ng-repeat="sub_menu1 in menu.sub_menu"
                  ng-class="{'dropdown-submenu':sub_menu1.sub_menu.length > 0}">
                   <a ng-show="sub_menu1.menu_type == 'EXLINK'" href="{{ sub_menu1.menu_url }}" target="_blank">
@@ -113,7 +113,7 @@
                   <a href="" tabindex="-1" class="test" ng-show="sub_menu1.sub_menu.length > 0 && sub_menu1.menu_type != 'EXLINK'">
                     {{DEFAULT_LANGUAGE=='TH'?sub_menu1.menu_name_th:sub_menu1.menu_name_en}}
                   </a>
-                  <ul class="dropdown-menu">
+                  <ul class="dropdown-menu  sub-menu sub-menu1" ng-show="sub_menu1.sub_menu.length > 0">
                     <li ng-repeat="sub_menu2 in sub_menu1.sub_menu" 
                     ng-class="{'dropdown-submenu':sub_menu2.sub_menu.length > 0}">
                       <a ng-show="sub_menu2.menu_type == 'EXLINK'" href="{{ sub_menu2.menu_url }}" target="_blank">
@@ -123,7 +123,7 @@
                       </a>
                       <a href="" tabindex="-1" class="test" ng-show="sub_menu2.menu_type == 'PARENT' && sub_menu2.sub_menu.length > 0">{{DEFAULT_LANGUAGE=='TH'?sub_menu2.menu_name_th:sub_menu2.menu_name_en}}
                       </a>
-                      <ul class="dropdown-menu" style="margin-right: 300px;">
+                      <ul class="dropdown-menu  sub-menu2" style="margin-right: 300px;" ng-show="sub_menu2.sub_menu.length > 0">
                         <li ng-repeat="sub_menu3 in sub_menu2.sub_menu">
                           <a ng-show="sub_menu3.menu_type != 'EXLINK'" href="#/{{ sub_menu3.menu_url }}">
                             {{DEFAULT_LANGUAGE=='TH'?sub_menu3.menu_name_th:sub_menu3.menu_name_en}}

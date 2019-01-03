@@ -14,6 +14,7 @@ angular.module('e-homework').controller('FreqQuestionController', function($scop
 
     $scope.page_type = 'freq-question';
 
+     $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
      $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
@@ -29,7 +30,7 @@ angular.module('e-homework').controller('FreqQuestionController', function($scop
                 e.preventDefault();
               });
             });
-
+            $scope.Menu = $filter('MenuPermission')($scope.MenuPermission, $scope.Menu);     
             // $scope.load('menu/page/get', $scope.ID);
             
         });

@@ -11,6 +11,10 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
             $scope.Menu = result.data.DATA.Menu;
+            $scope.$parent.VisitorCount = result.data.DATA.VisitorCount;
+            sessionStorage.setItem('VisitorCount', $scope.$parent.VisitorCount);
+            $scope.$parent.VisitorCount = sessionStorage.getItem('VisitorCount');
+            console.log($scope.$parent.VisitorCount);
             IndexOverlayFactory.overlayHide();
             $(document).ready(function(){
                 // console.log('asd');
@@ -24,6 +28,8 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
             });
         });
     }
+
+    
 
     $scope.loadMenuFavourite = function(){
         
@@ -118,6 +124,15 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         window.location.href=url;
     }
 
+    $scope.visibleLinkFooter = function(){
+        if($scope.ShowLinkFooter){
+            $scope.ShowLinkFooter = false;
+        }else{
+            $scope.ShowLinkFooter = true;
+        }
+    }
+
+    $scope.ShowLinkFooter = false;
     $scope.Minister = null;
     $scope.ShowLinkUrl = [];
     $scope.ShowHighlightList = [];

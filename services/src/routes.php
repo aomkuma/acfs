@@ -6,7 +6,11 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 //$app->get('/user/{id}', 'UserController:getUser');
 $app->post('/login/', 'LoginController:authenticate');
+$app->post('/login/backend/', 'LoginController:authenticateBackend');
 $app->post('/forgot-password/', 'LoginController:forgotPassword');
+$app->post('/subscribe/mail/register/', 'LoginController:registerMailSubscribe');
+$app->post('/subscribe/mail/login/', 'LoginController:loginMailSubscribe');
+
 
 $app->delete('/attach/delete/{id}', 'AttachFileController:removeAttachFile');
 
@@ -29,6 +33,8 @@ $app->post('/commodity-standard/mandatory/', 'CommodityStandardController:getLis
 $app->post('/commodity-standard/get/', 'CommodityStandardController:getData');
 $app->post('/commodity-standard/update/', 'CommodityStandardController:updateData');
 $app->post('/commodity-standard/api/get/', 'CommodityStandardController:getDataAPI');
+$app->post('/commodity-standard/list/replace/', 'CommodityStandardController:getListReplace');
+
 
 $app->post('/academic-board/list/', 'AcademicBoardController:getList');
 $app->post('/academic-board/update/', 'AcademicBoardController:updateData');
@@ -115,6 +121,7 @@ $app->post('/palaces/list/', 'PalaceController:getList');
 $app->post('/palaces/get/', 'PalaceController:getData');
 $app->post('/palaces/current/', 'PalaceController:getPalaceCurrent');
 $app->post('/palaces/update/', 'PalaceController:updateData');
+$app->post('/palaces/update/sort/', 'PalaceController:updateSortData');
 $app->delete('/palaces/delete/{id}', 'PalaceController:removePicture');
 
 $app->post('/report/export/', 'ReportController:exportReport');
@@ -128,7 +135,8 @@ $app->post('/attachfile-multi/get/type/', 'AttachFileMultiController:getList');
 $app->post('/attachfile-multi/get/master/', 'AttachFileMultiController:getMasterList');
 $app->post('/attachfile-multi/update/', 'AttachFileMultiController:updateData');
 $app->post('/attachfile-multi/update/active/', 'AttachFileMultiController:updateActiveStatus');
-$app->delete('/attachfile-multi/delete/{id}', 'AttachFileMultiController:removeData');
+$app->post('/attachfile-multi/update/sort/', 'AttachFileMultiController:updateSortData');
+$app->post('/attachfile-multi/delete/', 'AttachFileMultiController:deleteData');
 
 $app->post('/listening/list/', 'ListeningController:getList');
 $app->post('/listening/get/', 'ListeningController:getData');
@@ -234,7 +242,13 @@ $app->post('/footer-link/update/', 'FooterLinkController:updateData');
 $app->post('/footer-link/delete/', 'FooterLinkController:deleteData');
 
 $app->post('/user-role/list/', 'UserRoleController:getList');
-$app->post('/user-role/upadte/', 'UserRoleController:updateData');
+$app->post('/user-role/get/', 'UserRoleController:getData');
+$app->post('/user-role/update/', 'UserRoleController:updateData');
+
+$app->post('/landing-page/list/view/', 'LandingPageController:getListView');
+$app->post('/landing-page/list/', 'LandingPageController:getList');
+$app->post('/landing-page/get/', 'LandingPageController:getData');
+$app->post('/landing-page/update/', 'LandingPageController:updateData');
 
 // Default action
 $app->get('/[{name}]', function ($request, $response, $args) {

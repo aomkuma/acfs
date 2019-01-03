@@ -45,6 +45,7 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
     $scope.$parent.menu_selected = 'menu';
     $scope.ID = $routeParams.id;
 
+     $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
      $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
@@ -60,7 +61,7 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
                 e.preventDefault();
               });
             });
-
+            $scope.Menu = $filter('MenuPermission')($scope.MenuPermission, $scope.Menu);     
             // $scope.load('menu/page/get', $scope.ID);
             
         });

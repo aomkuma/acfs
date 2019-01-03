@@ -178,8 +178,41 @@
                         }
                     }
                 }else{
+                    $AttachFileList = $Data['AttachFiles'];
                     unset($Data['AttachFiles']);
                     $id = AttachFileMultiService::updateData($Data);
+
+                    $cnt = 0;
+                    foreach($AttachFileList as $k => $v){
+                        // if($cnt == 0){
+                        $file_name_th = $FileName[$cnt]['name_th'];
+                        $file_code_th = $FileCode[$cnt]['code_th'];
+                        if($cnt%2==0){
+                            if(!empty($file_name_th)){
+                                $v['display_name'] = $file_name_th;
+                            }
+                            if(!empty($file_code_th)){
+                                $v['file_code'] = $file_code_th;
+                            }
+                            $cnt++;
+                        }else{
+                            $file_name_en = $FileName[$cnt - 1]['name_en'];
+                            $file_code_en = $FileCode[$cnt - 1]['code_en'];
+
+                            if(!empty($file_name_en)){
+                                
+                                $v['display_name'] = $file_name_en;
+                            }
+                            if(!empty($file_code_en)){
+                                
+                                $v['file_code'] = $file_code_en;
+                            }
+                            
+                        }
+                          
+                        AttachFileService::updateAttachFiles($v);
+                        
+                    }
                 }
 
                 $this->data_result['DATA']['id'] = $id;
@@ -209,4 +242,44 @@
             }
 
         }
+
+        public function updateSortData($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $DataList = $params['obj']['DataList'];
+
+                $order = 1;
+                foreach ($DataList as $key => $value) {
+                    AttachFileMultiService::updateSort($value['id'], $order);
+                    $order++;
+                }
+
+                $this->data_result['DATA']['id'] = $id;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function deleteData($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $id = $params['obj']['id'];
+
+                $result = AttachFileMultiService::removeAttachFileMulti($id);
+
+                $this->data_result['DATA']['result'] = $result;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+
+        }
+
+
     }

@@ -41,7 +41,12 @@
                     $value['sub_menu'] = $MenuList1;
                     $MenuList[] = $value;
                 }
+
+                // Update visitor count
+                $visitor_count = MenuService::updateVisitorCount();
                 $this->data_result['DATA']['Menu'] = $MenuList;
+                $this->data_result['DATA']['VisitorCount'] = $visitor_count;
+
                 return $this->returnResponse(200, $this->data_result, $response, false);
                 
             }catch(\Exception $e){
@@ -54,7 +59,8 @@
                 $params = $request->getParsedBody();
                 $user_session = $params['obj']['user_session'];
                 // get main menu
-                $_Menu = MenuService::getMenuFavourite($user_session['email']);
+                // $_Menu = MenuService::getMenuFavourite($user_session['email']);
+                $_Menu = MenuService::getMenuFavourite();
                 
                 $this->data_result['DATA']['Menu'] = $_Menu;
                 return $this->returnResponse(200, $this->data_result, $response, false);
@@ -135,7 +141,7 @@
                 }while($menu['parent_menu'] != '0' && $cnt < 5);
                 array_push($MenuList, $_Menu);
                 // exit;
-                if(!empty($user_session['email'])){
+                if(!empty($user_session['email'])&&$menu_id!=''){
                 // Update User visit page
                     MenuService::updateVisit($user_session['email'], $menu_id);
                 }

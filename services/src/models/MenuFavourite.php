@@ -2,7 +2,7 @@
 
 namespace App\Model;
 class MenuFavourite extends \Illuminate\Database\Eloquent\Model {  
-  	protected $table = 'menu_favourite';
+  	protected $table = 'Menu_Favourite';
   	protected $primaryKey = 'id';
   	public $timestamps = false;
   	protected $fillable = array('id'

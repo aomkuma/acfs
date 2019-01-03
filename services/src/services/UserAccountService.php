@@ -150,7 +150,8 @@
             $skip = $offset * $limit;
             $totalRows = UserAccount::count();
 
-            $DataList = UserAccount::join('UserRole', 'UserRole.id', '=' ,'User_Account.role')
+            $DataList = UserAccount::select("User_Account.*", "UserRole.role_name")
+                        ->join('UserRole', 'UserRole.id', '=' ,'User_Account.role')
                         ->skip($skip)
                         ->take($limit)
                         ->get();  

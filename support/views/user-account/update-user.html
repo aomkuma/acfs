@@ -87,19 +87,19 @@
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">email</label>
       <div class="col-lg-4 col-sm-12 col-xs-12">
-      	<input type="email" class="form-control" ng-model="User.email">
+      	<input type="email" class="form-control" ng-model="User.email" disabled="true">
       </div>
  </div>
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">รหัสผ่าน</label>
       <div class="col-lg-4 col-sm-12 col-xs-12">
-        <input type="password" class="form-control" ng-model="User.password">
+        <input type="password" class="form-control" ng-model="User.password" ng-disabled="User.stakeholderID != currentUser.adminID">
       </div>
  </div> 
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ยืนยันรหัสผ่าน</label>
       <div class="col-lg-4 col-sm-12 col-xs-12">
-        <input type="password" class="form-control" ng-model="confirmPassword">
+        <input type="password" class="form-control" ng-model="confirmPassword" ng-disabled="User.stakeholderID != currentUser.adminID">
       </div>
  </div> 
  <!--<div class="row form-group">

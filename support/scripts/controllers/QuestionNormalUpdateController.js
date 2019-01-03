@@ -50,7 +50,7 @@ angular.module('app').controller('QuestionNormalUpdateController', function($sco
                 //     $scope.loadQuestionnaire('questionnaire/get', $scope.ID);
                 //     IndexOverlayFactory.overlayHide();    
                 // }
-                window.location.href = '#/questionnaire';
+                window.location.href = '#/question/0';
             }
             IndexOverlayFactory.overlayHide();
         });

@@ -1,4 +1,4 @@
-angular.module('e-homework').controller('StandardCommodityGeneralController', function($scope, $compile, $cookies, $filter, $state, $uibModal, HTTPService, IndexOverlayFactory) {
+angular.module('e-homework').controller('StandardCommodityGeneralController', function($scope, $compile, $cookies, $filter, $state, $uibModal, $sce, HTTPService, IndexOverlayFactory) {
 
 	$scope.page_type = 'standard-commodity/general';
 
@@ -48,6 +48,9 @@ angular.module('e-homework').controller('StandardCommodityGeneralController', fu
                 $scope.totalPages = result.data.DATA.Total;
                 $scope.standardIDToIgnore = result.data.DATA.standardIDToIgnore;
                 IndexOverlayFactory.overlayHide();
+                for(var i = 0; i < $scope.dataset.length; i++){
+                    $scope.dataset[i].cancelled_data = $sce.trustAsHtml($scope.dataset[i].cancelled_data);
+                }
             }else{
                 IndexOverlayFactory.overlayHide();
             }

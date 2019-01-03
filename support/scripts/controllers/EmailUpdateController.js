@@ -49,7 +49,7 @@ angular.module('app').controller('EmailUpdateController', function($scope, $comp
 
     $autocompleteUserResult = [];
     $scope.searchStandardAutoComplete = function (val, qtype){
-        val = encodeURIComponent(val);
+        // val = encodeURIComponent(val);
         var params = {'qtype' : qtype, 'keyword' : val};
         return HTTPService.clientRequest('autocomplete', params).then(function(result){  
           $autocompleteUserResult = result.data.DATA;

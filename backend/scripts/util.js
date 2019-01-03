@@ -744,3 +744,38 @@ app.directive('convertToNumber', function() {
     }
   };
 });
+
+app.filter('MenuPermission', function () {
+    return function (Details, MenuList) {
+        // console.log(Details[0]);
+        for(var i = 0; i < Details.length; i++){
+            for(var j = 0; j < MenuList.length; j++){
+                // console.log(Details[i].menu_id , MenuList[j].id , Details[i].actives);
+                if(Details[i].menu_id == MenuList[j].id && Details[i].actives == 'Y'){
+
+                    MenuList[j].checked_menu = 'Y';
+                    // console.log(MenuList[j].id, MenuList[j].checked_menu);
+                }
+                for(var k = 0; k < MenuList[j].sub_menu.length; k++){
+                    if(Details[i].menu_id == MenuList[j].sub_menu[k].id && Details[i].actives == 'Y'){
+                        MenuList[j].sub_menu[k].checked_menu = 'Y';
+                    }
+
+                    for(var l = 0; l < MenuList[j].sub_menu[k].sub_menu.length; l++){
+                        if(Details[i].menu_id == MenuList[j].sub_menu[k].sub_menu[l].id && Details[i].actives == 'Y'){
+                            MenuList[j].sub_menu[k].sub_menu[l].checked_menu = 'Y';
+                        }
+
+                        for(var m = 0; m < MenuList[j].sub_menu[k].sub_menu[l].sub_menu.length; m++){
+                            if(Details[i].menu_id == MenuList[j].sub_menu[k].sub_menu[l].sub_menu[m].id && Details[i].actives == 'Y'){
+                                MenuList[j].sub_menu[k].sub_menu[l].sub_menu[m].checked_menu = 'Y';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // alert(MenuList[5].checked_menu);
+        return MenuList;
+    };
+});

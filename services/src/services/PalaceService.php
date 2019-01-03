@@ -35,6 +35,12 @@
             }
         }
 
+        public static function updateSort($id, $orderNo){
+            $model = Palace::find($id);
+            $model->order_no = $orderNo;
+            return $model->save();
+        }
+
         public static function removeData($id){
             return Palace::find($id)->delete();
         }

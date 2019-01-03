@@ -208,6 +208,10 @@ $container['UserRoleController'] = function ($c) {
     return new \App\Controller\UserRoleController($c->get('logger'), $c->get('db'));
 };
 
+$container['LandingPageController'] = function ($c) {
+    return new \App\Controller\LandingPageController($c->get('logger'), $c->get('db'));
+};
+
 
 
 

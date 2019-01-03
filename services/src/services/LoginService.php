@@ -4,6 +4,8 @@
     
     use App\Model\User;
     use App\Model\Admin;
+    use App\Model\UserAccount;
+    use App\Model\MailSubscribe;
 
     use Illuminate\Database\Capsule\Manager as DB;
     
@@ -36,6 +38,12 @@
 
         public static function authenticateAdmin($username , $password){
             return Admin::where('email', $username)->where('password',$password)->first();      
+        }
+
+        public static function authenticateBackend($username , $password){
+            return UserAccount::where('email', $username)
+                    ->where('password', $password)
+                    ->first();      
         }
 
         public static function registerMember($obj){
@@ -108,6 +116,20 @@
             $model->CreateDate = date('Y-m-d H:i:s');
             return $model->save();
         }
+
+        public static function addMailSubscribe($obj){
+            $model = MailSubscribe::create($obj);
+            return $model->id;
+        }
+
+        public static function checkDuplicateMailSubscribe($email){  
+            $model = MailSubscribe::where('email', $email)->first();
+            return !(empty($model));
+        }
+
+        public static function checkMailSubscribeLogin($email){  
+            return MailSubscribe::where('email', $email)->first();
+        }        
         
     }
 

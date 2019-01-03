@@ -24,6 +24,30 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
+	.when("/user/permission", {
+        templateUrl : "views/permission/main.html",
+        controller : "PermissionController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/PermissionController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/landing-page", {
+        templateUrl : "views/landing-page/main.html",
+        controller : "LandingPageController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/LandingPageController.js" ]
+				});
+			} ]
+		}
+	})
+
 	.when("/video", {
         templateUrl : "views/video/main.html",
         controller : "VideoController",
@@ -528,6 +552,7 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
+	
 /*
 	.when("/about/manage", {
         templateUrl : "views/about/about.html",

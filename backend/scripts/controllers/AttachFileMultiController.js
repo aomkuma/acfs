@@ -7,6 +7,7 @@ angular.module('e-homework').controller('AttachFileMultiController', function($s
     }else{
        window.location.replace('#/guest/logon');
     }
+    $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
     console.log('Hello ! AttachFile Multi page');
 	$scope.DEFAULT_LANGUAGE = 'TH';
     $scope.$parent.menu_selected = 'authority';
@@ -28,7 +29,7 @@ angular.module('e-homework').controller('AttachFileMultiController', function($s
                 e.preventDefault();
               });
             });
-
+            $scope.Menu = $filter('MenuPermission')($scope.MenuPermission, $scope.Menu);     
             // $scope.load('menu/page/get', $scope.ID);
             
         });

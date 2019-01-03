@@ -14,6 +14,7 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
 
     console.log('Hello ! Palace page ' + $scope.palace_type);
 
+     $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
      $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
@@ -29,7 +30,7 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
                 e.preventDefault();
               });
             });
-
+            $scope.Menu = $filter('MenuPermission')($scope.MenuPermission, $scope.Menu);     
             // $scope.load('menu/page/get', $scope.ID);
             
         });
@@ -55,7 +56,7 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.Palace = null;
-            $scope.PalaceList = result.data.DATA.Palace;
+            $scope.model.list.PalaceList = result.data.DATA.Palace;
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -148,6 +149,28 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
     $scope.load('palaces/list');
     $scope.getMenu('menu/get/type' ,$scope.palace_type);
 
+    // Drag & drop zone
 
+    $scope.$watch('model', function(model) {
+        $scope.modelAsJson = angular.toJson(model, true);
+    }, true);
+
+    $scope.model = {selected: null,
+        list: {"PalaceList": []}
+    };
+
+    $scope.dropCallback = function(PalaceList){
+        // DataList.splice($index, 1);
+        // alert('Drop!' + index);
+        // return ;
+        var params = {'PalaceList' : PalaceList};
+        HTTPService.clientRequest('palaces/update/sort', params).then(function (result) {
+            if (result.data.STATUS == 'OK') {
+                $scope.load('palaces/list');
+                
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
 
 });

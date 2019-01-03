@@ -16,7 +16,8 @@ angular.module('e-homework').controller('LicenseRegisterController', function($s
 
     $scope.page_type = 'license-register';
 
-    $scope.loadMenu = function(action){
+    $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
+     $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
             $scope.Menu = result.data.DATA.Menu;
@@ -31,7 +32,7 @@ angular.module('e-homework').controller('LicenseRegisterController', function($s
                 e.preventDefault();
               });
             });
-
+            $scope.Menu = $filter('MenuPermission')($scope.MenuPermission, $scope.Menu);     
             // $scope.load('menu/page/get', $scope.ID);
             
         });
