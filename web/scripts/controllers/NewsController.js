@@ -31,10 +31,14 @@ angular.module('e-homework').controller('NewsController', function($scope, $comp
     }
 
     $scope.load = function(action, news_type, actives){
-    	var params = {'news_type' : news_type, 'actives': actives};
+    	var params = {'news_type' : news_type
+                    , 'actives': actives
+                    , 'currentPage': $scope.currentPage
+                    , 'limitRowPerPage': $scope.limitRowPerPage};
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.NewsList = result.data.DATA.News;
+            $scope.totalPages = result.data.DATA.Total;
             setTimeout(function(){
                 for(var i = 0; i < $scope.NewsList.length; i++){
                     console.log('do iframe');
@@ -61,6 +65,11 @@ angular.module('e-homework').controller('NewsController', function($scope, $comp
         // return encodeURIComponent('http://61.19.221.109/acfs/web/#/news/detail/'+url);
         return 'https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&layout=button&size=small&mobile_iframe=true&appId=190072441615269&width=59&height=20';
     }
+
+    $scope.goToPage = function(page){
+        $scope.currentPage = page;
+        $scope.load('news');
+    }
     
     if($routeParams.NEWS_TYPE != undefined || $routeParams.NEWS_TYPE != null){
         if($routeParams.NEWS_TYPE == '1'){
@@ -74,6 +83,11 @@ angular.module('e-homework').controller('NewsController', function($scope, $comp
         }
         
     }
+
+    $scope.totalPages = 0;
+    $scope.currentPage = 0;
+    $scope.limitRowPerPage = 12;
+    $scope.limitDisplay = 10;
     
     $scope.loadMenu('menu/list');
     $scope.getMenu('menu/get/type' ,$scope.page_type);

@@ -42,6 +42,10 @@ angular.module('e-homework').controller('AttachFileMultiController', function($s
         });
     }
 
+    $scope.findExtension = function(filename){
+        return (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename)[0] : '';
+    }
+
     IndexOverlayFactory.overlayHide();
     $scope.FileList = [];
     

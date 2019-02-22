@@ -113,6 +113,7 @@ angular.module('e-homework').controller('ListeningController', function($scope, 
         HTTPService.uploadRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.AttachFile = {'attachFileTH':null, 'attachFileEN':null};
                 $scope.FileName = {'name_th':'', 'name_en' : ''};
                 $scope.loadList('listening/list' ,$scope.listening_type);

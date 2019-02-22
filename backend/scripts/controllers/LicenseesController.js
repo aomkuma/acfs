@@ -94,6 +94,7 @@ angular.module('e-homework').controller('LicenseesController', function($scope, 
         }
         var params = {'Data' : Data};
         HTTPService.uploadRequest('licensees/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             $scope.loadList();
             $scope.PAGE = 'MAIN';
             IndexOverlayFactory.overlayHide();

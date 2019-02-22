@@ -51,6 +51,10 @@ angular.module('e-homework').controller('AttachFileMulti2Controller', function($
         });
     }
 
+    $scope.findExtension = function(filename){
+        return (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename)[0] : '';
+    }
+
     $scope.search = function(condition){
         $scope.loadDataList('attachfile-multi/get/type' ,$scope.page_type, condition);
     }

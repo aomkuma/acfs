@@ -60,6 +60,7 @@ angular.module('e-homework').controller('LicenseRegisterController', function($s
         var params = {'Data' : Data};
         HTTPService.uploadRequest('license-register/update', params).then(function(result){
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.PAGE = 'MAIN';
                 $scope.loadData($scope.condition);
             }

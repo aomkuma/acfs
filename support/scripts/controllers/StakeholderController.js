@@ -174,9 +174,9 @@ angular.module('app').controller('StakeholderController', function($scope, $comp
     }
 
     if($scope.ActiveTab == 0){
-        $scope.loadAcademicBoard('commodity-standard/academic-board/list');
-    }else if($scope.ActiveTab == 1){
         $scope.loadStakeholder('stakeholder/list');
+    }else if($scope.ActiveTab == 1){
+        $scope.loadAcademicBoard('commodity-standard/academic-board/list');
     }else{
         $scope.loadSubcommittee('subcommittee/list');
     }

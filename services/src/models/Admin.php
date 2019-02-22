@@ -6,6 +6,7 @@ class Admin extends \Illuminate\Database\Eloquent\Model {
   	protected $primaryKey = 'adminID';
   	public $timestamps = false;
   	protected $fillable = array('adminID'
+                , 'adminType'
                 , 'name'
                 , 'lastName'
                 , 'position'

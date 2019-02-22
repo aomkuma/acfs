@@ -22,7 +22,8 @@
                                 $query->where('file_type', $file_type);
                             }
                         })
-                    ->orderBy('order_no', 'ASC')
+                    ->orderBy('order_no', 'DESC')
+                     // 
             		->get();      
         }
 

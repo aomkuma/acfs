@@ -9,6 +9,7 @@ class User extends \Illuminate\Database\Eloquent\Model {
                 , 'stakeholderID'
                 , 'email'
                 , 'password'
+                , 'actives'
                 , 'createBy'
                 , 'createDate'
                 , 'updateBy'

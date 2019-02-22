@@ -12,6 +12,20 @@ angular.module('app').controller('QuestionNormalUpdateController', function($sco
     $scope.$parent.menu_selected = 'questionnaire';
     $scope.ID = $routeParams.id;
 
+    $scope.loadCommodityStandard = function(){
+        HTTPService.clientRequest('commodity-standard/list/in-use', null).then(function(result){
+            console.log(result);
+            if(result.data.STATUS == 'OK'){
+                $scope.CommodityStandardList = result.data.DATA.List;
+                
+                IndexOverlayFactory.overlayHide();
+                
+            }else{
+                IndexOverlayFactory.overlayHide();
+            }
+        });
+    }
+
     $scope.loadQuestionnaire = function(action, id){
         var params = {'id': id};
         HTTPService.clientRequest(action, params).then(function(result){
@@ -279,6 +293,10 @@ angular.module('app').controller('QuestionNormalUpdateController', function($sco
                             };
     }
 
+    $scope.getDateString = function(d){
+        return convertShortDate(d);
+    }
+
     $scope.dateOptions1 = {
         minDate: new Date(),
         showWeeks: true
@@ -316,7 +334,7 @@ angular.module('app').controller('QuestionNormalUpdateController', function($sco
     $scope.Branch = {'branchID':'' , 'branchNameThai':'', 'branchNameEng':''};
 
     IndexOverlayFactory.overlayHide();
-
+    $scope.loadCommodityStandard();
     if($scope.ID !== undefined){
         $scope.loadQuestionnaire('questionnaire/get', $scope.ID);
     }else{

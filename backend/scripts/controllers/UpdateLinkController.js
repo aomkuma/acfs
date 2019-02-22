@@ -50,6 +50,7 @@ angular.module('e-homework').controller('UpdateLinkController', function($scope,
         HTTPService.uploadRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.load('links', $scope.link_type);
                 IndexOverlayFactory.overlayHide();
             }else{

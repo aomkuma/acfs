@@ -15,6 +15,18 @@
 	  <div class="col-lg-6">
 
 	  </div>
+	  <div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1 text-center" >
+			<span class="title-content">
+				<h2>{{(DEFAULT_LANGUAGE == 'TH'?MenuName[MenuName.length - 1].menu_name_th:MenuName[MenuName.length - 1].menu_name_en)}}</h2>
+			</span>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1 text-center" >
+			<img src="../files/img/header_line.png" style="width: 70%;">
+		</div>
+	</div>
 	</div>
 		<div class="row form-group">
 			<div class="col-lg-10 col-lg-offset-1">
@@ -112,27 +124,27 @@
 							</label>
 							<label class="form-control-static col-lg-3">
 								
-								<input type="radio" ng-model="Data.gender" value="18-25 ปี"> 18-25 ปี &nbsp;
+								<input type="radio" ng-model="Data.age" value="18-25 ปี"> 18-25 ปี &nbsp;
 								
 							</label>
 							<label class="form-control-static col-lg-3">
 								
-								<input type="radio" ng-model="Data.gender" value="26-35 ปี"> 26-35 ปี&nbsp;
+								<input type="radio" ng-model="Data.age" value="26-35 ปี"> 26-35 ปี&nbsp;
 								
 							</label>
 							<label class="form-control-static col-lg-3">
 								
-								<input type="radio" ng-model="Data.gender" value="36-45 ปี"> 36-45 ปี&nbsp;
+								<input type="radio" ng-model="Data.age" value="36-45 ปี"> 36-45 ปี&nbsp;
 								
 							</label>
 							<label class="form-control-static col-lg-3">
 								
-								<input type="radio" ng-model="Data.gender" value="46-55 ปี"> 46-55 ปี&nbsp;
+								<input type="radio" ng-model="Data.age" value="46-55 ปี"> 46-55 ปี&nbsp;
 								
 							</label>
 							<label class="form-control-static col-lg-3">
 								
-								<input type="radio" ng-model="Data.gender" value="56 ปี ขึ้นไป"> 56 ปี ขึ้นไป&nbsp;
+								<input type="radio" ng-model="Data.age" value="56 ปี ขึ้นไป"> 56 ปี ขึ้นไป&nbsp;
 								
 							</label>
 						</div>

@@ -19,9 +19,10 @@
                             $query->where('title_th', 'LIKE', DB::raw("'%".$condition['keyword']."%'"));
                         }
                         if($view_type == 'view'){
-                            $curDate = date('Y-m-d');
-                            $query->where('start_date', '<=', $curDate);
-                            $query->where('end_date', '>=', $curDate);
+                            $query->where('actives', 'Y');
+                            // $curDate = date('Y-m-d');
+                            // $query->where('start_date', '<=', $curDate);
+                            // $query->where('end_date', '>=', $curDate);
                         }
                     })
                     //->orderBy('order_no', 'ASC')

@@ -18,13 +18,17 @@
         </div>
 </div>
 <hr>
+<div class="row form-group">
+      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">URL</label>
+      <label class="col-lg-10 col-sm-12 col-xs-12 form-control-static"><a href="{{Questionnaire.link_url}}" target="_blank">{{Questionnaire.link_url}}</a></label>
+ </div> 
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ประเภทแบบสอบถาม</label>
       <div class="col-lg-4 col-sm-10 col-xs-10">
         <select class="form-control" ng-model="Questionnaire.questionnaireSubType">
           <option value="">กรุณาเลือก..</option>
           <option value="standard">ร่างมาตรฐานสินค้าเกษตร</option>
-          <option value="committee">ร่างมาตรฐานประเทศ</option>
+          <option value="committee">ร่างมาตรฐานระหว่างประเทศ</option>
         </select>
       </div>
  </div> 
@@ -39,8 +43,11 @@
       แบบสอบถามของมาตรฐาน
     </label>
     <div class="col-lg-4 col-sm-12 col-xs-12">
-      <input type="text" class="form-control" ng-model="Questionnaire.standardName" uib-typeahead="user.standardNameThai for user in searchSubcommitteeAutoComplete($viewValue, 'STANDARD') | limitTo:20" typeahead-on-select="autocompleteStandardSelected($item, $model, $label);">
-      <input type="hidden" ng-model="Questionnaire.standardID">
+      <!--<input type="text" class="form-control" ng-model="Questionnaire.standardName" uib-typeahead="user.standardNameThai for user in searchSubcommitteeAutoComplete($viewValue, 'STANDARD') | limitTo:20" typeahead-on-select="autocompleteStandardSelected($item, $model, $label);">
+      <input type="hidden" ng-model="Questionnaire.standardID">-->
+      <select class="form-control" ng-model="Questionnaire.standardID" ng-options="data.standardID as data.standardNameThai for data in CommodityStandardList">
+          <option value="">กรุณาเลือก..</option>
+      </select>
     </div>
  </div>
  <div class="row form-group" ng-show="Questionnaire.questionnaireSubType == 'committee'">
@@ -77,7 +84,8 @@
   <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">เวลาเปิดแบบสอบถาม</label>
   <div class="col-lg-4 col-sm-12 col-xs-12">
     <p class="input-group">
-        <input type="text" readonly="true" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="Questionnaire.openDate" is-open="popup1.opened" datepicker-options="dateOptions1" placeholder="เริ่มต้น" />
+        <input type="text" readonly="true" class="form-control" placeholder="เริ่มต้น" value="{{getDateString(Questionnaire.openDate)}}" />
+        <input type="text" readonly="true" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="Questionnaire.openDate" is-open="popup1.opened" datepicker-options="dateOptions1" placeholder="เริ่มต้น" ng-show="false" />
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
         </span>
@@ -85,7 +93,8 @@
   </div>
   <div class="col-lg-4 col-sm-12 col-xs-12">
     <p class="input-group">
-        <input type="text" readonly="true" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="Questionnaire.closeDate" is-open="popup2.opened" datepicker-options="dateOptions2" placeholder="สิ้นสุด" />
+        <input type="text" readonly="true" class="form-control" placeholder="เริ่มต้น" value="{{getDateString(Questionnaire.closeDate)}}" />
+        <input type="text" readonly="true" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="Questionnaire.closeDate" is-open="popup2.opened" datepicker-options="dateOptions2" placeholder="สิ้นสุด" ng-show="false" />
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
         </span>

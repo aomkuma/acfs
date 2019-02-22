@@ -27,7 +27,14 @@
 
         public static function getAcademicBoard(){
             return CommodityStandard::where('academicBoardName', '<>', '')
-                        ->whereNotNull('academicBoardName')
+                        ->where('status', 'Active')
+                        ->get();
+        }
+
+        public static function getLicensee(){
+            return CommodityStandard::select(DB::raw('noThai AS type_name'))
+                        ->where('step', '9')
+                        ->where('standardDefineType', 'บังคับ')
                         ->get();
         }
 

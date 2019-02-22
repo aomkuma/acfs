@@ -66,6 +66,7 @@ angular.module('e-homework').controller('OnlineServiceController', function($sco
         
         var params = {'Data' : Data};
         HTTPService.clientRequest('online-service/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             console.log(result);
             $scope.loadList($scope.condition);
             $scope.PAGE = 'MAIN';
@@ -85,7 +86,7 @@ angular.module('e-homework').controller('OnlineServiceController', function($sco
 
     $scope.ServiceTypeList = [
                         {'request_type':'ขอตรวจดู', 'request_desc' : '', 'checked' : false}
-                        ,{'request_type':'ขอสำเนาแผ่นซีดี ', 'request_desc' : ''}
+                        ,{'request_type':'ขอสำเนาแผ่นซีดี ', 'request_desc' : '', 'checked' : false}
                         ,{'request_type':'ขอสำเนาเอกสารที่มีการรับรองสำเนาถูกต้อง', 'request_desc' : '', 'checked' : false}
                         ,{'request_type':'อื่นๆ', 'request_desc' : '', 'checked' : false}
                         ];

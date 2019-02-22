@@ -1,3 +1,55 @@
+@font-face {
+    /*font-family: "THSarabunNew";
+    src: url('../fonts/THSarabunNew.ttf')*/
+    /*font-family: "Boon-Regular";
+    src: url('../fonts/Boon-Regular.ttf')*/
+
+    font-family: "MAX PINJOHN V2";
+    src: url('../fonts/MAX_PINJOHN_V2.ttf') format("truetype");
+}
+
+@font-face {
+    /*font-family: "THSarabunNew";
+    src: url('../fonts/THSarabunNew.ttf')*/
+    /*font-family: "Boon-Regular";
+    src: url('../fonts/Boon-Regular.ttf')*/
+
+    font-family: "Boon-Regular";
+    src: url('../fonts/Boon-Regular.ttf') format("truetype");
+}
+
+
+ul{
+  list-style: none;
+}
+.li-attach-file{
+  border-bottom:1px solid #ccc; 
+}
+.nav>li{
+  border-bottom:none; 
+}
+body {
+  
+    font-family: "Boon-Regular";
+    src: url('../fonts/Boon-Regular.ttf');
+}
+
+.title-content{
+  color: #11A9F4;
+  font-weight: bolder;
+}
+
+hr{
+  border-top: solid 1px #125669;
+}
+
+h2{
+    font-family: "MAX PINJOHN V2";
+    src: url('../fonts/MAX_PINJOHN_V2.ttf') format("truetype");
+    font-weight: bolder;
+    color: #42A298;
+}
+
 .image-align-center{
   text-align: center;
 }
@@ -9,6 +61,7 @@
 
 .container{
 	width: 100%;
+  font-size: 1.3em;
 }
 
 .selected-language{
@@ -19,6 +72,9 @@
 
 nav{
 	background-color: #D9EFF9;
+}
+.dropdown-menu>li>a{
+  font-size: 1.2em;
 }
 .navbar-inverse{
 	background: transparent;
@@ -74,14 +130,14 @@ nav{
 }
 
 .navbar-inverse .navbar-nav>li>a {
-	border-left: 1px solid #000000;
+	border-left: 1px solid #FFF;
 	
 	margin: 5px;
 	color:#FFF;
   text-align: center;
   padding-top: 0px;
   padding-bottom: 0px;
-  font-size: 1.2em;
+  font-size: 0.8em;
 }
 
 .navbar-toggle{
@@ -99,6 +155,12 @@ ul.nav a:hover {
 
 a {
 	cursor: pointer;
+  text-decoration: none;
+}
+
+a:hover {
+  cursor: pointer;
+  text-decoration: none;
 }
 
 
@@ -128,6 +190,7 @@ a {
 /* Hide the images by default */
 .mySlides {
     display: none;
+    position: relative;
 }
 
 /* Next & previous buttons */
@@ -143,6 +206,15 @@ a {
   font-size: 18px;
   transition: 0.6s ease;
   border-radius: 0 3px 3px 0;
+  z-index: 9999;
+
+}
+
+a.prev {
+  text-decoration: none;
+}
+a.next {
+  text-decoration: none;
 }
 
 .prev{
@@ -253,9 +325,19 @@ a {
   
 }
 
+.bg-orange{
+  background-color: #d18237;
+  color: #FFF;
+}
+
+.bg-grey{
+  background-color: #999;
+  color: #FFF;
+}
+
 .button-news{
-  background-color: #1D2355;
-  font-size: 1.5em;
+  background-color: #0fcec6;
+  font-size: 1.2em;
   color: #FFF;
   margin-top: 10px;
   height: 60px;
@@ -263,9 +345,9 @@ a {
 }
 
 .yellow{
-  background-color: #1D2355;
+  background-color: #0a5b54;
   font-size: 1.5em;
-  color: #ECDA38;
+  color: #fff;
   margin-top: 10px;
   height: 60px;
   border: 1px solid #FFF;
@@ -281,12 +363,12 @@ a {
 }
 
 .button-subscribe{
-  background-color: #1D2355;
+  background-color: #0a5b54;
   font-size: 1.5em;
   color: #FFF;
   margin-top: 10px;
-  height: 50px;
-  border: 1px solid #FFF;
+  height: 42px;
+  border: none;
 }
 
 .add-on .input-group-btn > .btn {
@@ -341,6 +423,29 @@ a {
 .dropdown:hover .dropdown-menu {
   display: block;
 }
+
+/*Mobile*/
+
+.dropdown-menu-mobile .dropdown-menu-mobile1 .dropdown-menu-mobile2  {
+  left: 100%;
+  top: 0;
+  /*visibility: hidden;*/
+  margin-top: -1px;
+}
+
+.dropdown-menu-mobile li:active .dropdown-menu-mobile1 {
+  visibility: visible;
+}
+
+.dropdown-menu-mobile1 li:active .dropdown-menu-mobile2 {
+  visibility: visible;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/*End*/
 
 .nav-tabs .dropdown-menu,
 .nav-pills .dropdown-menu,

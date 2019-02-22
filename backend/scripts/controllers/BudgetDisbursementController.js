@@ -81,6 +81,7 @@ angular.module('e-homework').controller('BudgetDisbursementController', function
             console.log(result);
             $scope.PAGE = 'MAIN';
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.AttachFile = null;
                 $scope.load('budget-disbursement');
                 $scope.cancelUpdate();

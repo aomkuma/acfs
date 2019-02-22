@@ -56,6 +56,7 @@ angular.module('e-homework').controller('OfficerContactController', function($sc
         HTTPService.uploadRequest('officer-contact/dep/update', params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.DepList[index].id = result.data.DATA.id;
             }
             IndexOverlayFactory.overlayHide();
@@ -122,6 +123,7 @@ angular.module('e-homework').controller('OfficerContactController', function($sc
         HTTPService.uploadRequest('officer-contact/officer/update', params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.PersonList[index].id = result.data.DATA.id;
             }
             IndexOverlayFactory.overlayHide();

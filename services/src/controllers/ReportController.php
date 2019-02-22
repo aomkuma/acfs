@@ -7,6 +7,7 @@
     use App\Service\SubcommitteeService;
     use App\Service\StakeholderService;
     use App\Service\HearingReportService;
+    use App\Service\QuestionService;
 
     use PhpOffice\PhpSpreadsheet\Spreadsheet;
     use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -41,6 +42,7 @@
                 $objPHPExcel = new Spreadsheet();
 
                 switch($report_type){
+                    case 'standard-commodity-status' : $objPHPExcel = $this->standardCommodityStatus($objPHPExcel, $condition); break;
                     case 'academic-board' : $objPHPExcel = $this->generateAcademicBoard($objPHPExcel, $condition); break;
                     case 'annual-plan' : $objPHPExcel = $this->generateAnnualPlan($objPHPExcel, $condition); break;
                     case 'questionnaire' : $objPHPExcel = $this->generateQuestionnaire($objPHPExcel, $condition); break;
@@ -71,6 +73,138 @@
             }
         }
 
+        private function getStandardStatusText($step){
+            switch ($step) {
+                    
+                case '1' : return 'ขั้นที่1 การพิจารณาเรื่องที่สมควรกำหนดเป็นมาตรฐาน';break;
+                case '2' : return 'ขั้นที่2 การแต่งตั้งคณะกรรมการวิชาการ';break;
+                case '3' : return 'ขั้นที่3 การจัดทำร่างมาตรฐาน';break;
+                case '4' : return 'ขั้นที่4 การพิจารณาร่างมาตรฐาน';break;
+                case '5' : return 'ขั้นที่5 การประสานความเห็นจากผู้มีส่วนได้เสีย';break;
+                case '6' : return 'ขั้นที่6 การเสนอคณะกรรมการมาตรฐานสินค้าเกษตร';break;
+                case '7' : return 'ขั้นที่7 การรับฟังความคิดเห็นจากต่างประเทศ';break;
+                case '8' : return 'ขั้นที่8 การเสนอรัฐมนตรีลงนามในประกาศ/กฎกระทรวง';break;
+                case '9' : return 'ขั้นที่9 ประกาศใช้';break;
+                case '10' : return 'ยกเลิกการประกาศใช้';break;
+                case '11' : return 'ทบทวน';break;
+                default : return '';
+            }
+        }
+
+        private function standardCommodityStatus($objPHPExcel, $condition){
+
+            // get Commodity standard detail
+            $years = intval($condition['YearFrom']);
+            $standardID = $condition['Standard'];
+            $years += 543;
+            $CommodityStandard = CommodityStandardService::getstandardCommodityStatus($years, $standardID);
+
+            $objPHPExcel->getActiveSheet()->setCellValue('A2', 'รายงานแผนงานประจำปี ' . $years);
+            $objPHPExcel->getActiveSheet()->mergeCells('A2:F2');
+            $objPHPExcel->getActiveSheet()->getStyle('A2:F2')->getAlignment()->setHorizontal('center');
+            // $objPHPExcel->getActiveSheet()->setCellValue('C2', $years);
+
+            $objPHPExcel->getActiveSheet()->setCellValue('A4', 'ลำดับ');
+            $objPHPExcel->getActiveSheet()->setCellValue('B4', 'มาตรฐานสินค้าเกษตร');
+            $objPHPExcel->getActiveSheet()->setCellValue('C4', 'ประเภทการกำหนดมาตรฐาน');
+            $objPHPExcel->getActiveSheet()->setCellValue('D4', 'ประเภทมาตรฐาน');
+            $objPHPExcel->getActiveSheet()->setCellValue('E4', 'กลุ่มมาตรฐาน');
+            $objPHPExcel->getActiveSheet()->setCellValue('F4', 'สถานะขั้นตอนการจัดทามาตรฐาน');
+            $objPHPExcel->getActiveSheet()->getStyle('A4')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('B4')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('C4')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('D4')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('E4')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('F4')->getFont()->setBold(true);
+
+            $row = 5;
+            $cnt = 1;
+            foreach ($CommodityStandard as $key => $value) {
+                $objPHPExcel->getActiveSheet()->setCellValue('A' . $row, $cnt);
+                $objPHPExcel->getActiveSheet()->setCellValue('B' . $row, $value['standardNameThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('C' . $row, $value['standardDefineType']);
+                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $value['standardType']);
+                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, $value['standardGroup']);
+                $objPHPExcel->getActiveSheet()->setCellValue('F' . $row, $this->getStandardStatusText($value['step']));
+                $row++;
+                $cnt++;
+            }
+
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+
+            $objPHPExcel->getActiveSheet()
+            ->getStyle("A4:F" . $objPHPExcel->getActiveSheet()->getHighestRow())
+            ->applyFromArray($this->getDefaultStyle());
+
+            return $objPHPExcel;
+
+        }
+
+        private function generateQuestionnaire($objPHPExcel, $condition){
+            $years = $condition['YearFrom'];
+            $questionnaireID = $condition['Standard'];
+
+            // load Questionnaire id join with questions and response
+            $Quesionnaire = QuestionService::getData($questionnaireID);
+
+            $objPHPExcel->getActiveSheet()->setCellValue('B1', 'แบบสอบถาม ' . $Quesionnaire['questionName']);
+            
+
+            $objPHPExcel->getActiveSheet()->setCellValue('B4', 'หัวข้อ');
+            $objPHPExcel->getActiveSheet()->setCellValue('C4', 'เห็นด้วย');
+            $objPHPExcel->getActiveSheet()->setCellValue('D4', 'ไม่เห็นด้วย');
+            $objPHPExcel->getActiveSheet()->setCellValue('E4', 'ความคิดเห็น');
+            $objPHPExcel->getActiveSheet()->getStyle('B4')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('C4')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('D4')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('E4')->getFont()->setBold(true);
+
+
+            // Questions
+            $row = 5;
+            $TotalResponse = 0;
+            foreach ($Quesionnaire['question'] as $key => $value) {
+                // get count agree and dis agree
+                $AgreeResponse = QuestionService::getCountAgree($value['questionID']);
+                $DisgreeResponse = QuestionService::getCountDisagree($value['questionID']);
+                $DisgreeCommentResponse = QuestionService::getDisagreeComment($value['questionID']);
+                // print_r($DisgreeCommentResponse);
+                $disagree_comment = [];
+                foreach ($DisgreeCommentResponse as $k => $v) {
+                    $disagree_comment[] = $v['q_response_comment'];
+                }
+                $objPHPExcel->getActiveSheet()->setCellValue('B' . $row, $value['question']);
+                $objPHPExcel->getActiveSheet()->setCellValue('C' . $row, $AgreeResponse);
+                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $DisgreeResponse);
+                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, "- ". implode("\n- ", $disagree_comment ) );
+                $row++;
+                $TotalResponse += ($AgreeResponse + $DisgreeResponse);
+            }
+
+            $objPHPExcel->getActiveSheet()->setCellValue('B2', 'จำนวนผู้ตอบแบบสอบถาม ' . $TotalResponse);
+
+            // exit;
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+
+            $objPHPExcel->getActiveSheet()
+            ->getStyle("B4:E" . $objPHPExcel->getActiveSheet()->getHighestRow())
+            ->applyFromArray($this->getDefaultStyle());
+
+            return $objPHPExcel;
+
+        }
+
+
+
         private function generateAcademicBoard($objPHPExcel, $condition){
 
             // get Commodity standard detail
@@ -81,30 +215,70 @@
             $AcademicBoard = AcademicBoardService::getAcademicBoardList($standardID);
 
             // generate data
-            $objPHPExcel->getActiveSheet()->setCellValue('B2', 'ปีงบประมาณ');
-            $objPHPExcel->getActiveSheet()->setCellValue('C2', $CommodityStandard['years']);
-            $objPHPExcel->getActiveSheet()->setCellValue('D2', 'มาตรฐานสินค้าเกษตร : '. $CommodityStandard['standardNameThai']);
+            $objPHPExcel->getActiveSheet()->setCellValue('A2', 'ปีงบประมาณ ' . $CommodityStandard['years']);
+            $objPHPExcel->getActiveSheet()->mergeCells('A2:K2');
+            $objPHPExcel->getActiveSheet()->getStyle('A2:F2')->getAlignment()->setHorizontal('center');
+            // $objPHPExcel->getActiveSheet()->setCellValue('C2', $CommodityStandard['years']);
+            $objPHPExcel->getActiveSheet()->setCellValue('A3', 'มาตรฐานสินค้าเกษตร : '. $CommodityStandard['standardNameThai']);
+            $objPHPExcel->getActiveSheet()->mergeCells('A3:K3');
+            $objPHPExcel->getActiveSheet()->getStyle('A3:K3')->getAlignment()->setHorizontal('center');
 
-            $objPHPExcel->getActiveSheet()->setCellValue('D5', 'ชื่อคณะกรรมการ');
-            $objPHPExcel->getActiveSheet()->setCellValue('E5', 'ตำแหน่ง');
+            $objPHPExcel->getActiveSheet()->setCellValue('A5', 'ลำดับ');
+            $objPHPExcel->getActiveSheet()->setCellValue('B5', 'ชื่อคณะกรรมการ');
+            $objPHPExcel->getActiveSheet()->setCellValue('C5', 'ตำแหน่ง');
+            $objPHPExcel->getActiveSheet()->setCellValue('D5', 'หน้าที่รับผิดชอบ');
+            $objPHPExcel->getActiveSheet()->setCellValue('E5', 'สาขา');
+            $objPHPExcel->getActiveSheet()->setCellValue('F5', 'คุณวุฒิ');
+            $objPHPExcel->getActiveSheet()->setCellValue('G5', 'หน่วยงาน');
+            $objPHPExcel->getActiveSheet()->setCellValue('H5', 'สถานที่ติดต่อ');
+            $objPHPExcel->getActiveSheet()->setCellValue('I5', 'โทรศัพท์');
+            $objPHPExcel->getActiveSheet()->setCellValue('J5', 'โทรสาร');
+            $objPHPExcel->getActiveSheet()->setCellValue('K5', 'email');
+
+            $objPHPExcel->getActiveSheet()->getStyle('A5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('B5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('C5')->getFont()->setBold(true);
             $objPHPExcel->getActiveSheet()->getStyle('D5')->getFont()->setBold(true);
             $objPHPExcel->getActiveSheet()->getStyle('E5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('F5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('G5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('H5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('I5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('J5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('K5')->getFont()->setBold(true);
 
             $row = 6;
+            $cnt = 1;
             // Loop for details
             foreach ($AcademicBoard as $key => $value) {
-                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $value['nameThai'] . ' ' . $value['lastNameThai']);
-                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, $value['positionThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('A' . $row, $cnt);
+                $objPHPExcel->getActiveSheet()->setCellValue('B' . $row, $value['nameThai'] . ' ' . $value['lastNameThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('C' . $row, $value['positionThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $value['responsible']);
+                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, $value['branch']);
+                $objPHPExcel->getActiveSheet()->setCellValue('F' . $row, $value['experience']);
+                $objPHPExcel->getActiveSheet()->setCellValue('G' . $row, $value['institution']);
+                $objPHPExcel->getActiveSheet()->setCellValue('H' . $row, $value['address']);
+                $objPHPExcel->getActiveSheet()->setCellValue('I' . $row, $value['phone']);
+                $objPHPExcel->getActiveSheet()->setCellValue('J' . $row, $value['fax']);
+                $objPHPExcel->getActiveSheet()->setCellValue('K' . $row, $value['email']);
                 $row++;
+                $cnt++;
             }
             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
 
             $objPHPExcel->getActiveSheet()
-            ->getStyle("D5:E" . $objPHPExcel->getActiveSheet()->getHighestRow())
+            ->getStyle("A5:K" . $objPHPExcel->getActiveSheet()->getHighestRow())
             ->applyFromArray($this->getDefaultStyle());
 
             return $objPHPExcel;
@@ -153,29 +327,67 @@
             $AcademicBoard = AcademicBoardService::getAcademicBoardList($standardID);
 
             // generate data
-            $objPHPExcel->getActiveSheet()->setCellValue('B3', 'ชื่อกลุ่ม');
-            $objPHPExcel->getActiveSheet()->setCellValue('C3', $CommodityStandard['academicBoardName']);
+            $objPHPExcel->getActiveSheet()->setCellValue('A1', 'ชื่อกลุ่ม ' . $CommodityStandard['academicBoardName']);
+            $objPHPExcel->getActiveSheet()->mergeCells('A1:K1');
+            $objPHPExcel->getActiveSheet()->getStyle('A1:K1')->getAlignment()->setHorizontal('center');
+            // $objPHPExcel->getActiveSheet()->setCellValue('B3', );
 
-            $objPHPExcel->getActiveSheet()->setCellValue('D5', 'ชื่อคณะกรรมการ');
-            $objPHPExcel->getActiveSheet()->setCellValue('E5', 'ตำแหน่ง');
-            $objPHPExcel->getActiveSheet()->getStyle('D5')->getFont()->setBold(true);
-            $objPHPExcel->getActiveSheet()->getStyle('E5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->setCellValue('A5', 'ลำดับ');
+            $objPHPExcel->getActiveSheet()->setCellValue('B5', 'ชื่อคณะกรรมการ');
+            $objPHPExcel->getActiveSheet()->setCellValue('C5', 'ตำแหน่ง');
+            $objPHPExcel->getActiveSheet()->setCellValue('D5', 'หน้าที่รับผิดชอบ');
+            $objPHPExcel->getActiveSheet()->setCellValue('E5', 'สาขา');
+            $objPHPExcel->getActiveSheet()->setCellValue('F5', 'คุณวุฒิ');
+            $objPHPExcel->getActiveSheet()->setCellValue('G5', 'หน่วยงาน');
+            $objPHPExcel->getActiveSheet()->setCellValue('H5', 'สถานที่ติดต่อ');
+            $objPHPExcel->getActiveSheet()->setCellValue('I5', 'โทรศัพท์');
+            $objPHPExcel->getActiveSheet()->setCellValue('J5', 'โทรสาร');
+            $objPHPExcel->getActiveSheet()->setCellValue('K5', 'email');
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
 
             $row = 6;
+            $cnt = 1;
             // Loop for details
             foreach ($AcademicBoard as $key => $value) {
-                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $value['nameThai'] . ' ' . $value['lastNameThai']);
-                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, $value['positionThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('A' . $row, $cnt);
+                $objPHPExcel->getActiveSheet()->setCellValue('B' . $row, $value['nameThai'] . ' ' . $value['lastNameThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('C' . $row, $value['positionThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $value['responsible']);
+                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, $value['branch']);
+                $objPHPExcel->getActiveSheet()->setCellValue('F' . $row, $value['experience']);
+                $objPHPExcel->getActiveSheet()->setCellValue('G' . $row, $value['institution']);
+                $objPHPExcel->getActiveSheet()->setCellValue('H' . $row, $value['address']);
+                $objPHPExcel->getActiveSheet()->setCellValue('I' . $row, $value['phone']);
+                $objPHPExcel->getActiveSheet()->setCellValue('J' . $row, $value['fax']);
+                $objPHPExcel->getActiveSheet()->setCellValue('K' . $row, $value['email']);
                 $row++;
+                $cnt++;
             }
             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setAutoSize(true);
 
             $objPHPExcel->getActiveSheet()
-            ->getStyle("D5:E" . $objPHPExcel->getActiveSheet()->getHighestRow())
+            ->getStyle("A5:K" . $objPHPExcel->getActiveSheet()->getHighestRow())
             ->applyFromArray($this->getDefaultStyle());
 
             return $objPHPExcel;
@@ -189,29 +401,65 @@
             $AcademicBoard = StakeholderService::getListByBranch($Branch);
 
             // generate data
-            $objPHPExcel->getActiveSheet()->setCellValue('B3', 'สาขา');
-            $objPHPExcel->getActiveSheet()->setCellValue('C3', $Branch);
+            $objPHPExcel->getActiveSheet()->setCellValue('A3', 'สาขา ' . $Branch);
+            // $objPHPExcel->getActiveSheet()->setCellValue('B3', );
 
-            $objPHPExcel->getActiveSheet()->setCellValue('D5', 'ชื่อ-สกุล');
-            $objPHPExcel->getActiveSheet()->setCellValue('E5', 'ตำแหน่ง');
-            $objPHPExcel->getActiveSheet()->getStyle('D5')->getFont()->setBold(true);
-            $objPHPExcel->getActiveSheet()->getStyle('E5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->setCellValue('A5', 'ลำดับ');
+            $objPHPExcel->getActiveSheet()->setCellValue('B5', 'ชื่อ-สกุล');
+            $objPHPExcel->getActiveSheet()->setCellValue('C5', 'ตำแหน่ง');
+            $objPHPExcel->getActiveSheet()->setCellValue('D5', 'หน้าที่รับผิดชอบ');
+            $objPHPExcel->getActiveSheet()->setCellValue('E5', 'สาขา');
+            $objPHPExcel->getActiveSheet()->setCellValue('F5', 'คุณวุฒิ');
+            $objPHPExcel->getActiveSheet()->setCellValue('G5', 'หน่วยงาน');
+            $objPHPExcel->getActiveSheet()->setCellValue('H5', 'สถานที่ติดต่อ');
+            $objPHPExcel->getActiveSheet()->setCellValue('I5', 'โทรศัพท์');
+            $objPHPExcel->getActiveSheet()->setCellValue('J5', 'โทรสาร');
+            $objPHPExcel->getActiveSheet()->setCellValue('K5', 'email');
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
 
             $row = 6;
+            $cnt = 1;
             // Loop for details
             foreach ($AcademicBoard as $key => $value) {
-                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $value['nameThai'] . ' ' . $value['lastNameThai']);
-                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, $value['positionThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('A' . $row, $cnt);
+                $objPHPExcel->getActiveSheet()->setCellValue('B' . $row, $value['nameThai'] . ' ' . $value['lastNameThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('C' . $row, $value['positionThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $value['responsible']);
+                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, $value['branch']);
+                $objPHPExcel->getActiveSheet()->setCellValue('F' . $row, $value['experience']);
+                $objPHPExcel->getActiveSheet()->setCellValue('G' . $row, $value['institution']);
+                $objPHPExcel->getActiveSheet()->setCellValue('H' . $row, $value['address']);
+                $objPHPExcel->getActiveSheet()->setCellValue('I' . $row, $value['phone']);
+                $objPHPExcel->getActiveSheet()->setCellValue('J' . $row, $value['fax']);
+                $objPHPExcel->getActiveSheet()->setCellValue('K' . $row, $value['email']);
                 $row++;
+                $cnt++;
             }
             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setAutoSize(true);
 
             $objPHPExcel->getActiveSheet()
-            ->getStyle("D5:E" . $objPHPExcel->getActiveSheet()->getHighestRow())
+            ->getStyle("A5:K" . $objPHPExcel->getActiveSheet()->getHighestRow())
             ->applyFromArray($this->getDefaultStyle());
 
             return $objPHPExcel;
@@ -224,19 +472,50 @@
             $Subcommittee = SubcommitteeService::getData($subcommitteeID);
             // print_r($Subcommittee);
             // exit;
-            $objPHPExcel->getActiveSheet()->setCellValue('B2', 'คณะอนุกรรมการ : ' . $Subcommittee['subcommitteeName']);
+            $objPHPExcel->getActiveSheet()->setCellValue('A2', 'คณะอนุกรรมการ : ' . $Subcommittee['subcommitteeName']);
+            $objPHPExcel->getActiveSheet()->mergeCells('A1:K1');
+            $objPHPExcel->getActiveSheet()->getStyle('A1:K1')->getAlignment()->setHorizontal('center');
             
             $objPHPExcel->getActiveSheet()->getStyle('B2')->getFont()->setBold(true);
             
-            $objPHPExcel->getActiveSheet()->setCellValue('C5', 'ชื่อคณะกรรมการ');
-            $objPHPExcel->getActiveSheet()->setCellValue('D5', 'ตำแหน่ง');
-            $objPHPExcel->getActiveSheet()->getStyle('C5')->getFont()->setBold(true);
-            $objPHPExcel->getActiveSheet()->getStyle('D5')->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->setCellValue('A5', 'ลำดับ');
+            $objPHPExcel->getActiveSheet()->setCellValue('B5', 'ชื่อคณะอนุกรรมการ');
+            $objPHPExcel->getActiveSheet()->setCellValue('C5', 'ตำแหน่ง');
+            $objPHPExcel->getActiveSheet()->setCellValue('D5', 'หน้าที่รับผิดชอบ');
+            $objPHPExcel->getActiveSheet()->setCellValue('E5', 'สาขา');
+            $objPHPExcel->getActiveSheet()->setCellValue('F5', 'คุณวุฒิ');
+            $objPHPExcel->getActiveSheet()->setCellValue('G5', 'หน่วยงาน');
+            $objPHPExcel->getActiveSheet()->setCellValue('H5', 'สถานที่ติดต่อ');
+            $objPHPExcel->getActiveSheet()->setCellValue('I5', 'โทรศัพท์');
+            $objPHPExcel->getActiveSheet()->setCellValue('J5', 'โทรสาร');
+            $objPHPExcel->getActiveSheet()->setCellValue('K5', 'email');
+            $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
             $row = 6;
+            $cnt = 1;
             foreach ($Subcommittee['subcommitteePerson'] as $key => $value) {
-                $objPHPExcel->getActiveSheet()->setCellValue('C' . $row, $value['nameThai'] . ' ' . $value['lastNameThai']);
-                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $value['positionThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('A' . $row, $cnt);
+                $objPHPExcel->getActiveSheet()->setCellValue('B' . $row, $value['nameThai'] . ' ' . $value['lastNameThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('C' . $row, $value['positionThai']);
+                $objPHPExcel->getActiveSheet()->setCellValue('D' . $row, $value['responsible']);
+                $objPHPExcel->getActiveSheet()->setCellValue('E' . $row, $value['branch']);
+                $objPHPExcel->getActiveSheet()->setCellValue('F' . $row, $value['experience']);
+                $objPHPExcel->getActiveSheet()->setCellValue('G' . $row, $value['institution']);
+                $objPHPExcel->getActiveSheet()->setCellValue('H' . $row, $value['address']);
+                $objPHPExcel->getActiveSheet()->setCellValue('I' . $row, $value['phone']);
+                $objPHPExcel->getActiveSheet()->setCellValue('J' . $row, $value['fax']);
+                $objPHPExcel->getActiveSheet()->setCellValue('K' . $row, $value['email']);
                 $row++;
+                $cnt++;
             }
 
             $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
@@ -244,9 +523,16 @@
             $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
             $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
+            $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setAutoSize(true);
 
             $objPHPExcel->getActiveSheet()
-            ->getStyle("C5:D" . $objPHPExcel->getActiveSheet()->getHighestRow())
+            ->getStyle("A5:K" . $objPHPExcel->getActiveSheet()->getHighestRow())
             ->applyFromArray($this->getDefaultStyle());
 
             return $objPHPExcel;
@@ -683,10 +969,12 @@
         }
 
         private function getDefaultStyle(){
-            return array(                  
-                    'allborders' => array(
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK
-                    ),
+            return array(      
+                    'borders' => [            
+                    'allBorders' => array(
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                    )],
+                    
                     'alignment' => array(
                         'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
                         'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,

@@ -92,7 +92,7 @@
 		</div>
 		<div class="row form-group" ng-repeat="sub_data in data.AttachFiles">
 			<div class="col-lg-10 col-lg-offset-1">
-				<a href="../{{ sub_data.file_path }}">{{ sub_data.file_name }}</a>
+				<a href="../{{ sub_data.file_path }}">{{ sub_data.display_name == null || sub_data.display_name == ''?sub_data.file_name:sub_data.display_name }}</a>
 			</div>
 		</div>
 		<hr>

@@ -106,6 +106,7 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
             console.log(result);
             $scope.PAGE = 'MAIN';
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.AttachFile = null;
                 $scope.FileList = [];
                 $scope.load('palaces/list');

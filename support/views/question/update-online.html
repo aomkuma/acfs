@@ -24,7 +24,7 @@
         <select class="form-control" ng-model="Questionnaire.questionnaireSubType">
           <option value="">กรุณาเลือก..</option>
           <option value="standard">ร่างมาตรฐานสินค้าเกษตร</option>
-          <option value="committee">ร่างมาตรฐานประเทศ</option>
+          <option value="committee">ร่างมาตรฐานระหว่างประเทศ</option>
         </select>
       </div>
  </div> 
@@ -45,8 +45,11 @@
       แบบสอบถามของมาตรฐาน
     </label>
     <div class="col-lg-4 col-sm-12 col-xs-12">
-      <input type="text" class="form-control" ng-model="Questionnaire.standardName" uib-typeahead="user.standardNameThai for user in searchSubcommitteeAutoComplete($viewValue, 'STANDARD') | limitTo:20" typeahead-on-select="autocompleteStandardSelected($item, $model, $label);">
-      <input type="hidden" ng-model="Questionnaire.standardID">
+      <!--<input type="text" class="form-control" ng-model="Questionnaire.standardName" uib-typeahead="user.standardNameThai for user in searchSubcommitteeAutoComplete($viewValue, 'STANDARD') | limitTo:20" typeahead-on-select="autocompleteStandardSelected($item, $model, $label);">
+      <input type="hidden" ng-model="Questionnaire.standardID">-->
+      <select class="form-control" ng-model="Questionnaire.standardID" ng-options="data.standardID as data.standardNameThai for data in CommodityStandardList">
+          <option value="">กรุณาเลือก..</option>
+      </select>
     </div>
  </div>
  <div class="row form-group" ng-show="Questionnaire.questionnaireSubType == 'committee'">
@@ -130,7 +133,8 @@
 </div>-->
  <div class="row form-group">
       <div class="col-lg-12 text-center">
-            <button class="btn btn-primary" ng-click="saveQuestionnaire(Questionnaire)">{{ Questionnaire.questionnaireSubType=='committee'?'ส่งแบบสอบถาม':'บันทึก' }}</button>
+            <button class="btn btn-primary" ng-click="saveQuestionnaire(Questionnaire)">{{ Questionnaire.questionnaireSubType=='committee'?'บันทึก':'บันทึก' }}</button>
+            <button class="btn btn-info" ng-click="sendMail()">ส่ง email</button>
             <button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
             <div uib-alert ng-class="'alert-success'" uib-alert class='repeat-item' ng-repeat="alert in alerts" type="alert.type"  dismiss-on-timeout="3000" close="alerts.splice($index, 1);" style="text-align: center; font-size:1.2em;">{{alert.msg}}
             </div>

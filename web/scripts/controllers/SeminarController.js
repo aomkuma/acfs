@@ -33,7 +33,7 @@ angular.module('e-homework').controller('SeminarController', function($scope, $c
     }
 
     $scope.loadList = function(action){
-        var params = {'actives': 'Y', 'page_type' : $scope.page_type};
+        var params = {'actives': 'Y', 'page_type' : $scope.page_type, 'keyword' : $scope.condition.keyword};
         HTTPService.clientRequest(action, params).then(function(result){
             $scope.DataList = result.data.DATA.List;
             IndexOverlayFactory.overlayHide();
@@ -76,13 +76,22 @@ angular.module('e-homework').controller('SeminarController', function($scope, $c
     }
 
     $scope.viewDetail = function(data){
-        $scope.Detail = angular.copy(data);
-        $scope.PAGE = 'DETAIL';
+        window.location.href = '#/seminar/detail/' + $scope.page_type + '/' + data.id;
+        // $scope.Detail = angular.copy(data);
+        // $scope.PAGE = 'DETAIL';
     }
 
     $scope.viewResponse = function(id){
         $scope.Data = {'seminar_id' : $scope.Detail.id};
         $scope.PAGE = 'RESPONSE';
+    }
+
+    $scope.getThaiDate = function(date){
+        // console.log('check date :'+date);
+        if(date != undefined){
+            var splitDate = date.split(' ');
+            return convertDateToFullThaiDateIgnoreTime(new Date(splitDate[0]));
+        }
     }
 
     $scope.popup1 = {
@@ -101,6 +110,7 @@ angular.module('e-homework').controller('SeminarController', function($scope, $c
         $scope.popup2.opened = true;
     };
 
+    $scope.condition = {'keyword' : ''};
     $scope.PAGE = 'MAIN';
 
     $scope.loadMenu('menu/list');

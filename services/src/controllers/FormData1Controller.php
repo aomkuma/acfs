@@ -110,6 +110,22 @@
             }
         }
 
+        public function getCustomerData($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $id = $params['obj']['id'];
+                
+                $_Data = FormData1Service::getCustomerData($id);
+
+                $this->data_result['DATA'] = $_Data;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
         public function getOperatorData($request, $response, $args){
             try{
                 $params = $request->getParsedBody();
@@ -209,6 +225,8 @@
                     unset($value['form_data1_standard_a_r_c']);
                     unset($value['open_start_date']);
                     unset($value['open_end_date']);
+                    unset($value['usage_status1']);
+                    unset($value['usage_status2']);
                     unset($value['$hashKey']);
 
                     $value['form_data1_id'] = $form_data1_id;
@@ -276,13 +294,13 @@
 
                 $upload_files = $request->getUploadedFiles();
                 $FormData1_file = $upload_files['obj']['FormData1']['AttachFile'];
-                $upload_files = $upload_files['obj']['FormData1License'];
+                $upload_files = $upload_files['obj']['form_data1_license'];
                 
                 // print_r($FormData1_file);
                 // exit;
                 $FormData1 = $params['obj']['FormData1'];
                 $page_type = 'operator-list';
-                $FormData1License = $params['obj']['FormData1License'];
+                $FormData1License = $params['obj']['form_data1_license'];
                 
                 $user_session = $params['user_session'];
 
@@ -330,24 +348,27 @@
                         }
                     }
 
-                    $StandardChecked = $value['FormData1StandardChecked'];
-                    unset($value['FormData1StandardChecked']);
-                    
+                    $StandardChecked = $value['form_data1_standard_checked'];
+                    unset($value['form_data1_standard_checked']);
+                    unset($value['open_start_date']);
+                    unset($value['open_end_date']);
+                    unset($value['$hashKey']);
 
                     $value['form_data1_id'] = $form_data1_id;
                     $license_id = FormData1Service::updateLicense($value);
 
                     foreach ($StandardChecked as $key1 => $value1) {
                         
-                        $ProductInspect = $value1['FormData1ProductInspect'];
-                        unset($value1['FormData1ProductInspect']);
-
+                        $ProductInspect = $value1['form_data1_product_inspect'];
+                        unset($value1['form_data1_product_inspect']);
+                        unset($value1['$hashKey']);
                         $value1['license_id'] = $license_id;
                         $standard_id = FormData1Service::updateStandardChecked($value1);
 
                         foreach ($ProductInspect as $key2 => $value2) {
                             
                             $value2['standard_id'] = $standard_id;
+                            unset($value2['$hashKey']);
                             $subscope_id = FormData1Service::updateProductInspect($value2);
 
                         }
@@ -364,6 +385,7 @@
 
                     $SubScope = $value['form_data1_sub_scope'];
                     unset($value['form_data1_sub_scope']);
+                    unset($value['$hashKey']);
                     
                     $value['form_data1_id'] = $form_data1_id;
 
@@ -372,6 +394,7 @@
                     foreach ($SubScope as $key2 => $value2) {
                         
                         $value2['scope_id'] = $scope_id;
+                        unset($value2['$hashKey']);
                         $subscope_id = FormData1Service::updateSubScope($value2);
 
                     }
@@ -406,7 +429,6 @@
                 unset($FormData1['form_data1_scope']);
                 
                 $form_data1_id = FormData1Service::updateData($FormData1);
-
                 
                 $form_data1_scope = $params['obj']['form_data1_scope'];
                 $cnt = 0;
@@ -414,7 +436,7 @@
 
                     $SubScope = $value['form_data1_sub_scope'];
                     unset($value['form_data1_sub_scope']);
-                    
+                    unset($value['$hashKey']);
                     $value['form_data1_id'] = $form_data1_id;
 
                     $scope_id = FormData1Service::updateScope($value);
@@ -422,11 +444,13 @@
                     foreach ($SubScope as $key2 => $value2) {
                         
                         $value2['scope_id'] = $scope_id;
+                        unset($value2['$hashKey']);
+                        // print_r($value2);
                         $subscope_id = FormData1Service::updateSubScope($value2);
 
                     }
                 }                
-
+                // exit;
                 $this->data_result['DATA']['form_data1_id'] = $form_data1_id;
 
                 return $this->returnResponse(200, $this->data_result, $response, false);

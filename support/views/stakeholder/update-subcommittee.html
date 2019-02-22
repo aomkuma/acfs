@@ -18,37 +18,603 @@
         </div>
 </div>
 <hr>
- <div class="row form-group">
-      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อกลุ่มคณะกรรมการ</label>
-      <div class="col-lg-4 col-sm-12 col-xs-12">
-      	<input type="text" class="form-control" ng-model="Subcommittee.subcommitteeName">
+<div ng-form name="update_form">
+  <div class="row form-group">
+        <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อกลุ่มคณะอนุกรรมการ</label>
+        <div class="col-lg-4 col-sm-12 col-xs-12">
+        	<input type="text" class="form-control" ng-model="Subcommittee.subcommitteeName" required="true">
+        </div>
+  </div>
+   
+  <uib-tabset active="activeJustified" justified="true" ng-show="ID != null">
+    <uib-tab index="0" heading="รายชื่อผู้มีส่วนได้ส่วนเสีย">
+      <br><br>
+     <div class="row form-group">
+        <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">
+          ชื่อ - สกุล
+        </label>
+        <div class="col-lg-4 col-sm-12 col-xs-12">
+          <input type="text" class="form-control" ng-model="keyword" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai + ' (' +user.positionThai + ')') for user in searchStakeholderAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteStakeholderSelected($item, $model, $label); keyword = '';">
+        </div>
       </div>
- </div>
- <fieldset>
-   <legend>รายชื่อผู้มีส่วนได้ส่วนเสีย</legend>
+      <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ชื่อ - สกุล</th>
+              <th>ตำแหน่ง</th>
+              <th>หน้าที่</th>
+              <th>คุณวุฒิ / ประสบการณ์</th>
+              <th>เบอร์โทร</th>
+              <th>จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="data in Subcommittee.subcommittee_person">
+              <td>
+                {{data.nameThai}} {{data.lastNameThai}}
+              </td>
+              <td>{{data.positionThai}}</td>
+              <td>{{data.responsible}}</td>
+              <td>{{data.experience}}</td>
+              <td>{{data.phone}}</td>
+              <td><button class="btn btn-danger btn-sm" ng-click="removeSubcommitteePerson(data.subcommitteePersonID, $index)">ลบ</button></td>
+            </tr>
+          </tbody>
+      </table>
+    </uib-tab>
+    <uib-tab index="1" heading="การประชุม">
+      <br><br>
+      <div class="row form-group">
+      <div class="col col-lg-12">
+        <div class="pull-right">
+          <button class="btn btn-primary" ng-click="updateMeeting('convoke', null)" ng-disabled="DisabledForm">เพิ่มการประชุม</button>&nbsp;
+          <button class="btn btn-info" ng-click="updateMeeting('seminar', null)" ng-disabled="DisabledForm">เพิ่มการสัมมนา</button>
+        </div>
+      </div>
+    </div>
+      <div class="row form-group">
+        <div class="col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>หัวข้อการประชุม</th>
+                  <th>วัน/เวลาที่เริ่มการประชุม</th>
+                  <th>วัน/เวลาที่สิ้นสุดการประชุม</th>
+                  <th>ไฟล์แนบเชิญเข้าร่วม</th>
+                  <th>ไฟล์แนบวาระการประชุม</th>
+                  <th>ไฟล์แนบสรุปการประชุม</th>
+                  <th>ผู้เข้าร่วมการประชุม</th>
+                  <th>จัดการ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="meeting in Meetings">
+                  <td>{{meeting.meetingName}}</td>
+                  <td>{{makeDateTimeString(meeting.startDate)}}</td>
+                  <td>{{makeDateTimeString(meeting.endDate)}}</td>
+                  <td><span ng-repeat="f in meeting.invite_file"><a href="../{{f.filePath}}">{{f.fileName}}</a><br></span></td>
+                  <td><span ng-repeat="f in meeting.meeting_file"><a href="../{{f.filePath}}">{{f.fileName}}</a><br></span></td>
+                  <td>
+                    <p class="input-group">
+                    <button class="btn btn-info" ng-model="MOMFile" ngf-select ngf-max-size="25MB" ngf-model-invalid="MOMFile.invalidFile">เลือกไฟล์</button>
+                    <span class="input-group-btn">
+                              <button class="btn btn-default" ng-disabled="MOMFile == null" ng-click="uploadMOMFile(MOMFile, meeting.meetingID)">อัพโหลด</button>
+                            </span>
+                          </p>
+                          <span>{{MOMFile.name}}</span>
+                          <span ng-repeat="f in meeting.mom_file"><a href="../{{f.filePath}}">{{f.fileName}}</a><br></span>
+                  </td>
+                  <td align="center">
+                    <button class="btn btn-info btn-sm" ng-click="viewAttendee(meeting.meetingID)">
+                      <span class="glyphicon glyphicon-zoom-in"></span>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary" ng-click="updateMeeting(meeting.meetingType, meeting)">แก้ไข</button>&nbsp;
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>  
+      </div>
+    </uib-tab>
+  </uib-tabset>
    <div class="row form-group">
-      <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">
-        ชื่อ - สกุล
-      </label>
-      <div class="col-lg-4 col-sm-12 col-xs-12">
-        <input type="text" class="form-control" ng-model="keyword" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai + ' (' +user.positionThai + ')') for user in searchStakeholderAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteStakeholderSelected($item, $model, $label); keyword = '';">
-      </div>
-    </div>
-    <div class="row form-group" ng-repeat="data in Subcommittee.subcommittee_person">
-      <label class="col-lg-3 col-sm-10 col-xs-10 form-control-static  col-lg-offset-2">
-          {{data.nameThai}} {{data.lastNameThai}}
-      </label>
-      <div class="col-lg-2 col-sm-2 col-xs-2">
-        <button class="btn btn-danger btn-sm" ng-click="removeSubcommitteePerson(data.subcommitteePersonID, $index)">ลบ</button>
-      </div>
-    </div>
- </fieldset>
- <div class="row form-group">
-      <div class="col-lg-12 text-center">
-            <button class="btn btn-primary" ng-click="saveSubcommittee(Subcommittee)">บันทึก</button>
-            <button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
-            <div uib-alert ng-class="'alert-success'" uib-alert class='repeat-item' ng-repeat="alert in alerts" type="alert.type"  dismiss-on-timeout="3000" close="alerts.splice($index, 1);" style="text-align: center; font-size:1.2em;">{{alert.msg}}
-            </div>
-            <br><br><br><br>
-      </div>
+        <div class="col-lg-12 text-center">
+              <button class="btn btn-primary" ng-click="saveSubcommittee(Subcommittee)" ng-disabled="update_form.$invalid">บันทึก</button>
+              <button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
+              <div uib-alert ng-class="'alert-success'" uib-alert class='repeat-item' ng-repeat="alert in alerts" type="alert.type"  dismiss-on-timeout="3000" close="alerts.splice($index, 1);" style="text-align: center; font-size:1.2em;">{{alert.msg}}
+              </div>
+              <br><br><br><br>
+        </div>
+  </div>
 </div>
+<script type="text/ng-template" id="update_stakeholder.html">
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-lg-1">
+                <h3><i class="glyphicon glyphicon-user" style="color:#3D9AE1;"></i></h3>
+            </div>
+            <div class="col-lg-10 text-center">
+                <h3>รายนามผู้แทน</h3>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+      <div class="row form-group">
+          <div class="col col-lg-12">
+            <a class="btn btn-success pull-right" target="_blank" href="#/stakeholder/update/-1">เพิ่มรายชื่อใหม่</a>
+          </div>
+       </div>
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาไทย)</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.nameThai" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai + ' (' +user.positionThai + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteStakeholderSelected($item, $model, $label)">
+            </div>
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาอังกฤษ)</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.nameEng" uib-typeahead="(user.nameEng + ' ' + user.lastNameEng + ' (' +user.positionEng + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMEENG') | limitTo:20" typeahead-on-select="autocompleteStakeholderSelected($item, $model, $label)">
+            </div>
+       </div>
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สกุล (ภาษาไทย)</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.lastNameThai">
+            </div>
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สกุล (ภาษาอังกฤษ)</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.lastNameEng">
+            </div>
+       </div>
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ตำแหน่ง (ภาษาไทย)</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.positionThai">
+            </div>
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ตำแหน่ง (ภาษาอังกฤษ)</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.positionEng">
+            </div>
+       </div> 
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">หน้าที่รับผิดชอบ</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.responsible">
+            </div>
+       </div> 
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สาขา</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <select class="form-control" ng-model="Stakeholders.branch" ng-options="item.branchNameThai as item.branchNameThai for item in BranchList">
+                <option value="">กรุณาเลือก..</option>
+              </select>
+            </div>
+       </div> 
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">คุณวุฒิ /ประสบการณ์</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.experience">
+            </div>
+       </div> 
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">หน่วยงาน</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.institution">
+            </div>
+       </div> 
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สถานที่ติดต่อ</label>
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <textarea class="form-control" rows="4" ng-model="Stakeholders.address"></textarea>
+            </div>
+       </div> 
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">โทรศัพท์</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.phone">
+            </div>
+       </div> 
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">โทรสาร</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Stakeholders.fax">
+            </div>
+       </div> 
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">email</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="email" class="form-control" ng-model="Stakeholders.email">
+            </div>
+       </div> 
+       <div class="row form-group" ng-repeat="Substitute in Stakeholders.Substitute_List">
+          <div class="col col-lg-12">
+            <fieldset>
+              <legend>ผู้แทนสำรอง {{$index + 1}}</legend>
+              <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาไทย)</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.nameThai" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai + ' (' +user.positionThai + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteSubstituteSelected($item, $model, $label)">
+                  </div>
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาอังกฤษ)</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.nameEng" uib-typeahead="(user.nameEng + ' ' + user.lastNameEng + ' (' +user.positionEng + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMEENG') | limitTo:20" typeahead-on-select="autocompleteSubstituteSelected($item, $index)">
+                  </div>
+             </div>
+             <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สกุล (ภาษาไทย)</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.lastNameThai">
+                  </div>
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สกุล (ภาษาอังกฤษ)</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.lastNameEng">
+                  </div>
+             </div>
+             <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ตำแหน่ง (ภาษาไทย)</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.positionThai">
+                  </div>
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ตำแหน่ง (ภาษาอังกฤษ)</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.positionEng">
+                  </div>
+             </div> 
+             <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">หน้าที่รับผิดชอบ</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.responsible">
+                  </div>
+             </div> 
+             <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">คุณวุฒิ /ประสบการณ์</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.experience">
+                  </div>
+             </div> 
+             <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">หน่วยงาน</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.institution">
+                  </div>
+             </div> 
+             <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สถานที่ติดต่อ</label>
+                  <div class="col-lg-6 col-sm-12 col-xs-12">
+                    <textarea class="form-control" rows="4" ng-model="Substitute.address"></textarea>
+                  </div>
+             </div> 
+             <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">โทรศัพท์</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.phone">
+                  </div>
+             </div> 
+             <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">โทรสาร</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="Substitute.fax">
+                  </div>
+             </div> 
+             <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">email</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="email" class="form-control" ng-model="Substitute.email">
+                  </div>
+             </div>
+            </fieldset>
+          </div>
+        </div>
+       <div class="row form-group">
+          <div class="col col-lg-12">
+            <button class="btn btn-success" ng-click="addSubstitute()">เพิ่มผู้แทนสำรอง</button>
+          </div>
+       </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" ng-click="ok(Stakeholders)">Confirm</button>
+      <button class="btn btn-default" ng-click="cancel()">Close</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="update_meeting.html">
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-lg-1">
+                <h3><i class="glyphicon glyphicon-calendar" style="color:#3D9AE1;"></i></h3>
+            </div>
+            <div class="col-lg-10 text-center">
+                <h3><span ng-show="meetingType == 'seminar'">สัมมนา</span> <span ng-show="meetingType == 'convoke'">ประชุม</span></h3>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+      <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">หัวข้อการประชุม</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="Meeting.meetingName">
+            </div>
+       </div> 
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">วัน/เวลาที่เริ่มการประชุม</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <p class="input-group">
+                  <input type="text" readonly="true" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="Meeting.startDate" is-open="popup1.opened" datepicker-options="dateOptions1" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </p>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-xs-6">
+              <label class="col-lg-4 col-sm-6 col-xs-6 form-control-static">ชั่วโมง</label>
+              <div class="col-lg-8 col-sm-6 col-xs-6">
+                <!--<input type="number" class="form-control" ng-model="startHour" min="0" max="24" ng-blur="changeStartTime(startHour, startMin)" ng-disabled="Meeting.startDate == null || Meeting.startDate == ''">-->
+                <select class="form-control" ng-model="startHour" ng-options="data.value as data.text for data in HourList" ng-change="changeStartTime(startHour, startMin)" ng-disabled="Meeting.startDate == null || Meeting.startDate == ''">
+                  <option value="">กรุณาเลือก..</option>
+                </select>
+              </div>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-xs-6">
+            <label class="col-lg-4 col-sm-6 col-xs-6 form-control-static">นาที</label>
+              <div class="col-lg-8 col-sm-6 col-xs-6">
+                <!--<input type="number" class="form-control" ng-model="startMin" min="0" max="59" ng-blur="changeStartTime(startHour, startMin)" ng-disabled="Meeting.startDate == null || Meeting.startDate == ''">-->
+                <select class="form-control" ng-model="startMin" ng-options="data.value as data.text for data in MinuteList" ng-change="changeStartTime(startHour, startMin)" ng-disabled="Meeting.startDate == null || Meeting.startDate == ''">
+                  <option value="">กรุณาเลือก..</option>
+                </select>
+              </div>
+          </div>
+       </div> 
+       <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">วัน/เวลาที่สิ้นสุดการประชุม</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <p class="input-group">
+                  <input type="text" readonly="true" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="Meeting.endDate" is-open="popup2.opened" datepicker-options="dateOptions2" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </p>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-xs-6">
+              <label class="col-lg-4 col-sm-6 col-xs-6 form-control-static">ชั่วโมง</label>
+              <div class="col-lg-8 col-sm-6 col-xs-6">
+                <!--<input type="number" class="form-control" ng-model="endHour" min="0" max="24" ng-blur="changeEndTime(endHour, endMin)" ng-disabled="Meeting.endDate == null || Meeting.endDate == ''">-->
+                <select class="form-control" ng-model="endHour" ng-options="data.value as data.text for data in HourList" ng-change="changeEndTime(endHour, endMin)" ng-disabled="Meeting.endDate == null || Meeting.endDate == ''">
+                  <option value="">กรุณาเลือก..</option>
+                </select>
+              </div>
+          </div>
+          <div class="col-lg-3 col-sm-6 col-xs-6">
+            <label class="col-lg-4 col-sm-6 col-xs-6 form-control-static">นาที</label>
+              <div class="col-lg-8 col-sm-6 col-xs-6">
+                <!--<input type="number" class="form-control" ng-model="endMin" min="0" max="59" ng-blur="changeEndTime(endHour, endMin)" ng-disabled="Meeting.endDate == null || Meeting.endDate == ''">-->
+                <select class="form-control" ng-model="endMin" ng-options="data.value as data.text for data in MinuteList" ng-change="changeStartTimechangeEndTime(endHour, endMin)" ng-disabled="Meeting.endDate == null || Meeting.endDate == ''">
+                  <option value="">กรุณาเลือก..</option>
+                </select>
+              </div>
+          </div>
+       </div>
+
+      <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">สถานที่</label>
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <textarea class="form-control" rows="4" ng-model="Meeting.address"></textarea>
+            </div>
+       </div> 
+        
+       
+    
+      <div class="row form-group">
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+        <fieldset>
+          <legend>ไฟล์แนบเชิญเข้าร่วม</legend>
+          <div class="row form-group" ng-repeat="file in Meeting.invite_file">
+            <div class="col-lg-12">
+              
+                  <button class="btn btn-danger btn-xs" ng-click="removeAttach('meeting/invite-file/delete', file.inviteFileID, $index, Meeting.invite_file)"><span class="glyphicon glyphicon-trash"></span></button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <a target="_self" href="{{file.filePath}}" download="{{file.fileName}}">{{file.fileName}}</a>
+                
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-lg-12">
+              <button class="btn btn-primary " ng-click="addInviteFiles()"> เพิ่มไฟล์แนบ</button>
+            </div>
+            <div class="col-lg-12">
+              <div class="row" ng-repeat="fle in InviteFileList">
+                <div class="col-lg-4" >
+                  <p class="input-group">
+                            <input type="text" readonly="true" class="form-control" ng-model="fle.attachFile.name" />
+                            <span class="input-group-btn">
+                              <button class="btn btn-default" ngf-select ng-model="fle.attachFile" ngf-max-size="25MB"  ngf-model-invalid="fle.attachFile.invalidFile">เลือก</button>
+                            </span>
+                          </p>
+                </div>
+                <div class="col-lg-3">
+                  <div class="file-alert" ng-show="fle.attachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{fle.attachFile.invalidFile.$errorParam}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="row form-group">
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+        <fieldset>
+          <legend>ไฟล์แนบวาระการประชุม</legend>
+          <div class="row form-group" ng-repeat="file in Meeting.meeting_file">
+            <div class="col-lg-12">
+              
+                  <button class="btn btn-danger btn-xs" ng-click="removeAttach('meeting/meeting-file/delete', file.meetingFileID, $index, Meeting.meeting_file)"><span class="glyphicon glyphicon-trash"></span></button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <a target="_self" href="{{file.filePath}}" download="{{file.fileName}}">{{file.fileName}}</a>
+                
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-lg-12">
+              <button class="btn btn-primary " ng-click="addMeetingFiles()"> เพิ่มไฟล์แนบ</button>
+            </div>
+            <div class="col-lg-12">
+              <div class="row" ng-repeat="fle in MeetingFileList">
+                <div class="col-lg-4" >
+                  <p class="input-group">
+                            <input type="text" readonly="true" class="form-control" ng-model="fle.attachFile.name" />
+                            <span class="input-group-btn">
+                              <button class="btn btn-default" ngf-select ng-model="fle.attachFile" ngf-max-size="25MB"  ngf-model-invalid="fle.attachFile.invalidFile">เลือก</button>
+                            </span>
+                          </p>
+                </div>
+                <div class="col-lg-3">
+                  <div class="file-alert" ng-show="fle.attachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{fle.attachFile.invalidFile.$errorParam}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="row form-group">
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+        <fieldset>
+          <legend>การส่ง e-mail</legend>
+          <div class="row form-group">
+            <label class="col-lg-3 form-control-static">รูปแบบการส่ง e-mail </label>
+            <div class="col-lg-3" >
+              <div class="btn-group">
+                <label class="btn btn-default btn-checkbox" ng-model="Meeting.sentEmailStatus" uib-btn-radio="'Default'" >ส่งทันที</label>
+                      <label class="btn btn-default btn-checkbox" ng-model="Meeting.sentEmailStatus" uib-btn-radio="'TimeSetting'" >ตั้งเวลาในการส่ง</label>
+                  </div>
+            </div>
+            <div class="col-lg-6" >
+              
+            </div>
+          </div>
+          <div class="row form-group" ng-show="Meeting.sentEmailStatus == 'TimeSetting'">
+            <div class="col-lg-3 col-sm-12 col-xs-12 col-lg-offset-3">
+                    <p class="input-group">
+                        <input type="text" readonly="true" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="Meeting.emailSentDate" is-open="popup4.opened" datepicker-options="dateOptions4" />
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" ng-click="open4()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                      </p>
+                  </div>
+                  <div class="col-lg-3 col-sm-6 col-xs-6">
+                    <label class="col-lg-4 col-sm-6 col-xs-6 form-control-static">ชั่วโมง</label>
+                    <div class="col-lg-8 col-sm-6 col-xs-6">
+                      <input type="number" class="form-control" ng-model="emailSentHour" min="0" max="24" ng-blur="changeSentEmailTime(emailSentHour, emailSentMin)" ng-disabled="Meeting.emailSentDate == null || Meeting.emailSentDate == ''">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-xs-6">
+                  <label class="col-lg-4 col-sm-6 col-xs-6 form-control-static">นาที</label>
+                    <div class="col-lg-8 col-sm-6 col-xs-6">
+                      <input type="number" class="form-control" ng-model="emailSentMin" min="0" max="59" ng-blur="changeSentEmailTime(emailSentHour, emailSentMin)" ng-disabled="Meeting.emailSentDate == null || Meeting.emailSentDate == ''">
+                    </div>
+                </div>
+          </div>
+          <div class="row form-group">
+            <label class="col-lg-3 form-control-static">หมายเหตุ </label>
+            <div class="col-lg-6" >
+              <textarea class="form-control" ng-model="Meeting.remark" maxlength="512"></textarea>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>
+            ผู้เข้าร่วม<span ng-show="meetingType == 'seminar'">สัมมนา</span><span ng-show="meetingType == 'convoke'">ประชุม</span> 
+          </legend>
+          <div class="row form-group">
+                  <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ - สกุล</label>
+                  <div class="col-lg-4 col-sm-12 col-xs-12">
+                    <input type="text" class="form-control" ng-model="keyword" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai + ' (' +user.positionEng + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteAttendeeSelected($item, $model, $label); keyword = '';">
+                  </div>
+             </div>
+             <div class="row form-group" ng-repeat="data in AttendeeList">
+              <div class="col-lg-3 col-sm-10 col-xs-10 form-control-static  col-lg-offset-2">
+                {{data.nameThai}} {{data.lastNameThai}} ({{data.positionThai}})
+              </div>
+              <div class="col-lg-2 col-sm-2 col-xs-2">
+                <button class="btn btn-danger btn-sm" ng-click="removeAttendee(data.meetingAttendeeID, $index)"><span></span> ลบ</button>
+              </div>
+             </div>
+        </fieldset>
+      </div>
+    </div>
+    </div>
+</div>
+<div class="modal-footer">
+  
+  <button class="btn btn-default" ng-click="sendMailMeeting(Meeting)" ng-show="Meeting.meetingID != ''">ส่ง email แจ้ง{{ meetingType == 'seminar'?'สัมมนา':'ประชุม' }}</button>
+    <button class="btn btn-default" ng-click="ok(Meeting)">Confirm</button>
+    <button class="btn btn-default" ng-click="cancel()">Close</button>
+</div>
+</script>
+<script type="text/ng-template" id="view_attendee.html">
+    <div class="modal-header">
+        <div class="row">
+            <div class="col-lg-1">
+                <h3><i class="glyphicon glyphicon-user" style="color:#3D9AE1;"></i></h3>
+            </div>
+            <div class="col-lg-10 text-center">
+                <h3>ผู้เข้าร่วมสัมมนา</h3>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+      <div class="row form-group">
+            <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ - สกุล</label>
+            <div class="col-lg-4 col-sm-12 col-xs-12">
+              <input type="text" class="form-control" ng-model="keyword" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai + ' (' +user.positionEng + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteAttendeeSelected($item, $model, $label); keyword = '';">
+            </div>
+       </div>
+       <div class="row form-group" ng-repeat="data in AttendeeList">
+        <div class="col-lg-3 col-sm-10 col-xs-10 form-control-static  col-lg-offset-2">
+          {{data.nameThai}} {{data.lastNameThai}} ({{data.positionThai}})
+        </div>
+        <div class="col-lg-2 col-sm-2 col-xs-2">
+          <button class="btn btn-danger btn-sm" ng-click="removeAttendee(data.meetingAttendeeID, $index)"><span></span> ลบ</button>
+        </div>
+       </div>
+   </div>
+   <div class="modal-footer">
+      <button class="btn btn-default" ng-click="cancel()">Close</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="choose_standard_replace.html">
+    <div class="modal-header">
+        <div class="row">
+            
+            <div class="col-lg-12 text-center">
+                <h3>รายชื่อมาตรฐานที่ใช้แทน</h3>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+      
+       <div class="row" ng-repeat="data in CommodityStandardReplaceList">
+        <div class="col-lg-3 col-sm-10 col-xs-10 form-control-static  col-lg-offset-2">
+          <input type="radio" ng-model="IDReplaced.id" ng-value="data.standardID"> {{data.standardNameThai}}
+        </div>
+       </div>
+   </div>
+   <div class="modal-footer">
+      <button class="btn btn-default" ng-click="ok(IDReplaced)">Confirm</button>
+      <button class="btn btn-default" ng-click="cancel()">Close</button>
+  </div>
+</script>
+<style type="text/css">
+  fieldset{
+    border: 1px solid #000000;
+    padding: 10px;
+  }
+</style>
+

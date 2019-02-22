@@ -46,6 +46,7 @@ angular.module('e-homework').controller('ServicesController', function($scope, $
     $scope.save = function(action, ServicesList){
         var params = {'ServicesList':ServicesList};
         HTTPService.clientRequest(action, params).then(function(result){
+            alert('บันทึกสำเร็จ');
             //console.log(result);
             $scope.load('services/list');
             IndexOverlayFactory.overlayHide();

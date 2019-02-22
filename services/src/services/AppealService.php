@@ -10,12 +10,13 @@
     
     class AppealService {
 
-    	public static function getList($appeal_date){
+    	public static function getList($appeal_date, $page_type){
             return Appeal::where(function($query) use ($appeal_date){
                         if(!empty($appeal_date)){
                             $query->whereBetween('create_date', $appeal_date);
                         }
                     })
+                    ->where('page_type', $page_type)
                     ->with('appealList')
                     ->with('appealCallback')
                     ->get();

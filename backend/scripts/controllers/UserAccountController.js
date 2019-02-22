@@ -90,6 +90,7 @@ angular.module('e-homework').controller('UserAccountController', function($scope
             console.log(result);
             $scope.PAGE = 'MAIN';
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.AttachFile = null;
                 $scope.load();
                 $scope.cancelUpdate();

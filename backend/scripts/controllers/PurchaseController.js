@@ -70,6 +70,7 @@ angular.module('e-homework').controller('PurchaseController', function($scope, $
 
         var params = {'Data' : Data, 'AttachFileList' : Data.AttachFileList};
         HTTPService.uploadRequest('purchase/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             $scope.loadList();
             $scope.PAGE = 'MAIN';
             IndexOverlayFactory.overlayHide();

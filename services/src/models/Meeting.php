@@ -6,6 +6,7 @@ class Meeting extends \Illuminate\Database\Eloquent\Model {
   	protected $primaryKey = 'meetingID';
   	public $timestamps = false;
     protected $fillable = array('meetingID'
+                , 'menuType'
                 , 'standardID'
                 , 'meetingName'
                 , 'address'

@@ -39,9 +39,25 @@ angular.module('e-homework').controller('ListeningDetailController', function($s
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.Data = result.data.DATA.Listening;
+            $scope.checkListeningDate($scope.Data.start_date, $scope.Data.end_date);
             IndexOverlayFactory.overlayHide();
         });
     }
+
+    $scope.checkListeningDate = function(startDate, endDate){
+        // console.log(startDate, endDate);
+        var start_date = new Date(startDate);
+        var end_date = new Date(endDate);
+        var cur_date = new Date();
+
+        // console.log(cur_date.getTime(), start_date.getTime(), end_date.getTime());
+        if(start_date.getTime() <= cur_date.getTime() && end_date.getTime() >= cur_date.getTime()){
+            // alert('open');
+            $scope.OpenListening = true;
+        }
+    }
+
+    $scope.OpenListening = false;
 
     $scope.loadMenu('menu/list');
     $scope.getMenu('menu/get/type' ,$scope.page_type);

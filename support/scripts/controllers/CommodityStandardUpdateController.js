@@ -78,6 +78,7 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
                 $scope.Commodity_Keywords_EN = result.data.DATA.Commodity_Keywords_EN;
                 $scope.loadStakeholders($scope.ID);
                 $scope.loadMeetings($scope.ID);
+                $scope.Commodity_Standards.useDate = makeDateTime($scope.Commodity_Standards.useDate);
                 IndexOverlayFactory.overlayHide();
             }else{
                 IndexOverlayFactory.overlayHide();
@@ -103,6 +104,7 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 	$scope.loadMeetings = function(standardID){
 		var params = {
 					'standardID':standardID
+                    , 'menuType':'standard'
 					};
 		HTTPService.clientRequest('meeting/list', params).then(function(result){
             console.log(result);
@@ -145,6 +147,7 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 					, 'Commodity_Keywords_EN':$scope.Commodity_Keywords_EN
                     , 'ID_Replaced':($scope.ID_Replaced==undefined?'':$scope.ID_Replaced.id)
                     , 'AttachFile':$scope.AttachFile
+                    , 'AttachFileEN':$scope.AttachFileEN
 					};
 		IndexOverlayFactory.overlayShow();
         HTTPService.uploadRequest('commodity-standard/update', params).then(function(result){
@@ -339,21 +342,21 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
     }
 
     $scope.dateOptions1 = {
-        minDate: new Date(),
+        // minDate: new Date(),
         showWeeks: true
       };
 
     $scope.dateOptions2 = {
-        minDate: new Date(),
+        // minDate: new Date(),
         showWeeks: true
       };
       $scope.dateOptions3 = {
-        minDate: new Date(),
+        // minDate: new Date(),
         showWeeks: true
       };
 
       $scope.dateOptions4 = {
-        minDate: new Date(),
+        // minDate: new Date(),
         showWeeks: true
       };
     $scope.popup1 = {
@@ -438,6 +441,24 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 
     $scope.addInviteFiles = function(){
     	$scope.InviteFileList.push({'attachFile':null});
+    }
+
+    $scope.uploadMOMFile = function(MOMFile, meetingID){
+        var params = {
+                    'MOMFile':MOMFile
+                    ,'standardID':$scope.Commodity_Standards.standardID
+                    ,'meetingID':meetingID
+                    };
+        IndexOverlayFactory.overlayShow();          
+        HTTPService.uploadRequest('meeting/upload/momfile', params).then(function(result){
+            console.log(result);
+            if(result.data.STATUS == 'OK'){
+                window.location.reload();
+                IndexOverlayFactory.overlayHide();
+            }else{
+                IndexOverlayFactory.overlayHide();
+            }
+        });
     }
 
     $scope.saveMeeting = function(Meeting, AttendeeList, MeetingFileList, InviteFileList){
@@ -525,6 +546,9 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
     }
 
     $scope.autocompleteAttendeeSelected = function($item, $model, $label){
+        if($scope.Meeting !== undefined && $scope.Meeting != null){
+            $scope.meetingID = $scope.Meeting.meetingID;
+        }
         var attendee = {'meetingAttendeeID':''
                             ,'attendeeID':$item.stakeholderID
                             ,'meetingID':$scope.meetingID
@@ -675,6 +699,32 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
       });
     };
 
+    
+
+    $scope.sendMailMeeting = function(Meeting){
+        var params = {'Meeting' : Meeting};
+        IndexOverlayFactory.overlayShow();
+        HTTPService.uploadRequest('meeting/sendmail', params).then(function(result){  
+            if(result.data.STATUS == 'OK'){
+                // $scope.addAlert('ส่ง email สำเร็จ','success');
+                alert('ส่ง email สำเร็จ');
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.sendMailPassword = function(){
+        var params = {'standardID' : $scope.Commodity_Standards.standardID};
+        IndexOverlayFactory.overlayShow();
+        HTTPService.uploadRequest('academic-board/sendmail', params).then(function(result){  
+            if(result.data.STATUS == 'OK'){
+                // $scope.addAlert('ส่ง email สำเร็จ','success');
+                alert('ส่ง email สำเร็จ');
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
 	$scope.Commodity_Standards = {'standardID':''
 								,'standardType':''
 								, 'standardCategory':''
@@ -693,6 +743,9 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 	$scope.meetingType = '';
     $scope.meetingID = '';
     $scope.AttachFile = null;
+
+    $scope.MinuteList = getMinuteList();
+    $scope.HourList = getHourList();
 
 	// Begin Program
 	$scope.addKeywordTH();

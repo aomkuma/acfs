@@ -12,6 +12,20 @@ angular.module('app').controller('QuestionOnlineUpdateController', function($sco
     $scope.$parent.menu_selected = 'questionnaire';
     $scope.ID = $routeParams.id;
 
+    $scope.loadCommodityStandard = function(){
+        HTTPService.clientRequest('commodity-standard/list/in-use', null).then(function(result){
+            console.log(result);
+            if(result.data.STATUS == 'OK'){
+                $scope.CommodityStandardList = result.data.DATA.List;
+                
+                IndexOverlayFactory.overlayHide();
+                
+            }else{
+                IndexOverlayFactory.overlayHide();
+            }
+        });
+    }
+
     $scope.loadQuestionnaire = function(action, id){
         var params = {'id': id};
         HTTPService.clientRequest(action, params).then(function(result){
@@ -72,6 +86,27 @@ angular.module('app').controller('QuestionOnlineUpdateController', function($sco
             }else{
                 IndexOverlayFactory.overlayHide();
             }
+        });
+    }
+
+    $scope.sendMail = function(){
+        var params = {'Questionnaire' : $scope.Questionnaire};
+        IndexOverlayFactory.overlayShow();
+        HTTPService.uploadRequest('questionnaire/sendmail', params).then(function(result){  
+            // console.log(result.data);
+            // $scope.loadQuestionnaires($scope.Commodity_Standards.standardID);
+            if(result.data.STATUS == 'OK'){
+                $scope.addAlert('ส่ง email สำเร็จ','success');
+                // if($scope.ID === undefined){
+                //     window.location.href = '#/questionnaire/update/online/' + result.data.DATA.questionnaireID;
+                // }else{
+                //     $scope.ID = result.data.DATA.questionnaireID;
+                //     $scope.loadQuestionnaire('questionnaire/get', $scope.ID);
+                //     IndexOverlayFactory.overlayHide();    
+                // }
+                window.location.href = '#/question/1';
+            }
+            IndexOverlayFactory.overlayHide();
         });
     }
 
@@ -316,7 +351,7 @@ angular.module('app').controller('QuestionOnlineUpdateController', function($sco
     $scope.Branch = {'branchID':'' , 'branchNameThai':'', 'branchNameEng':''};
 
     IndexOverlayFactory.overlayHide();
-
+    $scope.loadCommodityStandard();
     if($scope.ID !== undefined){
         $scope.loadQuestionnaire('questionnaire/get', $scope.ID);
     }else{

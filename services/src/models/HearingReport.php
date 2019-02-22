@@ -17,6 +17,7 @@ class HearingReport extends \Illuminate\Database\Eloquent\Model {
                 , 'color_font_size'
                 , 'picture_symbol'
                 , 'group_data'
+                , 'external_link'
                 , 'user_friendly'
                 , 'up_to_date'
                 , 'correction'

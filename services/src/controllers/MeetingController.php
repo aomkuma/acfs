@@ -23,8 +23,9 @@
             try{
                 $params = $request->getParsedBody();
                 $standardID = $params['obj']['standardID'];
+                $menuType = $params['obj']['menuType'];
 
-                $_List = MeetingService::getList($standardID);
+                $_List = MeetingService::getList($standardID, $menuType);
 
                 $this->data_result['DATA']['Meeting'] = $_List;
 
@@ -88,6 +89,12 @@
                 unset($Attendee['nameThai']);
                 unset($Attendee['lastNameThai']);
                 unset($Attendee['positionThai']);
+
+                $value['createBy'] = $user_session['adminID'];
+                $value['createDate'] = date('Y-m-d H:i:s');
+                $value['updateBy'] = $user_session['adminID'];
+                $value['updateDate'] = date('Y-m-d H:i:s');
+                
                 $_Attendee = MeetingService::addAttendee($Attendee);
                 $this->data_result['DATA']['Attendee'] = $_Attendee;
 
@@ -113,13 +120,57 @@
             }
         }
 
+        public function uploadMOMFile($request, $response, $args){
 
+            $_WEB_FILE_PATH = 'files/files';
+            try{
+
+                $params = $request->getParsedBody();
+                $user_session = $params['user_session'];
+                $standardID = $params['obj']['standardID'];
+                $meetingID = $params['obj']['meetingID'];
+
+                $files = $request->getUploadedFiles();
+                if($files != null){
+                    $f = $files['obj']['MOMFile'];
+                    // print_r($files);
+                    // exit;
+                    if($f->getClientFilename() != ''){
+                        $ext = pathinfo($f->getClientFilename(), PATHINFO_EXTENSION);
+                        $FileName = $meetingID . '_' . date('YmdHis').'_'.rand(100000,999999). '.'.$ext;
+                        $FilePath = $_WEB_FILE_PATH . '/commodity-standard/mom-files/'.$FileName;
+
+                        $AttachFile = ['meetingID'=>$meetingID
+                                        ,'standardID'=>$_Meeting['standardID']
+                                        ,'fileName'=>$f->getClientFilename()
+                                        ,'filePath'=>$FilePath
+                                        ,'createBy'=>$user_session['adminID']
+                                        ,'createDate'=>date('Y-m-d H:i:s')
+                                        ,'updateBy'=>$user_session['adminID']
+                                        ,'updateDate'=>date('Y-m-d H:i:s')
+                                    ];
+                        // print_r($AttachFile);exit;
+                        $result = MeetingService::addMOMFile($AttachFile);
+                        $f->moveTo('../../' . $FilePath);
+                        
+                    }
+
+                }
+
+                $this->data_result['DATA']['result'] = $result;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
 
         public function updateData($request, $response, $args){
 
-            error_reporting(E_ERROR);
-                error_reporting(E_ALL);
-                ini_set('display_errors','On');
+            // error_reporting(E_ERROR);
+            //     error_reporting(E_ALL);
+            //     ini_set('display_errors','On');
             $_WEB_FILE_PATH = 'files/files';
             try{
 
@@ -133,6 +184,12 @@
                 unset($_Meeting['invite_file']);
                 // print_r($_Meeting);
                 // exit;
+
+                foreach ($_Meeting as $key => $value) {
+                    if($value == 'null' || $value == ''){
+                        $_Meeting[$key] = NULL;
+                    }
+                }
                 $meetingID = MeetingService::updateData($_Meeting);
 
                 // Upload meeting files if exists
@@ -204,20 +261,57 @@
                 }
 
                 // Add Atendee
-                $MailToAttendee = [];
+                // $MailToAttendee = [];
                 foreach ($_AttendeeList as $key => $value) {
                     $data = $value;
                     if(empty($value['meetingAttendeeID'])){  
                         unset($value['nameThai']);
                         unset($value['lastNameThai']);
                         unset($value['positionThai']);
+                        foreach ($value as $k => $v) {
+                            if($v == 'null' || $v == ''){
+                                $value[$k] = NULL;
+                            }
+                        }
+                        $value['meetingID'] = $meetingID;
+                        $value['createBy'] = $user_session['adminID'];
+                        $value['createDate'] = date('Y-m-d H:i:s');
+                        $value['updateBy'] = $user_session['adminID'];
+                        $value['updateDate'] = date('Y-m-d H:i:s');
                         MeetingService::addAttendee($value);
                     }
-                    $MailToAttendee[] = $data;
+                    // $MailToAttendee[] = $data;
                 }
                 
+                
+
+                $this->data_result['DATA']['meetingID'] = $meetingID;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function sendMail($request, $response, $args){
+
+            // error_reporting(E_ERROR);
+            //     error_reporting(E_ALL);
+            //     ini_set('display_errors','On');
+            try{
+
+                $params = $request->getParsedBody();
+                $_Meeting = $params['obj']['Meeting'];
+                
+                $_Meeting = MeetingService::getData($_Meeting['meetingID']);
+                // print_r($_Meeting);
+                // exit;
+                // Add Atendee
+                $MailToAttendee = [];
+                
                 // send e-mail if sentMailStatus = 'Default'
-                if($_Meeting['sentEmailStatus'] == 'Default'){
+                // if($_Meeting['sentEmailStatus'] == 'Default'){
                     // Get e-mail hosting for send to attendee & academic board
                     $email_settings = EmailService::getEmailAcademicBord($_Meeting['standardID']);
 
@@ -335,7 +429,7 @@
                         }
                     }
                     // End of send to academic board
-                }
+                // }
 
                 $this->data_result['DATA']['meetingID'] = $meetingID;
 
@@ -349,7 +443,7 @@
         private function generateMailConvokeContent($data){
             $str = "เรียน คุณ" . $data['toPerson'];
             $str .= "<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            $str .= "ด้วยสำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.) กำหนดจัดประชุมคณะกรรมการวิชาการพิจารณามาตรฐานสินค้าเกศตร เรื่อง";
+            $str .= "ด้วยสำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.) กำหนดจัดประชุมคณะกรรมการวิชาการพิจารณามาตรฐานสินค้าเกษตร เรื่อง";
             $str .= "<b>" . $data['meetingName'] ."</b>";
             if(date('Y-m-d', strtotime($data['startDate'])) == date('Y-m-d', strtotime($data['endDate']))){
                 $str .= " ในวัน" . $this->getDayOfWeek($data['startDate']) . "ที่ " . $this->makeThaiDateTime($data['startDate']);   
@@ -392,7 +486,7 @@
             $str .= "มกอช. ขอเรียนเชิญท่านหรือผู้แทนเข้าร่วมการสัมมนาดังกล่าว ทั้งนี้โปรดตอบกลับเข้าร่วมการสัมมนาภายในวันที่ " . $this->replyDate($data['startDate']);
             $str .= "<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
             $str .= " จึงเรียนมาเพื่อโปรดพิจารณาเข้าร่วมการสัมมนาในวัน เวลา และสถานที่ดังกล่าวด้วยจะขอบคุณมาก";
-            $str .= "<br><br>หมายเหตุ " . $data['remark'];
+            echo $str .= "<br><br>หมายเหตุ " . $data['remark'];
             
             return $str;
         }
@@ -523,6 +617,42 @@
                 $params = $request->getParsedBody();
                 $inviteFileID = $params['obj']['id'];
                 $result = MeetingService::removeInviteFile($inviteFileID);
+                $this->data_result['DATA']['result'] = $result;
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function testmail($request, $response, $args){
+
+            try{
+                // sent mail
+                // echo "testmaill";
+                $email = $request->getAttribute('email');                
+                $mailer = new Mailer($this->logger);
+                $mailer->setMailHost('mail.acfs.go.th');
+                $mailer->setMailHost('tls://mail.acfs.go.th:587');
+                $mailer->setMailPort('587');
+                $mailer->setMailUsername('standarddevelopment@acfs.go.th');
+                $mailer->setMailPassword('279sktX2DX');
+                $mailer->setSubject("ขอเชิญประชุมคณะกรรมการวิชาการพิจารณามาตรฐานสินค้าเกษตร");
+                $mailer->isHtml(true);
+                $mailer->setHTMLContent('test content ssss s');
+                $mailer->setReceiver('korapotu@gmail.com');
+
+                $res = $mailer->sendMail();
+                if($res){
+                    $this->logger->info('Sent mail Room success');
+                    $result = 'Sent mail Room success';
+                }else{
+                    // print_r($res);
+                    // exit;
+                    $this->logger->info('Sent mail Room failed' . $res);
+                    $result = 'Sent mail Room success'.$res;
+                }
+                echo $result;exit;
                 $this->data_result['DATA']['result'] = $result;
                 return $this->returnResponse(200, $this->data_result, $response, false);
                 

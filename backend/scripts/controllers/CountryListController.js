@@ -65,6 +65,7 @@ angular.module('e-homework').controller('CountryListController', function($scope
         }
         var params = {'Data' : Data, 'AttachFile' : AttachFile};
         HTTPService.uploadRequest('country-list/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             $scope.loadList();
             $scope.PAGE = 'MAIN';
             IndexOverlayFactory.overlayHide();

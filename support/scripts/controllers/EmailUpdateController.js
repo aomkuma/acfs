@@ -79,34 +79,38 @@ angular.module('app').controller('EmailUpdateController', function($scope, $comp
     }
 
     $scope.removeEmailCommodity = function(id, index){
-        $scope.alertMessage = 'ต้องการลบมาตรฐานจาก e-mail นี้ ใช่หรือไม่ ?';
-        var modalInstance = $uibModal.open({
-            animation : true,
-            templateUrl : 'views/dialog_confirm.html',
-            size : 'sm',
-            scope : $scope,
-            backdrop : 'static',
-            controller : 'ModalDialogCtrl',
-            resolve : {
-                params : function() {
-                    return {};
-                } 
-            },
-        });
-        modalInstance.result.then(function (valResult) {
-            IndexOverlayFactory.overlayShow();
-            var params = {'id' : id};
-            HTTPService.clientRequest('email/delete/commodity', params).then(function(result){
-                console.log(result);
-                if(result.data.STATUS == 'OK'){
-                    $scope.EmailCommodity.splice(index, 1);
-                    IndexOverlayFactory.overlayHide();
-                }else{
-                    IndexOverlayFactory.overlayHide();
-                }
-            
+        if(id !== undefined && id !== null && id !== ''){
+            $scope.alertMessage = 'ต้องการลบมาตรฐานจาก e-mail นี้ ใช่หรือไม่ ?';
+            var modalInstance = $uibModal.open({
+                animation : true,
+                templateUrl : 'views/dialog_confirm.html',
+                size : 'sm',
+                scope : $scope,
+                backdrop : 'static',
+                controller : 'ModalDialogCtrl',
+                resolve : {
+                    params : function() {
+                        return {};
+                    } 
+                },
             });
-        });
+            modalInstance.result.then(function (valResult) {
+                IndexOverlayFactory.overlayShow();
+                var params = {'id' : id};
+                HTTPService.clientRequest('email/delete/commodity', params).then(function(result){
+                    console.log(result);
+                    if(result.data.STATUS == 'OK'){
+                        $scope.EmailCommodity.splice(index, 1);
+                        IndexOverlayFactory.overlayHide();
+                    }else{
+                        IndexOverlayFactory.overlayHide();
+                    }
+                
+                });
+            });
+        }else{
+            $scope.EmailCommodity.splice(index, 1);
+        }
     }
 
     $scope.cancelUpdate = function(){

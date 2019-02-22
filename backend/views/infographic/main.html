@@ -43,20 +43,20 @@
 					<p class="input-group">
 	                  <input type="text" class="form-control" ng-model="FileName[$index].name_th"   />
 	                  <span class="input-group-btn">
-	                    <button class="btn btn-default" ngf-select ng-model="fle.attachFileTH" ngf-max-size="25MB"  ngf-model-invalid="fle.attachFileTH.invalidFile">เลือก</button>
+	                    <button class="btn btn-default" ngf-select ng-model="fle.AttachFile.attachFileTH" ngf-max-size="25MB"  ngf-model-invalid="fle.AttachFile.attachFileTH.invalidFile">เลือก</button>
 	                    
 	                  </span>
 	                </p>
 				</div>
 				<label class="form-control-static col-lg-2">
-					{{fle.attachFileTH.name}}
+					{{fle.AttachFile.attachFileTH.name}}
 				</label>
 				
 				<div class="col-lg-2"  ng-show="page_type == 'skr'">
 					<input type="text" class="form-control" ng-model="FileCode[$index].code_th"   />
 				</div>
 				<div class="col-lg-3">
-					<div class="file-alert" ng-show="fle.attachFileTH.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{fle.attachFileTH.invalidFile.$errorParam}}</div>
+					<div class="file-alert" ng-show="fle.AttachFile.attachFileTH.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{fle.AttachFile.attachFileTH.invalidFile.$errorParam}}</div>
 				</div>
 			</div>
 			<div class="row">
@@ -67,20 +67,20 @@
 					<p class="input-group">
 	                  <input type="text" class="form-control" ng-model="FileName[$index].name_en" />
 	                  <span class="input-group-btn">
-	                    <button class="btn btn-default" ngf-select ng-model="fle.attachFileEN" ngf-max-size="25MB"  ngf-model-invalid="fle.attachFileEN.invalidFile">เลือก</button>
+	                    <button class="btn btn-default" ngf-select ng-model="fle.AttachFile.attachFileEN" ngf-max-size="25MB"  ngf-model-invalid="fle.AttachFile.attachFileEN.invalidFile">เลือก</button>
 	                    
 	                  </span>
 	                </p>
 				</div>
 				<label class="form-control-static col-lg-2">
-					{{fle.attachFileEN.name}}
+					{{fle.AttachFile.attachFileEN.name}}
 				</label>
 				
 				<div class="col-lg-2"  ng-show="page_type == 'skr'">
 					<input type="text" class="form-control" ng-model="FileCode[$index].code_en"   />
 				</div>
 				<div class="col-lg-3">
-					<div class="file-alert" ng-show="fle.attachFileEN.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{fle.attachFileEN.invalidFile.$errorParam}}</div>
+					<div class="file-alert" ng-show="fle.AttachFile.attachFileEN.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{fle.AttachFile.attachFileEN.invalidFile.$errorParam}}</div>
 				</div>
 			</div>
 			
@@ -113,8 +113,8 @@
 		</label>
 		<div class="col-lg-10">
 			<div class="btn-group">
-                <label class="btn btn-default btn-checkbox" ng-model="Data.actives" uib-btn-radio="'Y'">Active</label>
-                <label class="btn btn-default btn-checkbox" ng-model="Data.actives" uib-btn-radio="'N'">Inactive</label>
+                <label class="btn btn-default btn-checkbox" ng-model="Data.actives" uib-btn-radio="'Y'">ใช้งาน</label>
+                <label class="btn btn-default btn-checkbox" ng-model="Data.actives" uib-btn-radio="'N'">ไม่ใช้งาน</label>
             </div>
 		</div>
 	</div>

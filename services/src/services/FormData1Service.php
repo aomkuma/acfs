@@ -23,6 +23,11 @@
                                     , DB::raw("Form_Data1_Detail.iso AS detail_iso")
                                     , DB::raw("Form_Data1_Scope.iso AS scope_iso")
                                     , DB::raw("Form_Data1_SubScope.iso AS subscope_iso")
+                                    
+                                    , DB::raw("IsoDetail.iso_name AS detail_iso_name")
+                                    , DB::raw("IsoScope.iso_name AS scope_iso_name")
+                                    , DB::raw("IsoSubScope.iso_name AS subscope_iso_name")
+
                                     , DB::raw("(SELECT GROUP_CONCAT(Iso.iso_name) AS iso_name FROM Iso INNER JOIN Form_Data1_Scope ON Iso.id = Form_Data1_Scope.iso WHERE form_data1_id = Form_Data1.id GROUP BY Form_Data1_Scope.form_data1_id) AS iso_name")
                                     , "Form_Data1_Detail.item_no"
                                     , "Form_Data1_Detail.file_name"
@@ -31,6 +36,11 @@
                     ->leftJoin("Form_Data1_Detail", "Form_Data1.id", "=", "form_data1_id")
                     ->leftJoin("Form_Data1_Scope", "Form_Data1_Detail.id", "=", "detail_id")
                     ->leftJoin("Form_Data1_SubScope", "Form_Data1_Scope.id", "=", "Form_Data1_SubScope.scope_id")
+                    
+                    ->leftJoin(DB::raw("Iso AS IsoDetail"), DB::raw("IsoDetail.id"), "=", "Form_Data1_Detail.iso")
+                    ->leftJoin(DB::raw("Iso AS IsoScope"), DB::raw("IsoScope.id"), "=", "Form_Data1_Scope.iso")
+                    ->leftJoin(DB::raw("Iso AS IsoSubScope"), DB::raw("IsoSubScope.id"), "=", "Form_Data1_SubScope.iso")
+
                     ->leftJoin("Form_Data1_Certification", "Form_Data1_SubScope.id", "=", "Form_Data1_Certification.scope_id")
                     ->where(function($query) use ($keyword, $iso, $condition){
                         if(!empty($iso)){
@@ -65,6 +75,15 @@
                                     }));
                                 }));
                                 $query->with('formData1StandardARC');
+                            }))
+                            ->first();
+        }
+
+        public static function getCustomerData($id){
+            return FormData1::where('id', $id)
+                            ->with(array('formData1Scope' => function($query){
+                                $query->with('formData1SubScope');
+                                
                             }))
                             ->first();
         }

@@ -70,10 +70,17 @@ angular.module('e-homework').controller('FormData1OperatorController', function(
         });
     }
 
-    $scope.saveData = function(FormData1, FormData1License, FormData1Scope){
-        var params = {'FormData1' : FormData1, 'FormData1License' : FormData1License, 'FormData1Scope' : FormData1Scope};
+    $scope.saveData = function(FormData1, form_data1_license, form_data1_scope){
+        for(var i = 0; i < form_data1_license.length; i++){
+            form_data1_license[i].start_date = concatDateSQL(form_data1_license[i].start_date);
+            form_data1_license[i].end_date = concatDateSQL(form_data1_license[i].end_date);
+            
+        }
+
+        var params = {'FormData1' : FormData1, 'form_data1_license' : form_data1_license, 'form_data1_scope' : form_data1_scope};
         HTTPService.uploadRequest('form-data1/operator/update', params).then(function(result){
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.PAGE = 'MAIN';
                 $scope.loadList($scope.condition, $scope.operator_type);
             }
@@ -87,7 +94,13 @@ angular.module('e-homework').controller('FormData1OperatorController', function(
             HTTPService.clientRequest('form-data1/operator/get', params).then(function(result){
                 if(result.data.STATUS == 'OK'){
                     $scope.FormData1 = result.data.DATA;
-                    $scope.FormData1License = $scope.FormData1.form_data1_license;
+                    $scope.form_data1_license = $scope.FormData1.form_data1_license;
+                    $scope.form_data1_scope = $scope.FormData1.form_data1_scope;
+                    for(var i = 0; i < $scope.form_data1_license.length; i++){
+                        $scope.form_data1_license[i].start_date = makeDate($scope.form_data1_license[i].start_date);
+                        $scope.form_data1_license[i].end_date = makeDate($scope.form_data1_license[i].end_date);
+                        console.log($scope.form_data1_license[i].start_date);
+                    }
 
                 }
                 IndexOverlayFactory.overlayHide();
@@ -98,57 +111,57 @@ angular.module('e-homework').controller('FormData1OperatorController', function(
                 ,'actives' : 'Y'
             };
 
-            $scope.FormData1License = [{'FormData1StandardChecked' : [{
-                                                        'FormData1ProductInspect':[{}]
+            $scope.form_data1_license = [{'form_data1_scope' : [{
+                                                        'form_data1_product_inspect':[{}]
                                                         }
                                                 ]
                                            }
                 
             ];
 
-            $scope.FormData1Scope = [{'FormData1SubScope':[{'iso':null}]}];
+            $scope.form_data1_scope = [{'form_data1_sub_scope':[{'iso':null}]}];
             
-            console.log($scope.FormData1License);
+            console.log($scope.form_data1_license);
         }
         $scope.loadIso();
         $scope.PAGE = 'UPDATE';
     }
 
     $scope.addDetail = function(){
-        $scope.FormData1License.push({'FormData1StandardChecked' : [{
-                                                        'FormData1ProductInspect':[{}]
+        $scope.form_data1_license.unshift({'form_data1_standard_checked' : [{
+                                                        'form_data1_product_inspect':[{}]
                                                         }] 
                                     });
     }
 
     $scope.addScope = function(index){
-        $scope.FormData1Scope.push({
-                                    'FormData1SubScope':[{}]
+        $scope.form_data1_scope.push({
+                                    'form_data1_sub_scope':[{}]
                                 });
     }
 
     $scope.addSubScope = function(index){
-        $scope.FormData1Scope[index].FormData1SubScope.push({
+        $scope.form_data1_scope[index].form_data1_sub_scope.push({
                                     'iso':null
                                 });
     }
 
     $scope.addStandardChecked = function(detail_index){
-        $scope.FormData1License[detail_index].FormData1StandardChecked.push({'FormData1ProductInspect':[{}]});
+        $scope.form_data1_license[detail_index].form_data1_standard_checked.push({'form_data1_product_inspect':[{}]});
     }
 
     $scope.addProductInspect = function(detail_index, scope_index){
-        $scope.FormData1License[detail_index].FormData1StandardChecked[scope_index].FormData1ProductInspect.push({});
+        $scope.form_data1_license[detail_index].form_data1_standard_checked[scope_index].form_data1_product_inspect.push({});
     }
 
     $scope.DatePoupObj = [];
     
     $scope.openStartDateObj = function(index) {
-        $scope.FormData1License[index].open_start_date = true;
+        $scope.form_data1_license[index].open_start_date = true;
     };
 
     $scope.openEndDateObj = function(index) {
-        $scope.FormData1License[index].open_end_date = true;
+        $scope.form_data1_license[index].open_end_date = true;
     };
 
     $scope.cancel = function(){
@@ -158,6 +171,7 @@ angular.module('e-homework').controller('FormData1OperatorController', function(
     $scope.condition = {'keyword':''};
     $scope.PAGE = 'MAIN';
 
+    $scope.form_data1_scope = [];
     $scope.getMenu('menu/get/type' ,$scope.page_type);
     $scope.loadList($scope.condition, 'private');
     

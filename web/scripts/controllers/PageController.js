@@ -15,6 +15,18 @@ angular.module('e-homework').controller('PageController', function($scope, $comp
         });
     }
 
+    $scope.loadPage = function(action, menu_id){
+        var params = {'menu_id' : menu_id};
+        HTTPService.clientRequest(action, params).then(function(result){
+            //console.log(result);
+
+            if(result.data.STATUS == 'OK'){
+                $scope.Page = result.data.DATA.Page;
+                
+            }
+        });
+    }
+
     $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
             //console.log(result);
@@ -41,9 +53,13 @@ angular.module('e-homework').controller('PageController', function($scope, $comp
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.MenuName = result.data.DATA.Menu;
-            $scope.loadPage('appeal/page', $scope.MenuName.id);
+            // $scope.loadPage('page/get', $scope.MenuName.id);
             IndexOverlayFactory.overlayHide();
         });
+    }
+
+    $scope.findExtension = function(filename){
+        return (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename)[0] : '';
     }
 
     $scope.FileList = [];

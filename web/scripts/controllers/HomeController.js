@@ -1,4 +1,4 @@
-angular.module('e-homework').controller('HomeController', function($scope, $cookies, $filter, $state, $sce, HTTPService, IndexOverlayFactory) {
+angular.module('e-homework').controller('HomeController', function($scope, $cookies, $filter, $state, $sce, $uibModal, HTTPService, IndexOverlayFactory) {
 	//console.log('Hello !');
     // $scope.DEFAULT_LANGUAGE = 'TH';
     $scope.$parent.menu_selected = 'home';
@@ -14,7 +14,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
             $scope.$parent.VisitorCount = result.data.DATA.VisitorCount;
             sessionStorage.setItem('VisitorCount', $scope.$parent.VisitorCount);
             $scope.$parent.VisitorCount = sessionStorage.getItem('VisitorCount');
-            console.log($scope.$parent.VisitorCount);
+            // console.log($scope.$parent.VisitorCount);
             IndexOverlayFactory.overlayHide();
             $(document).ready(function(){
                 // console.log('asd');
@@ -77,7 +77,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
 
     $scope.loadLinkUrl = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
-            console.log(result);
+            // console.log(result);
             $scope.LinkUrl = result.data.DATA.LinkUrl;
             $scope.slideLinkImage($scope.link_next_index);
             IndexOverlayFactory.overlayHide();
@@ -87,14 +87,44 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     $scope.loadNews = function(action){
         var params = null;
         HTTPService.clientRequest(action, params).then(function(result){
-            console.log(result);
+            // console.log(result);
             $scope.NewsList1 = result.data.DATA.NewsList1;
             setTimeout(function(){
                 for(var i = 0; i < $scope.NewsList1.length; i++){
-                    console.log('do iframe');
+                    // console.log('do iframe');
                     $("#if" + i).prop('src', 'https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2F61.19.221.109%2Facfs%2Fweb%2F%23%2Fnews%2Fdetail%2F'+$scope.NewsList1[i].id+'%2F&layout=button&size=small&mobile_iframe=true&appId=190072441615269&width=59&height=20');
                 }
             }, 200);
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.loadPurchase = function(action){
+        var params = {'page_type' : '', 'actives' : 'Y'};
+        HTTPService.clientRequest(action, params).then(function(result){
+            // console.log(result);
+            $scope.NewsList1 = result.data.DATA.List;
+            // setTimeout(function(){
+            //     for(var i = 0; i < $scope.NewsList1.length; i++){
+            //         console.log('do iframe');
+            //         $("#if" + i).prop('src', 'https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2F61.19.221.109%2Facfs%2Fweb%2F%23%2Fnews%2Fdetail%2F'+$scope.NewsList1[i].id+'%2F&layout=button&size=small&mobile_iframe=true&appId=190072441615269&width=59&height=20');
+            //     }
+            // }, 200);
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.loadWorkApplication = function(action){
+        var params = {'menu_type' : 'work-application', 'actives' : 'Y'};
+        HTTPService.clientRequest(action, params).then(function(result){
+            // console.log(result);
+            $scope.NewsList1 = result.data.DATA.DataList;
+            // setTimeout(function(){
+            //     for(var i = 0; i < $scope.NewsList1.length; i++){
+            //         console.log('do iframe');
+            //         $("#if" + i).prop('src', 'https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2F61.19.221.109%2Facfs%2Fweb%2F%23%2Fnews%2Fdetail%2F'+$scope.NewsList1[i].id+'%2F&layout=button&size=small&mobile_iframe=true&appId=190072441615269&width=59&height=20');
+            //     }
+            // }, 200);
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -108,8 +138,11 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     }
 
     $scope.getThaiDate = function(date){
-        console.log(date);
-        return convertDateToFullThaiDateIgnoreTime(new Date(date));
+        // console.log('check date :'+date);
+        if(date != undefined){
+            var splitDate = date.split(' ');
+            return convertDateToFullThaiDateIgnoreTime(new Date(splitDate[0]));
+        }
     }
 
     $scope.goNewsList = function(news_type){
@@ -132,6 +165,39 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         }
     }
 
+    $scope.viewPurchaseDetail = function(data){
+        $scope.Detail = angular.copy(data);
+        $scope.page_type = $scope.Detail.page_type;
+        var modalInstance = $uibModal.open({
+            animation : false,
+            templateUrl : 'purchase-detail.html',
+            size : 'lg',
+            scope : $scope,
+            controller : 'ModalDialogCtrl',
+            resolve : {
+                params : function() {
+                    return {};
+                } 
+            },
+        });
+
+        modalInstance.result.then(function (valResult) {
+            
+        });
+    }
+
+    $scope.viewNews = function(NewsType){
+        $scope.NewsType = NewsType;
+        if(NewsType == 'news'){
+            $scope.loadNews('news/home');
+        }else if(NewsType == 'purchase'){
+            $scope.loadPurchase('purchase/list');
+        }else if(NewsType == 'work-application'){
+            $scope.loadWorkApplication('attachfile-multi/get/type');
+        }
+    }
+
+    $scope.NewsType = 'news';
     $scope.ShowLinkFooter = false;
     $scope.Minister = null;
     $scope.ShowLinkUrl = [];
@@ -160,6 +226,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
 
     // Highlight
     $scope.slideImage = function(index){
+        console.log(index);
         var cnt = 0;
         var position = index;
         $scope.ShowHighlightList = [];
@@ -169,13 +236,13 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
             $scope.ShowHighlightList.push($scope.HighlightList[position]);
             position++;
             cnt++;
-            console.log('do : '+cnt);
-            console.log('index : ' + index);
+            // console.log('do : '+cnt);
+            // console.log('index : ' + index);
         }
         $scope.next_index = index + 1;
         $scope.prev_index = index - 1;
-        console.log($scope.next_index);
-        console.log($scope.prev_index);
+        // console.log($scope.next_index);
+        // console.log($scope.prev_index);
     }
     
     $scope.next_index = 0;
@@ -183,49 +250,92 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
 
     // Link
     $scope.slideLinkImage = function(index){
-        console.log('ฺำเรื หสรกำ สรืา');
+        // console.log('ฺำเรื หสรกำ สรืา');
         var cnt = 0;
         var position = index;
         $scope.ShowLinkUrl = [];
 
-        while(cnt < 6 && position < $scope.LinkUrl.length){
+        while(cnt < 8 && position < $scope.LinkUrl.length){
             
             $scope.ShowLinkUrl.push($scope.LinkUrl[position]);
             position++;
             cnt++;
-            console.log('do : '+cnt);
-            console.log('index : ' + index);
+            // console.log('do : '+cnt);
+            // console.log('index : ' + index);
         }
         $scope.link_next_index = index + 1;
         $scope.link_prev_index = index - 1;
-        console.log($scope.link_next_index);
-        console.log($scope.link_prev_index);
+        // console.log($scope.link_next_index);
+        // console.log($scope.link_prev_index);
     }
     
     $scope.link_next_index = 0;
     $scope.link_prev_index = 0;
 
+    $('.slide-shows').hover(function() {
+        console.log('mouse In');
+       if (varSetTimeout) {
+        // Call clearTimeout() on hover()
+        
+        clearTimeout(varSetTimeout);
+       }
+    });
+
+    $('.slide-shows').mouseout(function() {
+        console.log('mouse out');
+        // setTimeout(showSlides, 7000); 
+        showSlides(slideIndex);
+    });
+
+
 });
 
 // Next/previous controls
 function plusSlides(n) {
-  showSlides(slideIndex += n);
+  slideIndex += n;
+  // console.log(slideIndex);
+  setTimeout(showSlides(slideIndex), 500);
 }
 
 // Thumbnail image controls
 function currentSlide(n) {
-  showSlides(slideIndex = n);
+    // console.log(slideIndex);
+    slideIndex += n;
+    setTimeout(showSlides(slideIndex), 500);
+  
 }
 
-var slideIndex = 0;
+var slideIndex = -1;
+var varSetTimeout;
+
+
 
 
 
 function showSlides(index) {
+    if (varSetTimeout) {
+        // Call clearTimeout() on hover()
+        
+        clearTimeout(varSetTimeout);
+        varSetTimeout = null;
+    }
+    
+    console.log(index);
+    // if(index == undefined || index == null){
+    //     index = 0;
+    // }
+    console.log('after : '+ index);
     var i;
     var slides = document.getElementsByClassName("mySlides");
     var text = document.getElementsByClassName("text");
     var dots = document.getElementsByClassName("dot");
+
+    if(index == -1){
+        index = slides.length - 1;
+    }
+    else if(index >= slides.length){
+        index = 0;
+    }
     
     if(slides.length !== 0){
         for (i = 0; i < slides.length; i++) {
@@ -233,34 +343,43 @@ function showSlides(index) {
             dots[i].className = 'dot';
             text[i].style.display = "none";
         }
-        if(index == null){
+        if(index == undefined || index == null){
             slideIndex++;
+            if(slideIndex == slides.length){
+                slideIndex = 0;
+            }
         }else{
             slideIndex = index;
         }
-        if (slideIndex > slides.length) {slideIndex = 1} 
-        var video_src = document.getElementById("video_src" + (slideIndex-1));
-        console.log("video_src" + (slideIndex-1));
+        if (slideIndex > slides.length) {slideIndex = 0} 
+        var video_src = document.getElementById("video_src" + (slideIndex));
+        // console.log("video_src" + (slideIndex-1));
         // setTimeout(console.log(video_src.duration), 5000);
         for (i = 0; i < dots.length; i++) {
             dots[i].className = dots[i].className.replace(" active", "");
         }
-        if(slides[slideIndex-1].style !== undefined){
-            slides[slideIndex-1].style.display = "block";  
-            text[slideIndex-1].style.display = "block";  
+        console.log('slideIndex ' + slideIndex);
+        if(slides[slideIndex].style !== undefined){
+            slides[slideIndex].style.display = "block";  
+            text[slideIndex].style.display = "block";  
         }
-        dots[slideIndex-1].className += " dot-active";
+        dots[slideIndex].className += " dot-active";
         // setTimeout(function(){
-            if(slides.length > 1){
-                // setTimeout(showSlides, 4000);
-                console.log(video_src);
-                if(isNaN(video_src.duration)){
-                    setTimeout(showSlides, 4000); // Change image every 2 seconds
-                }else{
-                    // console.log('duration' , video_src.duration * 1000);
-                    setTimeout(showSlides, (video_src.duration * 1000) + 200);
-                }
+        if(slides.length > 1){
+            // setTimeout(showSlides, 4000);
+            // console.log(video_src);
+            console.log('slideIndex ' + slideIndex);
+            
+            if(isNaN(video_src.duration)){
+                varSetTimeout = setTimeout(showSlides, 7000); // Change image every 2 seconds
+                // console.log(varSetTimeout);
+            }else{
+                // console.log('duration' , video_src.duration * 1000);
+                varSetTimeout = setTimeout(showSlides, (video_src.duration * 7000) + 200);
+                // console.log(varSetTimeout);
             }
+        }
         // },4000);
     }
+
 }

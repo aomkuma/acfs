@@ -38,7 +38,7 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
     }
 
     $scope.load = function(action){
-        var params = {'palace_type':$scope.palace_type};
+        var params = {'palace_type':$scope.palace_type, 'actives' : 'Y'};
         HTTPService.clientRequest(action, params).then(function(result){
             
             $scope.Palace = null;
@@ -50,6 +50,17 @@ angular.module('e-homework').controller('PalaceController', function($scope, $co
 
     $scope.checkHistory = function(palace_type){
         return palace_type.indexOf('history') > -1;
+    }
+
+    $scope.checkMenuType = function(menu_type){
+        return menu_type.split('-')[0];
+    }
+
+    $scope.getDateTimeFormat = function(d){
+        if(d != null && d != ''){
+            return convertSQLDateTimeToReportDate(d);
+        }
+        return '';
     }
 
     $scope.AttachFile = null;

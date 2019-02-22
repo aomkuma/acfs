@@ -19,8 +19,9 @@
                 $params = $request->getParsedBody();
                 //$emailID = $params['obj']['emailID'];
                 $palace_type = $params['obj']['palace_type'];
+                $actives = $params['obj']['actives'];
 
-                $_List = PalaceService::getList($palace_type);
+                $_List = PalaceService::getList($palace_type, $actives);
 
                 $this->data_result['DATA']['Palace'] = $_List;
 
@@ -114,7 +115,11 @@
 
                 if($_Palace['position_end_date']!='' && $_Palace['position_end_date']!='null'){
                     // Move to history
-                    if($_Palace['palace_type'] == 'current-board'){
+                    if($_Palace['position_th'] == 'เลขาธิการสำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ'){
+                        $_Palace['palace_type'] = 'history-secretary';
+                    }else if($_Palace['position_th'] == 'รองเลขาธิการสำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ'){
+                        $_Palace['palace_type'] = 'history-deputy-secretary';
+                    }else if($_Palace['palace_type'] == 'current-board'){
                         $_Palace['palace_type'] = 'history-board';
                     }else if($_Palace['palace_type'] == 'current-cio'){
                         $_Palace['palace_type'] = 'history-cio';

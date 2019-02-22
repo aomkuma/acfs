@@ -63,6 +63,7 @@ angular.module('e-homework').controller('InfographicController', function($scope
         }
         var params = {'Data' : Data, 'AttachFileList' : AttachFileList, 'FileName' : FileName};
         HTTPService.uploadRequest('infographic/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             $scope.loadList();
             $scope.PAGE = 'MAIN';
             IndexOverlayFactory.overlayHide();
@@ -126,8 +127,26 @@ angular.module('e-homework').controller('InfographicController', function($scope
     }
 
     $scope.addFiles = function(){
-        $scope.FileList.push({'attachFileTH':{'name_th':''}, 'attachFileEN':{'name_en':''}});
+        $scope.FileList.push(
+                {'AttachFile':
+                    
+                    {'attachFileTH':null, 'attachFileEN':null}
+                    
+                }
+            );
         $scope.FileName.push({'name_th':'', 'name_en' : ''});
+
+    }
+
+    $scope.addFilesUpdate = function(){
+        $scope.FileList.push(
+                {'AttachFile':
+                    
+                    {'attachFileTH':null, 'attachFileEN':null}
+                    
+                }
+            );
+        // $scope.FileName.push({'name_th':'', 'name_en' : ''});
 
     }
 
@@ -149,11 +168,19 @@ angular.module('e-homework').controller('InfographicController', function($scope
         }
         */
         var i =0;
+        console.log(data.AttachFiles.length);
         while(i < data.AttachFiles.length){
-            $scope.FileName.push({'name_th':data.AttachFiles[i].display_name, 'name_en' : (i+1 < data.AttachFiles.length ? data.AttachFiles[i + 1].display_name:'')});
+            console.log(data.AttachFiles[i]);
+            $scope.FileName.push({
+                                'name_th':data.AttachFiles[i].display_name
+                                , 'name_en' : (i+1 < data.AttachFiles.length ? data.AttachFiles[i + 1].display_name:'')
+                                });
             i = i + 2;    
-            $scope.addFiles();
+            $scope.addFilesUpdate();
         }
+
+        console.log($scope.FileName);
+        // $scope.addFiles();
         if($scope.Data.publishing_date != null && $scope.Data.publishing_date != ''){
             $scope.Data.publishing_date = makeDate($scope.Data.publishing_date);
         }
@@ -164,7 +191,7 @@ angular.module('e-homework').controller('InfographicController', function($scope
     $scope.add = function(){
         $scope.AttachFile = null;
         $scope.FileList = [];
-        $scope.FileName = [{'name_th':'', 'name_en' : ''}];
+        $scope.FileName = [];
         $scope.addFiles();
         // create Data obj
         var order_no = 0;
@@ -200,8 +227,8 @@ angular.module('e-homework').controller('InfographicController', function($scope
     };
 
     $scope.FileList = [];
-    $scope.FileName = [{'name_th':'', 'name_en' : ''}];
-    $scope.FileCode = [{'code_th':'', 'code_en' : ''}];
+    $scope.FileName = [];
+    $scope.FileCode = [];
     $scope.addFiles();
 
     $scope.PAGE = 'MAIN';

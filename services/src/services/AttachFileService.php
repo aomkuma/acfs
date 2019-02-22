@@ -64,6 +64,7 @@
             $model->save();
         }
 
+
         public static function updateAttachFiles($AttachFile){
             $model = AttachFile::where('parent_id', $AttachFile['parent_id'])
                                 ->where('page_type', $AttachFile['page_type'])
@@ -85,6 +86,19 @@
             $model->content_type = $AttachFile['content_type'];
             $model->file_size = $AttachFile['file_size'];
             $model->order_no = $AttachFile['order_no'];
+            $model->save();
+        }
+
+        public static function updateAttachFileName($AttachFile){
+            $model = AttachFile::where('parent_id', $AttachFile['parent_id'])
+                                ->where('page_type', $AttachFile['page_type'])
+                                ->where('file_language', $AttachFile['file_language'])
+                                ->where('order_no', $AttachFile['order_no'])
+                                ->first();
+            
+            // $model->fill($AttachFile);
+            $model->display_name = $AttachFile['display_name'];
+            
             $model->save();
         }
 

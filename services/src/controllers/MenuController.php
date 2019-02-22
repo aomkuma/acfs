@@ -18,10 +18,14 @@
         public function getMenuList($request, $response, $args){
             try{
                 $params = $request->getParsedBody();
-                
+                $user_session = $params['user_session'];
+
+                if(empty($user_session)){
+                    $show_webpage = Y;
+                }
                 $MenuList = [];
                 // get main menu
-                $_Menu = MenuService::getMenuList(0);
+                $_Menu = MenuService::getMenuList(0, $show_webpage);
                 foreach ($_Menu as $key => $value) {
                     // get child menu level 1
                     $_Menu1 = MenuService::getMenuList($value['id']);

@@ -19,10 +19,27 @@
                 $params = $request->getParsedBody();
                 $actives = $params['obj']['actives'];
                 $page_type = $params['obj']['page_type'];
+                $keyword = $params['obj']['keyword'];
                 
-                $_List = SeminarService::getList($page_type, $actives);
+                $_List = SeminarService::getList($keyword, $page_type, $actives);
 
                 $this->data_result['DATA']['List'] = $_List;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function getData($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $id = $params['obj']['id'];
+                
+                $_Data = SeminarService::getData($id);
+
+                $this->data_result['DATA'] = $_Data;
 
                 return $this->returnResponse(200, $this->data_result, $response, false);
                 

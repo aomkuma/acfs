@@ -62,6 +62,7 @@ angular.module('e-homework').controller('FreqQuestionController', function($scop
         var params = {'Data' : Data};
         HTTPService.clientRequest('freq-question/update', params).then(function(result){
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.loadList($scope.QuestionType);
                 $scope.PAGE = 'MAIN';
             }

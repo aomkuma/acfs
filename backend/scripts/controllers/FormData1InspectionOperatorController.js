@@ -103,6 +103,7 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
         var params = {'FormData1' : FormData1, 'form_data1_detail' : form_data1_detail};
         HTTPService.uploadRequest('form-data1/update', params).then(function(result){
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.PAGE = 'MAIN';
             }
             IndexOverlayFactory.overlayHide();
@@ -113,6 +114,7 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
         var params = {'ISO' : ISO};
         HTTPService.clientRequest('form-data1/update/iso', params).then(function(result){
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.PAGE = 'MAIN';
                 $scope.loadList($scope.condition);
 
@@ -165,10 +167,19 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
                     for(var i = 0; i < $scope.form_data1_detail.length; i++){
                         $scope.form_data1_detail[i].start_date = makeDate($scope.form_data1_detail[i].start_date);
                         $scope.form_data1_detail[i].end_date = makeDate($scope.form_data1_detail[i].end_date);
-                        if($scope.form_data1_detail[i].usage_status !== null){
+                        
+                        if($scope.form_data1_detail[i].usage_status !== null && $scope.form_data1_detail[i].usage_status !== ''){
                             $scope.UsageStatusList.push({'usage_status':$scope.form_data1_detail[i].usage_status.split(',')});
                         }else{
                             $scope.UsageStatusList.push({'usage_status':[]});
+                        }
+                        console.log($scope.form_data1_detail[i].usage_status.indexOf('การบังคับใช้'));
+                        if($scope.form_data1_detail[i].usage_status.indexOf('การบังคับใช้') !== -1){
+                            $scope.form_data1_detail[i]['usage_status1'] = 'การบังคับใช้';
+                        }
+
+                        if($scope.form_data1_detail[i].usage_status.indexOf('ลดขอบข่าย') !== -1){
+                            $scope.form_data1_detail[i]['usage_status2'] = 'ลดขอบข่าย';
                         }
                     }
                     

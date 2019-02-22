@@ -28,5 +28,6 @@ class Palace extends \Illuminate\Database\Eloquent\Model {
                 , 'contact_th'
                 , 'contact_en'
                 , 'order_no'
+                , 'actives'
               );
 }

@@ -76,6 +76,7 @@ angular.module('e-homework').controller('CertificationCodeController', function(
         }
         var params = {'Data' : Data};
         HTTPService.uploadRequest('certification-code/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             $scope.loadList();
             $scope.PAGE = 'MAIN';
             IndexOverlayFactory.overlayHide();

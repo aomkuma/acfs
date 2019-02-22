@@ -8,10 +8,13 @@
     
     class PalaceService {
 
-    	public static function getList($palace_type){
-            return Palace::where(function($query) use ($palace_type){
+    	public static function getList($palace_type, $actives){
+            return Palace::where(function($query) use ($palace_type, $actives){
                         if(!empty($palace_type)){
                             $query->where('palace_type', $palace_type);
+                        }
+                        if(!empty($actives)){
+                            $query->where('actives', $actives);
                         }
                     })
                     //->orderBy('order_no', 'ASC')

@@ -32,6 +32,7 @@
 						<thead>
 							<tr>
 								<th>ชื่อมาตรฐาน</th>
+								<th>ปีงบประมาณ</th>
 								<th>คณะกรรมการวิชาการ</th>
 								<th>สถานะ</th>
 								<th>จัดการ</th>
@@ -40,6 +41,7 @@
 						<tbody>
 							<tr ng-repeat="data in dataset">
 								<td>{{data.standardNameThai}}</td>
+								<td>{{data.years}}</td>
 								<td>
 									<button class="btn btn-default btn-sm" ng-click="loadAcademicBoard(data.standardID)"><span class="glyphicon glyphicon-zoom-in"></span></button>
 								</td>
@@ -88,18 +90,18 @@
 						<thead>
 							<tr>
 								<th>ชื่อมาตรฐาน</th>
+								<th>เล่มที่</th>
+								<th>เลขที่</th>
 								<th>วันที่ประกาศในราชกิจจานุเบกษา</th>
-								<th>เล่ม</th>
-								<th>ตอน</th>
 								<th>จัดการ</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr ng-repeat="data in dataset">
 								<td>{{data.standardNameThai}}</td>
-								<td>{{makeDateString(data.useDate)}}</td>
 								<td>{{data.bookNumberThai}}</td>
 								<td>{{data.noThai}}</td>
+								<td>{{makeDateString(data.useDate)}}</td>
 								<td>
 									<button class="btn btn-default btn-sm" ng-click="goUpdate(data.standardID, '')"><span class="glyphicon glyphicon-edit"></span></button>
 								</td>

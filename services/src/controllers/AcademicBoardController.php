@@ -69,6 +69,7 @@
                 // ini_set('display_errors','On');
                 $params = $request->getParsedBody();
 
+
                 //print_r($params);exit;
                 $_Stakeholders = $params['obj']['Stakeholders']; 
                 $standardID = $params['obj']['standardID'];
@@ -79,7 +80,12 @@
                 $AcademicBoard['createBy'] = $user_session['adminID'];
                 $AcademicBoard['updateBy'] = $user_session['adminID'];
 
-                
+                foreach ($AcademicBoard as $key => $value) {
+                    if($value == 'null' || $value == ''){
+                        $AcademicBoard[$key] = NULL;
+                    }
+                }
+
                 $id = AcademicBoardService::updateAcademicBoard($AcademicBoard);
 
                 foreach($_Stakeholders['Substitute_List'] as $k => $v){
@@ -91,30 +97,56 @@
                 	AcademicBoardService::updateSubstituteAcademicBoard($Substitute);
                 }
 
+                $this->data_result['DATA']['academicBoardID'] = $id;
 
-                // Send email 
-                if(empty($AcademicBoard['academicBoardID'])){
-                    
-                    $userData = UserAccountService::getUserDataByStakeholderID($AcademicBoard['stakeholderID']);
-                    if(!empty($userData)){
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
 
-                        // Check password is empty or not
-                        if(empty($userData->password)){
-                            $userData->password = UserAccountService::generatePassword($userData->email);
-                        }
-                        // get standard name
-                        $CommodityStandard = CommodityStandardService::getCommodityStandard($standardID);
+        public function sendMail($request, $response, $args){
+            
+            $_WEB_FILE_PATH = 'files/files';
 
-                        // Get e-mail hosting for send
-                        // $email_settings = EmailService::getEmailAcademicBord($standardID);
-                        // if(!empty($email_settings)){
-                        $this->logger->info('PREPARE Sent mail');
-                            // sent mail
+            try{
+                // error_reporting(E_ERROR);
+                // error_reporting(E_ALL);
+                // ini_set('display_errors','On');
+                $params = $request->getParsedBody();
+                $standardID = $params['obj']['standardID'];
+
+                $AcademicBoardList = AcademicBoardService::getAcademicBoardList($standardID);
+                
+                foreach ($AcademicBoardList as $key => $AcademicBoard) {
+                    // Send email 
+                    // if(empty($AcademicBoard['academicBoardID'])){
+                        
+                        $userData = UserAccountService::getUserDataByStakeholderID($AcademicBoard['stakeholderID']);
+                        // if(!empty($userData)){
+
+                            // Check password is empty or not
+                            if(empty($userData->password)){
+                                $userData->password = UserAccountService::generatePassword($userData->email);
+                            }
+                            // get standard name
+                            $CommodityStandard = CommodityStandardService::getCommodityStandard($standardID);
+
+                            // Get e-mail hosting for send
+                            // $email_settings = EmailService::getEmailAcademicBord($standardID);
+                            // if(!empty($email_settings)){
+                            $this->logger->info('PREPARE Sent mail');
+                                // sent mail
                             $mailer = new Mailer;
-                            $mailer->setMailHost('mail.acfs.go.th');
+                            $mailer->setMailHost('tls://mail.acfs.go.th:587');
                             $mailer->setMailPort('587');
                             $mailer->setMailUsername('standarddevelopment@acfs.go.th');
                             $mailer->setMailPassword('279sktX2DX');
+                            // $mailer->setMailHost('smtp.gmail.com');
+                            // $mailer->setMailPort('465');
+                            // $mailer->setMailUsername('korapotu@gmail.com');
+                            // $mailer->setMailPassword('Aommy1989');
                             $mailer->setSubject("รหัสผ่านเข้าสู่ระบบสำหรับคณะกรรมการวิชาการพิจารณามาตรฐานสินค้าเกษตร");
                             $mailer->isHtml(true);
                             $mailer->setHTMLContent($this->generateAcademicBoardMailContent($CommodityStandard->standardNameThai, $userData->email, $userData->password));
@@ -127,11 +159,13 @@
                                 // exit;
                                 $this->logger->info('Sent mail Room failed' . $res->ErrorInfo);
                             }
+                            // }
                         // }
-                    }
+                    // }
                 }
                 
-                $this->data_result['DATA']['academicBoardID'] = $id;
+                
+                $this->data_result['DATA']['academicBoardID'] = $AcademicBoardList;
 
                 return $this->returnResponse(200, $this->data_result, $response, false);
                 
@@ -144,7 +178,7 @@
             return "ท่านได้รับการแต่งตั้งเป็นกรรมการวิชาการพิจารณามาตรฐานสินค้าเกษตร เรื่อง <b>" . $standardName . "</b> ซึ่งมีรายการเข้าสู่ระบบ ดังนี้"
                     . "<br><br>อีเมลสำหรับเข้าสู่ระบบ " . $email 
                     . "<br>รหัสผ่านสำหรับเข้าสู่ระบบ " . $password
-                    . "<br>ลิ้งค์เข้าระบบ http://61.19.221.109/acfs/backend/#/guest/logon"
+                    . "<br>ลิ้งค์เข้าระบบ http://61.19.221.109/acfs/support/#/guest/logon"
                     . "<br><br><b>**นี่คืออีเมลที่สร้างขึ้นจากระบบอัตโนมัติ กรุณาอย่าตอบกลับ e-mail ฉบับนี้**</b>"
                     ;
         }

@@ -16,26 +16,40 @@
 
 	  </div>
 	</div>
+
+	
+	<div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1 text-center" >
+			<span class="title-content">
+				<h2>{{(DEFAULT_LANGUAGE == 'TH'?Page.title_th:Page.title_en)}}</h2>
+			</span>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1 text-center" >
+			<img src="../files/img/header_line.png" style="width: 70%;">
+		</div>
+	</div>
+	
 	<div class="row form-group">
 		<div class="col-lg-10 col-lg-offset-1" bind-html-compile="(DEFAULT_LANGUAGE == 'TH'?Page.contents:Page.contents_en)">
 
 		</div>
 	</div>
-	<div class="row form-group" ng-repeat="file in FileList" style="padding: 5px;">
-		<div class="col-lg-10 col-lg-offset-1" ng-show="file.page_type == 'file'">
-			<a ng-show="file.content_type != 'application/pdf'" target="_self" href="{{file.file_path}}" download="{{file.file_name}}">
-				{{ (file.display_name !== null && file.display_name != ''?file.display_name:file.file_name) }}
-			</a>
-			<a ng-show="file.content_type == 'application/pdf'" target="_blank" href="../{{file.file_path}}">
-				{{ (file.display_name !== null && file.display_name != ''?file.display_name:file.file_name) }}
-			</a>
-		</div>
-		<div class="col-lg-10 col-lg-offset-1" ng-show="file.page_type == 'link'">
-			<a target="_blank" href="{{file.file_path}}">
-				{{ (file.display_name) }}
+
+	<div class="row form-group" ng-repeat="file in FileList">
+		<div class="col-lg-10 col-lg-offset-1 li-attach-file"  style="padding: 10px;">
+			<a target="_self" href="../{{file.file_path}}" download="{{file.file_name}}">
+				<img src="../files/img/attach-file.png" style="height: 2em;"> &nbsp; {{ (file.display_name !== null && file.display_name != ''?file.display_name:file.file_name) }}
 			</a>
 		</div>
 	</div>
 
 	<div ng-include src="'views/footer.html'"></div>
 </div>
+<style type="text/css">
+	h2{
+    font-family: "MAX PINJOHN V2";
+    src: url('../fonts/MAX_PINJOHN_V2.ttf') format("truetype");
+}
+</style>

@@ -34,11 +34,14 @@ $app->post('/commodity-standard/get/', 'CommodityStandardController:getData');
 $app->post('/commodity-standard/update/', 'CommodityStandardController:updateData');
 $app->post('/commodity-standard/api/get/', 'CommodityStandardController:getDataAPI');
 $app->post('/commodity-standard/list/replace/', 'CommodityStandardController:getListReplace');
+$app->post('/commodity-standard/questionnaire/', 'CommodityStandardController:getListForQuestionnaire');
+$app->post('/commodity-standard/list/in-use/', 'CommodityStandardController:getListInUse');
 
 
 $app->post('/academic-board/list/', 'AcademicBoardController:getList');
 $app->post('/academic-board/update/', 'AcademicBoardController:updateData');
 $app->post('/academic-board/delete/', 'AcademicBoardController:deleteData');
+$app->post('/academic-board/sendmail/', 'AcademicBoardController:sendMail');
 
 $app->post('/meeting/list/', 'MeetingController:getList');
 $app->post('/meeting/list/home/', 'MeetingController:getListForHomepage');
@@ -49,6 +52,9 @@ $app->post('/meeting/invite-file/delete/', 'MeetingController:deleteInviteData')
 $app->post('/meeting/view/attendee/', 'MeetingController:viewAttendee');
 $app->post('/meeting/add/attendee/', 'MeetingController:addAttendee');
 $app->post('/meeting/delete/attendee/', 'MeetingController:removeAttendee');
+$app->post('/meeting/upload/momfile/', 'MeetingController:uploadMOMFile');
+$app->post('/meeting/sendmail/', 'MeetingController:sendMail');
+
 
 $app->post('/stakeholder/list/', 'StakeholderController:getList');
 $app->post('/stakeholder/get/', 'StakeholderController:getData');
@@ -80,6 +86,7 @@ $app->post('/email/delete/', 'EmailController:deleteData');
 $app->post('/email/delete/commodity/', 'EmailController:deleteEmailCommodityData');
 
 $app->post('/questionnaire/list/active/', 'QuestionController:getListActive');
+$app->post('/questionnaire/list/page/', 'QuestionController:getListPage');
 $app->post('/questionnaire/list/', 'QuestionController:getList');
 $app->post('/questionnaire/get/', 'QuestionController:getData');
 $app->post('/questionnaire/update/', 'QuestionController:updateData');
@@ -90,6 +97,9 @@ $app->post('/questionnaire/person/list/', 'QuestionController:getListQuestionnai
 $app->post('/questionnaire/person/update/', 'QuestionController:updateQuestionnairePerson');
 $app->post('/questionnaire/person/delete/', 'QuestionController:deleteQuestionnairePerson');
 $app->post('/questionnaire/question/delete/', 'QuestionController:deleteQuestion');
+$app->post('/questionnaire/get/standard/', 'QuestionController:getDataByStandard');
+$app->post('/questionnaire-response/update/', 'QuestionController:updateQuestionnaireResponseData');
+$app->post('/questionnaire/sendmail/', 'QuestionController:sendMail');
 
 $app->post('/menu/list/', 'MenuController:getMenuList');
 $app->post('/menu/list/manage/', 'MenuController:getMenuListManage');
@@ -134,6 +144,7 @@ $app->post('/budget-disbursement/delete/', 'BudgetDisbursementController:deleteD
 $app->post('/attachfile-multi/get/type/', 'AttachFileMultiController:getList');
 $app->post('/attachfile-multi/get/master/', 'AttachFileMultiController:getMasterList');
 $app->post('/attachfile-multi/update/', 'AttachFileMultiController:updateData');
+$app->post('/attachfile-multi/update-multifiles/', 'AttachFileMultiController:updateDataMultiFiles');
 $app->post('/attachfile-multi/update/active/', 'AttachFileMultiController:updateActiveStatus');
 $app->post('/attachfile-multi/update/sort/', 'AttachFileMultiController:updateSortData');
 $app->post('/attachfile-multi/delete/', 'AttachFileMultiController:deleteData');
@@ -164,6 +175,7 @@ $app->post('/form-data1/customer/get/', 'FormData1Controller:getCustomerData');
 $app->post('/form-data1/customer/update/', 'FormData1Controller:updateCustomerData');
 
 $app->post('/seminar/list/', 'SeminarController:getList');
+$app->post('/seminar/get/', 'SeminarController:getData');
 $app->post('/seminar/update/', 'SeminarController:updateData');
 $app->post('/seminar/delete/', 'SeminarController:deleteData');
 $app->post('/seminar/response/list/', 'SeminarController:getListResponse');
@@ -249,6 +261,7 @@ $app->post('/landing-page/list/view/', 'LandingPageController:getListView');
 $app->post('/landing-page/list/', 'LandingPageController:getList');
 $app->post('/landing-page/get/', 'LandingPageController:getData');
 $app->post('/landing-page/update/', 'LandingPageController:updateData');
+$app->get('/testmail', 'MeetingController:testmail');
 
 // Default action
 $app->get('/[{name}]', function ($request, $response, $args) {

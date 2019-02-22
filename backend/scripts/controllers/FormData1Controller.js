@@ -79,10 +79,23 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
         });
     }
 
-    $scope.saveData = function(FormData1, FormData1Detail){
-        var params = {'FormData1' : FormData1, 'FormData1Detail' : FormData1Detail};
+    $scope.saveData = function(FormData1, form_data1_detail){
+
+        for(var i = 0; i < form_data1_detail.length; i++){
+            if(form_data1_detail[i].start_date !== null && form_data1_detail[i].start_date !== ''){
+                form_data1_detail[i].start_date = makeSQLDate(form_data1_detail[i].start_date);
+            }
+            if(form_data1_detail[i].end_date !== null && form_data1_detail[i].end_date !== ''){
+                form_data1_detail[i].end_date = makeSQLDate(form_data1_detail[i].end_date);
+            }
+            console.log($scope.UsageStatusList);
+            form_data1_detail[i].usage_status = $scope.UsageStatusList[i].usage_status.join();
+        }
+
+        var params = {'FormData1' : FormData1, 'form_data1_detail' : form_data1_detail};
         HTTPService.uploadRequest('form-data1/update', params).then(function(result){
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.PAGE = 'MAIN';
             }
             IndexOverlayFactory.overlayHide();
@@ -93,6 +106,7 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
         var params = {'ISO' : ISO};
         HTTPService.clientRequest('form-data1/update/iso', params).then(function(result){
             if(result.data.STATUS == 'OK'){
+                $scope.loadIsoAll();
                 $scope.PAGE = 'MAIN';
             }
             IndexOverlayFactory.overlayHide();
@@ -110,6 +124,27 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
             HTTPService.clientRequest('form-data1/get', params).then(function(result){
                 if(result.data.STATUS == 'OK'){
                     $scope.FormData1 = result.data.DATA;
+                    $scope.form_data1_detail = $scope.FormData1.form_data1_detail;
+                    for(var i = 0; i < $scope.form_data1_detail.length; i++){
+                        $scope.form_data1_detail[i].start_date = makeDate($scope.form_data1_detail[i].start_date);
+                        $scope.form_data1_detail[i].end_date = makeDate($scope.form_data1_detail[i].end_date);
+
+                        if($scope.form_data1_detail[i].usage_status !== null && $scope.form_data1_detail[i].usage_status !== ''){
+                            $scope.UsageStatusList.push({'usage_status':$scope.form_data1_detail[i].usage_status.split(',')});
+                        }else{
+                            $scope.UsageStatusList.push({'usage_status':[]});
+                        }
+                        console.log($scope.form_data1_detail[i].usage_status.indexOf('การบังคับใช้'));
+                        if($scope.form_data1_detail[i].usage_status.indexOf('การบังคับใช้') !== -1){
+                            $scope.form_data1_detail[i]['usage_status1'] = 'การบังคับใช้';
+                        }
+
+                        if($scope.form_data1_detail[i].usage_status.indexOf('ลดขอบข่าย') !== -1){
+                            $scope.form_data1_detail[i]['usage_status2'] = 'ลดขอบข่าย';
+                        }
+                    
+                        console.log($scope.form_data1_detail[i]);
+                    }
                 }
                 IndexOverlayFactory.overlayHide();
             });
@@ -119,70 +154,74 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
                 ,'actives' : 'Y'
             };
 
-            $scope.FormData1Detail = [{'FormData1Scope' : [{
-                                                        'FormData1SubScope':[{'iso':null}]
-                                                        ,'FormData1Certification' : [{'certification':''}]
+            $scope.form_data1_detail = [{'form_data1_scope' : [{
+                                                        'form_data1_sub_scope':[{'iso':null}]
+                                                        ,'form_data1_certification' : [{'certification':''}]
                                                         }
                                                 ]
                                             
-                                            ,'FormData1StandardARC' : [{'arc_name':''}]
+                                            ,'form_data1_standard_a_r_c' : [{'arc_name':''}]
                                            }
                 
             ];
-            console.log($scope.FormData1Detail);
+            console.log($scope.form_data1_detail);
         }
         $scope.loadIso();
         $scope.PAGE = 'UPDATE';
     }
 
     $scope.addDetail = function(){
-        $scope.FormData1Detail.push({'FormData1Scope' : [{
-                                                        'FormData1SubScope':[{'iso':null}]
-                                                        ,'FormData1Certification' : [{'certification':''}]
+        $scope.form_data1_detail.unshift({'form_data1_scope' : [{
+                                                        'form_data1_sub_scope':[{'iso':null}]
+                                                        ,'form_data1_certification' : [{'certification':''}]
                                                         }]
-                                        ,'FormData1StandardARC' : [{'arc_name':''}]    
+                                        ,'form_data1_standard_a_r_c' : [{'arc_name':''}]    
                                     });
+
+        $scope.UsageStatusList.unshift({'usage_status':[]});
     }
 
+
     $scope.addScope = function(index){
-        $scope.FormData1Detail[index].FormData1Scope.push({
-                                                        'FormData1SubScope':[{'iso':null}]
-                                                        ,'FormData1Certification' : [{'certification':''}]
+        $scope.form_data1_detail[index].form_data1_scope.push({
+                                                        'form_data1_sub_scope':[{'iso':null}]
+                                                        ,'form_data1_certification' : [{'certification':''}]
                                                     });
     }
 
     $scope.addStandardARC = function(index){
-        $scope.FormData1Detail[index].FormData1StandardARC.push({'arc_name':''});
+        $scope.form_data1_detail[index].form_data1_standard_a_r_c.push({'arc_name':''});
     }
 
     $scope.addSubScope = function(detail_index, scope_index){
-        $scope.FormData1Detail[detail_index].FormData1Scope[scope_index].FormData1SubScope.push({'iso':null});
+        $scope.form_data1_detail[detail_index].form_data1_scope[scope_index].form_data1_sub_scope.push({'iso':null});
     }
 
     $scope.addCertification = function(detail_index, scope_index){
-        $scope.FormData1Detail[detail_index].FormData1Scope[scope_index].FormData1Certification.push({'certification':''});
+        $scope.form_data1_detail[detail_index].form_data1_scope[scope_index].form_data1_certification.push({'certification':''});
     }
 
     $scope.DatePoupObj = [];
     
     $scope.openStartDateObj = function(index) {
-        $scope.FormData1Detail[index].open_start_date = true;
+        $scope.form_data1_detail[index].open_start_date = true;
     };
 
     $scope.openEndDateObj = function(index) {
-        $scope.FormData1Detail[index].open_end_date = true;
+        $scope.form_data1_detail[index].open_end_date = true;
     };
 
-    $scope.toggleUsageStatus = function(name){
-        var idx = $scope.UsageStatusList.indexOf(name);
+    $scope.toggleUsageStatus = function(index, name){
+        console.log(index);
+        var idx = $scope.UsageStatusList[index].usage_status.indexOf(name);
 
         // Is currently selected
         if (idx > -1) {
-          $scope.UsageStatusList.splice(idx, 1);
+          $scope.UsageStatusList[index].usage_status.splice(idx, 1);
         }
         // Is newly selected
         else {
-          $scope.UsageStatusList.push(name);
+          $scope.UsageStatusList[index].usage_status.push(name);
         }
         console.log($scope.UsageStatusList);
     

@@ -31,7 +31,7 @@
 				<input class="form-control" ng-model="Data.landing_name">
 			</div>
 			<label class="form-control-static col-lg-1">
-				ไฟล์
+				รูปภาพ
 			</label>
 			<div class="col-lg-4" >
 				<p class="input-group">
@@ -43,8 +43,9 @@
                 </p>
 			</div>
 			
-			<div class="col-lg-3">
+			<div class="col-lg-2">
 				<div class="file-alert" ng-show="AttachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{AttachFile.invalidFile.$errorParam}}</div>
+				<span style="color: green;">ขนาดแนะนำ 1920 * 1080 px</span>
 			</div>
 		</div>
 		<div class="row form-group">
@@ -99,7 +100,7 @@
 				</caption>
 				<thead>
 					<tr>
-						<th>ชื่แ</th>
+						<th>ชื่อ</th>
 						<th>วันที่เริ่มต้น</th>
 						<th>วันที่สิ้นสุด</th>
 						<th>สถานะ</th>

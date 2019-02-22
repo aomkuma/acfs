@@ -61,18 +61,26 @@ class Mailer
 
     public function setMailHost($data){
         $this->mailer->Host = $data;
+        // $this->mailer->Host = 'tls://mail.acfs.go.th:587';
     }
 
     public function setMailPort($data){
         $this->mailer->Port = $data;
         if($data == '465'){
-            $this->mailer->SMTPDebug = 2;
+            // $this->mailer->SMTPDebug = 2;
             $this->mailer->SMTPAuth   = true;     
             $this->mailer->SMTPSecure = "ssl";     
         }else if($data == '587'){
-            $this->mailer->SMTPDebug = 2;
+            // $this->mailer->SMTPDebug = 2;
             $this->mailer->SMTPSecure = 'tls';
             $this->mailer->SMTPAuth = true;
+            $this->mailer->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
         }else{
             $this->mailer->SMTPDebug = 2;
             $this->mailer->SMTPSecure = false;
@@ -89,12 +97,16 @@ class Mailer
                 )
             );
         }
+        
     }
 
     public function setMailUsername($data){
         $this->mailer->Username = $data;
         $this->mailer->From = $data;
         $this->mailer->FromName = $data;
+
+        $this->mailer->From = $data;
+        $this->mailer->FromName = 'acfs';
     }
 
     public function setMailPassword($data){

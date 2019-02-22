@@ -58,7 +58,7 @@
 			<button class="btn btn-primary pull-right" ng-click="addDetail()">เพิ่มใบอนุญาต</button>
 		</div>
 	</div>
-	<fieldset class="fieldset_data" ng-repeat="detail in FormData1License" ng-init="detail_index = $index">
+	<fieldset class="fieldset_data" ng-repeat="detail in form_data1_license" ng-init="detail_index = $index" ng-class="{'bg-odd':$index%2 == 0}">
 		<legend>ใบอนุญาต</legend>
 		<div class="row form-group">
 			<label class="form-control-static col-lg-2">
@@ -76,7 +76,7 @@
 			</div>
 		</div>
 
-		<fieldset class="fieldset_data" ng-repeat="check in detail.FormData1StandardChecked" ng-init="check_index = $index">
+		<fieldset class="fieldset_data" ng-repeat="check in detail.form_data1_standard_checked" ng-init="check_index = $index">
 			<legend>มาตรฐานสินค้าที่ตรวจสอบ</legend>
 			<div class="row form-group">
 				<label class="form-control-static col-lg-2">
@@ -86,7 +86,7 @@
 					<input class="form-control" ng-model="check.standard_name">
 				</div>
 			</div>
-			<div class="row form-group" ng-repeat="inspect in check.FormData1ProductInspect" ng-init="inspect_index = $index">
+			<div class="row form-group" ng-repeat="inspect in check.form_data1_product_inspect" ng-init="inspect_index = $index">
 				<label class="form-control-static col-lg-2 col-lg-offset-2">
 					ขอบข่ายสินค้าเกษตรที่ตรวจสอบ
 				</label>
@@ -97,7 +97,7 @@
 					<button class="btn btn-primary pull-right" ng-click="addProductInspect(detail_index, check_index)">เพิ่มสินค้าเกษตรที่ตรวจสอบ</button>
 				</div>
 			</div>
-			<div class="row form-group" ng-repeat="cert in scope.FormData1Certification" ng-init="cert_index = $index">
+			<div class="row form-group" ng-repeat="cert in scope.form_data1_certification" ng-init="cert_index = $index">
 				<label class="form-control-static col-lg-2  col-lg-offset-1">
 					Certification
 				</label>
@@ -110,7 +110,7 @@
 			</div>
 		</fieldset>
 		<br><br>
-		<div class="row form-group" ng-repeat="arc in detail.FormData1StandardARC" ng-init="arc_index = $index">
+		<div class="row form-group" ng-repeat="arc in detail.form_data1_standard_a_r_c" ng-init="arc_index = $index">
 			<label class="form-control-static col-lg-3">
 				มาตรฐานกระทรวงเกษตร และสหกรณ์
 			</label>
@@ -222,7 +222,7 @@
 		</div>
 	</div>
 
-	<fieldset class="fieldset_data" ng-repeat="scope in FormData1Scope" ng-init="scope_index = $index">
+	<fieldset class="fieldset_data" ng-repeat="scope in form_data1_scope" ng-init="scope_index = $index">
 		<legend>ขอบข่าย</legend>
 		<div class="row form-group">
 			<label class="form-control-static col-lg-1">
@@ -234,7 +234,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="row form-group" ng-repeat="subscope in scope.FormData1SubScope" ng-init="subscope_index = $index"  ng-show="FormData1.operator_type == 'private'">
+		<div class="row form-group" ng-repeat="subscope in scope.form_data1_sub_scope" ng-init="subscope_index = $index"  ng-show="FormData1.operator_type == 'private'">
 			<label class="form-control-static col-lg-2 col-lg-offset-1">
 				ขอบข่ายย่อย
 			</label>
@@ -256,14 +256,14 @@
 		</label>
 		<div class="col-lg-10">
 			<div class="btn-group">
-                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'Y'">ใช้</label>
-                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'N'">ไม่ใช้</label>
+                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'Y'">ใช้งาน</label>
+                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'N'">ไม่ใช้งาน</label>
             </div>
 		</div>
 	</div>
 	<div class="row form-group">
 		<div class="col-lg-12 text-center">
-			<button class="btn btn-primary" ng-click="saveData(FormData1, FormData1License, FormData1Scope)">บันทึก</button>
+			<button class="btn btn-primary" ng-click="saveData(FormData1, form_data1_license, form_data1_scope)">บันทึก</button>
 			<button class="btn btn-default" ng-click="cancel()">ยกเลิก</button>
 		</div>
 	</div>
@@ -322,5 +322,9 @@
 	.fieldset_data{
 		padding: 10px;
 		border : 1px solid #999;
+	}
+	.bg-odd{
+		background-color: #FAFAFA;
+		margin: 10px;
 	}
 </style>

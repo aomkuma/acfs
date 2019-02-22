@@ -1,6 +1,6 @@
 var serviceUrl = '../services/public/';
 
-var app = angular.module('e-homework', ['ui.bootstrap' , 'ngRoute' , 'ngAnimate', 'ngCookies', 'ui.router', 'oc.lazyLoad', 'ngFileUpload', 'angular-bind-html-compile']);
+var app = angular.module('e-homework', ['ui.bootstrap' , 'ngRoute' , 'ngAnimate', 'ngCookies', 'ui.router', 'oc.lazyLoad', 'ngFileUpload', 'angular-bind-html-compile', '720kb.socialshare']);
 
 app.config(function($controllerProvider, $compileProvider, $filterProvider, $provide) {
   app.register = {
@@ -44,6 +44,7 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
     sessionStorage.setItem('DEFAULT_LANGUAGE' , lang);
     // console.log(sessionStorage.getItem('DEFAULT_LANGUAGE'));
     $scope.DEFAULT_LANGUAGE = sessionStorage.getItem('DEFAULT_LANGUAGE');
+    window.location.reload();
   }
 
   $scope.changeFontSize = function(size){
@@ -76,7 +77,13 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
   }
 
   $scope.goSearch = function(keyword){
-    window.location.href = '#/search/' + keyword;
+    if(keyword != undefined && keyword != null && keyword != ''){
+      window.location.href = '#/search/' + keyword;  
+    }else{
+      keyword = '';
+      window.location.href = '#/';  
+    }
+    
   }
   $scope.checkEnter = function(event, keyword){
     if(event.keyCode == 13){
@@ -87,6 +94,9 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
   $scope.checkLogin = function(email){
     // console.log({'email' : email});
     // return;
+    if(email == null || email == ''){
+      return;
+    }
     var params = {'email' : email};
       HTTPService.clientRequest('subscribe/mail/login', params).then(function(result){
         if(result.data.STATUS == 'OK'){
@@ -142,7 +152,17 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
     
   }
 
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
   $scope.subscribeMail = function(email){
+      
+      if(email == null || email == '' || !validateEmail(email)){
+        alert('กรุณากรอก e-mail ให้ถูกต้อง');
+        return;
+      }
       var params = {'email' : email};
       HTTPService.clientRequest('subscribe/mail/register', params).then(function(result){
           // console.log('landing', result);

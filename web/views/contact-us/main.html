@@ -16,6 +16,18 @@
 	  </div>
 	</div>
 	<div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1 text-center" >
+			<span class="title-content">
+				<h2>{{(DEFAULT_LANGUAGE == 'TH'?MenuName[MenuName.length - 1].menu_name_th:MenuName[MenuName.length - 1].menu_name_en)}}</h2>
+			</span>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1 text-center" >
+			<img src="../files/img/header_line.png" style="width: 70%;">
+		</div>
+	</div>
+	<div class="row form-group">
 		<div class="col-lg-10 col-lg-offset-1">
 			<div class="row form-group">
 				<div class="col-lg-6">
@@ -26,7 +38,7 @@
 						<label class="form-control-static col-lg-1">
 							<img src="../files/img/user-icon.png" alt="" style="height: 50px;">
 						</label>
-						<label class="form-control-static col-lg-5">
+						<label class="form-control-static col-lg-11">
 							ติดต่อเจ้าหน้าที่ มกอช
 							<br>
 							<a href="#/officer-contact">คลิกที่นี่เพื่อเข้าสู่หน้าติดต่อเจ้าหน้าที่ มกอช.</a>
@@ -36,7 +48,7 @@
 						<label class="form-control-static col-lg-1">
 							<img src="../files/img/check-in.png" alt="" style="height: 50px;">
 						</label>
-						<label class="form-control-static col-lg-5">
+						<label class="form-control-static col-lg-11">
 							ที่อยู่
 							<br>
 							<span style="font-weight: lighter;">{{DEFAULT_LANGUAGE == 'TH'?Data.address_th:Data.address_en}}</span>
@@ -46,7 +58,7 @@
 						<label class="form-control-static col-lg-1">
 							<img src="../files/img/mobile.png" alt="" style="height: 50px;">
 						</label>
-						<label class="form-control-static col-lg-5">
+						<label class="form-control-static col-lg-11">
 							หมายเลขโทรศัพท์
 							<br>
 							<span style="font-weight: lighter;">{{Data.tel}}</span>
@@ -56,7 +68,7 @@
 						<label class="form-control-static col-lg-1">
 							<img src="../files/img/mail.png" alt="" style="height: 50px;">
 						</label>
-						<label class="form-control-static col-lg-5">
+						<label class="form-control-static col-lg-11">
 							E-Mail
 							<br>
 							<span style="font-weight: lighter;">{{Data.email}}</span>

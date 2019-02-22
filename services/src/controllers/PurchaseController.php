@@ -57,9 +57,9 @@
                 $page_type = $_Purchase['page_type'];
 
                 if(empty($_Purchase['create_by'])){
-                    $_Purchase['create_by'] = $user_session['adminID'];
+                    $_Purchase['create_by'] = $user_session['id'];
                 }
-                $_Purchase['update_by'] = $user_session['adminID'];
+                $_Purchase['update_by'] = $user_session['id'];
                 unset($_Purchase['AttachFileList']);
 
                 foreach ($_Purchase as $key => $value) {

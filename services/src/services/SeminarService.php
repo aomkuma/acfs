@@ -9,15 +9,23 @@
     
     class SeminarService {
 
-    	public static function getList($page_type, $actives){
+    	public static function getList($keyword, $page_type, $actives){
             return Seminar::where('page_type', $page_type)
-                    ->where(function($query) use ($actives) {
+                    ->where(function($query) use ($keyword, $actives) {
                         if(!empty($actives)){
                             $query->where('actives', $actives);
+                        }
+                        if(!empty($keyword)){
+                            $query->where('title_th', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                            $query->orWhere('title_en', 'LIKE', DB::raw("'%" . $keyword . "%'"));
                         }
                     })
                     ->orderBy('id', 'DESC')
             		->get();      
+        }
+
+        public static function getData($id){
+            return Seminar::find($id);      
         }
 
         public static function getListResponse($seminar_id){

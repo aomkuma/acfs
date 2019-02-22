@@ -17,7 +17,7 @@
 
         public static function getSlideShowView(){
             return SlideShow::where('actives', 'Y')
-                    //->orderBy('order_no', 'ASC')
+                    ->orderBy('order_no', 'ASC')
                     ->orderBy('id', 'ASC')
                     ->get();      
         }

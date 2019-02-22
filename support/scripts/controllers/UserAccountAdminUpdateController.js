@@ -53,6 +53,7 @@ angular.module('app').controller('UserAccountAdminUpdateController', function($s
     $scope.setAdmin = function(){
         $scope.Admin = {
                         'adminID' : ''
+                        , 'adminType' : 'normal'
                         , 'name' : ''
                         , 'lastName' : ''
                         , 'position' : ''

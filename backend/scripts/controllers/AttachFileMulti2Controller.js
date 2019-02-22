@@ -75,6 +75,7 @@ angular.module('e-homework').controller('AttachFileMulti2Controller', function($
         HTTPService.uploadRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.FileList = [];
                 $scope.addFiles();
                 $scope.loadDataList('attachfile-multi/get/type' ,$scope.page_type);

@@ -95,6 +95,7 @@ angular.module('e-homework').controller('MediaController', function($scope, $com
 
         var params = {'Data' : Data, 'AttachFile' : AttachFile};
         HTTPService.uploadRequest('media/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             $scope.loadList();
             $scope.PAGE = 'MAIN';
             IndexOverlayFactory.overlayHide();

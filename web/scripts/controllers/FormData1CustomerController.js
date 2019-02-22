@@ -1,7 +1,7 @@
 angular.module('e-homework').controller('FormData1CustomerController', function($scope, $compile, $cookies, $filter, $state, $routeParams, HTTPService, IndexOverlayFactory) {
     IndexOverlayFactory.overlayShow();
 
-    $scope.page_type = 'operator-list';
+    $scope.page_type = 'customer-list';
 
     $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){

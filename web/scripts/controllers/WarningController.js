@@ -34,10 +34,20 @@ angular.module('e-homework').controller('WarningController', function($scope, $c
     }
     
     $scope.loadData = function(){
+        IndexOverlayFactory.overlayShow();
         var params = {'url' : 'http://warning.acfs.go.th/th/early-warning/rss.json'};
         HTTPService.clientRequest('warning/get', params).then(function(result){
             console.log(result);
-            $scope.DataList = result.data.DATA.data;
+            if(result.data.STATUS == 'OK'){
+                $scope.DataList = result.data.DATA.data;
+                for(var i = 0; i <= $scope.DataList.length; i++){
+                    if($scope.DataList[i].date != undefined && $scope.DataList[i].date != null && $scope.DataList[i].date != ''){
+                        $scope.DataList[i].date = convertDateToFullThaiDateIgnoreTime(new Date($scope.DataList[i].date*1000));    
+                    }
+                }
+            }else{
+                alert('ไม่สามารถดึงข้อมูลข่าวเตือนภัยได้ กรุณาลองใหม่ภายหลัง');
+            }
             IndexOverlayFactory.overlayHide();
         });
     }

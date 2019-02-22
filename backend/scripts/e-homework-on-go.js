@@ -12,6 +12,18 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
+	.when("/home/:page_type?", {
+        templateUrl : "views/home.html",
+        controller : "HomeController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/HomeController.js" ]
+				});
+			} ]
+		}
+	})
+
 	.when("/guest/logon", {
         templateUrl : "views/login.html",
         controller : "LoginController",
@@ -276,6 +288,18 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
+	.when("/attachfile-multi4/:page_type", {
+        templateUrl : "views/attachfile-multi4/main.html",
+        controller : "AttachFileMulti4Controller",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/AttachFileMulti4Controller.js" ]
+				});
+			} ]
+		}
+	})
+
 	.when("/listening", {
         templateUrl : "views/listening/main.html",
         controller : "ListeningController",
@@ -288,7 +312,7 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
-	.when("/appeal", {
+	.when("/appeal/:page_type", {
         templateUrl : "views/appeal/main.html",
         controller : "AppealController",
         resolve : {

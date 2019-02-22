@@ -46,7 +46,7 @@ angular.module('e-homework').controller('ContactUsController', function($scope, 
         HTTPService.uploadRequest('contact-us/update', params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
-                
+                alert('บันทึกสำเร็จ');
                 window.location.reload();
              
             }

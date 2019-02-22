@@ -56,12 +56,27 @@
                 $_Email = $params['obj']['Email'];
                 $_EmailCommodity = $params['obj']['EmailCommodity'];
                 $user_session = $params['user_session'];
+
+                foreach ($_Email as $key => $value) {
+                    if($value == 'null' || $value == ''){
+                        $_Email[$key] = NULL;
+                    }
+                }
                 
                 $emailID = EmailService::updateData($_Email);
+
                 foreach ($_EmailCommodity as $key => $value) {
                     if(empty($value['emailCommodityID'])){
+                        
                         unset($value['standardNameThai']);
                         $value['emailID'] = $emailID;
+
+                        foreach ($value as $k => $v) {
+                            if($v == 'null' || $v == ''){
+                                $value[$v] = NULL;
+                            }
+                        }
+
                         EmailService::updateEmailCommodityData($value);
                     }
                 }

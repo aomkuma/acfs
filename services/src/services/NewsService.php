@@ -14,8 +14,13 @@
                         ->get();
         } 
 
-        public static function getNewsList($news_type = '', $actives = ''){
-            return News::where(function($query) use ($news_type, $actives){
+        public static function getNewsList($news_type = '', $actives = '', $currentPage, $limitRowPerPage){
+
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+
+            $totalRows = count(News::where(function($query) use ($news_type, $actives){
                         if(!empty($news_type)){
                             $query->where('news_type', $news_type);
                         }
@@ -23,9 +28,27 @@
                             $query->where('actives', $actives);
                         }
                     })
-                    ->orderBy('news_date', 'DESC')
+                    // ->orderBy('news_date', 'DESC')
                     ->orderBy('id', 'DESC')
-                    ->get();      
+                    ->get()->toArray());  
+
+            $totalRows = ceil($totalRows / $limitRowPerPage);    
+
+            $DataList = News::where(function($query) use ($news_type, $actives){
+                        if(!empty($news_type)){
+                            $query->where('news_type', $news_type);
+                        }
+                        if(!empty($actives)){
+                            $query->where('actives', $actives);
+                        }
+                    })
+                    // ->orderBy('news_date', 'DESC')
+                    ->orderBy('id', 'DESC')
+                    ->skip($skip)
+                    ->take($limit)
+                    ->get()->toArray();            
+
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
         }
 
         public static function getNewsListHomepage($actives = ''){
@@ -35,7 +58,7 @@
                         }
                         $query->where('show_homepage', 'Y');
                     })
-                    ->orderBy('news_date', 'DESC')
+                    // ->orderBy('news_date', 'DESC')
                     ->orderBy('id', 'DESC')
                     ->get();      
         }

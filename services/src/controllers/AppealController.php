@@ -28,7 +28,7 @@
                     $appeal_date = [$date_from, $date_to];
                 }
                 
-                $_List = AppealService::getList($appeal_date);
+                $_List = AppealService::getList($appeal_date, $condition['page_type']);
 
                 $this->data_result['DATA']['List'] = $_List;
 

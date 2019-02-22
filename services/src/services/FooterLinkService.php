@@ -9,15 +9,20 @@
     class FooterLinkService {
 
         public static function getTypeList(){
-            return FooterLink::groupBy('link_type')->get();
+            return FooterLink::groupBy('link_type')
+                            ->orderBy('order_no', 'ASC')
+                            ->get();
         }
 
         public static function getListByType($type){
-            return FooterLink::where('link_type', $type)->get();
+            return FooterLink::where('link_type', $type)
+                            ->orderBy('order_no', 'ASC')
+                            ->get();
         }
 
     	public static function getList($menu_type, $condition){
-            return FooterLink::all();
+            return FooterLink::orderBy('order_no', 'ASC')
+                            ->get();
         }
 
         public static function updateData($obj){

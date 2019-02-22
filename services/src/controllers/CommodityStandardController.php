@@ -15,6 +15,37 @@
             $this->db = $db;
         }
 
+        public function getListInUse($request, $response, $args){
+            try{
+
+                $params = $request->getParsedBody();
+                
+                $List = CommodityStandardService::getListInUse();
+                $this->data_result['DATA']['List'] = $List;
+                
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function getListForQuestionnaire($request, $response, $args){
+            try{
+
+                $params = $request->getParsedBody();
+                $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
+                
+                $List = CommodityStandardService::getListForQuestionnaire($keyword);
+                $this->data_result['DATA']['List'] = $List;
+                
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
         public function getListReplace($request, $response, $args){
             try{
 
@@ -55,7 +86,7 @@
                 $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
                 $standardIDToIgnore = $params['obj']['standardIDToIgnore'];
 
-                $stepList = [1,2,3,4,5,6,7,8];
+                $stepList = [1,2,3,4,5,6,7,8,9,11];
                 $CommodityStandard = [];
                 $Total = 0;
                 if($userType == 'admin'){
@@ -68,8 +99,14 @@
                     $_CommodityStandard = $_Result['DataList'];
                     $_Total = $_Result['Total'];
 
+                    $cur_year = date('Y') + 543;
                     foreach ($_CommodityStandard as $key => $value) {
-                        array_push($CommodityStandard, $value);
+                        if($value['years'] == $cur_year){
+                            array_push($CommodityStandard, $value);    
+                        }else if($value['years'] < $cur_year && $value['step'] < 9){
+                            array_push($CommodityStandard, $value);    
+                        }
+                        
                     }
                     $Total += $_Total;
 
@@ -109,11 +146,11 @@
                 $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
                 $viewType = filter_var($params['obj']['viewType'], FILTER_SANITIZE_STRING);
                 if($viewType == 'pending'){
-                    $stepList = [1,2,3,4,5,6,7,8];
+                    $stepList = [1,2,3,4,5,6,7,8,11];
                 }else if($viewType == 'inuse'){
-                    $stepList = [9];
+                    $stepList = [9,11];
                 }else if($viewType == 'cancelled'){
-                    $stepList = [11];
+                    $stepList = [10];
                 }
                 $CommodityStandard = [];
                 $Total = 0;
@@ -159,13 +196,15 @@
                 $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
                 $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
                 $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
-                $stepList = [1,2,3,4,5,6,7,8,9];
+                $standardType = filter_var($params['obj']['standardType'], FILTER_SANITIZE_STRING);
+                $standardDefineType = filter_var($params['obj']['standardDefineType'], FILTER_SANITIZE_STRING);
+                $stepList = [1,2,3,4,5,6,7,8,9,11];
                 
                 $CommodityStandard = [];
                 $Total = 0;
 
                 $limitRow = $limitRowPerPage - $Total;
-                $_Result = CommodityStandardService::getCommodityStandardListSearch($currentPage, $limitRow, $keyword);
+                $_Result = CommodityStandardService::getCommodityStandardListSearch($currentPage, $limitRow, $keyword, $standardType, $standardDefineType);
                 $_CommodityStandard = $_Result['DataList'];
                 $_Total = $_Result['Total'];
                 foreach ($_CommodityStandard as $key => $value) {
@@ -191,7 +230,7 @@
                 $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
                 $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
                 $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
-                $stepList = [1,2,3,4,5,6,7,8,9];
+                $stepList = [1,2,3,4,5,6,7,8,9,11];
                 
                 $CommodityStandard = [];
                 $Total = 0;
@@ -234,6 +273,24 @@
                 $_CommodityStandard = $_Result['DataList'];
                 $_Total = $_Result['Total'];
                 foreach ($_CommodityStandard as $key => $value) {
+                    // Find cancelled history
+                    $replace_id = $value['standardID'];
+                    $replace_title = $value['standardNameThai'];
+                    $cancelled_description = [];
+                    do{
+                        $cancelled_data = CommodityStandardService::findCommodityStandardCancelled($replace_id);
+                        if(!empty($cancelled_data)){
+                            $cancelled_description[] = $cancelled_data['noThai'] . '<br>';
+                            $replace_id = $cancelled_data['id_cancelled'];
+                            // $replace_title = $cancelled_data['standardNameThai'];
+                        }
+
+                    }while(!empty($cancelled_data));
+
+                    if(!empty($cancelled_description)){
+                        $replace_title = $value['standardNameThai'] . ' ใช้แทน ' . implode(",", $cancelled_description);
+                    }
+                    $value['cancelled_data'] = $replace_title;
                     array_push($CommodityStandard, $value);
                 }
                 $Total += $_Total;
@@ -271,17 +328,21 @@
                     // Find cancelled history
                     $replace_id = $value['standardID'];
                     $replace_title = $value['standardNameThai'];
-                    $cancelled_description = '';
+                    $cancelled_description = [];
                     do{
                         $cancelled_data = CommodityStandardService::findCommodityStandardCancelled($replace_id);
                         if(!empty($cancelled_data)){
-                            $cancelled_description .= $replace_title . ' ใช้แทน ' . $cancelled_data['standardNameThai'] . '<br>';
+                            $cancelled_description[] = $cancelled_data['noThai'] . '<br>';
                             $replace_id = $cancelled_data['id_cancelled'];
-                            $replace_title = $cancelled_data['standardNameThai'];
+                            // $replace_title = $cancelled_data['standardNameThai'];
                         }
 
                     }while(!empty($cancelled_data));
-                    $value['cancelled_data'] = $cancelled_description;
+
+                    if(!empty($cancelled_description)){
+                        $replace_title = $value['standardNameThai'] . ' ใช้แทน ' . implode(",", $cancelled_description);
+                    }
+                    $value['cancelled_data'] = $replace_title;
                     array_push($CommodityStandard, $value);
                 }
                 $Total += $_Total;
@@ -387,7 +448,7 @@
                 $_Commodity_Keywords_EN = $params['obj']['Commodity_Keywords_EN']; 
                 foreach ($_CommodityStandard as $key => $value) {
                     if($value == 'null'){
-                        $_CommodityStandard[$key] = '';
+                        $_CommodityStandard[$key] = NULL;
                     }
                 }
                 $files = $request->getUploadedFiles();
@@ -404,6 +465,23 @@
                         
                         $_CommodityStandard['standardFileName'] = $f->getClientFilename();
                         $_CommodityStandard['standardFilePath'] = $FilePath;
+                        
+                        $f->moveTo('../../' . $FilePath);
+                    }        
+                }
+
+
+                $f = $files['obj']['AttachFileEN'];
+                if($f != null){
+                    if($f->getClientFilename() != ''){
+                        // Unset old image if exist
+                        
+                        $ext = pathinfo($f->getClientFilename(), PATHINFO_EXTENSION);
+                        $FileName = date('YmdHis').'_'.rand(100000,999999). '.'.$ext;
+                        $FilePath = $_WEB_FILE_PATH . '/commodity-standard/'.$FileName;
+                        
+                        $_CommodityStandard['standardFileNameEN'] = $f->getClientFilename();
+                        $_CommodityStandard['standardFilePathEN'] = $FilePath;
                         
                         $f->moveTo('../../' . $FilePath);
                     }        

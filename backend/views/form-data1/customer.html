@@ -33,7 +33,7 @@
 		</div>
 	</div>
 
-	<fieldset class="fieldset_data" ng-repeat="scope in FormData1Scope" ng-init="scope_index = $index">
+	<fieldset class="fieldset_data" ng-repeat="scope in form_data1_scope" ng-init="scope_index = $index" ng-class="{'bg-odd':$index%2 == 0}">
 		<legend>ขอบข่าย</legend>
 		<div class="row form-group">
 			<label class="form-control-static col-lg-1">
@@ -43,7 +43,7 @@
 				<input class="form-control" ng-model="scope.scope_name">
 			</div>
 		</div>
-		<div class="row form-group" ng-repeat="subscope in scope.FormData1SubScope" ng-init="subscope_index = $index">
+		<div class="row form-group" ng-repeat="subscope in scope.form_data1_sub_scope" ng-init="subscope_index = $index">
 			<label class="form-control-static col-lg-2 col-lg-offset-1">
 				ผลิตภัณฑ์ / ระบบการผลิต
 			</label>
@@ -71,14 +71,14 @@
 		</label>
 		<div class="col-lg-10">
 			<div class="btn-group">
-                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'Y'">ใช้</label>
-                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'N'">ไม่ใช้</label>
+                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'Y'">ใช้งาน</label>
+                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'N'">ไม่ใช้งาน</label>
             </div>
 		</div>
 	</div>
 	<div class="row form-group">
 		<div class="col-lg-12 text-center">
-			<button class="btn btn-primary" ng-click="saveData(FormData1, FormData1Scope)">บันทึก</button>
+			<button class="btn btn-primary" ng-click="saveData(FormData1, form_data1_scope)">บันทึก</button>
 			<button class="btn btn-default" ng-click="cancel()">ยกเลิก</button>
 		</div>
 	</div>
@@ -136,5 +136,9 @@
 	.fieldset_data{
 		padding: 10px;
 		border : 1px solid #999;
+	}
+	.bg-odd{
+		background-color: #FAFAFA;
+		margin: 10px;
 	}
 </style>

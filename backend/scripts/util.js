@@ -221,6 +221,11 @@ function concatDateTimeSQL(d , t){
     return d.getFullYear() + '-' + padLeft(""+(d.getMonth() + 1), '00') + '-' + padLeft(""+(d.getDate()), '00') + ' ' + t + ':00';
 }
 
+function concatDateSQL(d){
+    
+    return d.getFullYear() + '-' + padLeft(""+(d.getMonth() + 1), '00') + '-' + padLeft(""+(d.getDate()), '00');
+}
+
 function padLeft(str, pad){
     return pad.substring(0, pad.length - str.length) + str;
 }

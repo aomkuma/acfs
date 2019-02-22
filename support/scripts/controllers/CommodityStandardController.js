@@ -79,7 +79,8 @@ angular.module('app').controller('CommodityStandardController', function($scope,
     }
 
     $scope.makeDateString = function(d){
-        if(d!= null && d != ''){
+        if(d!= null && d != '' && d != '0000-00-00 00:00:00'){
+            console.log(d);
             return convertDateToFullThaiDateIgnoreTime(new Date(d.split(' ')[0]));    
         }
         return '';

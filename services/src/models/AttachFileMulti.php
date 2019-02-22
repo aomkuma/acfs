@@ -8,6 +8,7 @@ class AttachFileMulti extends \Illuminate\Database\Eloquent\Model {
   	
   	protected $fillable = ['id'
   							, 'menu_type'
+                , 'file_topic'
                 , 'file_type'
                 , 'file_date'
                 , 'order_no'

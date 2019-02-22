@@ -62,6 +62,7 @@ angular.module('e-homework').controller('FruitController', function($scope, $com
         
         var params = {'Data' : Data};
         HTTPService.uploadRequest('fruit/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             $scope.loadList($scope.condition);
             $scope.PAGE = 'MAIN';
             IndexOverlayFactory.overlayHide();

@@ -24,6 +24,19 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
+	.when("/sitemap", {
+        templateUrl : "views/sitemap/main.html",
+        controller : "SitemapController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/SitemapController.js" ]
+				});
+			} ]
+		}
+	})
+
+
 	.when("/search/:keyword?", {
         templateUrl : "views/search.html",
         controller : "SearchController",
@@ -35,6 +48,32 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 			} ]
 		}
 	})
+
+	.when("/questionnaire-response", {
+        templateUrl : "views/questionnaire-response/main.html",
+        controller : "QuestionnaireResponseController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/QuestionnaireResponseController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/questionnaire-response/detail/:questionnaireID", {
+        templateUrl : "views/questionnaire-response/detail.html",
+        controller : "QuestionnaireResponseDetailController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/QuestionnaireResponseDetailController.js" ]
+				});
+			} ]
+		}
+	})
+
+	
 
 	.when("/page/:id", {
         templateUrl : "views/page/page.html",
@@ -264,6 +303,18 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
+	.when("/attachfile-multi4/:page_type?", {
+        templateUrl : "views/attachfile-multi4/main.html",
+        controller : "AttachFileMulti4Controller",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/AttachFileMulti4Controller.js" ]
+				});
+			} ]
+		}
+	})
+
 	.when("/budget-disbursement", {
         templateUrl : "views/budget-disbursement/main.html",
         controller : "BudgetDisbursementController",
@@ -360,7 +411,7 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
-	.when("/appeal", {
+	.when("/appeal/:page_type", {
         templateUrl : "views/appeal/main.html",
         controller : "AppealController",
         resolve : {
@@ -391,6 +442,30 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
 				return $ocLazyLoad.load({
 					files : [ "scripts/controllers/SeminarController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/seminar/detail/:page_type/:id", {
+        templateUrl : "views/seminar/detail.html",
+        controller : "SeminarDetailController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/SeminarDetailController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/seminar/response/:page_type/:id", {
+        templateUrl : "views/seminar/response.html",
+        controller : "SeminarResponseController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/SeminarResponseController.js" ]
 				});
 			} ]
 		}

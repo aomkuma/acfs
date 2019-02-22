@@ -76,10 +76,13 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
     }
 
     $scope.load = function(action){
-        HTTPService.clientRequest(action, null).then(function(result){
+        var params = {'currentPage': $scope.currentPage
+                    , 'limitRowPerPage': $scope.limitRowPerPage};
+        HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.News = null;
             $scope.NewsList = result.data.DATA.News;
+            $scope.totalPages = result.data.DATA.Total;
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -119,7 +122,7 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
         // CKEDITOR.config.height = '400px';
 
         CKEDITOR.replace( 'editor2',ckEditorConfig );
-        $scope.News = {'PictureList':[{'attachFile':null}]};
+        $scope.News = {'actives':'Y', 'show_homepage':'N','show_banner':'N','PictureList':[{'attachFile':null}]};
         $scope.PAGE = 'UPDATE';
     }
 
@@ -146,6 +149,7 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
             console.log(result);
             $scope.PAGE = 'MAIN';
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 // $scope.AttachFile = null;
                 // $scope.FileList = [];
                 // $scope.load('news');
@@ -177,6 +181,11 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
         });
     }
 
+    $scope.goToPage = function(page){
+        $scope.currentPage = page;
+        $scope.load('news');
+    }
+
     $scope.FileList = [];
     $scope.AttachFile = null;
     
@@ -195,6 +204,11 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
     $scope.open2 = function() {
         $scope.popup2.opened = true;
     };
+
+    $scope.totalPages = 0;
+    $scope.currentPage = 0;
+    $scope.limitRowPerPage = 15;
+    $scope.limitDisplay = 5;
 
     $scope.PAGE = 'MAIN';
     $scope.load('news');

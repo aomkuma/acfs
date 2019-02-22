@@ -1,17 +1,12 @@
-<div class="page-header"></div>
+<div style="height: 30px;">&nbsp;</div>
 
 <div class="row" style="bottom: 0px;">
-  <div class="col-lg-12" style="background-color: #1D2355;">
-  <div class="row" style="background-color: #2F64DF;">
-    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="color: #FFF; padding-bottom: 10px;">
-      <span style="font-size: 1.8em;">ลงทะเบียนรับข้อมูลข่าวสาร</span> <span style="font-size: 1.4em;">ข้อมูลกิจกรรมสำคัญ ของกระทรวงเกษตรและสหกรณ์</span>
-      <input type="taxt" class="input-subscribe" ng-model="$parent.mail_subscribe" placeholder="e-mail address" style="color: #000;">
-      <button class="button-subscribe" ng-click="subscribeMail(mail_subscribe)">  <span class="text-button">SUBSCRIBE </span> </button>
-    </div>
-  </div>
-  <div class="row" style="background-color: #1D2355;">
-<nav class="navbar navbar-inverse" role="navigation" style="margin-bottom: 0px;">
-      <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="col-lg-12" style="background: transparent;">
+  
+  <div class="row" style="background-color: transparent;">
+<!--
+<nav class="navbar navbar-inverse hidden-xs" role="navigation" style="margin-bottom: 0px;">
+      
       <div class="navbar-header">
 
         <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
@@ -23,7 +18,6 @@
         
       </div>
     
-      <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" style="background-color: #1D2355;">
       
         <ul class="nav navbar-nav" style="background-color: #1D2355; color: #FFF; padding: 30px; font-size: 1.2em;">
@@ -46,7 +40,7 @@
             aria-expanded="false" >
               {{DEFAULT_LANGUAGE=='TH'?menu.menu_name_th:menu.menu_name_en}} <b class="caret"></b>
             </a>
-            <ul class="dropdown-menu  sub-menu" ng-show="menu.sub_menu.length > 0"><!-- style="min-width: 400px; overflow: scroll; height: 500px;"-->
+            <ul class="dropdown-menu  sub-menu" ng-show="menu.sub_menu.length > 0">
                 <li ng-repeat="sub_menu1 in menu.sub_menu"
                  ng-class="{'dropdown-submenu':sub_menu1.sub_menu.length > 0}">
                   <a ng-show="sub_menu1.menu_type == 'EXLINK'" href="{{ sub_menu1.menu_url }}" target="_blank">
@@ -84,55 +78,47 @@
             </ul>
 
           </li>
-          <!--
-          <li ng-class="{'active':menu_selected == 'home'}"><a href="#/"  style="border-left: 0px solid #000000;">
-            <img src="../files/img/home-ico.png" class="menu-icon"><br><br>หน้าหลัก</a></li>
-          <li class="menu-item dropdown" ng-class="{'active':menu_selected == ''}">
-              <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ><img src="../files/img/alert-ico.png" class="menu-icon"><br><br>เกี่ยวกับหน่วยงาน <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                  <li class="menu-item dropdown dropdown-submenu" ng-click="goPage('history')">ประวัติความเป็นมา</li>
-                  <li class="menu-item dropdown dropdown-submenu" ng-click="goPage('authority')">อำนาจหน้าที่</li>
-                  <li class="menu-item dropdown dropdown-submenu" ng-click="goLink('structure')">โครงสร้างหน่วยงาน</li>
-                  <li class="menu-item dropdown dropdown-submenu" ng-click="goTo('palace-minister')">ทำเนียบรัฐมนตรี</li>
-                  <li class="menu-item dropdown dropdown-submenu" ng-click="goTo('palace')">บุคลากร</li>
-                  
-                  
-              </ul>
-          </li>
-          <li ng-class="{'active':menu_selected == 'law'}"><a href="#/law"><img src="../files/img/laptop-ico.png" class="menu-icon"><br><br>งานบริการ</a></li>
-          <li ng-class="{'active':menu_selected == 'news'}"><a href="#/news"><img src="../files/img/world-ico.png" class="menu-icon"><br><br>เครือข่ายกระทรวง</a></li>
-          <li ng-class="{'active':menu_selected == 'traditions'}"><a ng-click="goPage('tradition')"><img src="../files/img/folder-ico.png" class="menu-icon"><br><br>สื่อและเอกสารเผยแพร่</a></li>
-          <li ng-class="{'active':menu_selected == 'resolution'}"><a ng-click="goLink('resolution')"><img src="../files/img/question-ico.png" class="menu-icon"><br><br>คำถามที่พบบ่อย</a></li>
-          <li ng-class="{'active':menu_selected == 'relatelink'}"><a href="#/relate-link"><img src="../files/img/checkin-ico.png" class="menu-icon"><br><br>ติดต่อหน่วยงาน</a></li>
-          -->
+          
         </ul>
         
         </ul>
-      </div><!-- /.navbar-collapse -->
+      </div>
     </nav>
-    
+    -->
     
 </div>
     </div>
-    <div class="row" style="background-color: #2F388E; color: #FFF; padding: 20px;">
-      <div class="col-lg-7 col-lg-offset-1">
-        <h4>สงวนลิขสิทธิ์ตามพระราชบัญญัติ</h4>
+    <div class="row" style="background: url('../files/img/Footer.jpg');background-repeat: no-repeat;
+  background-size: 100% 100%; color: #FFF; padding: 20px;">
+      <div class="col-lg-12 text-center" ng-show="DEFAULT_LANGUAGE=='TH'">
+        
         <br>
-        สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ  
-        เลขที่ 50 ถนนพหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพมหานคร 10900 
-        โทรศัพท์ +662- 561-2277 
-        <br>ข้อเสนอแนะติดต่อ itc@acfs.go.th
+        <span style="font-size: 1.4em;">สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ  (มกอช.)</span>
+        <br>เลขที่ 50 ถนนพหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพมหานคร 10900 
+        
+        <br>โทรศัพท์ +662- 561-2277  ข้อเสนอแนะติดต่อ itc@acfs.go.th
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-12 text-center" ng-show="DEFAULT_LANGUAGE=='EN'">
+        
+        <br>
+        <span style="font-size: 1.4em;">National Bureau of Agricultural Commodity and Food Standards Ministry of Agriculture and Cooperatives</span>
+        <br>50 Phaholyothin Road, Ladyao Chatuchak Bangkok 10900.
+        
+        <br>Thailand. Tel. (662) 561 - 2277 Contact : itc@acfs.go.th
+      </div>
+      <!-- <div class="col-lg-3">
         <br><br><br>
         สถิติผู้ใช้งานเว็บไซต์ {{VisitorCount}} ครั้ง
-      </div>
+      </div> -->
     </div>
-    <div class="row" style="background-color: #87BFF6; padding: 20px;">
-      <div class="col-lg-10 col-lg-offset-1 text-center">
-        <a href="#/sitemap">แผนผังเว็บไซต์</a> | <a>นโยบายเว็บไซต์</a> | <a>นโยบายการคุ้มครองข้อมูลส่วนบุคคล</a> | <a>นโยบายการรักษาความมั่นคงปลอดภัยเว็บไซต์</a>
+    <div class="row" style="background-color: #183740; padding: 20px; color: #FFF;">
+      <div class="col-lg-5 ">
+        {{DEFAULT_LANGUAGE=='TH'? 'สงวนลิขสิทธิ์ตามพระราชบัญญัติ':'Copyright'}}
       </div>
-      <div class="col-lg-10 col-lg-offset-1 text-center">
+      <div class="col-lg-7  text-right">
+        <a href="#/sitemap" style="color: #FFF;">{{DEFAULT_LANGUAGE=='TH'? 'แผนผังเว็บไซต์':'Sitemap'}}</a> | <a style="color: #FFF;">{{DEFAULT_LANGUAGE=='TH'? 'คำสงวนสิทธิ์':'Disclaimer'}}</a> | <a style="color: #FFF;">{{DEFAULT_LANGUAGE=='TH'? 'ประกาศความรับผิดชอบ':'Responsibility announcement'}}</a> | <a style="color: #FFF;">{{DEFAULT_LANGUAGE=='TH'? 'ประกาศนโยบาย':'Policy announcement'}}</a>
+      </div>
+      <div class="col-lg-10 col-lg-offset-1 text-center" ng-show="false">
         <br>
         เบราเซอร์ที่รองรับ 
         <img src="../files/img/chrome.png" alt="" height="30"> Chrome (แนะนำ)
@@ -142,3 +128,8 @@
       </div>
     </div>
   </div>
+  <style type="text/css">
+    .row{
+      margin-right: -7px;
+    }
+  </style>

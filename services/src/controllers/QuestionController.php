@@ -3,7 +3,9 @@
     namespace App\Controller;
     
     use App\Service\QuestionService;
-
+    use App\Service\EmailService;
+    use App\Service\SubcommitteeService;
+    
     class QuestionController extends Controller {
         
         protected $logger;
@@ -17,8 +19,25 @@
         public function getListActive($request, $response, $args){
             try{
                 $params = $request->getParsedBody();
+                $years = $params['obj']['YearFrom'];
                 
-                $_List = QuestionService::getListActive();
+                $_List = QuestionService::getListActive($years);
+                
+                $this->data_result['DATA']['Questionnaire'] = $_List;
+                
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function getListPage($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $keyword = $params['obj']['keyword'];
+                
+                $_List = QuestionService::getListPage($keyword);
                 
                 $this->data_result['DATA']['Questionnaire'] = $_List;
                 
@@ -99,6 +118,53 @@
             }
         }
 
+        public function getDataByStandard($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $standardID = $params['obj']['standardID'];
+                // $_Data = QuestionService::getDataByStandard($standardID);
+                // $_QuestionCommodityData = QuestionService::getQuestionCommodityData($questionID);
+                // $this->data_result['DATA']['Questionnaire'] = $_Data;
+                // $this->data_result['DATA']['QuestionCommodity'] = $_QuestionCommodityData;
+                $StandardQuestionnaireList = QuestionService::getQuestionListByStandard($standardID);
+                $this->data_result['DATA']['StandardQuestionnaireList'] = $StandardQuestionnaireList;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function updateQuestionnaireResponseData($request, $response, $args){
+            try{
+
+                $params = $request->getParsedBody();
+                $_Questionnaire = $params['obj']['Questionnaire'];
+                $response_by = $params['obj']['ResponseBy'];
+                $response_date = date('Y-m-d H:i:s');
+
+                foreach ($_Questionnaire['question'] as $key => $value) {
+                    $data = [];
+                    $data['questionnaire_id'] = $_Questionnaire['questionnaireID'];
+                    $data['q_id'] = $value['questionID'];
+                    $data['q_response'] = $value['q_response'];
+                    $data['q_response_comment'] = $value['q_response_comment'];
+                    $data['response_by'] = $response_by;
+                    $data['response_date'] = $response_date;
+
+                    QuestionService::updateQuestionnaireResponseData($data);
+                }
+
+                $this->data_result['DATA']['result'] = $result;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
         public function updateData($request, $response, $args){
             $_WEB_FILE_PATH = 'files/files';
             try{
@@ -166,6 +232,12 @@
                     $value['questionaireID'] = $questionnaireID;
                     $questionID = QuestionService::updateQuestion($value);
                     
+                }
+
+                // update URL type = normal
+                if($_Questionnaire['questionnaireType'] == 'normal'){
+                    $link_url = "http://127.0.0.1/acfs/web/#/questionnaire-response/detail/" . $questionnaireID;
+                    QuestionService::updateQuestionLinkURL($questionnaireID, $link_url);
                 }
 
                 $this->data_result['DATA']['questionnaireID'] = $questionnaireID;
@@ -240,6 +312,53 @@
                 return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
             }
         }
+
+        public function sendMail($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $Questionnaire = $params['obj']['Questionnaire'];
+                $Questionnaire = QuestionService::getData($Questionnaire['questionnaireID']);
+                // print_r($Questionnaire);
+                // exit;
+
+                $email_settings = EmailService::getEmailDefault();
+                
+                $mail_content = "แบบสอบถาม " . $Questionnaire['questionName'];
+                                // exit;
+                $mailer = new Mailer;
+                $mailer->setMailHost('smtp.gmail.com');
+                $mailer->setMailPort('465');
+                $mailer->setMailUsername($email_settings->email);
+                $mailer->setMailPassword($email_settings->password);
+                $mailer->setSubject($mail_content);
+
+                $mail_content .= "<br>สามารถแสดงความคิดเห็นได้แล้วที่  <a href='".$Questionnaire['filePath']."'>" . $Questionnaire['filePath']."</a>";
+                $mailer->setHTMLContent($mail_content);
+                $mailer->isHtml(true);
+
+                // set Receiver
+                $SubcommitteeList = SubcommitteeService::getData($Questionnaire['subcommitteeID']);
+                foreach ($SubcommitteeList['subcommitteePerson'] as $key => $value) {
+                    
+                    $mailer->setReceiver($value['email']);
+                }
+                $OtherList = $Questionnaire['questionnaire_person'];
+                foreach ($OtherList as $key => $value) {
+                    $mailer->setReceiver($value['email']);
+                }
+                // exit;
+                $res = $mailer->sendMail();
+
+                $this->data_result['DATA'] = $res;
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+
+        
 
     
     }

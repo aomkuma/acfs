@@ -7,8 +7,8 @@
 <div ng-show="PAGE == 'UPDATE'">
 	<div class="row form-group">
 		<div class="col-lg-12 text-center">
-			<img ngf-thumbnail="AttachFile" style="width: auto; height: 200px; border-radius: 50%;" ng-show="AttachFile != null && Palace.picture_path == null">
-			<img src="{{'../'+ Palace.picture_path}}" style="width: auto height: 200px; border-radius: 50%;" ng-show="Palace.picture_path != null && AttachFile == null">
+			<img ngf-thumbnail="AttachFile" style="width: 250px; height: 315px;" ng-show="AttachFile != null && Palace.picture_path == null">
+			<img src="{{'../'+ Palace.picture_path}}" style="width: 250px; height: 315px; " ng-show="Palace.picture_path != null && AttachFile == null">
 		</div>
 	</div>
 
@@ -26,6 +26,7 @@
 		</div>
 		<div class="col-lg-3">
 			<div class="file-alert" ng-show="fle.attachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{AttachFile.invalidFile.$errorParam}}</div>
+			<span style="color:green;">ขนาดแนะนำ 250 *  315 px</span>
 		</div>
 	</div>
 	
@@ -193,6 +194,17 @@
 	        </p>
 		</div>
 	</div>
+	<div class="row form-group">
+		<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
+			สถานะ
+		</label>
+		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" >
+			<div class="btn-group">
+				<label class="btn btn-default btn-checkbox" ng-model="Palace.actives" uib-btn-radio="'Y'" >ใช้งาน</label>
+	            <label class="btn btn-default btn-checkbox" ng-model="Palace.actives" uib-btn-radio="'N'" >ไม่ใช้งาน</label>
+	        </div>
+		</div>
+	</div>
 	<div class="page-header text-center">
 		<button class="btn btn-info" ng-click="save('palaces/update', Palace, AttachFile, FileList)">บันทึก</button>
 		<button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
@@ -204,11 +216,12 @@
 			<caption><button ng-click="add()" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</button></caption>
 			<thead>
 				<tr>
-					<th>#</th>
-					<th>ชื่อ</th>
-					<th>สกุล</th>
+					
+					<th>ชื่อ - สกุล (ไทย)</th>
+					<th>ชื่อ - สกุล (อังกฤษ)</th>
 					<th>ตำแหน่ง</th>
 					<th>ช่วงระยะเวลาดำรงตำแหน่ง</th>
+					<th>จัดการ</th>
 				</tr>
 			</thead>
 			<tbody dnd-list="list">
@@ -217,13 +230,14 @@
 					        dnd-effect-allowed="move"
 					        dnd-selected="model.selected = data" 
 					        dnd-dragend="dropCallback(list)">
-					<td>
-						<button class="btn btn-default btn-xs" ng-click="edit(data)"><span class="glyphicon glyphicon-edit"></span></button>
-					</td>
+					
 					<td>{{data.firstname_th}}</td>
 					<td>{{data.firstname_en}}</td>
 					<td>{{data.position_th}}</td>
 					<td>{{data.position_start_date}} ถึง {{data.position_end_date}}</td>
+					<td>
+						<button class="btn btn-default btn-xs" ng-click="edit(data)"><span class="glyphicon glyphicon-edit"></span></button>
+					</td>
 				</tr>
 			</tbody>
 		</table>

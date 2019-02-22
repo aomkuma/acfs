@@ -102,7 +102,7 @@ angular.module('e-homework').controller('PermissionController', function($scope,
             console.log(result);
             $scope.PAGE = 'MAIN';
             if(result.data.STATUS == 'OK'){
-                
+                alert('บันทึกสำเร็จ');
                 $scope.load();
                 $scope.cancelUpdate();
                 IndexOverlayFactory.overlayHide();

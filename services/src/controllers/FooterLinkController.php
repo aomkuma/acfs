@@ -19,17 +19,19 @@
             try{
                 $params = $request->getParsedBody();
 
-                $_TypeList = [['link_type'=>'พ.ร.บ.มาตรฐานสินค้าเกษตร']
-                                ,['link_type'=>'การรับรอง']
-                                ,['link_type'=>'ความปลอดภัยอาหาร']
-                                ,['link_type'=>'ข่าวและกิจกรรม']
-                                ,['link_type'=>'การส่งเสริมและประชาสัมพันธ์']];
-                $DataList = [];
-                foreach ($_TypeList as $key => $value) {
-                    $List = FooterLinkService::getListByType($value['link_type']);
-                    $value['Links'] = $List;
-                    array_push($DataList, $value);
-                }
+                // $_TypeList = [['link_type'=>'พ.ร.บ.มาตรฐานสินค้าเกษตร']
+                //                 ,['link_type'=>'การรับรอง']
+                //                 ,['link_type'=>'ความปลอดภัยอาหาร']
+                //                 ,['link_type'=>'ข่าวและกิจกรรม']
+                //                 ,['link_type'=>'การส่งเสริมและประชาสัมพันธ์']];
+                // $DataList = [];
+                // foreach ($_TypeList as $key => $value) {
+                //     
+                //     $value['Links'] = $List;
+                //     array_push($DataList, $value);
+                // }
+                
+                $DataList = FooterLinkService::getList();
 
                 $this->data_result['DATA']['List'] = $DataList;
 

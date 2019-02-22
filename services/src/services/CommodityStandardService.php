@@ -11,6 +11,38 @@
     
     class CommodityStandardService {
 
+        public static function getListInUse(){
+            return CommodityStandard::where('status' , 'Active')
+                    ->whereIn('step', [9,11])
+                    ->orderBy('Commodity_Standards.standardID', 'DESC')
+                    ->get();
+        }
+
+        public static function getstandardCommodityStatus($years, $standardID){
+            return CommodityStandard::where('status' , 'Active')
+                    ->where(function($query) use ($standardID){
+                        if(!empty($standardID)){
+                            $query->where('standardID', $standardID);
+                        }
+                        })
+                    ->where('years', $years)
+                    ->orderBy('Commodity_Standards.standardID', 'DESC')
+                    ->get();
+        }
+
+        public static function getListForQuestionnaire($keyword){
+            return CommodityStandard::where('status' , 'Active')
+                    ->where(function($query) use ($keyword){
+                        if(!empty($keyword)){
+                            $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                        }
+                        })
+                    ->where('step', '<>' ,10)
+                    ->join("Questionnaires", 'Questionnaires.standardID', '=', 'Commodity_Standards.standardID')
+                    ->orderBy('Commodity_Standards.standardID', 'DESC')
+                    ->get();
+        }
+
         public static function getListReplace($standardID){
             return CommodityStandard::where('status' , 'Active')
                     ->where('standardID' , '<>', $standardID)
@@ -26,30 +58,66 @@
                     ->get();
         }
 
-        public static function getCommodityStandardListSearch($currentPage, $limitRowPerPage, $keyword){
+        public static function getCommodityStandardListSearch($currentPage, $limitRowPerPage, $keyword, $standardType, $standardDefineType){
             // 
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
-            $totalRows = CommodityStandard::
-                        where(function($query) use ($stepList, $keyword){
-                            //$query->where('step', '9');
-                            $query->where('status', 'Active');
-                            if(!empty($keyword)){
-                                $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+            $totalRows = CommodityStandard::leftJoin("Commodity_Keywords", 'Commodity_Keywords.standardID', '=', 'Commodity_Standards.standardID')
+                        ->where(function($query) use ($standardType){
+                            if(!empty($standardType)){
+                                $query->where('standardType', $standardType);
                             }
                         })
-                        ->count();
+                        ->where(function($query) use ($standardDefineType){
+                            if(!empty($standardDefineType)){
+                                $query->where('standardDefineType', $standardDefineType);
+                            }
+                        })
+                        ->where(function($query) use ($stepList, $keyword, $standardDefineType){
 
-            // $totalPage = ceil($totalRows / $limitRowPerPage);
-            $DataList = CommodityStandard::where(function($query) use ($stepList, $keyword){
+                            if(!empty($standardDefineType)){
+                                $query->where('standardDefineType', $standardDefineType);
+                            }
                             //$query->where('step', '9');
-                            $query->where('status', 'Active');
                             if(!empty($keyword)){
                                 $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('noThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('noEng', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('Commodity_Keywords.keyword', 'LIKE', DB::raw("'%" . $keyword . "%'"));
                             }
                         })
-                        ->orderBy('standardID', 'DESC')
+                        ->where('status', 'Active')
+                        ->where('step', '<>', '11')
+                        ->groupBy('Commodity_Standards.standardID')
+                        ->orderBy('Commodity_Standards.standardID', 'DESC')
+                        ->get();
+            $totalRows = count($totalRows);
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = CommodityStandard::leftJoin("Commodity_Keywords", 'Commodity_Keywords.standardID', '=', 'Commodity_Standards.standardID')
+                        ->where(function($query) use ($standardType){
+                            if(!empty($standardType)){
+                                $query->where('standardType', $standardType);
+                            }
+                        })
+                        ->where(function($query) use ($standardDefineType){
+                            if(!empty($standardDefineType)){
+                                $query->where('standardDefineType', $standardDefineType);
+                            }
+                        })
+                        ->where(function($query) use ($stepList, $keyword, $standardDefineType){
+                            //$query->where('step', '9');
+                            if(!empty($keyword)){
+                                $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('noThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('noEng', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('Commodity_Keywords.keyword', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                            }
+                        })
+                        ->where('status', 'Active')
+                        ->where('step', '<>', '11')
+                        ->groupBy('Commodity_Standards.standardID')
+                        ->orderBy('Commodity_Standards.standardID', 'DESC')
                         ->skip($skip)
                         ->take($limit)
                         ->get();      
@@ -130,8 +198,8 @@
                         ->count();
 
             // $totalPage = ceil($totalRows / $limitRowPerPage);
-            $DataList = CommodityStandard::
-                        where(function($query) use ($keyword){
+            $DataList = CommodityStandard::select("Commodity_Standards.*")
+                        ->where(function($query) use ($keyword){
                             //$query->where('step', '9');
                             if(!empty($keyword)){
                                 $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));

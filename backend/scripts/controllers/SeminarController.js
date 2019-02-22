@@ -106,6 +106,7 @@ angular.module('e-homework').controller('SeminarController', function($scope, $c
 
         var params = {'Data' : Data, 'ScheduleFile' : ScheduleFile, 'ParticipantFile' : ParticipantFile};
         HTTPService.uploadRequest('seminar/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             $scope.loadList();
             $scope.PAGE = 'MAIN';
             IndexOverlayFactory.overlayHide();

@@ -25,6 +25,7 @@
                     case 'Branch' : $this->data_result['DATA'] = MasterfileService::getBranch(); break;
                     case 'Province' : $this->data_result['DATA'] = MasterfileService::getProvince(); break;
                     case 'AcademicBoard' : $this->data_result['DATA'] = MasterfileService::getAcademicBoard(); break;
+                    case 'licensees' : $this->data_result['DATA'] = MasterfileService::getLicensee(); break;
                     default : $this->data_result['DATA'] = MasterfileService::getMasterfile($masterType); break;
                 }
                 

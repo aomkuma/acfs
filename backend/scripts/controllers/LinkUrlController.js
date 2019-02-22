@@ -72,6 +72,7 @@ angular.module('e-homework').controller('LinkUrlController', function($scope, $c
             console.log(result);
             $scope.PAGE = 'MAIN';
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.AttachFile = null;
                 $scope.load('linkurl');
                 $scope.cancelUpdate();

@@ -15,7 +15,8 @@
         public static function getMenuFavourite(){
             return Menu::where('show_index', 'Y')
                     ->where('Menus.actives', 'Y')
-                    ->orderBy('id', 'DESC')
+                    ->orderBy('banner_order', 'ASC')
+                    ->orderBy('id', 'ASC')
                     ->get();      
             /*
             return Menu::join('Menu_Favourite', 'Menu_Favourite.menu_id', '=', 'Menus.id')
@@ -26,15 +27,21 @@
                     */
         }
 
-        public static function getMenuList($parent_menu){
+        public static function getMenuList($parent_menu, $show_webpage = ''){
             return Menu::select("Menus.*", DB::raw("'N' AS checked_menu"))->where('actives', 'Y')
                     ->where('parent_menu', $parent_menu)
+                    ->where(function($query) use ($show_webpage){
+                        if(!empty($show_webpage)){
+                            $query->where('show_webpage', 'Y');
+                        }
+                    })
                     ->orderBy('menu_order', 'ASC')
                     ->get();      
         }
 
         public static function getMenuListManage(){
-            return Menu::orderBy('id', 'DESC')
+            return Menu::where('menu_type', '<>', 'CUSTOM')
+                    ->orderBy('id', 'DESC')
                     ->get();      
         }
 
@@ -76,6 +83,7 @@
             $model->show_index = $obj['show_index'];
             $model->menu_url = $obj['menu_url'];
             $model->menu_order = $obj['menu_order'];
+            $model->banner_order = $obj['banner_order'];
             $model->menu_logo = $obj['menu_logo'];
             $model->menu_image = $obj['menu_image'];
             $model->save();

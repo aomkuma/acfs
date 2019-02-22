@@ -88,13 +88,13 @@
 		<div class="col-lg-12">
 			<table class="table table-striped" ng-repeat="(listName, list) in model.list">
 				<caption>
-					<button class="btn btn-primary" ng-click="add()"><span class="glyphicon glyphicon-plus"></span></button>
+					<button class="btn btn-primary" ng-click="add()"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</button>
 				</caption>
 				<thead>
 					<tr>
 						<th>ลำดับ</th>
 						<th>เรื่อง</th>
-						<th>หมวดหมู่</th>
+						<th ng-show="page_type == 'ministerial-orders'">หมวดหมู่</th>
 						<th>วันที่</th>
 						<th>จัดการข้อมูล</th>
 					</tr>
@@ -107,12 +107,10 @@
 					        dnd-dragend="dropCallback(list)">
 						<td>{{ $index + 1}}</td>
 						<td>
-							{{data.AttachFiles[0].display_name}}
-							<br>
-							{{data.AttachFiles[1].display_name}}
+							{{data.AttachFiles[0].display_name == null || data.AttachFiles[0].display_name == ''?data.AttachFiles[0].file_name:data.AttachFiles[0].display_name}}
 						</td>
-						<td>{{data.file_type}}</td>
-						<td>{{data.file_date}}</td>
+						<td ng-show="page_type == 'ministerial-orders'">{{data.file_type}}</td>
+						<td>{{data.file_date==null|| data.file_date == '0000-00-00'?data.create_date:data.file_date}}</td>
 						<td>
 							<button class="btn btn-default" ng-click="edit(data)"><span class="glyphicon glyphicon-edit"></span></button>
 							<button class="btn btn-danger" ng-click="removeData(data.id)"><span class="glyphicon glyphicon-trash"></span></button>

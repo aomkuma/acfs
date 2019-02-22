@@ -20,6 +20,8 @@ class CommodityStandard extends \Illuminate\Database\Eloquent\Model {
   							, 'status'
                 , 'standardFileName'
   							, 'standardFilePath'
+                , 'standardFileNameEN'
+                , 'standardFilePathEN'
                 , 'academicBoardName'
                 , 'standardDefineType'
                 , 'standardPublishingType'

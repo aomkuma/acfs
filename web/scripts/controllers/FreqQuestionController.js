@@ -49,7 +49,7 @@ angular.module('e-homework').controller('FreqQuestionController', function($scop
         $scope.loadList($scope.QuestionTypeList[index]);
     }
 
-    $scope.QuestionTypeList = ['มาตรฐาน', 'การรับรอง', 'เกษตรดิจิทัล', 'การควบคุม', 'ความรู้ทั่วไป', 'พ.ร.บ. มาตรฐานสินค้าเกษตร'];
+    $scope.QuestionTypeList = ['มาตรฐาน', 'การรับรอง', 'เกษตรดิจิทัล', 'การควบคุม', 'ความรู้ทั่วไป', 'พ.ร.บ. มาตรฐานสินค้าเกษตร','กฎหมายระเบียบ'];
     $scope.QuestionIndex = 0;
     $scope.QuestionType = $scope.QuestionTypeList[0];
 

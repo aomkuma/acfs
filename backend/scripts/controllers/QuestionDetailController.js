@@ -103,7 +103,7 @@ angular.module('e-homework').controller('QuestionDetailController', function($sc
         HTTPService.uploadRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
-                
+                alert('บันทึกสำเร็จ');
                 if($scope.ID == undefined && $scope.ID == null){
                     window.location.href = '#/question/detail/' + result.data.DATA.question_id;
                 }else{

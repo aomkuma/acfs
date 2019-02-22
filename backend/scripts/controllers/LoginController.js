@@ -24,7 +24,8 @@ angular.module('e-homework').controller('LoginController',function($scope, $rout
                 sessionStorage.setItem('user_session' , JSON.stringify(user.data.DATA.UserData));
                 sessionStorage.setItem('MenuPermission' , JSON.stringify(user.data.DATA.MenuPermission));
                 setTimeout(function(){
-                    window.location.replace('#/' + reDirect);    
+                    // console.log(sessionStorage.getItem('user_session'));
+                    window.location.replace('#/landing-page');    
                 }, 1000);
             }else{
                 $scope.showError = true;

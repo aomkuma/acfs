@@ -68,6 +68,7 @@ angular.module('e-homework').controller('MeetingResultController', function($sco
 
         var params = {'Data' : Data, 'AttachFileTH' : AttachFileTH, 'AttachFileEN' : AttachFileEN};
         HTTPService.uploadRequest('meeting-result/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             $scope.loadList();
             $scope.PAGE = 'MAIN';
             IndexOverlayFactory.overlayHide();

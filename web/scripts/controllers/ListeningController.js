@@ -47,6 +47,14 @@ angular.module('e-homework').controller('ListeningController', function($scope, 
         $scope.loadDataList('listening/list' ,$scope.listening_type, condition);
     }
 
+    $scope.getThaiDate = function(date){
+        // console.log('check date :'+date);
+        if(date != undefined){
+            
+            return convertDateToFullThaiDateIgnoreTime(new Date(date));
+        }
+    }
+
     IndexOverlayFactory.overlayHide();
     $scope.FileList = [];
     $scope.listening_type = 'เกี่ยวกับ พ.ร.บ. มาตรฐานสินค้าเกษตร';

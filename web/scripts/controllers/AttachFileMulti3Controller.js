@@ -67,6 +67,10 @@ angular.module('e-homework').controller('AttachFileMulti3Controller', function($
         $scope.loadDataList('attachfile-multi/get/type' ,$scope.page_type, $scope.condition);
     }
 
+    $scope.findExtension = function(filename){
+        return (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename)[0] : '';
+    }
+
     IndexOverlayFactory.overlayHide();
     $scope.FileList = [];
     $scope.FileTypeList = [{'file_type' : 'รายละเอียดโครงการ'}

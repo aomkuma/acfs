@@ -3,6 +3,7 @@
     namespace App\Controller;
     
     use App\Service\StakeholderService;
+    use App\Service\UserAccountService;
 
     class StakeholderController extends Controller {
         
@@ -61,6 +62,19 @@
                 $user_session = $params['user_session'];
                 
                 $stakeholderID = StakeholderService::updateData($_Stakeholder);
+
+                // Prepare data to update user table
+                $userData = UserAccountService::getUserDataByStakeholderID($stakeholderID);
+                $update_data['userID'] = $userData['userID'];
+                $update_data['stakeholderID'] = $stakeholderID;
+                $update_data['email'] = $_Stakeholder['email'];
+                // $update_data['password'] = $_User['password'];
+                // $update_data['createBy'] = $_User['createBy'];
+                // $update_data['createDate'] = $_User['createDate'];
+                $update_data['updateBy'] = $user_session['adminID'];
+                $update_data['updateDate'] = date('Y-m-d H:i:s');
+
+                $userID = UserAccountService::updateUserData($update_data);
 
                 $this->data_result['DATA']['stakeholderID'] = $stakeholderID;
 

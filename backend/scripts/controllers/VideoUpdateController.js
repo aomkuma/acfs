@@ -118,7 +118,7 @@ angular.module('e-homework').controller('VideoUpdateController', function($scope
         HTTPService.uploadRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
-                
+                alert('บันทึกสำเร็จ');
                 if($scope.ID == undefined && $scope.ID == null){
                     window.location.href = '#/video/' + result.data.DATA.video_id;
                 }else{

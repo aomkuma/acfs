@@ -7,19 +7,19 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 <div  style="margin-top:180px;">
-<div class="row" style="margin-top:200px;">
+<div class="row slide-shows" style="margin-top:-20px;">
 	<div class="col-lg-12">
-		<div class="row form-group">
+		<div class="row">
 			<div class="col-lg-12">
 				<div class="">
 
 				  <!-- Full-width images with number and caption text -->
-				  <div class="mySlides" ng-repeat="slide in slides">
+				  <div class="mySlides" ng-repeat="slide in slides" style="position: relative;">
 				    <img src="{{'../' + slide.file_path}}" style="width: 100%; height: auto;" alt="" title="">
 				    <video id="video_src{{$index}}" controls autoplay style="height:300px; width: auto;" ng-show="checkFormat(slide.contents_type)">
 				    	<source src="{{'../' + slide.file_path}}" type="{{slide.contents_type}}">
 				    </video>
-				    <div class="text" style="background-color: #000; position: absolute;  z-index: 999; color: #FFF; width: 50%; height: 98%; margin: 0 auto; left:49%; opacity: 0.5; top:0px; padding-top: 50px; text-align: left;" bind-html-compile="slide.text_desc"></div>
+				    <div ng-show="slide.text_desc != null && slide.text_desc != ''" class="text" style="background-color: #000; position: absolute;  z-index: 999; color: #FFF; width: 100%; height: 30%; margin: 0 auto; right:0%; opacity: 0.5; bottom:0px; padding-top: 0px; text-align: left; overflow: hidden; text-overflow: ellipsis; font-size: 1.4em; padding-left: 10%; padding-right: 10%; padding-top: 2%; font-family: 'MAX PINJOHN V2';" bind-html-compile="slide.text_desc"></div>
 				    
 				  </div>
 
@@ -38,48 +38,127 @@
 			</div>
 		</div>
 
+
+	</div>
+</div>
+<div class="row" style="margin-top:0px;">
+	<div class="col-lg-10 col-lg-offset-1">
 		<div class="row form-group">
-	        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-	           
-	        </div>
-	        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="vertical-align: text-bottom;padding-top: 2em;">
-	          <div style="float: left;">
-	            <span style="font-size: 2em; color: #000; font-weight: bolder;">ข่าวสาร</span> &nbsp;&nbsp;&nbsp; <span style="font-size: 2em; color: #62A850; font-weight: bolder;">NEWS</span>
+	        
+	        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="vertical-align: text-bottom;padding-top: 2em;">
+	          <div style="float: left;" ng-show="NewsType == 'news'">
+	            <span style="font-size: 2em; color: #000; font-weight: bolder;">ข่าวสาร</span> &nbsp;&nbsp;&nbsp; <span style="font-size: 2em; color: #d18237; font-weight: bolder;">NEWS</span>
+
+	          </div>
+	          <div style="float: left;" ng-show="NewsType == 'purchase'">
+	            <span style="font-size: 2em; color: #000; font-weight: bolder;">จัดซื้อจัดจ้าง</span> &nbsp;&nbsp;&nbsp; <span style="font-size: 2em; color: #d18237; font-weight: bolder;">NEWS</span>
+
+	          </div>
+	          <div style="float: left;" ng-show="NewsType == 'work-application'">
+	            <span style="font-size: 2em; color: #000; font-weight: bolder;">รับสมัครงาน</span> &nbsp;&nbsp;&nbsp; <span style="font-size: 2em; color: #d18237; font-weight: bolder;">NEWS</span>
 
 	          </div>
 	          <div style="height: 1px; background-color: #13569A; width: 100%; margin-top:3em;"></div>
 	        </div>
-	        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-	        	<button class="button-news" ng-click="goPage('#/update/news')">  <span class="text-button">ข่าวประชาสัมพันธ์ </span> </button>
-	        	<button class="button-news yellow" ng-click="goPage('#/purchase/purchase-plan')">  <span class="text-button">จัดซื้อ / จัดจ้าง</span>  </button>
-	        	<button class="button-news yellow" ng-click="goPage('#/attachfile-multi3/work-application')">  <span class="text-button">สมัครงาน</span>  </button>
+
+	        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 visible-md visible-lg">
+	        	<button class="button-news   pull-right" ng-click="viewNews('work-application')" ng-class="{'yellow':NewsType == 'work-application'}" style="width: 10em;">  <span class="text-button">{{DEFAULT_LANGUAGE=='TH'? 'สมัครงาน':'Applying for a job'}}</span>  </button>
+	        	<button class="button-news   pull-right" ng-click="viewNews('purchase')" ng-class="{'yellow':NewsType == 'purchase'}" style=" width: 9em;">  <span class="text-button">{{DEFAULT_LANGUAGE=='TH'? 'จัดซื้อ / จัดจ้าง':'Purchase'}}</span>  </button>
+	        	<button class="button-news pull-right" ng-click="viewNews('news')" ng-class="{'yellow':NewsType == 'news'}" style=" width: 9em;">  <span class="text-button">{{DEFAULT_LANGUAGE=='TH'? 'ข่าวประชาสัมพันธ์':'News'}}</span> </button>
+	        </div>
+
+	        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 visible-sm visible-xs" style="font-size: 0.7em;">
+	        	<button class="button-news " ng-click="viewNews('news')" ng-class="{'yellow':NewsType == 'news'}">  <span class="text-button">ข่าวประชาสัมพันธ์ </span> </button>
+	        	<button class="button-news " ng-click="viewNews('purchase')" ng-class="{'yellow':NewsType == 'purchase'}">  <span class="text-button">จัดซื้อ / จัดจ้าง</span>  </button>
+	        	<button class="button-news " ng-click="viewNews('work-application')" ng-class="{'yellow':NewsType == 'work-application'}">  <span class="text-button">สมัครงาน</span>  </button>
 	        </div>
 	    </div>
-	    <div class="row form-group">
-			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="data in NewsList1  | limitTo:6" style="height: 450px; word-break:break-all; padding-top: 10px">
+	    <div class="row form-group" ng-show="NewsType == 'news'">
+	    	<div class="col-lg-12">
 				<div class="row form-group">
-					<div class="col-lg-12 col-sm-12  text-center">
-						<img ng-src="{{ '../' + data.image_cover_path }}" alt="" style="max-width: 100%; height: 300px;">
+					<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12  " ng-repeat="data in NewsList1  | limitTo:6" style="height: 440px; word-break:break-all; padding-top: 10px">
+						<div class="row form-group">
+							<div class="col-lg-12 col-sm-12  text-center">
+								<img ng-src="{{ '../' + data.image_cover_path }}" alt="" style="width: 100%; height: 250px;" class="news-main">
+							</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-lg-12 col-sm-12">
+								<a href="#/news/detail/{{data.id}}" style="cursor: pointer; font-size: 1.1em;" bind-html-compile="data.title_th | htmlToPlaintext"></a>
+								
+							</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-lg-8 col-md-8 col-sm-8 col-sm-8">
+									
+								<span class="" style="color: #A5C7CE;">
+									<span class="glyphicon glyphicon-eye-open"></span>
+									{{data.visit_count==null?0:data.visit_count}} 
+								</span>	&nbsp;&nbsp;
+								<span class="" style="color: #999;">
+									<span class="glyphicon glyphicon-calendar"></span>
+									{{getThaiDate(data.news_date)}}
+								</span>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-4 col-sm-4">
+								<span class="pull-right">
+									<iframe id="if{{$index}}" src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&layout=button&size=small&mobile_iframe=true&appId=190072441615269&width=59&height=20" width="59" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media">
+									</iframe>
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="row form-group">
-					<div class="col-lg-10 col-lg-offset-1 col-sm-12">
-						<a href="#/news/detail/{{data.id}}" style="cursor: pointer; color: #999;" bind-html-compile="data.title_th | htmlToPlaintext"></a>
-						
-					</div>
-				</div>
-				<div class="row form-group">
-					<div class="col-lg-10 col-lg-offset-1  col-sm-12">
-						<span class="pull-right">
-							<iframe id="if{{$index}}" src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&layout=button&size=small&mobile_iframe=true&appId=190072441615269&width=59&height=20" width="59" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media">
-							</iframe>
-						</span>
+				<div class="row form-group" style="margin-top: 70px;">
+					<div class="col-lg-12">
+						<a href="#/update/news" class=" pull-right" style="font-size: 1.3em;"><span class="glyphicon glyphicon-zoom-in"></span> ดูทั้งหมด</a>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row form-group">
-			<div class="col-lg-12" style="background-color: #1D2355; padding: 30px;">
+		<div class="row form-group" ng-show="NewsType == 'purchase'">
+			<div class="col-lg-12">
+				<div class="row form-group">
+					<div class="col-lg-12 col-md-612col-sm-12 col-xs-12" ng-repeat="data in NewsList1  | limitTo:12" style=" word-break:break-all; padding-top: 10px;">
+						<span class="glyphicon glyphicon-forward" style="color: green;"></span> <a ng-click="viewPurchaseDetail(data)"><b>{{ DEFAULT_LANGUAGE == 'TH'?data.org_th:data.org_en}}</b></a>
+						<br><br>
+						<span class="glyphicon glyphicon-calendar" style="color: #ccc;"></span> <span style="color: #999;">{{getThaiDate(data.release_date)}}</span>
+						<hr>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-lg-12">
+						<a href="#/purchase/purchase-plan" class=" pull-right" style="font-size: 1.3em;"><span class="glyphicon glyphicon-zoom-in"></span> ดูทั้งหมด</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row form-group" ng-show="NewsType == 'work-application'">
+			<div class="col-lg-12">
+				<div class="row form-group">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="data in NewsList1  | limitTo:12" style="word-break:break-all; padding-top: 10px; font-size: 1.1em;">
+						
+						<span class="glyphicon glyphicon-forward" style="color: green;"></span> <a ng-click="viewPurchaseDetail(data)"><b>{{ DEFAULT_LANGUAGE == 'TH'?data.AttachFiles[0].display_name:data.AttachFiles[1].display_name}}</b></a>
+						<br><br>
+						<span class="glyphicon glyphicon-calendar" style="color: #ccc;"></span> <span style="color: #999;">{{getThaiDate(data.create_date)}}</span>&nbsp;&nbsp;&nbsp;
+						<span class="glyphicon glyphicon-file" style="color: #ccc;"></span> 
+							<a href="../{{data.AttachFiles[0].file_path}}"  download="{{data.AttachFiles[0].file_name}}" ng-show="DEFAULT_LANGUAGE == 'TH'">ดาวน์โหลดเอกสาร</a>
+							<a href="../{{data.AttachFiles[1].file_path}}"  download="{{data.AttachFiles[1].file_name}}" ng-show="DEFAULT_LANGUAGE == 'EN'">ดาวน์โหลดเอกสาร</a>
+						<hr>
+					</div>
+				</div>
+
+				<div class="row form-group">
+					<div class="col-lg-12">
+						<a href="#/attachfile-multi3/work-application" class=" pull-right" style="font-size: 1.3em;"><span class="glyphicon glyphicon-zoom-in"></span> ดูทั้งหมด</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" style="background-color: #125669; padding: 10px;">
+			<div class="col-lg-12" style="padding: 30px;">
 				<div class="row form-group">
 			        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
 			           
@@ -95,156 +174,833 @@
 			    <div class="row form-group">
 			    	<div class="col-lg-1">
 			    		&nbsp;
-			    		<a ng-click="slideImage(prev_index)" ng-show="prev_index >= 0">
+			    		<a class="prev" ng-click="slideImage(prev_index)" ng-show="prev_index >= 0">
 			    			
-				    		<span style="font-size: 3em; color: #FFF; font-weight: bold;"><</span>
+				    		<span style="font-size: 3em; font-weight: bold;">&#10094;</span>
 				    	</a>
 			    	</div>
 					<div class="col-lg-2 col-md-6 col-sm-6 col-xs-12" ng-repeat="data in ShowHighlightList">
-						<a href="{{'#/' + data.menu_url}}"><img src="../{{data.menu_image}}" style="width: 100%;" alt="{{data.menu_name_th}}"></a>
+						
+						<a class="a-highlight" href="{{'#/' + data.menu_url}}" >
+							<div style="width: 100%;height: 100%;">
+								<img src="../{{data.menu_image}}" style="width: 100%; display: flex;" alt="{{data.menu_name_th}}">
+								<div class="highlight-show">
+									<a href="{{'#/' + data.menu_url}}">
+									<img src="../files/img/bowl.png" style="height: 1em;"><br>{{DEFAULT_LANGUAGE == 'TH'?data.menu_name_th:data.menu_name_en}}
+									</a>
+								</div>
+							</div>
+
+						</a>
+						
 					</div>
 					<div class="col-lg-1 text-right">
 						&nbsp;
-						<a ng-click="slideImage(next_index)" ng-show="next_index < HighlightList.length && ShowHighlightList.length == 5">
-				    		<span style="font-size: 3em; color: #FFF; font-weight: bold;">></span>
+						<a class="next" ng-click="slideImage(next_index)" ng-show="next_index < HighlightList.length && ShowHighlightList.length == 5">
+				    		<span style="font-size: 3em;  font-weight: bold;">&#10095;</span>
 				    	</a>
 			    	</div>
 				</div>
 			</div>
 		</div>
-		<div class="row form-group"" style="background-color: #ccc; padding: 10px;">
+		<div class="row" style="background: url('../files/img/BG-Banner.jpg'); padding: 10px;">
+			<!--<div class="col-lg-12" style="padding: 30px;">
+				<div class="row form-group">
+			        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+			           
+			        </div>
+			        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="vertical-align: text-bottom;padding-top: 2em;">
+			          <div style="float: left;">
+			            <span style="font-size: 2em; color: #FFF; font-weight: bolder;">B A N N E R</span>
+
+			          </div>
+			          <div style="height: 1px; background-color: #FFF; width: 100%; margin-top:3em;"></div>
+			        </div>
+			    </div>
+			</div>-->
 			<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
 				<div class="row form-group">
-					<div class="col-lg-1">
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="width: 2.5%;">
 						&nbsp;
-			    		<a ng-click="slideLinkImage(link_prev_index)" ng-show="link_prev_index >= 0">
+			    		<a class="prev" ng-click="slideLinkImage(link_prev_index)" ng-show="link_prev_index >= 0"  style="margin-top: 50%;">
 			    			
-				    		<span style="font-size: 3em; color: #FFF; font-weight: bold;"><</span>
+				    		<span style="font-size: 3em; color:#FFF; font-weight: bold;">&#10094;</span>
 				    	</a>
 			    	</div>
-			    	<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-						<div class="col-lg-4 col-md-3 col-sm-3 col-xs-6" ng-repeat="link in ShowLinkUrl | limitTo:6">
+			    	<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"  style="width: 95%;">
+			    		
+						<div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 " ng-repeat="link in ShowLinkUrl | limitTo:8" ng-class="{'col-lg-offset-1': $index%5 == 0, 'col-md-offset-1': $index%5 == 0}" style="height: 120px;">
 							<br>
 							<a target="_blank" href="{{link.link_url}}">
-								<img src="{{ '../' + link.image_path }}" style="height:100px;">
+								<img src="{{ '../' + link.image_path }}" style="height: 100px; width: 100%;" class="news-main" >
 							</a>			
 							<br>
 						</div>
 					</div>
-					<div class="col-lg-1 text-right">
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right" style="display: flex;
+				  display: -webkit-flex;
+				  flex-wrap: wrap; width: 2.5%;">
 						&nbsp;
-						<a ng-click="slideLinkImage(link_next_index)" ng-show="link_next_index < LinkUrl.length && ShowLinkUrl.length == 6">
-				    		<span style="font-size: 3em; color: #FFF; font-weight: bold;">></span>
+						<a class="next" ng-click="slideLinkImage(link_next_index)" ng-show="link_next_index < LinkUrl.length && ShowLinkUrl.length == 8" style="margin-top: 50%;">
+				    		<span style="font-size: 3em;  color:#FFF; font-weight: bold;">&#10095;</span>
 				    	</a>
 			    	</div>
 				</div>
 			</div>
 		</div>
-		<div class="row">
+
+		<div class="row" style="background-color: #6fcec6;">
+		    <div class="col-lg-5 col-lg-offset-1 col-md-5 col-md-offset-1" style="color: #FFF; padding-top:10px; padding-bottom: 10px;">
+		      	<span style="font-size: 1.8em; color: #0a5b54;">{{DEFAULT_LANGUAGE == 'TH'?'ลงทะเบียน':'Register'}}</span> <span style="font-size: 1.4em;color: #28948D">
+		        <br>{{DEFAULT_LANGUAGE == 'TH'?'เว็บไซต์สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ':'National Bureau of Agricultural Commodity and Food Standards'}}</span>&nbsp;&nbsp;&nbsp;
+		    </div>
+		    <div class="col-lg-5 col-md-5">
+		      <input type="email" class="input-subscribe" ng-model="$parent.mail_subscribe" placeholder="e-mail address" style="color: #000; margin-top: 1.6em;">
+		      <button class="button-subscribe" ng-click="subscribeMail(mail_subscribe)">  <span class="text-button">SUBSCRIBE </span> </button>
+		    </div>
+		  </div>
+
+		<div class="row" style="padding-top: 15px;">
 			<div class="col-lg-12 text-center">
-				<a ng-show="ShowLinkFooter" ng-click="visibleLinkFooter()"><img src="../files/img/up-arrow.png" class="show-link-footer"></a>
-				<a ng-show="!ShowLinkFooter" ng-click="visibleLinkFooter()"><img src="../files/img/down-arrow.png" class="show-link-footer"></a>
-				<hr>
+				<a ng-show="ShowLinkFooter" ng-click="visibleLinkFooter()"><img src="../files/img/botton.png" class="news-main" height="60"></a>
+				<br><br>
 			</div>
 		</div>
-		<div class="row form-group" ng-show="ShowLinkFooter">
+		<div class="row" ng-show="ShowLinkFooter">
 		  <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
 		    <div class="row">
-		    	<div class="col-lg-1">
-		    		&nbsp;
-		    	</div>
-		    	<div class="col-lg-2" ng-repeat="data in FooterLinkList">
+		    	
+		    	<div class="col-lg-3" ng-repeat="data in FooterLinkList" style="padding-bottom: 10px;">
 		    		<span>
-		    			{{data.link_type}}
-		    		</span>
-		    		<br>
-		    		<span ng-repeat="sub_data in data.Links">
-		    			<a href="{{sub_data.link_url}}" target="_blank">{{sub_data.link_name}}</a>
-		    			<br>
+		    			<img src="../files/img/footer-link-icon.png" style="height: 2em;"> <a href="{{data.link_url}}" target="_blank">{{data.link_name}}</a>
 		    		</span>
 		    	</div>	
-      <!--
-      <div class="col-lg-2 col-lg-offset-1">
-            พ.ร.บ.มาตรฐานสินค้าเกษตร
-            <br>พ.ร.บ.มาตรฐานสินค้าเกษตร
-            <br>ประกาศกระทรวงเกษตรฯ
-            <br>ระบบฐานข้อมูลพนักงานเจ้าหน้าที่
-            <br>มาตรฐานสินค้าเกษตร
-            <br>การกำหนดมาตรฐานสินค้าเกษตร
-            <br>มาตรฐานสินค้าเกษตร
-            <br>มาตรฐาน HALAL
-            <br>CODEX Thailand
-            <br>สุขอนามัยและสุขอนามัยพืช SPS, TBT/WTO
-            <br>กฎระเบียบเพื่อการส่งออก
-            <br>AEC
-            <br>AEC
-      </div>
-      <div class="col-lg-2">
-          การรับรอง
-          <br>การตรวจสอบและรับรอง
-          <br>ฐานข้อมูลลูกค้าหน่วยรับรอง
-          <br>การถ่ายโอนภารกิจด้านการตรวจสอบรับรอง
-          <br>ค้นหามาตรฐานสินค้าเกษตร 
-          <br>บริการค้นหา
-          <br>ค้นหาค่าสารพิษตกค้างในอาหาร
-          <br>ค้นหาคำศัพท์ด้านสุขอนามัยพืช
-          <br>ค้นหาข้อมูลเกี่ยวกับผลไม้ไทย
-      </div>
-      <div class="col-lg-2">
-          ความปลอดภัยอาหาร
-          <br>ยุทธศาสตร์ความปลอดภัยอาหาร
-          <br>รายงานการประชุมคณะกรรมการด้านความปลอดภัยอาหาร
-          <br>องค์การด้านความปลอดภัยอาหาร
-          <br>ผลการประชุมนานาชาติ
-          <br>ASEAN FOOD SAFTY NETWORK
-          <br>Q Mark
-          <br>เกี่ยวกับ Q Mark
-          <br>Q Restaurant
-          <br>Q Modern Trade
-          <br>ตลาดสีเขียว
-      </div>
-      <div class="col-lg-2">
-          ข่าวและกิจกรรม
-          <br>ข่าวประชาสัมพันธ์
-          <br>ภาพข่าวกิจกรรม
-          <br>บทความ
-          <br>ข่าวตัดประจำวัน (Clipping News)
-          <br>ข่าวแจกสื่อมวลชน
-          <br>ข่าวจัดซื้อ - จัดจ้าง
-          <br>ข่าวสมัครงาน
-          <br>ข่าวการประชุมสัมมนา
-          <br>สถานการณ์ด้านสุขอนามัยและสุขอนามัยพืช
-          <br>ข่าวเกษตรรายวัน
-          <br>ประกาศ มกอช.
-          <br>เตือนภัยสินค้าเกษตร
-          <br>FAQ
-      </div>
-      <div class="col-lg-2">
-          การส่งเสริมและประชาสัมพันธ์
-          <br>ส่งเสริมระบบรับรอง
-          <br>Q อาสา
-          <br>สื่อประชาสัมพันธ์
-          <br>เอกสารเพื่อการเผยแพร่
-          <br>จดหมายข่าว มกอช.
-          <br>Staff Zone
-          <br>ACFS Intranet
-          <br>ACFS Web Mail
-          <br>กลุ่มงานคุ้มครองจริยธรรม
-          <br>สารสนเทศด้านอาหารสุขภาพ สำหรับหญิงชาย
-          <br>เว็บบอร์ด
-          <br>ศูนย์ข้อมูลข่าวสาร มกอช.
-      </div>
-  		-->
-    </div>
-  </div>
-</div>
-	    <div ng-include src="'views/footer.html'"></div>
-	</div>
-</div>
+      
+		    </div>
+		  </div>
+		</div>
+		<div class="row" style="height: 0px;">
+			<div class="col-lg-12 text-center" style=" bottom: -30px; z-index: 999;">
+				
+				<a ng-show="!ShowLinkFooter" ng-click="visibleLinkFooter()"><img src="../files/img/botton.png" class="news-main" height="60"></a>
+			</div>
+		</div>
+<div ng-include src="'views/footer.html'"></div>
 <style type="text/css">
 	.show-link-footer:hover {
 		 margin-top:-5px;
 		 transition: .5s ease;
 		 opacity: 1;
 	}
+	.white-text{
+		color: #FFF;
+	}
+
+	.button-news{
+		font-size: 1.2em;	
+	}
+	.button-news:hover{
+	 	margin-top:-5px;
+		 transition: .5s ease;
+		 opacity: 0.5;
+		 cursor: pointer;
+		 
+	}
+
+	.news-main:hover{
+	 	margin-top:-5px;
+		 transition: .5s ease;
+		 opacity: 0.5;
+		 cursor: pointer;
+	}
+	.highlight-show{
+		display: flex;
+		background-color: #FFF;
+		width: 90%;
+		height: 100%;
+		top:0px;
+		 opacity: 0.87;
+		 cursor: pointer;
+		 position: absolute;
+		 text-align: center;
+		 font-weight: bolder;
+		 font-size: 1.5em;
+		 color: #999;
+
+		 /*display: flex;*/
+		flex-direction: column;
+		justify-content: center;
+
+		resize: vertical;
+		overflow: auto;
+		z-index: -1;
+		cursor: pointer;
+	  	font-family: 'MAX PINJOHN V2';
+	  	padding-left: 15px;
+	  	padding-right: 15px;
+	  	opacity: 0;
+	  	z-index: 1;
+		/*margin-right: -30px;*/
+	}
+	/*a.a-highlight:hover + */
+	div.highlight-show:hover {/*+ div.highlight-show*/
+
+		/*margin-top:-5px;
+		 transition: .5s ease;
+		 opacity: 0.5;
+		 cursor: pointer;*/
+
+		/*top:0px;*/
+	    /*display: flex;*/
+	    /*visibility: visible;*/
+	    /*visibility: visible;*/
+	    transition: .5s ease;
+	 	opacity: 0.87;
+	 	
+	  	
+	}
 </style>
+<script type="text/ng-template" id="purchase-detail.html">
+
+	<div class="modal-header  text-center">
+		<img src="../files/img/logo_acfs.png" style="height: 80px; width: auto;">
+		<br><br>
+		<h4 class="modal-title">{{MenuName.menu_name_th}}</h4>
+	</div>
+	<div class="modal-body" ng-show="page_type == 'purchase-plan'">
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อหน่วยงาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.org_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อโครงการที่จะจัดซื้อจัดจ้าง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วงเงินที่จะจัดซื้อจัดจ้าง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.budget_limit }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ระยะเวลาที่คาดจัดซื้อจัดจ้าง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.estimate_date) }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่เผยแพร่
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.release_date) }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFileList">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+	</div>
+
+	<div class="modal-body" ng-show="page_type == 'standard-price'">
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อหน่วยงาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.org_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				สำนัก / กอง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.office_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อโครงการ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วงเงินงบประมาณ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.budget_limit }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ราคากลาง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.main_price }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่กำหนดราคากลาง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.estimate_date) }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่เผยแพร่
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.release_date) }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFileList">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+	</div>
+
+	<div class="modal-body" ng-show="page_type == 'draft-document'">
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อหน่วยงาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.org_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				สำนัก / กอง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.office_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อโครงการ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่ประกาศ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.estimate_date) }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่เผยแพร่
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.release_date) }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFileList">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+	</div>
+
+	<div class="modal-body" ng-show="page_type == 'e-bidding' || page_type == 'invite'">
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อหน่วยงาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.org_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				สำนัก / กอง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.office_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				เลขที่โครงการ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_no }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อโครงการ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วงเงินงบประมาณ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.budget_limit }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ราคากลาง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.main_price }}
+			</label>
+		</div>					
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFileList">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่ประกาศ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.estimate_date) }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่สิ้นสุดของประกาศ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.release_date) }}
+			</label>
+		</div>
+	</div>
+
+	<div class="modal-body" ng-show="page_type == 'e-market'">
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อหน่วยงาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.org_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				สำนัก / กอง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.office_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				เลขที่โครงการ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_no }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				เลขที่ประกาศ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.item_no }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อโครงการ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วงเงินงบประมาณ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.budget_limit }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ราคากลาง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.main_price }}
+			</label>
+		</div>					
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFileList">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่ประกาศ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.estimate_date) }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่สิ้นสุดของประกาศ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.release_date) }}
+			</label>
+		</div>
+	</div>
+
+	<div class="modal-body" ng-show="page_type == 'selected-work' || page_type == 'specification-method' || page_type == 'selected-work-normal' || page_type == 'specification-method-normal'">
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อหน่วยงาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.org_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				สำนัก / กอง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.office_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				เลขที่โครงการ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_no }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อโครงการ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วงเงินงบประมาณ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.budget_limit }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ราคากลาง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.main_price }}
+			</label>
+		</div>					
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFileList">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+		
+	</div>
+
+	<div class="modal-body" ng-show="page_type == 'changing-work'">
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อหน่วยงาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.org_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				สำนัก / กอง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.office_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่องาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				รายละเอียดการเปลี่ยนแปลง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.change_desc_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่ประกาศ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.estimate_date) }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFileList">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+	</div>
+
+	<div class="modal-body" ng-show="page_type == 'auction'">
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อหน่วยงาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.org_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				สำนัก / กอง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.office_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				เรื่อง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				สถานที่ขายทอดตลาด
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.auction_place_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วันที่ประกาศ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ getThaiDate(Detail.estimate_date) }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFileList">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+	</div>
+
+	<div class="modal-body" ng-show="page_type == 'cancelled-work'">
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อหน่วยงาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.org_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				สำนัก / กอง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.office_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อโครงการ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFileList">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+	</div>
+
+	<div class="modal-body" ng-show="page_type == 'winning'">
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อหน่วยงาน
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.org_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				สำนัก / กอง
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.office_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ชื่อโครงการ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.project_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				วงเงินงบประมาณ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.budget_limit }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				จำนวนเงินรับราคา
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.main_price }}
+			</label>
+		</div>	
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				รายชื่อผู้ชนะการเสนอราคา
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.winning_name_th }}
+			</label>
+		</div>
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				เหตุผลที่ได้รับการคัดเลือก
+			</label>
+			<label class="col-lg-9 form-control-static">
+				{{ Detail.winning_reason_th }}
+			</label>
+		</div>				
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFileList">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+		
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="cancel()">ปิด</button>
+	</div>
+
+</script>

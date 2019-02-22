@@ -9,5 +9,6 @@ class FooterLink extends \Illuminate\Database\Eloquent\Model {
                 , 'link_type'
                 , 'link_name'
                 , 'link_url'
+                , 'order_no'
               );
 }

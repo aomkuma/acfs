@@ -65,6 +65,7 @@ angular.module('e-homework').controller('QuestionAnswerController', function($sc
         var params = {'Data' : Data};
         HTTPService.clientRequest('question-answer/answer/update', params).then(function(result){
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.loadList();
                 $scope.PAGE = 'MAIN';
             }

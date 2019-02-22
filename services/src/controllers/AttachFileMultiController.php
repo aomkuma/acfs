@@ -4,6 +4,7 @@
     
     use App\Service\AttachFileMultiService;
     use App\Service\AttachFileService;
+    use App\Service\MenuService;
     
     class AttachFileMultiController extends Controller {
         
@@ -94,6 +95,10 @@
                 $FileName = $params['obj']['FileName'];
                 $FileCode = $params['obj']['FileCode'];
                 $user_session = $params['user_session'];
+
+                // find menu id from page type
+                $Menu = MenuService::getMenuByType($Data['menu_type']);
+                $menu_id = $Menu['id'];
                 // print_r($FileName);
                 // exit;
                 $order_no = $Data['order_no'];
@@ -125,7 +130,7 @@
                                     $FilePath = $_WEB_FILE_PATH . '/attach-files/'.$FileName;
 
                                     $AttachFile = ['parent_id'=>$id
-                                                    ,'menu_id'=>$id
+                                                    ,'menu_id'=>$menu_id
                                                     ,'page_type'=>$page_type
                                                     ,'file_language'=>'TH'
                                                     ,'file_code'=>$file_code_th
@@ -215,6 +220,187 @@
                     }
                 }
 
+                $this->data_result['DATA']['id'] = $id;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+
+        }
+
+        public function updateDataMultiFiles($request, $response, $args){
+            $_WEB_FILE_PATH = 'files/files';
+            try{
+
+                $params = $request->getParsedBody();
+                $Data = $params['obj']['Data'];
+                $FileName = $params['obj']['FileName'];
+                $FileCode = $params['obj']['FileCode'];
+                $user_session = $params['user_session'];
+                // $files = $request->getUploadedFiles();
+                // print_r($files);
+                // exit;
+                // find menu id from page type
+                $Menu = MenuService::getMenuByType($Data['menu_type']);
+                $menu_id = $Menu['id'];
+                // echo "file ". $FileName[1]['name_th'];
+                // print_r($FileName);
+                // exit;
+                // $order_no = $Data['order_no'];
+                // $Data['order_no'] = $order_no;
+                $AttachFileList = $Data['AttachFiles'];
+                unset($Data['AttachFiles']);
+                $id = AttachFileMultiService::updateData($Data);
+                $page_type = $Data['menu_type'];
+                // Upload meeting files if exists
+                $order_no = 1;
+                $files = $request->getUploadedFiles();
+                if($files != null){
+                    foreach($files as $key => $val){
+                        $cnt = 0;
+                        foreach($val['AttachFileList'] as $k => $v){
+                            // print_r($v);
+                            // echo "order : $cnt". $FileName[1]['name_th'];
+                            $file_name_th = $FileName[$cnt]['name_th'];
+                            $file_name_en = $FileName[$cnt]['name_en'];
+
+                            $file_code_th = $FileCode[$cnt]['code_th'];
+                            $file_code_en = $FileCode[$cnt]['code_en'];                            
+                            // print_r($v);
+                            // exit;
+                            $f = $v['attachFileTH'];
+                            // print_r($f);
+                            if($f != null){
+                                if($f->getClientFilename() != ''){
+
+                                    $ext = pathinfo($f->getClientFilename(), PATHINFO_EXTENSION);
+                                    $_FileName = $id . '_' . date('YmdHis').'_'.rand(100000,999999). '.'.$ext;
+                                    $FilePath = $_WEB_FILE_PATH . '/attach-files/'.$_FileName;
+
+                                    $AttachFile = ['parent_id'=>$id
+                                                    ,'menu_id'=>$menu_id
+                                                    ,'page_type'=>$page_type
+                                                    ,'file_language'=>'TH'
+                                                    ,'file_code'=>$file_code_th
+                                                    //,'file_name'=>(empty($file_name_th)?$f->getClientFilename():$file_name_th)
+                                                    ,'file_name'=>$f->getClientFilename()
+                                                    ,'display_name'=>(empty($file_name_th)?$f->getClientFilename():$file_name_th)
+                                                    ,'file_path'=>$FilePath
+                                                    ,'content_type'=>$f->getClientMediaType()
+                                                    ,'order_no' => $order_no
+                                                    ,'file_size'=>number_format($f->getSize()/1024, 2)
+
+                                                ];
+                                    // print_r($AttachFile);exit;
+                                    AttachFileService::updateAttachFiles($AttachFile);
+                                    $f->moveTo('../../' . $FilePath);
+                                    
+                                }
+                            }
+                            $order_no++;
+                            $f = $v['attachFileEN'];
+                            // print_r($f);
+                            if($f != null){
+                                if($f->getClientFilename() != ''){
+
+                                    $ext = pathinfo($f->getClientFilename(), PATHINFO_EXTENSION);
+                                    $_FileName = $id . '_' . date('YmdHis').'_'.rand(100000,999999). '.'.$ext;
+                                    $FilePath = $_WEB_FILE_PATH . '/attach-files/'.$_FileName;
+
+                                    $AttachFile = ['parent_id'=>$id
+                                                    ,'menu_id'=>$id
+                                                    ,'page_type'=>$page_type
+                                                    ,'file_language'=>'EN'
+                                                    ,'file_code'=>$file_code_en
+                                                    ,'file_name'=>$f->getClientFilename()
+                                                    ,'display_name'=>(empty($file_name_en)?$f->getClientFilename():$file_name_en)
+                                                    ,'file_path'=>$FilePath
+                                                    ,'content_type'=>$f->getClientMediaType()
+                                                    ,'order_no' => $order_no
+                                                    ,'file_size'=>number_format($f->getSize()/1024, 2)
+
+                                                ];
+                                    // print_r($AttachFile);exit;
+                                    AttachFileService::updateAttachFiles($AttachFile);
+                                    $f->moveTo('../../' . $FilePath);
+                                    
+                                }
+                            }
+                            $order_no++;
+                            $cnt++;
+                        }
+                    }
+                }else{
+                   
+                    // unset($Data['AttachFiles']);
+                    // $id = AttachFileMultiService::updateData($Data);
+
+                    $cnt = 0;
+                    $index = 0;
+                    foreach($AttachFileList as $k => $v){
+                         print_r($v);
+                        if($v['file_language'] == 'TH'){
+                            $file_name_th = $FileName[$cnt]['name_th'];
+                            $file_code_th = $FileCode[$cnt]['code_th'];
+
+                            if(!empty($file_name_th)){
+                                $v['display_name'] = $file_name_th;
+                            }
+                            if(!empty($file_code_th)){
+                                $v['file_code'] = $file_code_th;
+                            }
+                            $index++;
+                        }
+                        if($v['file_language'] == 'EN'){
+                            $file_name_en = $FileName[$cnt]['name_en'];
+                            $file_code_en = $FileCode[$cnt]['code_en'];
+                            if(!empty($file_name_en)){
+                                
+                                $v['display_name'] = $file_name_en;
+                            }
+                            if(!empty($file_code_en)){
+                                
+                                $v['file_code'] = $file_code_en;
+                            }
+                            $index++;
+                        }
+
+                        if($index > 0 && $index%2==0){
+                            $cnt++;
+                        }
+                        // if($cnt == 0){
+                        // $file_name_th = $FileName[$cnt]['name_th'];
+                        // $file_code_th = $FileCode[$cnt]['code_th'];
+                        // if($cnt%2==0){
+                        //     if(!empty($file_name_th)){
+                        //         $v['display_name'] = $file_name_th;
+                        //     }
+                        //     if(!empty($file_code_th)){
+                        //         $v['file_code'] = $file_code_th;
+                        //     }
+                        //     $cnt++;
+                        // }else{
+                        //     $file_name_en = $FileName[$cnt - 1]['name_en'];
+                        //     $file_code_en = $FileCode[$cnt - 1]['code_en'];
+
+                        //     if(!empty($file_name_en)){
+                                
+                        //         $v['display_name'] = $file_name_en;
+                        //     }
+                        //     if(!empty($file_code_en)){
+                                
+                        //         $v['file_code'] = $file_code_en;
+                        //     }
+                            
+                        // }
+                          
+                        AttachFileService::updateAttachFiles($v);
+                        
+                    }
+                }
+                // exit;
                 $this->data_result['DATA']['id'] = $id;
 
                 return $this->returnResponse(200, $this->data_result, $response, false);

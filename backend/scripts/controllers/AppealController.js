@@ -15,7 +15,7 @@ angular.module('e-homework').controller('AppealController', function($scope, $co
     $scope.DEFAULT_LANGUAGE = 'TH';
     $scope.$parent.menu_selected = 'authority';
 
-    $scope.page_type = 'appeal';
+    $scope.page_type = $routeParams.page_type;
 
      $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){
@@ -76,8 +76,9 @@ angular.module('e-homework').controller('AppealController', function($scope, $co
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.MenuName = result.data.DATA.Menu;
+            console.log($scope.MenuName);
             $scope.loadList('appeal/list', $scope.condition);
-            $scope.loadPage('appeal/page', $scope.MenuName.id);
+            $scope.loadPage('appeal/page', $scope.MenuName[$scope.MenuName.length - 1].id);
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -129,8 +130,8 @@ angular.module('e-homework').controller('AppealController', function($scope, $co
         HTTPService.uploadRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
-                
-                window.location.href = '#/appeal';
+                alert('บันทึกสำเร็จ');
+                window.location.href = '#/appeal/' + $scope.page_type;
                 
                 IndexOverlayFactory.overlayHide();
             }else{
@@ -188,7 +189,7 @@ angular.module('e-homework').controller('AppealController', function($scope, $co
     $scope.FileList = [];
     $scope.YearList = getYearList(20);
     $scope.MonthList = getMonthList();
-    $scope.condition = {'months':null, 'years':null};
+    $scope.condition = {'months':null, 'years':null, 'page_type':$scope.page_type};
 
     $scope.getMenu('menu/get/type' ,$scope.page_type);
     

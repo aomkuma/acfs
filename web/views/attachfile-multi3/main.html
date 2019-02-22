@@ -37,12 +37,25 @@
 		</div>
 	</div>
 	-->
+	<div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1 text-center" >
+			<span class="title-content">
+				<h2>{{(DEFAULT_LANGUAGE == 'TH'?MenuName[MenuName.length - 1].menu_name_th:MenuName[MenuName.length - 1].menu_name_en)}}</h2>
+			</span>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1 text-center" >
+			<img src="../files/img/header_line.png" style="width: 70%;">
+		</div>
+	</div>
 	<div class="row form-group" >
 		<div class="col-lg-10 col-lg-offset-1">
 			<div class="table-responsive">
-				<table class="table table-bordered table-striped"  ng-show="page_type != 'skr' && page_type != 'paper'  && page_type != 'rule-food' && page_type != 'manual-inspection' && page_type != 'patrol' && page_type != 'standard-logo'">
+				<table class="table table-bordered table-striped"  ng-show="page_type != 'skr' && page_type != 'paper'  && page_type != 'rule-food' && page_type != 'manual-inspection' && page_type != 'patrol' && page_type != 'standard-logo' && page_type != 'clipping-news' && page_type != 'work-application'">
 					<thead>
 						<tr>
+							<th>#</th>
 							<th>ชื่อเอกสาร</th>
 							<th ng-show="page_type == 'condition'">รหัสเอกสาร</th>
 							<th>ดาวน์โหลด</th>
@@ -51,9 +64,10 @@
 					</thead>
 					<tbody>
 						<tr ng-repeat="data in DataList">
-							<td>{{$index + 1}} {{data.AttachFiles[0].display_name}}</td>
+							<td>{{$index + 1 }}</td>
+							<td>{{data.AttachFiles[0].display_name}}</td>
 							<td ng-show="page_type == 'condition'">{{data.AttachFiles[0].file_code}}</td>
-							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><span class="glyphicon glyphicon-download"></span></a></td>
+							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
 							<td ng-show="page_type == 'condition'"></td>
 						</tr>
 					</tbody>
@@ -75,14 +89,46 @@
 					</caption>
 					<thead>
 						<tr>
+							<th>#</th>
 							<th>ประจำปี</th>
 							<th>ดาวน์โหลด</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="data in DataList">
-							<td>{{data.AttachFiles[0].file_code}}</td>
-							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><span class="glyphicon glyphicon-download"></span></a></td>
+							<td>{{$index + 1}}</td>
+							<td>{{data.AttachFiles[0].file_code==''?data.AttachFiles[0].display_name:data.AttachFiles[0].file_code}}</td>
+							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><img src="../files/img/attach-file.png" style="height: 2em;"></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<table class="table table-bordered table-striped" ng-show="page_type == 'clipping-news' || page_type == 'work-application'">
+					<caption>
+						<div class="row form-group">
+							<label class="form-control-static col-lg-1">
+								ค้นหา
+							</label> 
+							<div class="col-lg-3">
+								<input class="form-control" ng-model="condition.keyword">
+							</div>
+							<div class="col-lg-2">
+								<button class="btn btn-primary" ng-click="search(condition)"> <span class="glyphicon glyphicon-search"></span> ค้นหา</button>
+							</div>
+						</div>
+					</caption>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>ชื่อเอกสาร</th>
+							<th>ดาวน์โหลด</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="data in DataList">
+							<td>{{$index + 1}}</td>
+							<td>{{data.AttachFiles[0].file_code==''?data.AttachFiles[0].display_name:data.AttachFiles[0].file_code}}</td>
+							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><img src="../files/img/attach-file.png" style="height: 2em;"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -102,7 +148,7 @@
 							<td>{{data.AttachFiles[0].display_name}}</td>
 							<td>{{getThaiDate(data.file_date)}}</td>
 							<td>{{(data.AttachFiles[0].file_size  /1024).toFixed(2)}} MB</td>
-							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><span class="glyphicon glyphicon-download"></span></a></td>
+							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -123,14 +169,16 @@
 					</caption>
 					<thead>
 						<tr>
+							<th>#</th>
 							<th>รายชื่อ</th>
 							<th>ดาวน์โหลด</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="data in DataList">
+							<td><img src="../files/img/{{findExtension(data.AttachFiles[0].file_name)}}.png" style="height: 2.5em;"></td>
 							<td>{{data.AttachFiles[0].display_name}}</td>
-							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><span class="glyphicon glyphicon-download"></span></a></td>
+							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -170,7 +218,7 @@
 								<tbody>
 									<tr ng-repeat="data in DataList">
 										<td>{{data.AttachFiles[0].display_name}}</td>
-										<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><span class="glyphicon glyphicon-download"></span></a></td>
+										<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
 									</tr>
 								</tbody>
 							</table>

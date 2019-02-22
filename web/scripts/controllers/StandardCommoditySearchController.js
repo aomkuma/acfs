@@ -33,11 +33,14 @@ angular.module('e-homework').controller('StandardCommoditySearchController', fun
     }
 
 
-	$scope.loadCommodityStandard = function(action, keyword){
+	$scope.loadCommodityStandard = function(action, keyword, standardType, standardDefineType){
         var params = {
                         'currentPage': $scope.currentPage
                         , 'limitRowPerPage': $scope.limitRowPerPage
                         , 'keyword' : keyword
+                        , 'standardType' : standardType
+                        , 'keyword' : keyword
+                        , 'standardDefineType' : standardDefineType
                     };
         IndexOverlayFactory.overlayShow();
         HTTPService.clientRequest(action, params).then(function(result){
@@ -53,8 +56,8 @@ angular.module('e-homework').controller('StandardCommoditySearchController', fun
         });
     }
 
-    $scope.search = function(keyword){
-    	$scope.loadCommodityStandard('commodity-standard/search', keyword);
+    $scope.search = function(keyword, standardType, standardDefineType){
+    	$scope.loadCommodityStandard('commodity-standard/search', keyword, standardType, standardDefineType);
     }
 
     $scope.makeDateString = function(d){
@@ -66,9 +69,11 @@ angular.module('e-homework').controller('StandardCommoditySearchController', fun
 
     $scope.goToPage = function(page){
         $scope.currentPage = page;
-        $scope.loadCommodityStandard('commodity-standard/search', $scope.keyword);
+        $scope.loadCommodityStandard('commodity-standard/search', $scope.keyword, $scope.standardType, $scope.standardDefineType);
     }
 
+    $scope.standardType = null;
+    $scope.standardDefineType = null;
     $scope.totalPages = 0;
     $scope.currentPage = 0;
     $scope.limitRowPerPage = 10;

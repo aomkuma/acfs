@@ -1,7 +1,7 @@
 <div ng-include src="'views/header.html'"></div>
 <div class="row form-group">
 	<div class="col-lg-10 col-lg-offset-1">
-		<div class="panel panel-primary">
+		<div class="panel panel-primary" ng-show="currentUser.userType == 'admin'">
 			<div class="panel-heading">
 				<h4>มาตรฐานสินค้าเกษตร</h4>
 			</div>
@@ -150,8 +150,8 @@
 				          <!--<span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>-->
 				          <!--<span class="currentDate" *ngIf="checkEventDate(day); else otherDate">{{day}}</span>-->
 				          <span ng-class="{'currentDate':day == currentDate}">{{day}}</span>
-				          <div ng-repeat="meeting in findMeetingInDay(day)" style="font-size: 0.8em;">
-				          	<a ng-click="showMeetingDetail(meeting)">{{meeting.meetingName}}</a>
+				          <div ng-repeat="meeting in findMeetingInDay(day)" style="font-size: 0.8em; background-color: #619240; color: #FFF;">
+				          	<a ng-click="showMeetingDetail(meeting)" style="color: #FFF; cursor: pointer;">{{meeting.meetingName}}</a>
 				          </div>
 				        </div>
 				        <div style="float:left; width: 14.28%; border: 0.5px #ccc solid; padding: 7px; color: #ccc; height: 60px;" ng-repeat="nextDay in daysInNextMonth" class="next-month" style="border-bottom: 0.1em solid #ccc; padding-top: 15px; padding-bottom: 15px;">{{nextDay}}</div>

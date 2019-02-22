@@ -26,7 +26,7 @@
                             $query->where('echo_status', $echo_status);
                         }
 
-                        if($page_type != 'cancelled-work'){
+                        if(!empty($page_type) && $page_type != 'cancelled-work'){
                             $query->where('page_type', $page_type);
                         }
                     })

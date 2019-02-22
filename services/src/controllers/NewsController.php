@@ -20,10 +20,18 @@
                 $params = $request->getParsedBody();
                 $news_type  =$params['obj']['news_type'];
                 $actives  =$params['obj']['actives'];
+                $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
+                $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
+                $actives = '';
 
-                $_News = NewsService::getNewsList($news_type);
+                $_News = NewsService::getNewsList($news_type, $actives, $currentPage, $limitRowPerPage);
+                // print_r($_News);
+                $NewDataList = $_News['DataList'];
+                $TotalRows = $_News['Total'];
+                // print_r($NewDataList);
+                // print_r($TotalRows);exit;
                 $_NewsList = [];
-                foreach($_News as $k => $v){
+                foreach($NewDataList as $k => $v){
                     $_AttachFiles = AttachFileService::getAttachFiles($v['id'], 'news');
                     $v['AttachFiles'] = $_AttachFiles;
 
@@ -34,6 +42,8 @@
                 }
                 // print_r($_NewsList);exit;
                 $this->data_result['DATA']['News'] = $_NewsList;
+                $this->data_result['DATA']['Total'] = $TotalRows;
+
                 return $this->returnResponse(200, $this->data_result, $response, false);
                 
             }catch(\Exception $e){

@@ -38,12 +38,12 @@
 							มาตรฐานสินค้าเกษตร
 						</div>
 						<div class="col-lg-4">
-							<select name="Year" class="form-control" ng-model="condition1.Standard" ng-options="data.standardID as data.standardNameThai for data in StandardList" required="required">
+							<select name="Year" class="form-control" ng-model="condition1.Standard" ng-options="data.standardID as data.standardNameThai for data in StandardList">
 								<option value="">กรุณาเลือก..</option>
 							</select>
 						</div>
 						<div class="col-lg-2">
-							<button class="btn btn-primary" ng-disabled="!form1.$valid" ng-click="exportReport('academic-board', condition1)"><span class="glyphicon glyphicon-export"></span> ออกรายงาน</button>
+							<button class="btn btn-primary" ng-disabled="!form1.$valid" ng-click="exportReport('standard-commodity-status', condition1)"><span class="glyphicon glyphicon-export"></span> ออกรายงาน</button>
 						</div>
 					</div>
 				</fieldset>
@@ -82,7 +82,7 @@
 							ปีงบประมาณ
 						</div>
 						<div class="col-lg-2">
-							<select name="Year" class="form-control" ng-model="condition3.YearFrom" ng-options="year.yearText as year.yearValue for year in YearList" required="required">
+							<select name="Year" class="form-control" ng-model="condition3.YearFrom" ng-options="year.yearText as year.yearValue for year in YearList" required="required" ng-change="loadQuestionnaire('questionnaire/list/active')">
 								<option value="">กรุณาเลือก..</option>
 							</select>
 						</div>

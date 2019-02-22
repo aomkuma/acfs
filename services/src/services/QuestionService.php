@@ -3,6 +3,7 @@
     namespace App\Service;
     
     use App\Model\Questionnaire;
+    use App\Model\QuestionnaireResponse;
     use App\Model\Question;
     use App\Model\QuestionnairePerson;
     use App\Model\CommodityStandard;
@@ -12,8 +13,30 @@
     
     class QuestionService {
 
-        public static function getListActive(){
-            return Questionnaire::all();
+        public static function getListActive($year){
+            return Questionnaire::select("Questionnaires.*")
+                    ->join('Commodity_Standards', "Commodity_Standards.standardID", '=', 'Questionnaires.standardID')
+                    ->where(function($query) use ($year){
+                            if(!empty($year)){
+                                $query->where('Commodity_Standards.years', ($year + 543));
+                                
+                            }
+                        })
+
+                    ->get();
+        }
+
+        public static function getListPage($keyword){
+            return Questionnaire::select("Questionnaires.*", "Commodity_Standards.standardNameThai")
+                    ->join('Commodity_Standards', "Commodity_Standards.standardID", '=', 'Questionnaires.standardID')
+                    ->where(function($query) use ($keyword){
+                            if(!empty($keyword)){
+                                $query->where('questionName' , 'LIKE', DB::raw("'%".$keyword."%'"));
+                                $query->orWhere('standardNameThai' , 'LIKE', DB::raw("'%".$keyword."%'"));
+                            }
+                        })
+                    
+                    ->get();
         }
 
     	public static function getList($currentPage, $limitRowPerPage, $questionType = 'normal'){
@@ -41,6 +64,12 @@
                                 ->get();
         }
 
+        public static function getQuestionListByStandard($standardID){
+            return Questionnaire::where('standardID', $standardID)
+                                ->with('question')
+                                ->get();
+        }
+
         public static function getData($questionnaireID){
             return Questionnaire::select("Questionnaires.*", "Subcommittee.subcommitteeName", "Commodity_Standards.standardNameThai AS standardName")
                                 ->where('questionnaireID', $questionnaireID)
@@ -51,7 +80,14 @@
                                     $query->join('Stakeholders', 'Stakeholders.stakeholderID', '=', 'Questionnaire_Person.stakeholderID');
                                 }))
                                 ->with('question')
-                                ->first();
+                                ->first()->toArray();
+        }
+
+        public static function getDataByStandard($standardID){
+            return Questionnaire::select("Questionnaires.*")
+                                ->where('standardID', $standardID)
+                                ->with('question')
+                                ->get();
         }
 
         public static function updateData($obj){
@@ -67,6 +103,20 @@
                 Questionnaire::where('questionnaireID', $obj['questionnaireID'])->update($obj);
                 return $obj['questionnaireID'];
             }
+        }
+
+        public static function updateQuestionLinkURL($questionnaireID, $link_url){
+            
+            $obj['link_url'] = $link_url;
+            return Questionnaire::where('questionnaireID', $questionnaireID)->update($obj);
+           
+        }
+
+        public static function updateQuestionnaireResponseData($obj){
+        
+            $model = QuestionnaireResponse::create($obj);
+            return $model->id;    
+            
         }
 
         public static function removeData($questionnaireID){
@@ -100,4 +150,27 @@
         public static function removeQuestion($questionID){
             return Question::find($questionID)->delete();
         }
+
+        public static function getCountAgree($questionID){
+            return QuestionnaireResponse::where('q_id', $questionID)
+                    ->where('q_response', 'agree')
+                    ->count();
+        }
+
+        public static function getCountDisagree($questionID){
+            return QuestionnaireResponse::where('q_id', $questionID)
+                    ->where('q_response', 'disagree')
+                    ->count();
+        }
+
+        public static function getDisagreeComment($questionID){
+            return QuestionnaireResponse::select("q_response_comment")
+                    ->where('q_id', $questionID)
+                    ->where('q_response', 'disagree')
+                    ->whereNotNull('q_response_comment')
+                    ->get()
+                    ->toArray();
+        }
+
+        
     }

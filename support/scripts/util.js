@@ -372,6 +372,15 @@ function convertSQLDateTimeToReportDateTime(d){
             + time[0] + '.' + time[1] + ' น.';
 }
 
+function convertShortDate(d){
+    if(d != null){
+        return d.getDate() + '/' + (d.getMonth() + 1) + '/' + (d.getFullYear() + 543);
+    }else{
+        return '';
+    }
+    
+}
+
 function convertSQLDateTimeToReportDate(d){
     var date = d.split('-');
     var monthTxt = '';
@@ -390,6 +399,22 @@ function convertSQLDateTimeToReportDate(d){
         case 12 : monthTxt = 'ธันวาคม';break;
     }
     return parseInt(date[2]) + ' ' + monthTxt + ' ' + (parseInt(date[0]) + 543);
+}
+
+function getMinuteList(){
+    var List = [];
+    for(var i = 0; i < 60; i++){
+        List.push({'value': i, 'text' : i});
+    }
+    return List;
+}
+
+function getHourList(){
+    var List = [];
+    for(var i =0; i < 24; i++){
+        List.push({'value': i, 'text' : i});
+    }
+    return List;
 }
 
 function getYearList(loop)

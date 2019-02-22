@@ -13,8 +13,9 @@
     
     class MeetingService {
 
-    	public static function getList($standardID){
+    	public static function getList($standardID,$menuType){
             return Meeting::where('standardID', $standardID)
+                    ->where('menuType', $menuType)
                     ->with('meetingAttendees')
                     ->with('momFile')
                     ->with('meetingFile')
@@ -37,11 +38,11 @@
         }
 
         public static function getData($meetingID){
-            return Meeting::find($meetingID)
-                    ->with('meetingAttendees')
-                    ->with('momFile')
-                    ->with('meetingFile')
-                    ->with('inviteFile');
+            return Meeting::find($meetingID);
+                    // ->with('meetingAttendees')
+                    // ->with('momFile')
+                    // ->with('meetingFile')
+                    // ->with('inviteFile');
         }
 
         public static function getAttendee($meetingID){
@@ -66,6 +67,11 @@
                 Meeting::where('meetingID', $obj['meetingID'])->update($obj);
                 return $obj['meetingID'];
             }
+        }
+
+        public static function addMOMFile($obj){
+            $model = MOMFile::create($obj);
+                return $model->meetingFileID;
         }
 
         public static function addMeetingFile($obj){

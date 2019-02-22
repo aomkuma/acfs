@@ -27,7 +27,7 @@ angular.module('app').controller('ReportController', function($scope, $compile, 
 
     $scope.loadQuestionnaire = function(action){
         IndexOverlayFactory.overlayShow();
-        HTTPService.clientRequest(action, null).then(function(result){
+        HTTPService.clientRequest(action, $scope.condition3).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.QuestionnaireList = result.data.DATA.Questionnaire;

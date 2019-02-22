@@ -24,8 +24,28 @@
 	</div>
 	<div class="col-lg-3">
 		<div class="file-alert" ng-show="fle.attachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{AttachFile.invalidFile.$errorParam}}</div>
+		<span style="color: red;">ขนาดแนะนำ 500 * 400 px</span>
 	</div>
 
+</div>
+<div class="row form-group">
+	<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
+		แสดงหน้าแรก
+	</label>
+	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" >
+		<div class="btn-group">
+			<label class="btn btn-default btn-checkbox" ng-model="MenuData.show_index" uib-btn-radio="'Y'" >แสดง</label>
+            <label class="btn btn-default btn-checkbox" ng-model="MenuData.show_index" uib-btn-radio="'N'" >ไม่แสดง</label>
+        </div>
+	</div>
+</div>
+<div class="row form-group">
+	<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
+		ลำดับแบนเนอร์
+	</label>
+	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+		​<input type="number" class="form-control" ng-model="MenuData.banner_order">
+	</div>
 </div>
 <div class="row form-group">
 	<label class=" form-control-static col-lg-2 col-md-2 col-sm-12 col-xs-12">
@@ -38,7 +58,7 @@
 			<option value="PAGE">เนื้อหาข้อมูล, แนบไฟล์เพื่อดาวน์โหลด (PAGE)</option>
 			<!--<option value="INLINK"></option>-->
 			<option value="EXLINK">เมนูลิ้งค์ไปเว็บไซต์ภายนอก (EXTERNAL LINK)</option>
-			<option value="CUSTOM">เมนูที่มีการทำงานในรูปแบบเฉพาะ (CUSTOM PAGE)</option>
+			<!--<option value="CUSTOM">เมนูที่มีการทำงานในรูปแบบเฉพาะ (CUSTOM PAGE)</option>-->
 		</select>
 	</div>
 	<label class=" form-control-static col-lg-2 col-md-2 col-sm-12 col-xs-12" ng-show="MenuData.menu_type == 'CUSTOM'">
@@ -80,6 +100,7 @@
 		​<input type="number" class="form-control" ng-model="MenuData.menu_order">
 	</div>
 </div>
+
 <div class="row form-group" ng-show="MenuData.menu_type == 'CUSTOM'">
 		<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
 			URL
@@ -89,25 +110,15 @@
 			<textarea class="form-control" ng-model="MenuData.menu_url"></textarea>
 		</div>
 	</div>
-<div class="row form-group">
-	<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
-		แสดงหน้าแรก
-	</label>
-	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" >
-		<div class="btn-group">
-			<label class="btn btn-default btn-checkbox" ng-model="MenuData.show_index" uib-btn-radio="'Y'" >แสดง</label>
-            <label class="btn btn-default btn-checkbox" ng-model="MenuData.show_index" uib-btn-radio="'N'" >ไม่แสดง</label>
-        </div>
-	</div>
-</div>
+
 <div class="row form-group">
 	<label class="col-lg-2 col-md-2 col-sm-12 col-xs-12 form-control-static">
 		สถานะ
 	</label>
 	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" >
 		<div class="btn-group">
-			<label class="btn btn-default btn-checkbox" ng-model="MenuData.actives" uib-btn-radio="'Y'" >ใช้</label>
-            <label class="btn btn-default btn-checkbox" ng-model="MenuData.actives" uib-btn-radio="'N'" >ไม่ใช้</label>
+			<label class="btn btn-default btn-checkbox" ng-model="MenuData.actives" uib-btn-radio="'Y'" >ใช้งาน</label>
+            <label class="btn btn-default btn-checkbox" ng-model="MenuData.actives" uib-btn-radio="'N'" >ไม่ใช้งาน</label>
         </div>
 	</div>
 </div>
@@ -171,7 +182,7 @@
 				<div class="col-lg-12">
 					<button class="btn btn-danger btn-sm" ng-click="removeAttach('attach/delete', file.id, $index)"><span class="glyphicon glyphicon-trash"></span></button>
 					&nbsp;&nbsp;&nbsp;&nbsp;
-					<a target="_self" href="{{file.file_path}}" download="{{file.file_name}}">
+					<a target="_self" href="../{{file.file_path}}" download="{{file.file_name}}">
 						{{ (file.display_name !== null && file.display_name != ''?file.display_name:file.file_name) }}
 					</a>		
 				</div>
@@ -227,7 +238,7 @@
 
 <div class="page-header text-center">
 	<button class="btn btn-info" ng-click="save('menu/update', MenuData, PageContent, FileList, EXLink, AttachFile)">บันทึก</button>
-	<button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
+	<!--<button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>-->
 </div>
 
 <style type="text/css">

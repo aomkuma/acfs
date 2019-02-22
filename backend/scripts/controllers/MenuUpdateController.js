@@ -141,6 +141,7 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
         HTTPService.uploadRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.FileList = [];
                 if($scope.ID == undefined && $scope.ID == null){
                     window.location.href = '#/page/' + result.data.DATA.menu_id;

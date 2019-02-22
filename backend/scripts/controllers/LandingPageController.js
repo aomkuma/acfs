@@ -79,7 +79,7 @@ angular.module('e-homework').controller('LandingPageController', function($scope
         HTTPService.uploadRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
-                
+                alert('บันทึกสำเร็จ');
                 $scope.loadDataList();
                 $scope.PAGE = 'MAIN';
                 IndexOverlayFactory.overlayHide();

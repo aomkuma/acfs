@@ -1,4 +1,4 @@
-angular.module('e-homework').controller('HomeController', function($scope, $cookies, $filter, $state, $uibModal, HTTPService, IndexOverlayFactory) {
+angular.module('e-homework').controller('HomeController', function($scope, $cookies, $filter, $state, $uibModal, $routeParams, HTTPService, IndexOverlayFactory) {
 	//console.log('Hello !');
     $scope.DEFAULT_LANGUAGE = 'TH';
     $scope.menu_selected = 'home';
@@ -9,6 +9,8 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     }else{
        window.location.replace('#/guest/logon');
     }
+
+    $scope.page_type = $routeParams.page_type;
 
     $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
 
@@ -108,6 +110,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         $scope.AttachFile = null;
         $scope.SlideShow = null;
         $scope.PAGE = 'MAIN';
+        $scope.UPDATE_PAGE = '';
     }
 
     $scope.save = function(action, SlideShow, AttachFile){
@@ -119,6 +122,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
             console.log(result);
             $scope.PAGE = 'MAIN';
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.AttachFile = null;
                 $scope.load('slideshow');
                 $scope.cancelUpdate();
@@ -179,7 +183,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
             console.log(result);
             $scope.PAGE = 'MAIN';
             if(result.data.STATUS == 'OK'){
-                
+                alert('บันทึกสำเร็จ');
                 $scope.loadFooterLink();
                 $scope.cancelUpdate();
                 IndexOverlayFactory.overlayHide();
@@ -217,6 +221,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     }
 
     $scope.updateFooterLink = function(data){
+        $scope.UPDATE_PAGE = 'UPDATE';
         $scope.FooterLink = angular.copy(data);
     }
 
@@ -224,6 +229,11 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         $scope.FooterLink = {'id':'', 'link_type' : '', 'link_name' : '', 'link_url' : ''};
     }
 
+    $scope.updateData = function(){
+          $scope.UPDATE_PAGE = 'UPDATE';
+    }
+
+    $scope.UPDATE_PAGE = '';
     $scope.loadFooterLink();
 
 });

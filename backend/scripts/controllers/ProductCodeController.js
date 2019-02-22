@@ -63,6 +63,7 @@ angular.module('e-homework').controller('ProductCodeController', function($scope
         
         var params = {'Data' : Data};
         HTTPService.uploadRequest('product-code/update', params).then(function(result){
+            alert('บันทึกสำเร็จ');
             $scope.loadList();
             $scope.PAGE = 'MAIN';
             IndexOverlayFactory.overlayHide();

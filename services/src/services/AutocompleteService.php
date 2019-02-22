@@ -111,7 +111,7 @@
             
             return Provinces::where(function($query) use ($region_id){
                                     if(!empty($region_id)){
-                                        where('geography_name' ,$region_id);
+                                        $query->where('geography_name' ,$region_id);
                                     }
                                 })->get();
 

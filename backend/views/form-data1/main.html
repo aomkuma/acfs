@@ -1,19 +1,14 @@
 <div ng-include src="'views/header.html'"></div>
 <div class="row form-group" style="padding-top: 10px;">
-	  <div class="col-lg-5">
+	  <div class="col-lg-10">
 	    <div class="row">
 	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
-	        <img src="../files/img/pin-menu.png">
-	        {{MenuName.menu_name_th}}
-	        <span ng-show="MenuName.sub_menu != null">
-	        	<img src="../files/img/pin-menu.png">
-				{{MenuName.sub_menu.menu_name_th}}	        	
-	        </span>
+	        <span ng-repeat="data in MenuName">
+		        <img src="../files/img/pin-menu.png">
+		        {{data.menu_name_th}}
+		    </span>
 	      </div>
 	    </div>
-	  </div>
-	  <div class="col-lg-6">
-
 	  </div>
 </div>
 
@@ -74,7 +69,7 @@
 			<button class="btn btn-primary pull-right" ng-click="addDetail()">เพิ่ม ISO</button>
 		</div>
 	</div>
-	<fieldset class="fieldset_data" ng-repeat="detail in FormData1Detail" ng-init="detail_index = $index">
+	<fieldset class="fieldset_data" ng-repeat="detail in form_data1_detail" ng-init="detail_index = $index" ng-class="{'bg-odd':$index%2 == 0}">
 		<legend>รายละเอียด</legend>
 		<div class="row form-group">
 			<label class="form-control-static col-lg-1">
@@ -108,7 +103,7 @@
 			</div>
 		</div>
 
-		<fieldset class="fieldset_data" ng-repeat="scope in detail.FormData1Scope" ng-init="scope_index = $index">
+		<fieldset class="fieldset_data" ng-repeat="scope in detail.form_data1_scope" ng-init="scope_index = $index">
 			<legend>ขอบข่าย</legend>
 			<div class="row form-group">
 				<label class="form-control-static col-lg-1">
@@ -120,7 +115,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="row form-group" ng-repeat="subscope in scope.FormData1SubScope" ng-init="subscope_index = $index">
+			<div class="row form-group" ng-repeat="subscope in scope.form_data1_sub_scope" ng-init="subscope_index = $index">
 				<label class="form-control-static col-lg-2 col-lg-offset-1">
 					ขอบข่ายย่อย
 				</label>
@@ -133,7 +128,7 @@
 					<button class="btn btn-primary pull-right" ng-click="addSubScope(detail_index, scope_index)">เพิ่มขอบข่ายย่อย</button>
 				</div>
 			</div>
-			<div class="row form-group" ng-repeat="cert in scope.FormData1Certification" ng-init="cert_index = $index">
+			<div class="row form-group" ng-repeat="cert in scope.form_data1_certification" ng-init="cert_index = $index">
 				<label class="form-control-static col-lg-2  col-lg-offset-1">
 					Certification
 				</label>
@@ -146,7 +141,7 @@
 			</div>
 		</fieldset>
 		<br><br>
-		<div class="row form-group" ng-repeat="arc in detail.FormData1StandardARC" ng-init="arc_index = $index">
+		<div class="row form-group" ng-repeat="arc in detail.form_data1_standard_a_r_c" ng-init="arc_index = $index">
 			<label class="form-control-static col-lg-3">
 				มาตรฐานกระทรวงเกษตร และสหกรณ์
 			</label>
@@ -202,10 +197,10 @@
 				สถานะการบังคับใช้
 			</label>
 			<div class="col-lg-2">
-				<input type="checkbox" value="การบังคับใช้" ng-click="toggleUsageStatus('การบังคับใช้')"> การบังคับใช้
+				<input type="checkbox" value="การบังคับใช้" ng-true-value="'การบังคับใช้'" ng-model="detail.usage_status1" ng-click="toggleUsageStatus(detail_index, 'การบังคับใช้')"> การบังคับใช้
 			</div>
 			<div class="col-lg-2">
-				<input type="checkbox" value="ลดขอบข่าย" ng-click="toggleUsageStatus('ลดขอบข่าย')"> ลดขอบข่าย
+				<input type="checkbox" value="ลดขอบข่าย" ng-true-value="'ลดขอบข่าย'" ng-model="detail.usage_status2" ng-click="toggleUsageStatus(detail_index, 'ลดขอบข่าย')"> ลดขอบข่าย
 			</div>
 		</div>
 	</fieldset>
@@ -216,14 +211,14 @@
 		</label>
 		<div class="col-lg-10">
 			<div class="btn-group">
-                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'Y'">ใช้</label>
-                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'N'">ไม่ใช้</label>
+                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'Y'">ใช้งาน</label>
+                <label class="btn btn-default btn-checkbox" ng-model="FormData1.actives" uib-btn-radio="'N'">ไม่ใช้งาน</label>
             </div>
 		</div>
 	</div>
 	<div class="row form-group">
 		<div class="col-lg-12 text-center">
-			<button class="btn btn-primary" ng-click="saveData(FormData1, FormData1Detail)">บันทึก</button>
+			<button class="btn btn-primary" ng-click="saveData(FormData1, form_data1_detail)">บันทึก</button>
 			<button class="btn btn-default" ng-click="cancel()">ยกเลิก</button>
 		</div>
 	</div>
@@ -271,11 +266,11 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.group_name}}</td>
+					<td><a ng-click="updateData(data.id)">{{data.group_name}}</a></td>
 					<td>{{data.item_no}}</td>
-					<td>{{data.detail_iso}}</td>
-					<td>{{data.scope_iso}}</td>
-					<td>{{data.subscope_iso}}</td>
+					<td>{{data.detail_iso_name}}</td>
+					<td>{{data.scope_iso_name}}</td>
+					<td>{{data.subscope_iso_name}}</td>
 					<td><a href="../{{data.file_path}}">{{data.file_name}}</a></td>
 				</tr>
 			</tbody>
@@ -287,5 +282,10 @@
 	.fieldset_data{
 		padding: 10px;
 		border : 1px solid #999;
+	}
+
+	.bg-odd{
+		background-color: #FAFAFA;
+		margin: 10px;
 	}
 </style>

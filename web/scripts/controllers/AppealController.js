@@ -29,7 +29,7 @@ angular.module('e-homework').controller('AppealController', function($scope, $co
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.MenuName = result.data.DATA.Menu;
-            $scope.loadPage('appeal/page', $scope.MenuName.id);
+            $scope.loadPage('appeal/page', $scope.MenuName[$scope.MenuName.length - 1].id);
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -133,6 +133,13 @@ angular.module('e-homework').controller('AppealController', function($scope, $co
         $scope.PAGE = 'MAIN';
      }
 
+     $scope.goUpdate = function(){
+        $scope.Data = null;
+        $scope.AppealCallbackList = [];
+        $scope.AppealListList = [];
+        $scope.PAGE = 'UPDATE';
+     }
+
     IndexOverlayFactory.overlayHide();
     $scope.AppealList = [
                         {'appeal_text':'เรื่องทั่วไป'}
@@ -147,10 +154,12 @@ angular.module('e-homework').controller('AppealController', function($scope, $co
                         ,{'callback_name':'โทรศัพท์บ้าน'}
                         ,{'callback_name':'โทรศัพท์มือถือ'}
                         ];
-    $scope.Data = null;
+    $scope.Data = {'page_type':$routeParams.page_type};
     $scope.AppealCallbackList = [];
     $scope.AppealListList = [];
     $scope.PAGE = 'MAIN';
+
+    $scope.page_type = $routeParams.page_type;
     
     $scope.loadMenu('menu/list');
     $scope.getMenu('menu/get/type' ,$scope.page_type);

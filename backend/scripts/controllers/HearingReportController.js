@@ -72,6 +72,7 @@ angular.module('e-homework').controller('HearingReportController', function($sco
         modalInstance.result.then(function (valResult) {
             var params = {'Data' : Data , 'Chanel' : Chanel, 'DataType' : DataType};
             HTTPService.clientRequest('hearing-report/update', params).then(function(result){
+                alert('บันทึกสำเร็จ');
                 console.log(result);
                 // window.location.href = '#/';
                 IndexOverlayFactory.overlayHide();

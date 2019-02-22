@@ -365,7 +365,7 @@ function convertDateToFullThaiDateIgnoreTime(dateObj){
         case 11 : monthTxt = 'ธันวาคม';break;
     }
     if(!isNaN(dateObj.getDate())){
-        return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear());
+        return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear() + 543);
     }else{
         return '';
     }

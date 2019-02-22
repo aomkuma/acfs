@@ -9,12 +9,14 @@
     class LinkUrlService {
 
         public static function getLinkUrl(){
-            return LinkUrl::orderBy('id', 'DESC')
+            return LinkUrl::orderBy('order_no', 'ASC')
+                    ->orderBy('id', 'DESC')
                     ->get();      
         }
 
         public static function getLinkUrlType(){
             return LinkUrl::groupBy('link_type')
+                    ->orderBy('order_no', 'ASC')
                     ->orderBy('link_type', 'ASC')
                     ->get();      
         }
@@ -37,6 +39,7 @@
             $model->link_url = $obj['link_url'];
             $model->link_type = $obj['link_type'];
             $model->image_path = $obj['image_path'];
+            $model->order_no = $obj['order_no'];
             $model->update_date = date('Y-m-d H:i:s');
             $model->save();
             return $model->id;

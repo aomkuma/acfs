@@ -60,9 +60,10 @@ angular.module('e-homework').controller('FormData1CustomerController', function(
     }
 
     $scope.saveData = function(FormData1, FormData1Scope){
-        var params = {'FormData1' : FormData1, 'FormData1Scope' : FormData1Scope};
+        var params = {'FormData1' : FormData1, 'form_data1_scope' : FormData1Scope};
         HTTPService.uploadRequest('form-data1/customer/update', params).then(function(result){
             if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
                 $scope.PAGE = 'MAIN';
                 $scope.loadList($scope.condition);
             }
@@ -76,7 +77,7 @@ angular.module('e-homework').controller('FormData1CustomerController', function(
             HTTPService.clientRequest('form-data1/customer/get', params).then(function(result){
                 if(result.data.STATUS == 'OK'){
                     $scope.FormData1 = result.data.DATA;
-                    $scope.FormData1License = $scope.FormData1.form_data1_license;
+                    $scope.form_data1_scope = $scope.FormData1.form_data1_scope;
 
                 }
                 IndexOverlayFactory.overlayHide();
@@ -87,7 +88,7 @@ angular.module('e-homework').controller('FormData1CustomerController', function(
                 ,'actives' : 'Y'
             };
 
-            $scope.FormData1Scope = [{'FormData1SubScope':[{'iso':null}]}];
+            $scope.form_data1_scope = [{'form_data1_sub_scope':[{'iso':null}]}];
             
         }
         
@@ -95,13 +96,13 @@ angular.module('e-homework').controller('FormData1CustomerController', function(
     }
 
     $scope.addScope = function(index){
-        $scope.FormData1Scope.push({
-                                    'FormData1SubScope':[{}]
+        $scope.form_data1_scope.unshift({
+                                    'form_data1_sub_scope':[{}]
                                 });
     }
 
     $scope.addSubScope = function(index){
-        $scope.FormData1Scope[index].FormData1SubScope.push({
+        $scope.form_data1_scope[index].form_data1_sub_scope.push({
                                     'iso':null
                                 });
     }
