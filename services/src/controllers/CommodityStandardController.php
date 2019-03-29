@@ -15,6 +15,21 @@
             $this->db = $db;
         }
 
+        public function getListPending($request, $response, $args){
+            try{
+
+                $params = $request->getParsedBody();
+                
+                $List = CommodityStandardService::getListPending();
+                $this->data_result['DATA']['List'] = $List;
+                
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
         public function getListInUse($request, $response, $args){
             try{
 
@@ -80,6 +95,8 @@
         public function getListForHomepage($request, $response, $args){
             try{
                 $params = $request->getParsedBody();
+                $user_session = $params['user_session'];
+                $stakeholderID = $user_session['stakeholderID'];
                 $userType = filter_var($params['obj']['userType'], FILTER_SANITIZE_STRING);
                 $userID = filter_var($params['obj']['userID'], FILTER_SANITIZE_NUMBER_INT);
                 $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
@@ -98,30 +115,41 @@
                     $_Result = CommodityStandardService::getCommodityStandardList($currentPage, $limitRow, $standardIDToIgnore, $stepList);
                     $_CommodityStandard = $_Result['DataList'];
                     $_Total = $_Result['Total'];
-
+                    $TotalRemove = 0;
                     $cur_year = date('Y') + 543;
                     foreach ($_CommodityStandard as $key => $value) {
                         if($value['years'] == $cur_year){
                             array_push($CommodityStandard, $value);    
                         }else if($value['years'] < $cur_year && $value['step'] < 9){
                             array_push($CommodityStandard, $value);    
+                        }else{
+                            $TotalRemove++;
                         }
                         
                     }
-                    $Total += $_Total;
+                    $Total += $_Total - $TotalRemove;
 
                 }else{
                     /*
                     */
                     $limitRow = $limitRowPerPage;
-                    $_Result = CommodityStandardService::getCommodityStandardListForUser($userID, $currentPage, $limitRow, $standardIDToIgnore, $stepList);
+                    $_Result = CommodityStandardService::getCommodityStandardListForUser($stakeholderID, $currentPage, $limitRow, $standardIDToIgnore, $stepList);
                     $_CommodityStandard = $_Result['DataList'];
                     $_Total = $_Result['Total'];
 
+                    $TotalRemove = 0;
+                    $cur_year = date('Y') + 543;
                     foreach ($_CommodityStandard as $key => $value) {
-                        array_push($CommodityStandard, $value);
+                        if($value['years'] == $cur_year){
+                            array_push($CommodityStandard, $value);    
+                        }else if($value['years'] < $cur_year && $value['step'] < 9){
+                            array_push($CommodityStandard, $value);    
+                        }else{
+                            $TotalRemove++;
+                        }
+                        
                     }
-                    $Total += $_Total;
+                    $Total += $_Total - $TotalRemove;
 
                 }
 
@@ -173,15 +201,42 @@
                 $_Result = CommodityStandardService::getCommodityStandardList($currentPage, $limitRow, $standardIDToIgnore, $stepList);
                 $_CommodityStandard = $_Result['DataList'];
                 $_Total = $_Result['Total'];
+                // foreach ($_CommodityStandard as $key => $value) {
+                //     array_push($CommodityStandard, $value);
+                // }
+
                 foreach ($_CommodityStandard as $key => $value) {
+                    // Find cancelled history
+                    $cancelled_id = $value['standardID'];
+                    $cancelled_title = '';//$value['standardNameThai'];
+                    $replace_description = [];
+                    $replace_standard = [];
+                    do{
+                        $replace_data = CommodityStandardService::findCommodityStandardReplace($cancelled_id);
+                        $replace_standard[] = $replace_data;
+                        if(!empty($replace_data)){
+                            $replace_description[] = $replace_data['noThai'] . '<br>';
+                            $cancelled_id = $replace_data['id_replaced'];
+                            // $replace_title = $cancelled_data['standardNameThai'];
+                        }
+
+                    }while(!empty($replace_data));
+
+                    if(!empty($replace_description)){
+                        $cancelled_title = implode(",", $replace_description); // $value['standardNameThai'] . ' ถูกใช้แทนด้วย ' .
+                    }
+                    $value['replace_data'] = $cancelled_title;
                     array_push($CommodityStandard, $value);
                 }
+
                 $Total += $_Total;
 
                 $Total = ceil($Total / $limitRowPerPage);
                 $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
                 $this->data_result['DATA']['Total'] = $Total;
                 $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
+                $this->data_result['DATA']['replace_standard'] = $replace_standard;
+                
 
                 return $this->returnResponse(200, $this->data_result, $response, false);
                 
@@ -198,13 +253,14 @@
                 $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
                 $standardType = filter_var($params['obj']['standardType'], FILTER_SANITIZE_STRING);
                 $standardDefineType = filter_var($params['obj']['standardDefineType'], FILTER_SANITIZE_STRING);
-                $stepList = [1,2,3,4,5,6,7,8,9,11];
+                $standardGroup = filter_var($params['obj']['standardGroup'], FILTER_SANITIZE_STRING);
+                $stepList = [9];//[1,2,3,4,5,6,7,8,9,11];
                 
                 $CommodityStandard = [];
                 $Total = 0;
 
                 $limitRow = $limitRowPerPage - $Total;
-                $_Result = CommodityStandardService::getCommodityStandardListSearch($currentPage, $limitRow, $keyword, $standardType, $standardDefineType);
+                $_Result = CommodityStandardService::getCommodityStandardListSearch($currentPage, $limitRow, $keyword, $standardType, $standardDefineType, $standardGroup);
                 $_CommodityStandard = $_Result['DataList'];
                 $_Total = $_Result['Total'];
                 foreach ($_CommodityStandard as $key => $value) {
@@ -230,7 +286,7 @@
                 $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
                 $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
                 $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
-                $stepList = [1,2,3,4,5,6,7,8,9,11];
+                $stepList = [1,2,3,4,5,6,7,8,9];
                 
                 $CommodityStandard = [];
                 $Total = 0;
@@ -239,13 +295,23 @@
                 $_Result = CommodityStandardService::getCommodityStandardListPlan($currentPage, $limitRow, $keyword);
                 $_CommodityStandard = $_Result['DataList'];
                 $_Total = $_Result['Total'];
+                $TotalRemove = 0;
+                $cur_year = date('Y') + 543;
                 foreach ($_CommodityStandard as $key => $value) {
-                    array_push($CommodityStandard, $value);
+                    if($value['years'] == $cur_year){
+                        array_push($CommodityStandard, $value);    
+                    }else if($value['years'] < $cur_year && $value['step'] < 9){
+                        array_push($CommodityStandard, $value);    
+                    }else{
+                        $TotalRemove++;
+                    }
+                    // array_push($CommodityStandard, $value);
                 }
-                $Total += $_Total;
+                $Total += $_Total - $TotalRemove;
 
                 $Total = ceil($Total / $limitRowPerPage);
                 $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
+                $this->data_result['DATA']['OldCommodityStandard'] = $_CommodityStandard;
                 $this->data_result['DATA']['Total'] = $Total;
                 $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
 
@@ -418,9 +484,9 @@
                 
                 // Update caller
                 // $RequestName = 'test';
-                $caller['caller_name'] = $RequestName;
-                $caller['api_called'] = '-';
-                CommodityStandardService::updateAPICaller($caller);
+                // $caller['caller_name'] = $RequestName;
+                // $caller['api_called'] = '-';
+                // CommodityStandardService::updateAPICaller($caller);
                 
                 $this->data_result['DATA']['CommodityStandard'] = $_CommodityStandard;
                 
@@ -517,4 +583,68 @@
                 return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
             }
         }
+
+        public function getListCertification($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $userType = filter_var($params['obj']['userType'], FILTER_SANITIZE_STRING);
+                $userID = filter_var($params['obj']['userID'], FILTER_SANITIZE_NUMBER_INT);
+                $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
+                $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
+                $viewType = filter_var($params['obj']['viewType'], FILTER_SANITIZE_STRING);
+                $keyword = filter_var($params['obj']['keyword'], FILTER_SANITIZE_STRING);
+                $standardType = filter_var($params['obj']['standardType'], FILTER_SANITIZE_STRING);
+
+                $_Result = CommodityStandardService::getListCertification($currentPage, $limitRowPerPage, $keyword, $standardType);
+
+                $_CommodityStandard = $_Result['DataList'];
+                $_Total = $_Result['Total'];
+
+                $this->data_result['DATA']['CommodityStandard'] = $_CommodityStandard;
+                $this->data_result['DATA']['Total'] = $_Total;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function getDataCertification($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $standardID = filter_var($params['obj']['standardID'], FILTER_SANITIZE_STRING);
+                
+                $CommodityStandard = CommodityStandardService::getDataCertification($standardID);
+                if(empty($CommodityStandard)){
+                    $CommodityStandard = CommodityStandardService::getData($standardID);
+                }
+                $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function updateDataCertification($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $Data = $params['obj']['Data'];
+                foreach ($Data as $key => $value) {
+                    if($value == 'null'){
+                        $Data[$key] = NULL;
+                    }
+                }
+                $standardID = CommodityStandardService::updateDataCertification($Data);
+                
+                $this->data_result['DATA']['standardID'] = $standardID;
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        
     }

@@ -47,7 +47,7 @@
 			</div>
 			<div class="row form-group">
 				<div class="col-lg-12">
-					<h4>ไฟล์เพิ่มเติม</h4>
+					<h4 ng-show="Data.AttachFiles.length > 0">ไฟล์เพิ่มเติม</h4>
 					<ul>
 						<li ng-repeat="f in Data.AttachFiles">
 							<a href="../{{f.file_path}}">{{f.file_name}}</a>

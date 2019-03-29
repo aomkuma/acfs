@@ -14,11 +14,11 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
     var ckEditorConfig = {
             extraPlugins: 'uploadimage,image2,filebrowser,colorbutton',
             height: 300,
-            uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
-            filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
-            filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?type=Images',
-            filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-            filebrowserImageUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+            uploadUrl: '/acfs/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+            filebrowserBrowseUrl: '/acfs/ckfinder/ckfinder.html',
+            filebrowserImageBrowseUrl: '/acfs/ckfinder/ckfinder.html?type=Images',
+            filebrowserUploadUrl: '/acfs/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+            filebrowserImageUploadUrl: '/acfs/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
             contentsCss: [ CKEDITOR.basePath + 'contents.css', 'https://sdk.ckeditor.com/samples/assets/css/widgetstyles.css' ],
             image2_alignClasses: [ 'image-align-left', 'image-align-center', 'image-align-right' ],
             image2_disableResizer: true,
@@ -185,6 +185,11 @@ angular.module('e-homework').controller('UpdateNewsController', function($scope,
         $scope.currentPage = page;
         $scope.load('news');
     }
+
+    $scope.pageChanged = function() {
+        $scope.goToPage($scope.currentPage);
+        // $log.log('Page changed to: ' + $scope.currentPage);
+    };
 
     $scope.FileList = [];
     $scope.AttachFile = null;

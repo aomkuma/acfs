@@ -356,13 +356,17 @@
 				</caption>
 				<thead>
 					<tr>
+						<th>ลำดับ</th>
 						<th>รายการฝึกอบรม</th>
+						<th>ช่วงเวลา</th>
 						<th>จัดการ</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="data in DataList">
+						<td>{{$index + 1}}</td>
 						<td>{{data.title_th}}</td>
+						<td>{{getShortDate(data.start_date)}} - {{getShortDate(data.end_date)}}</td>
 						<td>
 							<button class="btn btn-warning" ng-click="updateData(data)"> ดูข้อมูล</button>
 							<button class="btn btn-danger" ng-click="removeData(data.id)"> ลบ</button>

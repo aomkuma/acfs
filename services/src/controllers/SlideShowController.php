@@ -4,6 +4,7 @@
     
     use App\Service\SlideShowService;
     use App\Service\AttachFileService;
+    use App\Service\NewsService;
 
     class SlideShowController extends Controller {
         
@@ -20,6 +21,18 @@
                 $params = $request->getParsedBody();
                 $_SlideShow = SlideShowService::getSlideShowView();
                 
+                // Load news banner
+                $NewsList = NewsService::getNewsBanner();
+
+                foreach ($NewsList as $key => $value) {
+                    $data = [];
+                    $data['file_path'] = $value['image_cover_path'];
+                    $data['text_desc'] = $value['title_th'];
+                    $data['contents_type'] = 'image/jpeg';
+                    array_push($_SlideShow, $data);
+                }
+
+
                 $this->data_result['DATA']['SlideShow'] = $_SlideShow;
                 return $this->returnResponse(200, $this->data_result, $response, false);
                 

@@ -21,9 +21,9 @@
                                         $UsernameArr = explode(" ", preg_replace('!\s+!', ' ', $keyword));
                                         $FirstName = trim($UsernameArr[0]);
                                         $LastName = trim($UsernameArr[1]);
-                                        $query->where('nameThai', 'LIKE', DB::raw("'".$FirstName."%'"));
+                                        $query->where('nameThai', 'LIKE', DB::raw("'%".$FirstName."%'"));
                                         if(!empty($LastName)){
-                                            $query->orWhere('lastNameThai', 'LIKE', DB::raw("'".$LastName."%'"));
+                                            $query->orWhere('lastNameThai', 'LIKE', DB::raw("'%".$LastName."%'"));
                                         }
                                     }
                                 })
@@ -40,9 +40,9 @@
                                         $UsernameArr = explode(" ", preg_replace('!\s+!', ' ', $keyword));
                                         $FirstName = trim($UsernameArr[0]);
                                         $LastName = trim($UsernameArr[1]);
-                                        $query->where('nameEng', 'LIKE', DB::raw("N'".$FirstName."%'"));
+                                        $query->where('nameEng', 'LIKE', DB::raw("N'%".$FirstName."%'"));
                                         if(!empty($LastName)){
-                                            $query->orWhere('lastNameEng', 'LIKE', DB::raw("N'".$LastName."%'"));
+                                            $query->orWhere('lastNameEng', 'LIKE', DB::raw("N'%".$LastName."%'"));
                                         }
                                     }
                                 })

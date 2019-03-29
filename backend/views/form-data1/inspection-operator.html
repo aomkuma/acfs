@@ -1,21 +1,20 @@
 <div ng-include src="'views/header.html'"></div>
+
 <div class="row form-group" style="padding-top: 10px;">
-	  <div class="col-lg-5">
+	  <div class="col-lg-10">
 	    <div class="row">
 	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
-	        <img src="../files/img/pin-menu.png">
-	        รายชื่อผู้ประกอบการตรวจสอบมาตรฐานภาครัฐ และเอกชน 
-	        <span ng-show="MenuName.sub_menu != null">
-	        	<img src="../files/img/pin-menu.png">
-				{{MenuName.sub_menu.menu_name_th}}	        	
-	        </span>
+	        <span ng-repeat="data in MenuName">
+		        <img src="../files/img/pin-menu.png">
+		        {{data.menu_name_th}}
+		    </span>
 	      </div>
 	    </div>
 	  </div>
 	  <div class="col-lg-6">
 
 	  </div>
-</div>
+	</div>
 
 <div ng-show="PAGE == 'ISO'">
 	<div class="row form-group">
@@ -35,6 +34,7 @@
 		</div>
 	</div>
 	<div class="row form-group">
+
 		<label class="form-control-static col-lg-1">
 			ชื่อ
 		</label>
@@ -49,19 +49,25 @@
 </div>
 
 <div ng-show="PAGE == 'UPDATE'">
+	
 	<div class="row form-group">
-		<h4>เพิ่มรายชื่อหน่วยรับรอง (CB)</h4>
-	</div>
-	<div class="row form-group">
-		<label class="form-control-static col-lg-1">
-			ชื่อหน่วย
+		<label class="form-control-static col-lg-2">
+			ชื่อผู้ประกอบการ
 		</label>
 		<div class="col-lg-5">
 			<input class="form-control" ng-model="FormData1.group_name">
 		</div>
 	</div>
 	<div class="row form-group">
-		<label class="form-control-static col-lg-1">
+		<label class="form-control-static col-lg-2">
+			รหัสชุดที่ 1
+		</label>
+		<div class="col-lg-5">
+			<input class="form-control" ng-model="FormData1.code_number">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
 			ที่อยู่
 		</label>
 		<div class="col-lg-5">
@@ -69,67 +75,59 @@
 		</div>
 	</div>
 	<div class="row form-group">
-		<div class="col-lg-12">
-			<button class="btn btn-primary pull-right" ng-click="addDetail()">เพิ่ม ISO</button>
+		<label class="form-control-static col-lg-2">
+			ประเภทผู้ประกอบการ
+		</label>
+		<div class="col-lg-10">
+			<div class="btn-group">
+                <label class="btn btn-default btn-checkbox" ng-model="FormData1.operator_type" uib-btn-radio="'government'">รัฐบาล</label>
+                <label class="btn btn-default btn-checkbox" ng-model="FormData1.operator_type" uib-btn-radio="'private'">เอกชน</label>
+                <label class="btn btn-default btn-checkbox" ng-model="FormData1.operator_type" uib-btn-radio="'foreign'">ต่างประเทศ</label>
+            </div>
 		</div>
 	</div>
-	<fieldset class="fieldset_data" ng-repeat="detail in form_data1_detail" ng-init="detail_index = $index" ng-class="{'bg-odd':$index%2 == 0}">
-		<legend>รายละเอียด</legend>
+	<div class="row form-group">
+		<div class="col-lg-12">
+			<button class="btn btn-primary pull-right" ng-click="addDetail()">เพิ่มใบอนุญาต</button>
+		</div>
+	</div>
+	<fieldset class="fieldset_data" ng-repeat="detail in form_data1_license" ng-init="detail_index = $index" ng-class="{'bg-odd':$index%2 == 0}">
+		<legend>ใบอนุญาต</legend>
 		<div class="row form-group">
-			<label class="form-control-static col-lg-1">
-				เลขที่
+			<label class="form-control-static col-lg-2">
+				เลขที่ใบอนุญาต
 			</label>
 			<div class="col-lg-4">
-				<input class="form-control" ng-model="detail.item_no">
+				<input class="form-control" ng-model="detail.license_no">
 			</div>
 		</div>
-		<div class="row form-group">
-			<label class="form-control-static col-lg-1">
-				ISO
-			</label>
-			<div class="col-lg-4">
-				<select class="form-control" ng-model="detail.iso" ng-options="item.id as item.iso_name for item in Iso1List">
-					<option value="">กรุณาเลือก..</option>
-				</select>
-			</div>
-		</div>
-		<div class="row form-group">
-			<label class="form-control-static col-lg-1">
-				Normaltive
-			</label>
-			<div class="col-lg-4">
-				<input class="form-control" ng-model="detail.normative">
-			</div>
-		</div>
+		
 		<div class="row form-group">
 			<div class="col-lg-12">
-				<button class="btn btn-primary pull-right" ng-click="addScope(detail_index)">เพิ่มขอบข่าย</button>
+				<button class="btn btn-primary pull-right" ng-click="addStandardChecked(detail_index)">เพิ่มมาตรฐานสินค้าที่ตรวจสอบ
+</button>
 			</div>
 		</div>
 
-		<fieldset class="fieldset_data" ng-repeat="scope in detail.form_data1_scope" ng-init="scope_index = $index">
-			<legend>ขอบข่าย</legend>
+		<fieldset class="fieldset_data" ng-repeat="check in detail.form_data1_standard_checked" ng-init="check_index = $index">
+			<legend>มาตรฐานสินค้าที่ตรวจสอบ</legend>
 			<div class="row form-group">
-				<label class="form-control-static col-lg-1">
-					ขอบข่าย
+				<label class="form-control-static col-lg-2">
+					มาตรฐานสินค้าที่ตรวจสอบ
 				</label>
 				<div class="col-lg-4">
-					<select class="form-control" ng-model="scope.iso" ng-options="item.id as item.iso_name for item in Iso2List">
-						<option value="">กรุณาเลือก..</option>
-					</select>
+					<input class="form-control" ng-model="check.standard_name">
 				</div>
 			</div>
-			<div class="row form-group" ng-repeat="subscope in scope.form_data1_sub_scope" ng-init="subscope_index = $index">
-				<label class="form-control-static col-lg-2 col-lg-offset-1">
-					ขอบข่ายย่อย
+			<div class="row form-group" ng-repeat="inspect in check.form_data1_product_inspect" ng-init="inspect_index = $index">
+				<label class="form-control-static col-lg-2 col-lg-offset-2">
+					ขอบข่ายสินค้าเกษตรที่ตรวจสอบ
 				</label>
 				<div class="col-lg-4">
-					<select class="form-control" ng-model="subscope.iso" ng-options="item.id as item.iso_name for item in Iso3List">
-						<option value="">กรุณาเลือก..</option>
-					</select>
+					<input class="form-control" ng-model="inspect.inspect_name">
 				</div>
 				<div class="col-lg-2">
-					<button class="btn btn-primary pull-right" ng-click="addSubScope(detail_index, scope_index)">เพิ่มขอบข่ายย่อย</button>
+					<button class="btn btn-primary pull-right" ng-click="addProductInspect(detail_index, check_index)">เพิ่มสินค้าเกษตรที่ตรวจสอบ</button>
 				</div>
 			</div>
 			<div class="row form-group" ng-repeat="cert in scope.form_data1_certification" ng-init="cert_index = $index">
@@ -174,7 +172,6 @@
 			<div class="col-lg-3">
 				<div class="file-alert" ng-show="detail.attachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{detail.AttachFile.invalidFile.$errorParam}}</div>
 			</div>
-
 		</div>
 		<div class="row form-group">
 			<label class="form-control-static col-lg-2">
@@ -200,17 +197,96 @@
 		        </p>
 			</div>
 		</div>
-		<div class="row form-group">
-			<label class="form-control-static col-lg-2">
-				สถานะการบังคับใช้
+		
+	</fieldset>
+	<br><br>
+
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			ชื่อผู้ติดต่อของ CA/register CB
+		</label>
+		<div class="col-lg-5">
+			<input class="form-control" ng-model="FormData1.contact_name">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			โทรศัพท์
+		</label>
+		<div class="col-lg-5">
+			<input class="form-control" ng-model="FormData1.contact_phone">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			โทรสาร
+		</label>
+		<div class="col-lg-5">
+			<input class="form-control" ng-model="FormData1.contact_fax">
+		</div>
+	</div>
+
+	<!-- <div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			แนบไฟล์ผู้ประกอบการตรวจสอบมาตรฐาน
+		</label>
+		<div class="col-lg-4" >
+			<p class="input-group">
+	          <input type="text" readonly="true" class="form-control" ng-model="FormData1.AttachFile.name" />
+	          <span class="input-group-btn">
+	            <button class="btn btn-default" ngf-select ng-model="FormData1.AttachFile" ngf-max-size="25MB"  ngf-model-invalid="FormData1.AttachFile.invalidFile" >Browse</button>
+	          </span>
+	        </p>
+		</div>
+		<label class="form-control-static col-lg-3">
+				{{FormData1.file_name}}
 			</label>
-			<div class="col-lg-2">
-				<input type="checkbox" value="การบังคับใช้" ng-click="toggleUsageStatus(detail_index, 'การบังคับใช้')" ng-checked="detail.usage_status == 'การบังคับใช้' || detail.usage_status == 'การบังคับใช้,ลดขอบข่าย' || detail.usage_status == 'ลดขอบข่าย,การบังคับใช้'"> การบังคับใช้
-			</div>
-			<div class="col-lg-2">
-				<input type="checkbox" value="ลดขอบข่าย" ng-click="toggleUsageStatus(detail_index, 'ลดขอบข่าย')" ng-checked="detail.usage_status == 'ลดขอบข่าย' || detail.usage_status == 'การบังคับใช้,ลดขอบข่าย' || detail.usage_status == 'ลดขอบข่าย,การบังคับใช้'"> ลดขอบข่าย
+		<div class="col-lg-3">
+			<div class="file-alert" ng-show="FormData1.AttachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{FormData1.AttachFile.invalidFile.$errorParam}}</div>
+		</div>
+	</div> -->
+
+	<!-- <div class="row form-group" ng-show="FormData1.operator_type == 'private'">
+		<label class="form-control-static col-lg-2">
+			เลขที่ใบรับรอง
+		</label>
+		<div class="col-lg-5">
+			<input class="form-control" ng-model="FormData1.cert_number">
+		</div>
+	</div> -->
+
+	<div class="row form-group">
+		<div class="col-lg-12">
+			<button class="btn btn-primary pull-right" ng-click="addScope()">เพิ่มขอบข่าย</button>
+		</div>
+	</div>
+
+	<fieldset class="fieldset_data" ng-repeat="scope in form_data1_scope" ng-init="scope_index = $index">
+		<legend>ขอบข่าย</legend>
+		<div class="row form-group">
+			<label class="form-control-static col-lg-1">
+				ขอบข่าย
+			</label>
+			<div class="col-lg-4">
+				<select class="form-control" ng-model="scope.iso" ng-options="item.id as item.iso_name for item in Iso2List">
+					<option value="">กรุณาเลือก..</option>
+				</select>
 			</div>
 		</div>
+		<div class="row form-group" ng-repeat="subscope in scope.form_data1_sub_scope" ng-init="subscope_index = $index"  ng-show="FormData1.operator_type == 'private'">
+			<label class="form-control-static col-lg-2 col-lg-offset-1">
+				ขอบข่ายย่อย
+			</label>
+			<div class="col-lg-4">
+				<select class="form-control" ng-model="subscope.iso" ng-options="item.id as item.iso_name for item in Iso3List">
+					<option value="">กรุณาเลือก..</option>
+				</select>
+			</div>
+			<div class="col-lg-2">
+				<button class="btn btn-primary pull-right" ng-click="addSubScope(scope_index)">เพิ่มขอบข่ายย่อย</button>
+			</div>
+		</div>
+		
 	</fieldset>
 	<br><br>
 	<div class="row form-group">
@@ -226,7 +302,7 @@
 	</div>
 	<div class="row form-group">
 		<div class="col-lg-12 text-center">
-			<button class="btn btn-primary" ng-click="saveData(FormData1, form_data1_detail)">บันทึก</button>
+			<button class="btn btn-primary" ng-click="saveData(FormData1, form_data1_license, form_data1_scope)">บันทึก</button>
 			<button class="btn btn-default" ng-click="cancel()">ยกเลิก</button>
 		</div>
 	</div>
@@ -302,18 +378,22 @@
 			</caption>
 			<thead>
 				<tr>
-					<th>หน่วยรับรอง</th>
-					<th>ที่อยู่</th>
+					<th>ชื่อผู้ประกอบการ</th>
+					<th>เลขที่ประจำตัว</th>
+					<th>ประเภทหน่วยงาน</th>
 					<th>ขอบข่าย</th>
-					<th>เพิ่มเติม</th>
+					<th>ข้อมูลติดต่อ</th>
+					<th>ไฟล์แนบ</th>
 					<th>แก้ไข</th>
 				</tr>	
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
 					<td>{{data.group_name}}</td>
-					<td>{{data.group_address}}</td>
+					<td>{{data.code_number}}</td>
+					<td>{{data.operator_type}}</td>
 					<td>{{data.iso_name}}</td>
+					<td>{{data.group_address}} <br>โทรศัพท์ : {{data.contact_phone}} <br>โทรสาร : {{data.contact_fax}}</td>
 					<td><a href="../{{data.file_path}}">{{data.file_name}}</a></td>
 					<td>
 						<button class="btn btn-warning" ng-click="updateData(data.id)">แก้ไข</button>

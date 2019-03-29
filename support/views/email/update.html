@@ -34,7 +34,7 @@
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">มาตรฐานที่ใช้งาน</label>
       <div class="col-lg-4 col-sm-12 col-xs-12">
-        <input type="text" class="form-control" ng-model="CommodityStandard" uib-typeahead="(standard.standardNameThai + ' (' +standard.standardNameEng + ')') for standard in searchStandardAutoComplete($viewValue, 'STANDARD') | limitTo:20" typeahead-on-select="autocompleteStandardSelected($item, $model, $label)" placeholder="ค้นหา...">
+        <input type="text" class="form-control" ng-model="CommodityStandard" uib-typeahead="(standard.standardNameThai) for standard in searchStandardAutoComplete($viewValue, 'STANDARD') | limitTo:20" typeahead-on-select="autocompleteStandardSelected($item, $model, $label)" placeholder="ค้นหา...">
       </div>
  </div>
  <div class="row form-group">

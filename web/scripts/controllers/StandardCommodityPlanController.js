@@ -69,6 +69,11 @@ angular.module('e-homework').controller('StandardCommodityPlanController', funct
         $scope.loadCommodityStandard('commodity-standard/plan', $scope.keyword);
     }
 
+    $scope.pageChanged = function() {
+        $scope.goToPage($scope.currentPage);
+        // $log.log('Page changed to: ' + $scope.currentPage);
+    };
+
     $scope.totalPages = 0;
     $scope.currentPage = 0;
     $scope.limitRowPerPage = 10;

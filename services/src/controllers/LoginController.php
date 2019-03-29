@@ -7,6 +7,7 @@
     use App\Service\EmailService;
     use App\Service\UserRoleService;
     use App\Service\MenuService;
+    use App\Service\AcademicBoardService;
     
 
     class LoginController extends Controller {
@@ -89,6 +90,7 @@
                     // Get menu in this user's group
                     //$menuList = LoginService::getMenuList($user['UserID']);                    
                     $user['userType'] = 'admin';
+                    $user['onlySubcommittee'] = 'Y';
                     $this->data_result['DATA']['UserData'] = $user;
                     // $this->data_result['DATA']['MenuList'] = $menuList;
                 }else{
@@ -96,6 +98,15 @@
                     // Check authen normal user
                     $user = LoginService::authenticate($username , $password);    
                     $user['userType'] = 'user';
+                    $user['onlySubcommittee'] = 'Y';
+
+                    // find user in academic board
+                    $IsAcademic = AcademicBoardService::findByStakeholderID($user['adminID']);
+                    if(empty($IsAcademic))
+                    {
+                        $user['onlySubcommittee'] = '';
+                    }
+
                     if(!empty($user[userID])){
                         unset($user[password]);
                         $this->data_result['DATA']['UserData'] = $user;

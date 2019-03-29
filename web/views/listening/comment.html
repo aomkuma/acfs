@@ -144,7 +144,7 @@
 							<input id="agree2" type="radio" ng-model="Data.comment" value="2" required="true"> <label for="agree2"> เห็นชอบส่วนใหญ่แต่มีข้อคิดเห็น</label>
 						</div>
 						<div class="col-lg-3" ng-show="Data.comment == '2'">
-							<textarea class="form-control" ng-model="Data.agree_comment" maxlength="255"></textarea>
+							<textarea class="form-control" ng-model="Data.agree_comment"></textarea>
 						</div>
 					</div>
 					<div class="row">
@@ -152,7 +152,7 @@
 							<input id="agree3" type="radio" ng-model="Data.comment" value="3" required="true"> <label for="agree3"> ไม่ให้ความเห็นชอบ เพราะ</label>
 						</div>
 						<div class="col-lg-3" ng-show="Data.comment == '3'">
-							<textarea class="form-control" ng-model="Data.disagree_comment" maxlength="255"></textarea>
+							<textarea class="form-control" ng-model="Data.disagree_comment"></textarea>
 						</div>
 					</div>
 					<div class="row">

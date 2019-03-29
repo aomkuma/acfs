@@ -31,24 +31,43 @@
 	<div class="row form-group">
 		<div class="col-lg-10 col-lg-offset-1">
 			<div class="row form-group">
-				<label class="form-control-static col-lg-1">
-					ขอบข่าย
-				</label>
-				<div class="col-lg-2">
-					<select class="form-control" ng-model="condition.iso" ng-options="item.id as item.iso_name for item in IsoList">
-						<option value="">กรุณาเลือก..</option>
-					</select>
-				</div>
-				<label class="form-control-static col-lg-1">
-					ค้นหา
-				</label>
-				<div class="col-lg-2">
-					<input class="form-control" ng-model="condition.keyword">
-				</div>
-				<div class="col-lg-1">
-					<button class="btn btn-primary" ng-click="loadList(condition)">ค้นหา</button>
-				</div>
+			<label class="form-control-static col-lg-1">
+				ISO
+			</label>
+			<div class="col-lg-2">
+				<select class="form-control" ng-model="condition.iso" ng-options="item.id as item.iso_name for item in Iso1List">
+					<option value="">กรุณาเลือก..</option>
+				</select>
 			</div>
+			<label class="form-control-static col-lg-1">
+				ขอบข่าย
+			</label>
+			<div class="col-lg-2">
+				<select class="form-control" ng-model="condition.iso1" ng-options="item.id as item.iso_name for item in Iso2List">
+					<option value="">กรุณาเลือก..</option>
+				</select>
+			</div>
+			<label class="form-control-static col-lg-1">
+				ขอบข่ายย่อย
+			</label>
+			<div class="col-lg-2">
+				<select class="form-control" ng-model="condition.iso2" ng-options="item.id as item.iso_name for item in Iso3List">
+					<option value="">กรุณาเลือก..</option>
+				</select>
+			</div>
+			
+		</div>
+		<div class="row form-group">
+			<label class="form-control-static col-lg-1">
+				ค้นหา
+			</label>
+			<div class="col-lg-2">
+				<input class="form-control" ng-model="condition.keyword">
+			</div>
+			<div class="col-lg-1">
+				<button class="btn btn-primary" ng-click="loadList(condition)">ค้นหา</button>
+			</div>
+		</div>
 			<div class="table-responsive">
 				<table class="table table-striped table-bordered">
 					<thead>
@@ -65,10 +84,10 @@
 						<tr ng-repeat="data in DataList">
 							<td>{{data.group_name}}</td>
 							<td>{{data.item_no}}</td>
-							<td>{{data.detail_iso}}</td>
-							<td>{{data.scope_iso}}</td>
-							<td>{{data.subscope_iso}}</td>
-							<td><a href="../{{data.file_path}}">{{data.file_name}}</a></td>
+							<td>{{data.detail_iso_name}}</td>
+							<td>{{data.scope_iso_name}}</td>
+							<td>{{data.subscope_iso_name}}</td>
+							<td><a role="button" class="btn btn-default"  href="../{{data.file_path}}" download="{{data.file_name}}"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
 						</tr>
 					</tbody>
 				</table>

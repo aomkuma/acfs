@@ -50,7 +50,7 @@
 								<td>{{Admin.department}}</td>
 								<td>{{Admin.phone}}</td>
 								<td>{{Admin.email}}</td>
-								<td>{{Admin.adminType=='normal'?'ทั่วไป':'แอดมินสูงสุด'}}</td>
+								<td>{{Admin.adminType=='normal'?'ผู้ดูแลระบบทั่วไป':'ผู้ดูแลระบบสูงสุด'}}</td>
 								<td align="center">
 									<button class="btn btn-default btn-sm" ng-click="goAdminUpdate(Admin.adminID)">
 										<span class="glyphicon glyphicon-edit"></span>
@@ -110,6 +110,7 @@
 								<th>หน่วยงาน</th>
 								<th>โทรศัพท์</th>
 								<th>email</th>
+								<th>สถานะ</th>
 								<th>จัดการ</th>
 							</tr>
 						</thead>
@@ -121,6 +122,7 @@
 								<td>{{User.institution}}</td>
 								<td>{{User.phone}}</td>
 								<td>{{User.email}}</td>
+								<td>{{User.actives=='Y'?'ใช้งาน':'ไม่ใช้งาน'}}</td>
 								<td align="center">
 									<button class="btn btn-default btn-sm" ng-click="goUserUpdate(User.userID)">
 										<span class="glyphicon glyphicon-edit"></span>

@@ -5,6 +5,7 @@
     use App\Service\QuestionService;
     use App\Service\EmailService;
     use App\Service\SubcommitteeService;
+    use App\Service\AcademicBoardService;
     
     class QuestionController extends Controller {
         
@@ -176,6 +177,7 @@
                 $Questionnaire_Person = $_Questionnaire['questionnaire_person'];
                 $QuestionList = $_Questionnaire['question'];
 
+                unset($_Questionnaire['academicBoardName']);
                 unset($_Questionnaire['subcommitteeName']);
                 unset($_Questionnaire['standardName']);
                 unset($_Questionnaire['questionnaire_person']);
@@ -236,7 +238,7 @@
 
                 // update URL type = normal
                 if($_Questionnaire['questionnaireType'] == 'normal'){
-                    $link_url = "http://127.0.0.1/acfs/web/#/questionnaire-response/detail/" . $questionnaireID;
+                    $link_url = "http://61.19.221.109/acfs/web/#/questionnaire-response/detail/" . $questionnaireID;
                     QuestionService::updateQuestionLinkURL($questionnaireID, $link_url);
                 }
 
@@ -321,33 +323,80 @@
                 // print_r($Questionnaire);
                 // exit;
 
+                $title_name = $Questionnaire['standardName'];
+                if($Questionnaire['questionnaireSubType'] == 'standard'){
+                    $groupName = $Questionnaire['academicBoardName'];
+                }else{
+                    $groupName = $Questionnaire['subcommitteeName'];
+                    // if($Questionnaire['questionnaireType'] == 'online'){
+                    $title_name = $Questionnaire['questionName'];
+                    // }
+                }
                 $email_settings = EmailService::getEmailDefault();
                 
-                $mail_content = "แบบสอบถาม " . $Questionnaire['questionName'];
+                // $mail_content = "แบบสอบถาม " . $Questionnaire['questionName'];
                                 // exit;
                 $mailer = new Mailer;
-                $mailer->setMailHost('smtp.gmail.com');
-                $mailer->setMailPort('465');
-                $mailer->setMailUsername($email_settings->email);
-                $mailer->setMailPassword($email_settings->password);
-                $mailer->setSubject($mail_content);
+                // $mailer->setMailHost('smtp.gmail.com');
+                // $mailer->setMailPort('465');
+                // $mailer->setMailUsername($email_settings->email);
+                // $mailer->setMailPassword($email_settings->password);
+                $mailer->setMailHost('tls://mail.acfs.go.th:587');
+                $mailer->setMailPort('587');
+                $mailer->setMailUsername('standarddevelopment@acfs.go.th');
+                $mailer->setMailPassword('279sktX2DX');
+                $mailer->setSubject("แบบสอบถาม " . $Questionnaire['questionName']);
 
-                $mail_content .= "<br>สามารถแสดงความคิดเห็นได้แล้วที่  <a href='".$Questionnaire['filePath']."'>" . $Questionnaire['filePath']."</a>";
+                //$mail_content .= "<br>สามารถแสดงความคิดเห็นได้แล้วที่  <a href='".$Questionnaire['filePath']."'>" . $Questionnaire['filePath']."</a>";
+
+                $mail_content .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ด้วย " . $groupName . " ได้ขอให้หน่วยงานที่เกี่ยวข้องพิจารณาให้ข้อคิดเห็นต่อ " . $title_name . "
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.) พิจารณาแล้วเห็นว่าเรื่องดังกล่าวมีขอบข่ายเกี่ยวข้องกับท่าน/หน่วยงานของท่าน มกอช.";
+    
+                $link_url = $Questionnaire['filePath'];
+                if($Questionnaire['questionnaireType'] == 'normal'){
+                    $mail_content .= "ขอความร่วมมือพิจารณาให้ข้อคิดเห็นในเรื่องดังกล่าวให้ มกอช. ทราบ ภายในวันที่ " . $this->getThaiDate($Questionnaire['closeDate']);
+
+                    $link_url = $Questionnaire['link_url'];
+
+                    if(!empty($Questionnaire['fileName'])){
+                        $mailer->addAttachFile('../../' . $Questionnaire['filePath'], $Questionnaire['fileName']);
+                    }
+                }
+
+                
+                $mail_content .= "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;จึงเรียนมาเพื่อโปรดพิจารณาให้ข้อคิดเห็นในเรื่องดังกล่าวด้วย จะขอบคุณมาก
+                ลิงก์แบบสอบถาม <a href='".$link_url."'>" . $link_url."</a>";
+                // echo $mail_content;exit;
                 $mailer->setHTMLContent($mail_content);
                 $mailer->isHtml(true);
 
-                // set Receiver
-                $SubcommitteeList = SubcommitteeService::getData($Questionnaire['subcommitteeID']);
-                foreach ($SubcommitteeList['subcommitteePerson'] as $key => $value) {
-                    
-                    $mailer->setReceiver($value['email']);
-                }
-                $OtherList = $Questionnaire['questionnaire_person'];
-                foreach ($OtherList as $key => $value) {
-                    $mailer->setReceiver($value['email']);
+                if($Questionnaire['questionnaireSubType'] == 'committee'){
+                    // set Receiver
+                    $SubcommitteeList = SubcommitteeService::getData($Questionnaire['subcommitteeID']);
+                    foreach ($SubcommitteeList['subcommitteePerson'] as $key => $value) {
+                        
+                        $mailer->setReceiver($value['email']);
+                    }
+                    $OtherList = $Questionnaire['questionnaire_person'];
+                    foreach ($OtherList as $key => $value) {
+                        $mailer->setReceiver($value['email']);
+                    }
+                }else{
+                    $PersonList = AcademicBoardService::getAcademicBoardList($Questionnaire['standardID']);
+                    foreach ($PersonList as $key => $value) {
+                        $mailer->setReceiver($value->email);
+                        $this->logger->info('Online Question Sent mail academic to ' . $value->email);
+                    }
                 }
                 // exit;
                 $res = $mailer->sendMail();
+                if($res){
+                    $this->logger->info('Online Question Sent mail Room success to ' . $userData->email);
+                }else{
+                    // print_r($res);
+                    // exit;
+                    $this->logger->info('Online Question Sent mail Room failed' . $userData->email . $res);
+                }
 
                 $this->data_result['DATA'] = $res;
                 return $this->returnResponse(200, $this->data_result, $response, false);
@@ -358,7 +407,26 @@
         }
 
 
-        
+        private function getThaiDate($d){
+            
+            $arr = explode('-', $d);
+            switch($arr[1]){
+                case 1 : $monthTxt = 'มกราคม';break;
+                case 2 : $monthTxt = 'กุมภาพันธ์';break;
+                case 3 : $monthTxt = 'มีนาคม';break;
+                case 4 : $monthTxt = 'เมษายน';break;
+                case 5 : $monthTxt = 'พฤษภาคม';break;
+                case 6 : $monthTxt = 'มิถุนายน';break;
+                case 7 : $monthTxt = 'กรกฎาคม';break;
+                case 8 : $monthTxt = 'สิงหาคม';break;
+                case 9 : $monthTxt = 'กันยายน';break;
+                case 10 : $monthTxt = 'ตุลาคม';break;
+                case 11 : $monthTxt = 'พฤศจิกายน';break;
+                case 12 : $monthTxt = 'ธันวาคม';break;
+            }
+
+            return $arr[2] . ' ' . $monthTxt . ' ' . ($arr[0] + 543);
+        }
 
     
     }

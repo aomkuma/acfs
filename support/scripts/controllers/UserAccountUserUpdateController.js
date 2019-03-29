@@ -32,14 +32,12 @@ angular.module('app').controller('UserAccountUserUpdateController', function($sc
         HTTPService.clientRequest('user-account/update/user', params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
-                // if($scope.ID === undefined){
-                //     window.location.href = '#/user-account/update/user/' + result.data.DATA.userID;
-                // }else{
-                //     $scope.ID = result.data.DATA.userID;
-                //     $scope.loadUser('user-account/get/user', $scope.ID);
-                //     IndexOverlayFactory.overlayHide();
-                // }
-                window.location.href = '#/user-account/1';
+                alert('บันทึกสำเร็จ');
+                if($scope.currentUser.userType == 'admin'){
+                    window.location.href = '#/user-account/1';
+                }else{
+                    window.location.reload();
+                }
                 
             }else{
                 IndexOverlayFactory.overlayHide();

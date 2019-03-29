@@ -102,27 +102,6 @@
 			</div>
 		</div>
 		<br><br><br>
-		<div class="row form-group"  ng-form="form4">
-			<div class="col-lg-12">
-				<fieldset>
-					<legend>รายชื่อคณะกรรมการวิชาการ</legend>
-					<div class="row">
-						<div class="col-lg-2">
-							กลุ่มคณะกรรมการวิชาการ
-						</div>
-						<div class="col-lg-2">
-							<select name="Year" class="form-control" ng-model="condition4.AcademicBoardGroup" ng-options="data.standardID as data.academicBoardName for data in AcademicBoardList" required="required">
-								<option value="">กรุณาเลือก..</option>
-							</select>
-						</div>
-						<div class="col-lg-2">
-							<button class="btn btn-primary" ng-disabled="!form4.$valid" ng-click="exportReport('academicboardgroup', condition4)"><span class="glyphicon glyphicon-export"></span> ออกรายงาน</button>
-						</div>
-					</div>
-				</fieldset>
-			</div>
-		</div>
-		<br><br><br>
 		<div class="row form-group"  ng-form="form5">
 			<div class="col-lg-12">
 				<fieldset>
@@ -144,6 +123,28 @@
 			</div>
 		</div>
 		<br><br><br>
+		<div class="row form-group"  ng-form="form4">
+			<div class="col-lg-12">
+				<fieldset>
+					<legend>รายชื่อคณะกรรมการวิชาการ</legend>
+					<div class="row">
+						<div class="col-lg-2">
+							กลุ่มคณะกรรมการวิชาการ
+						</div>
+						<div class="col-lg-2">
+							<select name="Year" class="form-control" ng-model="condition4.AcademicBoardGroup" ng-options="data.standardID as data.academicBoardName for data in AcademicBoardList" required="required">
+								<option value="">กรุณาเลือก..</option>
+							</select>
+						</div>
+						<div class="col-lg-2">
+							<button class="btn btn-primary" ng-disabled="!form4.$valid" ng-click="exportReport('academicboardgroup', condition4)"><span class="glyphicon glyphicon-export"></span> ออกรายงาน</button>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<br><br><br>
+		
 		<div class="row form-group"  ng-form="form6">
 			<div class="col-lg-12">
 				<fieldset>

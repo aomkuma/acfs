@@ -34,7 +34,7 @@ angular.module('e-homework').controller('HearingReportController', function($sco
     }
 
     $scope.updateData = function(Data, Chanel, DataType){
-        $scope.alertMessage = 'ต้องการส่งคำขอนี้ ใช่หรือไม่ ?';
+        $scope.alertMessage = 'ต้องการบันทึกแบบแสดงความเห็นนี้ ใช่หรือไม่ ?';
         var modalInstance = $uibModal.open({
             animation : false,
             templateUrl : 'views/dialog_confirm.html',
@@ -53,7 +53,8 @@ angular.module('e-homework').controller('HearingReportController', function($sco
             var params = {'Data' : Data , 'Chanel' : Chanel, 'DataType' : DataType};
             HTTPService.clientRequest('hearing-report/update', params).then(function(result){
                 console.log(result);
-                // window.location.href = '#/';
+                alert('ระบบได้บันทึกความคิดเห็นของท่านแล้ว');
+                window.location.href = '#/';
                 IndexOverlayFactory.overlayHide();
             });
         });

@@ -86,8 +86,20 @@
 						<input class="form-control" ng-model="condition.keyword">
 					</div>
 					
-					<div class="col-lg-2">
+					<div class="col-lg-1">
 						<button class="btn btn-primary" ng-click="loadList()"> <span class="glyphicon glyphicon-search"></span> ค้นหา</button>
+					</div>
+
+					<div class="col-lg-3" >
+						<p class="input-group">
+				          <input type="text" readonly="true" class="form-control" ng-model="AttachFile.name" />
+				          <span class="input-group-btn">
+				            <button class="btn btn-default" ngf-select ng-model="AttachFile" ngf-max-size="100MB"  ngf-model-invalid="AttachFile.invalidFile" ngf-pattern="'.xlsx'" >เลือก</button>
+				          </span>
+				        </p>
+					</div>
+					<div class="col-lg-1">
+						<button class="btn btn-default" ng-click="uploadData(AttachFile)"> อัพโหลด</button>
 					</div>
 				</div>
 				
@@ -108,7 +120,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{$index + 1}}</td>
+					<td>{{ ($index + 1)  + (currentPage * limitRowPerPage)}}</td>
 					<td>{{data.product_th}}</td>
 					<td>{{data.code}}</td>
 					<td>{{data.product_type}}</td>
@@ -118,5 +130,30 @@
 				</tr>
 			</tbody>
 		</table>
+		<ul class="pagination pull-right">
+		    <li ng-show="totalPages > 1">
+		      <a ng-click="goToPage(0)" aria-label="First">
+		        <span aria-hidden="true">First</span>
+		      </a>
+		    </li>
+		    <li ng-show="totalPages > 1">
+		      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
+		        <span aria-hidden="true">Prev.</span>
+		      </a>
+		    </li>
+		    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
+		    	<a ng-click="goToPage(page)">{{page + 1}}</a>
+		    </li>
+		    <li ng-show="totalPages > 1">
+		      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
+		        <span aria-hidden="true">Next</span>
+		      </a>
+		    </li>
+		    <li ng-show="totalPages > 1">
+		      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
+		        <span aria-hidden="true">Last</span>
+		      </a>
+		    </li>
+		</ul>
 	</div>
 </div>

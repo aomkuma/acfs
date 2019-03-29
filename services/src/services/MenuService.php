@@ -39,8 +39,19 @@
                     ->get();      
         }
 
+        public static function getMenuListBackend($parent_menu, $user_role){
+            return Menu::select("Menus.*", DB::raw("'N' AS checked_menu"))
+                    ->join("UserRole_Detail", "UserRole_Detail.menu_id", '=', 'Menus.id')
+                    ->where('Menus.actives', 'Y')
+                    ->where('UserRole_Detail.actives', 'Y')
+                    ->where('parent_menu', $parent_menu)
+                    ->where('UserRole_Detail.role_id', $user_role)
+                    ->orderBy('menu_order', 'ASC')
+                    ->get();      
+        }
+
         public static function getMenuListManage(){
-            return Menu::where('menu_type', '<>', 'CUSTOM')
+            return Menu::orderBy('menu_type', 'ASC')
                     ->orderBy('id', 'DESC')
                     ->get();      
         }

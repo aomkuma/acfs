@@ -83,19 +83,19 @@ class Mailer
             );
         }else{
             $this->mailer->SMTPDebug = 2;
-            $this->mailer->SMTPSecure = false;
-            $this->mailer->SMTPAuth = false; 
-            $this->mailer->SMTPAutoTLS = false;
-
-            // $this->mailer->SMTPAuth = false;
             // $this->mailer->SMTPSecure = false;
-            $this->mailer->SMTPOptions = array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            );
+            // $this->mailer->SMTPAuth = false; 
+            // $this->mailer->SMTPAutoTLS = false;
+
+            // // $this->mailer->SMTPAuth = false;
+            // // $this->mailer->SMTPSecure = false;
+            // $this->mailer->SMTPOptions = array(
+            //     'ssl' => array(
+            //         'verify_peer' => false,
+            //         'verify_peer_name' => false,
+            //         'allow_self_signed' => true
+            //     )
+            // );
         }
         
     }

@@ -19,6 +19,22 @@
 <div ng-show="PAGE == 'UPDATE'">
 	<div class="row form-group">
 		<div class="col-lg-10 col-lg-offset-1">
+			<div class="row form-group">
+				<label class="form-control-static col-lg-2">
+					email
+				</label>
+				<label class="form-control-static col-lg-5">
+					{{Data.question_email}}
+				</label>
+			</div>
+			<div class="row form-group">
+				<label class="form-control-static col-lg-2">
+					หมายเลขโทรศัพท์
+				</label>
+				<label class="form-control-static col-lg-5">
+					{{Data.question_tel}}
+				</label>
+			</div>
 			
 			<div class="row form-group">
 				<label class="form-control-static col-lg-2">
@@ -64,7 +80,8 @@
 			<div class="row form-group">
 				<div class="col-lg-12 text-center">
 					<button class="btn btn-primary" ng-click="updateData(Data)">บันทึก</button>
-					<button class="btn btn-default" ng-click="cancel('MAIN')">บันทึก</button>
+					<button class="btn btn-info" ng-click="sendMail(Data)">ส่ง email</button>
+					<button class="btn btn-default" ng-click="cancel('MAIN')">ยกเลิก</button>
 				</div>
 			</div>
 		</div>

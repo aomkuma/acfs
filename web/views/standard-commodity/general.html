@@ -59,6 +59,7 @@
 								<th>มาตรฐานสินค้า</th>
 								<th>ประเภทมาตรฐาน</th>
 								<th>เลขที่</th>
+								<th>เล่มที่</th>
 								<th>วันที่ในราชกิจจานุเบกษา</th>
 								<th>ดาวน์โหลด</th>
 							</tr>
@@ -67,37 +68,14 @@
 							<tr ng-repeat="data in dataset">
 								<td><span uib-popover-html="data.cancelled_data" popover-trigger="'mouseenter'">{{data.standardNameThai}}</span></td>
 								<td>{{data.standardType}}</td>
+								<td>{{data.noThai}}</td>
 								<td>{{data.bookNumberThai}}</td>
 								<td>{{makeDateString(data.useDate)}}</td>
 								<td><a href="../{{data.standardFilePath}}" role="button" class="btn btn-default" download="{{data.standardFileName}}" ng-show="data.standardFileName != null && data.standardFileName != ''"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
 							</tr>
 						</tbody>
 					</table>
-					<ul class="pagination pull-right">
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(0)" aria-label="First">
-					        <span aria-hidden="true">First</span>
-					      </a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
-					        <span aria-hidden="true">Prev.</span>
-					      </a>
-					    </li>
-					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
-					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
-					        <span aria-hidden="true">Next</span>
-					      </a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
-					        <span aria-hidden="true">Last</span>
-					      </a>
-					    </li>
-					  </ul>
+					<ul class="pull-right" uib-pagination total-items="totalPages" ng-model="currentPage" max-size="limitDisplay" class="pagination-sm" items-per-page="limitRowPerPage" boundary-links="true" force-ellipses="true"  ng-change="pageChanged()"></ul>
 				</div>
 			</div>
 		</div>

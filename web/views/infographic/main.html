@@ -31,15 +31,26 @@
 
 	<div ng-show="PAGE == 'DETAIL'">
 		<div class="row">
-			<div class="col-lg-10 col-lg-offset-1">		
+			<div class="col-lg-10 col-lg-offset-1">	
+				<div class="row form-group">
+					<label class="col-lg-12 form-control-static text-center">
+						<br>
+						<br>
+						{{Detail.title_th}}
+					</label>
+				</div>	
 				<div class="row form-group">
 					<div class="col-lg-12 text-center">
 						<img ng-src="{{ '../' + CurrentPicture }}" alt="" style="max-width: 100%; height: 400px;">
 						<br><br><br>
+						<span style="font-weight: lighter; color: #999;">{{getThaiDate(Detail.publishing_date)}}</span>
+						<br>
+						<a href="{{ '../' + CurrentPicture }}" role="button" class="btn btn-default" download="{{CurrentPicture}}"><img src="../files/img/attach-file.png" style="height: 2em;"></a>
 					</div>
 				</div>
 				<div class="row form-group">
 					<div class="col-lg-12">
+
 						<div style="height: 2px; background-color: #13569A; width: 100%;"></div>
 						<br><br>
 					</div>
@@ -55,7 +66,7 @@
 							</a>
 						</div>
 						<div class="col-lg-2" ng-repeat="pic in PictureList">
-							<a ng-click="setCurrentPicture($index)" style="cursor: pointer;"><img ng-src="{{ '../' + pic.file_path }}" alt="" style="height: 100px; width: 100%;"></a>
+							<a ng-click="setCurrentPicture($index)" style="cursor: pointer;"><img ng-src="{{ '../' + pic.file_path }}" alt="" style="height: 100px;"></a>
 						</div>
 						<div class="col-lg-1">
 							&nbsp;<a ng-click="slideImage(next_index)" ng-show="next_index < Detail.AttachFiles.length && PictureList.length == 3">
@@ -74,19 +85,23 @@
 	</div>
 	<div class="row" ng-show="PAGE == 'MAIN'">
 		<div class="col-lg-10 col-lg-offset-1">	
-			<div class="col-lg-12 col-sm-12 col-xs-12" ng-repeat="data in DataList" style=" word-break:break-all; padding-top: 10px;">
-				<div class="row">
-					<div class="col-lg-4 col-md-4 text-center">
+			<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" ng-repeat="data in DataList" style=" word-break:break-all; padding-top: 10px;">
+				<div class="row form-group">
+					<div class="col-lg-12 col-md-12 text-center">
 						<img src="../{{data.AttachFiles[0].file_path}}" alt="" style=" width: 100%;">
 					</div>
-					<div class="col-lg-8 col-md-8">
+				</div>
+				<div class="row form-group">
+					<div class="col-lg-12 col-md-12">
 						<div class="row form-group" >
-							<label class="col-lg-6 form-control-static">
+							<label class="col-lg-12 form-control-static text-center">
 								{{data.title_th}}
+								<br>
+								<span style="font-weight: lighter; color: #999;">{{getThaiDate(data.publishing_date)}}</span>
 							</label>
 						</div>
 						<div class="row form-group" >
-							<div class="col-lg-6 ">
+							<div class="col-lg-12 text-center">
 								<button class="btn btn-success" ng-click="viewDetail(data)">อ่านเพิ่มเติม</button>
 							</div>	
 							

@@ -12,8 +12,22 @@ angular.module('app').controller('QuestionNormalUpdateController', function($sco
     $scope.$parent.menu_selected = 'questionnaire';
     $scope.ID = $routeParams.id;
 
+    $scope.loadSubcommitteeList = function(){
+        HTTPService.clientRequest('subcommittee/list/active', null).then(function(result){
+            console.log(result);
+            if(result.data.STATUS == 'OK'){
+                $scope.SubcommitteeList = result.data.DATA.Subcommittee;
+                
+                IndexOverlayFactory.overlayHide();
+                
+            }else{
+                IndexOverlayFactory.overlayHide();
+            }
+        });
+    }
+
     $scope.loadCommodityStandard = function(){
-        HTTPService.clientRequest('commodity-standard/list/in-use', null).then(function(result){
+        HTTPService.clientRequest('commodity-standard/list/pending', null).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.CommodityStandardList = result.data.DATA.List;
@@ -59,6 +73,27 @@ angular.module('app').controller('QuestionNormalUpdateController', function($sco
                 // $scope.addAlert('บันทึกสำเร็จ','success');
                 // if($scope.ID === undefined){
                 //     window.location.href = '#/questionnaire/update/normal/' + result.data.DATA.questionnaireID;
+                // }else{
+                //     $scope.ID = result.data.DATA.questionnaireID;
+                //     $scope.loadQuestionnaire('questionnaire/get', $scope.ID);
+                //     IndexOverlayFactory.overlayHide();    
+                // }
+                window.location.href = '#/question/0';
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
+    $scope.sendMail = function(){
+        var params = {'Questionnaire' : $scope.Questionnaire};
+        IndexOverlayFactory.overlayShow();
+        HTTPService.uploadRequest('questionnaire/sendmail', params).then(function(result){  
+            // console.log(result.data);
+            // $scope.loadQuestionnaires($scope.Commodity_Standards.standardID);
+            if(result.data.STATUS == 'OK'){
+                $scope.addAlert('ส่ง email สำเร็จ','success');
+                // if($scope.ID === undefined){
+                //     window.location.href = '#/questionnaire/update/online/' + result.data.DATA.questionnaireID;
                 // }else{
                 //     $scope.ID = result.data.DATA.questionnaireID;
                 //     $scope.loadQuestionnaire('questionnaire/get', $scope.ID);
@@ -140,6 +175,10 @@ angular.module('app').controller('QuestionNormalUpdateController', function($sco
     }
 
     $scope.removeQuestionnairePerson = function(id, index){
+        if(id == ''){
+            $scope.Questionnaire.questionnaire_person.splice(index, 1);
+            return false;
+        }
         $scope.alertMessage = 'ข้อมูลนี้จะถูกลบจากฐานข้อมูลโดยทันที ต้องการลบบุคคลนี้ ใช่หรือไม่ ?';
         var modalInstance = $uibModal.open({
             animation : true,
@@ -334,6 +373,8 @@ angular.module('app').controller('QuestionNormalUpdateController', function($sco
     $scope.Branch = {'branchID':'' , 'branchNameThai':'', 'branchNameEng':''};
 
     IndexOverlayFactory.overlayHide();
+
+    $scope.loadSubcommitteeList();
     $scope.loadCommodityStandard();
     if($scope.ID !== undefined){
         $scope.loadQuestionnaire('questionnaire/get', $scope.ID);

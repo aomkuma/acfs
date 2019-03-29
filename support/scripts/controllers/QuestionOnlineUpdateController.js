@@ -12,8 +12,22 @@ angular.module('app').controller('QuestionOnlineUpdateController', function($sco
     $scope.$parent.menu_selected = 'questionnaire';
     $scope.ID = $routeParams.id;
 
+    $scope.loadSubcommitteeList = function(){
+        HTTPService.clientRequest('subcommittee/list/active', null).then(function(result){
+            console.log(result);
+            if(result.data.STATUS == 'OK'){
+                $scope.SubcommitteeList = result.data.DATA.Subcommittee;
+                
+                IndexOverlayFactory.overlayHide();
+                
+            }else{
+                IndexOverlayFactory.overlayHide();
+            }
+        });
+    }
+
     $scope.loadCommodityStandard = function(){
-        HTTPService.clientRequest('commodity-standard/list/in-use', null).then(function(result){
+        HTTPService.clientRequest('commodity-standard/list/pending', null).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.CommodityStandardList = result.data.DATA.List;
@@ -351,6 +365,7 @@ angular.module('app').controller('QuestionOnlineUpdateController', function($sco
     $scope.Branch = {'branchID':'' , 'branchNameThai':'', 'branchNameEng':''};
 
     IndexOverlayFactory.overlayHide();
+    $scope.loadSubcommitteeList();
     $scope.loadCommodityStandard();
     if($scope.ID !== undefined){
         $scope.loadQuestionnaire('questionnaire/get', $scope.ID);

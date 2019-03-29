@@ -66,6 +66,7 @@ angular.module('app').controller('UserAccountController', function($scope, $comp
                 console.log(result);
                 if(result.data.STATUS == 'OK'){
                     $scope.loadAdmin('user-account/list/admin');
+                    
                     IndexOverlayFactory.overlayHide();
                 }else{
                     IndexOverlayFactory.overlayHide();
@@ -96,7 +97,7 @@ angular.module('app').controller('UserAccountController', function($scope, $comp
             HTTPService.clientRequest('user-account/delete/user', params).then(function(result){
                 console.log(result);
                 if(result.data.STATUS == 'OK'){
-                    $scope.loadAdmin('user-account/list/user');
+                    $scope.loadUser('user-account/list/user');
                     IndexOverlayFactory.overlayHide();
                 }else{
                     IndexOverlayFactory.overlayHide();

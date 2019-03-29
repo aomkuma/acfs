@@ -19,7 +19,7 @@
             return SlideShow::where('actives', 'Y')
                     ->orderBy('order_no', 'ASC')
                     ->orderBy('id', 'ASC')
-                    ->get();      
+                    ->get()->toArray();      
         }
 
         public static function updateSlideShow($obj){

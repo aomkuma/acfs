@@ -51,10 +51,13 @@ angular.module('e-homework').controller('ProductCodeController', function($scope
 
 
     $scope.loadList = function(){
-        var params = {'condition' : $scope.condition};
+        var params = {'condition' : $scope.condition   
+                    , 'currentPage': $scope.currentPage
+                    , 'limitRowPerPage': $scope.limitRowPerPage};
         HTTPService.clientRequest('product-code/list', params).then(function(result){
             console.log(result);
             $scope.DataList = result.data.DATA.List;
+            $scope.totalPages = result.data.DATA.Total;
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -108,6 +111,40 @@ angular.module('e-homework').controller('ProductCodeController', function($scope
         $scope.PAGE = 'UPDATE';
     }
 
+    $scope.uploadData = function(AttachFile){
+        $scope.alertMessage = 'ต้องการอัพโหลดข้อมูลจากไฟล์ ใช่หรือไม่ ?';
+        var modalInstance = $uibModal.open({
+            animation : false,
+            templateUrl : 'views/dialog_confirm.html',
+            size : 'sm',
+            scope : $scope,
+            backdrop : 'static',
+            controller : 'ModalDialogCtrl',
+            resolve : {
+                params : function() {
+                    return {};
+                } 
+            },
+        });
+
+        modalInstance.result.then(function (valResult) {
+            IndexOverlayFactory.overlayShow();
+            var params = {'AttachFile' : AttachFile};
+            HTTPService.uploadRequest('product-code/update/upload', params).then(function(result){
+                // $scope.load('Datas');
+                alert('อัพโหลดไฟล์สำเร็จ');
+                $scope.AttachFile = null;
+                $scope.loadList();
+                IndexOverlayFactory.overlayHide();
+            });
+        });
+    }
+
+    $scope.goToPage = function(page){
+        $scope.currentPage = page;
+        $scope.loadList();
+    }
+
     $scope.cancel = function(page){
         $scope.PAGE = page;
     }
@@ -129,6 +166,10 @@ angular.module('e-homework').controller('ProductCodeController', function($scope
     };
 
     $scope.PAGE = 'MAIN';
+    $scope.totalPages = 0;
+    $scope.currentPage = 0;
+    $scope.limitRowPerPage = 15;
+    $scope.limitDisplay = 5;
 
     $scope.getMenu('menu/get/type' ,$scope.page_type);
     $scope.loadList();

@@ -50,8 +50,10 @@
 							<div class="col-lg-2">
 								<select class="form-control" ng-model="condition.license_status">
 									<option value="">กรุณาเลือก..</option>
-									<option value="ออกใบอนุญาติแล้ว">ออกใบอนุญาติแล้ว</option>
-									<option value="ยกเลิกใบอนุญาติแบบถาวร">ยกเลิกใบอนุญาติแบบถาวร</option>
+									<option value="ออกใบอนุญาตแล้ว">ออกใบอนุญาตแล้ว</option>
+									<option value="ออกใบอนุญาตแล้ว (ชำระเงินแล้ว)">ออกใบอนุญาตแล้ว (ชำระเงินแล้ว)</option>
+									<option value="ยกเลิกใบอนุญาตแบบชั่วคราว">ยกเลิกใบอนุญาตแบบชั่วคราว</option>
+									<option value="ยกเลิกใบอนุญาตแบบถาวร">ยกเลิกใบอนุญาตแบบถาวร</option>
 								</select>
 							</div>
 							<label class="form-control-static col-lg-1">
@@ -128,6 +130,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<ul class="pull-right" uib-pagination total-items="totalPages" ng-model="currentPage" max-size="limitDisplay" class="pagination-sm" items-per-page="limitRowPerPage" boundary-links="true" force-ellipses="true"  ng-change="pageChanged()"></ul>
 			</div>
 		</div>
 	</div>

@@ -37,10 +37,14 @@ angular.module('e-homework').controller('ProductCodeController', function($scope
 
 
     $scope.loadList = function(){
-        var params = {'condition' : $scope.condition};
+        var params = {'condition' : $scope.condition
+                    , 'currentPage': $scope.currentPage
+                    , 'limitRowPerPage': $scope.limitRowPerPage
+                };
         HTTPService.clientRequest('product-code/list', params).then(function(result){
             console.log(result);
             $scope.DataList = result.data.DATA.List;
+            $scope.totalPages = result.data.DATA.Total;
             IndexOverlayFactory.overlayHide();
         });
     }
@@ -83,6 +87,11 @@ angular.module('e-homework').controller('ProductCodeController', function($scope
         
     }
 
+    $scope.goToPage = function(page){
+        $scope.currentPage = page;
+        $scope.loadList();
+    }
+
     $scope.updateData = function(data){
         console.log(data);
         $scope.Data = null;
@@ -113,6 +122,10 @@ angular.module('e-homework').controller('ProductCodeController', function($scope
         $scope.popup2.opened = true;
     };
 
+    $scope.totalPages = 0;
+    $scope.currentPage = 0;
+    $scope.limitRowPerPage = 15;
+    $scope.limitDisplay = 5;
     $scope.PAGE = 'MAIN';
 
     $scope.loadMenu('menu/list');

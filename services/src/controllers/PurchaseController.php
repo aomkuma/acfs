@@ -74,9 +74,10 @@
                 $FileList = $files['obj']['Data']['AttachFileList'];
                 // print_r($FileList);
                 // exit;
+                $order_no = 1;
                 foreach ($FileList as $key => $value) {
                     $f = $value['attachFile'];
-                    // print_r($f);
+                    print_r($f);
                     if($f != null){
                         if($f->getClientFilename() != ''){
 
@@ -94,18 +95,20 @@
                                             ,'display_name'=>$f->getClientFilename()
                                             ,'file_path'=>$FilePath
                                             ,'content_type'=>$f->getClientMediaType()
-                                            ,'order_no' => 1
+                                            ,'order_no' => $order_no
                                             ,'file_size'=>number_format($f->getSize()/1024, 2)
 
                                         ];
                             // print_r($AttachFile);exit;
-                            AttachFileService::updateAttachFiles($AttachFile);
+                            AttachFileService::addAttachFiles($AttachFile);
                             $f->moveTo('../../' . $FilePath);
                             
                         }
+                        
                     }
+                    $order_no++;
                 }
-                
+                // exit;
                 $this->data_result['DATA']['id'] = $id;
 
                 return $this->returnResponse(200, $this->data_result, $response, false);

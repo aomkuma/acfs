@@ -80,7 +80,7 @@ angular.module('e-homework').controller('PurchaseController', function($scope, $
     $scope.removeData = function(id){
         $scope.alertMessage = 'ต้องการลบข้อมูลนี้ ใช่หรือไม่ ?';
         var modalInstance = $uibModal.open({
-            animation : true,
+            animation : false,
             templateUrl : 'views/dialog_confirm.html',
             size : 'sm',
             scope : $scope,
@@ -155,6 +155,8 @@ angular.module('e-homework').controller('PurchaseController', function($scope, $
             $scope.Data = {'page_type': $scope.page_type, 'actives':'Y', 'echo_status' : 'Y', 'AttachFileList' : []};
         }
 
+        $scope.Data.budget_limit = parseFloat($scope.Data.budget_limit);
+        $scope.Data.main_price = parseFloat($scope.Data.main_price);
         if($scope.page_type != 'winning'){
             $scope.PAGE = 'UPDATE';
         }else{

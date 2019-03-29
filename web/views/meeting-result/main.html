@@ -49,12 +49,12 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>ชื่อการประชุม</th>
+									<th style="width:30%">ชื่อการประชุม</th>
 									<th>ครั้งที่</th>
 									<th>วันที่</th>
-									<th>สถานที่จัด</th>
-									<th>สาระสำคัญ</th>
-									<th>ไฟล์แนบ</th>
+									<th style="width:10%">สถานที่จัด</th>
+									<th style="width:10%">สาระสำคัญ</th>
+									<th style="width:10%">ไฟล์แนบ</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -66,7 +66,7 @@
 										{{data.times}}
 									</td>
 									<td>
-										{{data.meeting_start_date}}
+										{{getShortDate(data.meeting_start_date)}}
 									</td>
 									<td>
 										{{DEFAULT_LANGUAGE == 'TH'?data.meeting_place_th:data.meeting_place_en}}

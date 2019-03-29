@@ -136,11 +136,15 @@
                             // Get e-mail hosting for send
                             // $email_settings = EmailService::getEmailAcademicBord($standardID);
                             // if(!empty($email_settings)){
-                            $this->logger->info('PREPARE Sent mail');
+                            $this->logger->info('PREPARE Sent mail academic board to ' . $userData->email);
                                 // sent mail
                             $mailer = new Mailer;
-                            $mailer->setMailHost('tls://mail.acfs.go.th:587');
-                            $mailer->setMailPort('587');
+                            // $mailer->setMailHost('tls://mail.acfs.go.th:587');
+                            // $mailer->setMailPort('587');
+                            // $mailer->setMailUsername('standarddevelopment@acfs.go.th');
+                            // $mailer->setMailPassword('279sktX2DX');
+                            $mailer->setMailHost('mail.acfs.go.th');
+                            $mailer->setMailPort('25');
                             $mailer->setMailUsername('standarddevelopment@acfs.go.th');
                             $mailer->setMailPassword('279sktX2DX');
                             // $mailer->setMailHost('smtp.gmail.com');
@@ -153,11 +157,11 @@
                             $mailer->setReceiver($userData->email);
                             $res = $mailer->sendMail();
                             if($res){
-                                $this->logger->info('Sent mail Room success');
+                                $this->logger->info('Sent mail academic board success');
                             }else{
                                 // print_r($res);
                                 // exit;
-                                $this->logger->info('Sent mail Room failed' . $res->ErrorInfo);
+                                $this->logger->info('Sent mail academic board failed' . $res->ErrorInfo);
                             }
                             // }
                         // }

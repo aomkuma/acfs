@@ -430,6 +430,16 @@ function convertSQLDateTimeToReportDate(d){
     return parseInt(date[2]) + ' ' + monthTxt + ' ' + (parseInt(date[0]) + 543);
 }
 
+function getShortDate(d){
+    if(d != null && d != '' && d != '0000-00-00'){
+        var date = d.split('-');
+        return date[2] + '/' + date[1] + '/' + (parseInt(date[0]) + 543);    
+    }else{
+        return '';
+    }
+    
+}
+
 function getYearList(loop)
 {
     var startYear = 2017;

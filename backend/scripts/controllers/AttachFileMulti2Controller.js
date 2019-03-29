@@ -112,10 +112,11 @@ angular.module('e-homework').controller('AttachFileMulti2Controller', function($
         $scope.AttachFile = null;
         $scope.FileList = [];
         $scope.Data = angular.copy(data);
-        $scope.FileName = [{'name_th':data.AttachFiles[0].display_name, 'name_en' : ''}];
+        $scope.FileName = [{'name_th':data.AttachFiles[0].display_name, 'file_name_th':data.AttachFiles[0].file_name, 'name_en' : '', 'file_name_en' : ''}];
         // alert(data.AttachFiles.length);
         if(data.AttachFiles.length > 1){
             $scope.FileName[0].name_en = data.AttachFiles[1].display_name;
+            $scope.FileName[0].file_name_en = data.AttachFiles[1].file_name;
         }
         $scope.addFiles();
         $scope.PAGE = 'UPDATE';
@@ -145,7 +146,7 @@ angular.module('e-homework').controller('AttachFileMulti2Controller', function($
     $scope.removeData = function(id){
         $scope.alertMessage = 'ต้องการลบข้อมูลนี้ ใช่หรือไม่ ?';
         var modalInstance = $uibModal.open({
-            animation : true,
+            animation : false,
             templateUrl : 'views/dialog_confirm.html',
             size : 'sm',
             scope : $scope,

@@ -13,6 +13,17 @@
     
     class MeetingService {
 
+        public static function getMailSchedule(){
+            return Meeting::where('sentEmailStatus', 'TimeSetting')
+                        ->where('emailSentDate', '<=', date('Y-m-d H:i:s'))
+                        ->where('isSendMail', 'N')
+                        ->get();
+        }
+
+        public static function updateSentEmailStatus($meetingID){
+            return Meeting::where('meetingID', $meetingID)->update(['isSendMail' => 'Y']);
+        }
+
     	public static function getList($standardID,$menuType){
             return Meeting::where('standardID', $standardID)
                     ->where('menuType', $menuType)
@@ -23,6 +34,14 @@
                     ->get();
         }
 
+        public static function getListForHomepageAdmin(){
+            return Meeting::groupBy('Meetings.meetingID')
+                        ->with('momFile')
+                        ->with('meetingFile')
+                        ->with('inviteFile')
+                        ->get();
+        }
+
         public static function getListForHomepage($userID){
             return Meeting::where(function($query) use ($userID){
                             if(!empty($userID)){
@@ -30,6 +49,36 @@
                             }
                         })
                         ->join("Meeting_attendees", 'Meeting_attendees.meetingID', '=', 'Meetings.meetingID')
+                        ->groupBy('Meetings.meetingID')
+                        ->with('momFile')
+                        ->with('meetingFile')
+                        ->with('inviteFile')
+                        ->get();
+        }
+
+        public static function getListForHomepageAcademicBoard($userID){
+            return Meeting::where(function($query) use ($userID){
+                            if(!empty($userID)){
+                                $query->where('Academic_Boards.stakeholderID', $userID);
+                            }
+                        })
+                        ->join("Commodity_Standards", 'Commodity_Standards.standardID', '=', 'Meetings.standardID')
+                        ->join("Academic_Boards", 'Academic_Boards.standardID', '=', 'Meetings.standardID')
+                        ->groupBy('Meetings.meetingID')
+                        ->with('momFile')
+                        ->with('meetingFile')
+                        ->with('inviteFile')
+                        ->get();
+        }
+
+        public static function getListForHomepageSubcommittee($userID){
+            return Meeting::where(function($query) use ($userID){
+                            if(!empty($userID)){
+                                $query->where('Subcommittee_Person.stakeholderID', $userID);
+                            }
+                        })
+                        ->join("Subcommittee", 'Subcommittee.subcommitteeID', '=', 'Meetings.standardID')
+                        ->join("Subcommittee_Person", 'Subcommittee_Person.subcommitteeID', '=', 'Meetings.standardID')
                         ->groupBy('Meetings.meetingID')
                         ->with('momFile')
                         ->with('meetingFile')
@@ -49,6 +98,7 @@
             return MeetingAttendee::select("nameThai"
                         ,"lastNameThai"
                         ,"positionThai"
+                        ,"email"
                         ,"Meeting_attendees.*")
                     ->where('Meeting_attendees.meetingID', $meetingID)
                     ->join("Stakeholders", "Stakeholders.stakeholderID", '=', "Meeting_attendees.attendeeID")
@@ -108,6 +158,10 @@
 
         public static function getMeetingFile($meetingID){
             return MeetingFile::where('meetingID', $meetingID)->get();
+        }  
+
+        public static function getInviteFile($meetingID){
+            return InviteFile::where('meetingID', $meetingID)->get();
         }        
 
     }

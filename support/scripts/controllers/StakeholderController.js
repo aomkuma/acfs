@@ -129,8 +129,20 @@ angular.module('app').controller('StakeholderController', function($scope, $comp
 
     $scope.goToPage = function(page){
         $scope.currentPage = page;
-        $scope.loadStakeholder('stakeholder/list');
+        if($scope.ActiveTab == 0){
+            $scope.loadStakeholder('stakeholder/list');
+        }else if($scope.ActiveTab == 1){
+            $scope.loadAcademicBoard('commodity-standard/academic-board/list');
+        }else if($scope.ActiveTab == 2){
+            $scope.loadSubcommittee('subcommittee/list'); 
+        }
+        
     }
+
+    $scope.pageChanged = function() {
+        $scope.goToPage($scope.currentPage);
+        // $log.log('Page changed to: ' + $scope.currentPage);
+    };
 
     $scope.goUpdate = function(id){
         window.location.href = '#/stakeholder/update/' + id;
@@ -157,6 +169,22 @@ angular.module('app').controller('StakeholderController', function($scope, $comp
                 }
             },
         });
+    }
+
+    $scope.changeTab = function(index){
+        $scope.totalPages = 0;
+        $scope.currentPage = 0;
+        $scope.limitRowPerPage = 10;
+        $scope.limitDisplay = 5;
+        $scope.ActiveTab = index;
+        if(index == 0){
+            $scope.loadStakeholder('stakeholder/list');    
+        }else if(index == 1){
+            $scope.loadAcademicBoard('commodity-standard/academic-board/list');
+        }else if(index == 2){
+            $scope.loadSubcommittee('subcommittee/list'); 
+        }
+        
     }
 
     $scope.totalPages = 0;

@@ -134,7 +134,8 @@ angular.module('e-homework').controller('AppealController', function($scope, $co
      }
 
      $scope.goUpdate = function(){
-        $scope.Data = null;
+        $scope.Data = {'page_type':$routeParams.page_type, 'tel' : '-'};
+        // $scope.Data = {'page_type':$routeParams.page_type};
         $scope.AppealCallbackList = [];
         $scope.AppealListList = [];
         $scope.PAGE = 'UPDATE';

@@ -4,7 +4,7 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
     
     $scope.page_type = $routeParams.page_type;
 
-    $scope.page_type = 'operator-list';
+    $scope.page_type = 'inspection-operator';
 
     $scope.loadMenu = function(action){
         HTTPService.clientRequest(action, null).then(function(result){

@@ -72,8 +72,13 @@ angular.module('e-homework').controller('FormData1OperatorController', function(
 
     $scope.saveData = function(FormData1, form_data1_license, form_data1_scope){
         for(var i = 0; i < form_data1_license.length; i++){
-            form_data1_license[i].start_date = concatDateSQL(form_data1_license[i].start_date);
-            form_data1_license[i].end_date = concatDateSQL(form_data1_license[i].end_date);
+            if(form_data1_license[i].start_date != undefined && form_data1_license[i].start_date != null && form_data1_license[i].start_date != ''){
+                form_data1_license[i].start_date = concatDateSQL(form_data1_license[i].start_date);
+            }
+            if(form_data1_license[i].end_date != undefined && form_data1_license[i].end_date != null && form_data1_license[i].end_date != ''){
+                form_data1_license[i].end_date = concatDateSQL(form_data1_license[i].end_date);
+            }
+            
             
         }
 
@@ -111,7 +116,7 @@ angular.module('e-homework').controller('FormData1OperatorController', function(
                 ,'actives' : 'Y'
             };
 
-            $scope.form_data1_license = [{'form_data1_scope' : [{
+            $scope.form_data1_license = [{'form_data1_standard_checked' : [{
                                                         'form_data1_product_inspect':[{}]
                                                         }
                                                 ]

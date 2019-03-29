@@ -62,8 +62,15 @@
 
                       <ul style="list-style: none;">
                         <li ng-repeat="sub_menu3 in sub_menu2.sub_menu" ng-init="level4 = $index">
-                          <input id="chk{{sub_menu3.id}}" type="checkbox" ng-model="sub_menu3.checked_menu" ng-true-value="'Y'" ng-false-value="'N'" ng-checked="checkMenuRole(sub_menu3.id)"> 
+                          <input id="chk{{sub_menu3.id}}" type="checkbox" ng-model="sub_menu3.checked_menu" ng-true-value="'Y'" ng-false-value="'N'" ng-checked="checkMenuRole(sub_menu3.id)" ng-click="checkAll(sub_menu3, 4, level4, sub_menu3.checked_menu)"> 
                           <label for="chk{{sub_menu3.id}}">{{sub_menu3.menu_name_th}}</label>
+
+                          <ul style="list-style: none;">
+                            <li ng-repeat="sub_menu4 in sub_menu3.sub_menu" ng-init="level5 = $index">
+                              <input id="chk{{sub_menu4.id}}" type="checkbox" ng-model="sub_menu4.checked_menu" ng-true-value="'Y'" ng-false-value="'N'" ng-checked="checkMenuRole(sub_menu4.id)"> 
+                              <label for="chk{{sub_menu4.id}}">{{sub_menu4.menu_name_th}}</label>
+                            </li>
+                          </ul>
                         </li>
                       </ul>
 

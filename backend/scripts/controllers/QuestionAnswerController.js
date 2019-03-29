@@ -58,14 +58,34 @@ angular.module('e-homework').controller('QuestionAnswerController', function($sc
     }
 
     $scope.updateData = function(Data){
-        var params = {'Data' : Data};
-        if(Data.answer_date != undefined && Data.answer_date != null && Data.answer_date != ''){
-            Data.answer_date = makeSQLDate(Data.answer_date);
+        IndexOverlayFactory.overlayShow();
+        var UpdateData = angular.copy(Data);
+        var params = {'Data' : UpdateData};
+        if(UpdateData.answer_date != undefined && UpdateData.answer_date != null && UpdateData.answer_date != ''){
+            UpdateData.answer_date = makeSQLDate(UpdateData.answer_date);
         }
-        var params = {'Data' : Data};
+        var params = {'Data' : UpdateData};
         HTTPService.clientRequest('question-answer/answer/update', params).then(function(result){
             if(result.data.STATUS == 'OK'){
                 alert('บันทึกสำเร็จ');
+                // $scope.loadList();
+                // $scope.PAGE = 'MAIN';
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+IndexOverlayFactory.overlayShow();
+    $scope.sendMail = function(Data){
+        IndexOverlayFactory.overlayShow();
+        var UpdateData = angular.copy(Data);
+        var params = {'Data' : UpdateData};
+        if(UpdateData.answer_date != undefined && UpdateData.answer_date != null && UpdateData.answer_date != ''){
+            UpdateData.answer_date = makeSQLDate(UpdateData.answer_date);
+        }
+        var params = {'Data' : UpdateData};
+        HTTPService.clientRequest('question-answer/answer/sendmail', params).then(function(result){
+            if(result.data.STATUS == 'OK'){
+                alert('ส่ง email สำเร็จ');
                 $scope.loadList();
                 $scope.PAGE = 'MAIN';
             }

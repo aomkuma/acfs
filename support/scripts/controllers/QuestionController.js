@@ -66,6 +66,11 @@ angular.module('app').controller('QuestionController', function($scope, $compile
         $scope.loadQuestionnaire('questionnaire/list');
     }
 
+    $scope.pageChanged = function() {
+        $scope.goToPage($scope.currentPage);
+        // $log.log('Page changed to: ' + $scope.currentPage);
+    };
+
     $scope.goUpdate = function(id, questionType){
         window.location.href = '#/questionnaire/update/' + questionType + '/' + id;
     }

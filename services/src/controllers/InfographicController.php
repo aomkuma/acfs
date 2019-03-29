@@ -207,4 +207,17 @@
                 return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
             }
         }
+
+        public function deleteData($request, $response, $args){
+            try{
+                $params = $request->getParsedBody();
+                $id = $params['obj']['id'];
+                $result = InfographicService::removeData($id);
+                $this->data_result['DATA']['result'] = $result;
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
     }

@@ -8,9 +8,13 @@
     
     class ProductCodeService {
 
-    	public static function getList($condition){
-            return ProductCode::
-                            where(function($query) use($condition) {
+    	public static function getList($condition, $currentPage, $limitRowPerPage){
+
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+
+            $totalRows = count(ProductCode::where(function($query) use($condition) {
                                 if(!empty($condition['keyword'])){
                                     $query->where('product_th', 'LIKE', DB::raw("'%" . $condition['keyword'] . "%'"));
                                     $query->orWhere('product_en', 'LIKE', DB::raw("'%" . $condition['keyword'] . "%'"));
@@ -19,7 +23,25 @@
                                     $query->where('product_type' , $condition['product_type']);
                                 }
                             })
+                            ->get()
+                            ->toArray());  
+
+            $totalRows = ceil($totalRows / $limitRowPerPage);   
+
+            $DataList = ProductCode::where(function($query) use($condition) {
+                                if(!empty($condition['keyword'])){
+                                    $query->where('product_th', 'LIKE', DB::raw("'%" . $condition['keyword'] . "%'"));
+                                    $query->orWhere('product_en', 'LIKE', DB::raw("'%" . $condition['keyword'] . "%'"));
+                                }
+                                if(!empty($condition['product_type'])){
+                                    $query->where('product_type' , $condition['product_type']);
+                                }
+                            })
+                            ->skip($skip)
+                            ->take($limit)
                             ->get();
+
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
         }
 
         public static function updateData($obj){

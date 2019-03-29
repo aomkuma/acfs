@@ -42,6 +42,7 @@ angular.module('app').controller('HomeController', function($scope, $cookies, $f
                 $scope.Meeting = result.data.DATA.Meeting;
                 $scope.getDayOfMonth();
                 IndexOverlayFactory.overlayHide();
+
             }else{
                 IndexOverlayFactory.overlayHide();
             }
@@ -117,6 +118,12 @@ angular.module('app').controller('HomeController', function($scope, $cookies, $f
 	      }
 	    }
 
+        if($scope.isFirstLoadPage){
+            console.log('this day : ' + $scope.date.getDate());
+            
+            $scope.setMeetingTable($scope.findMeetingInDay($scope.date.getDate()));
+            $scope.isFirstLoadPage = false;
+        }
 	    console.log($scope.daysInThisMonth);
     }
 
@@ -139,8 +146,15 @@ angular.module('app').controller('HomeController', function($scope, $cookies, $f
     			meetingList.push($scope.Meeting[i]);
     		}
     	}
-    	console.log(meetingList);
+    	// console.log(meetingList);
     	return meetingList;
+    }
+
+    $scope.setMeetingTable = function(meeting, date){
+
+        $scope.CurrentDay = convertDateToFullThaiDateIgnoreTime(new Date($scope.date));
+        $scope.MeetingList = meeting;
+        console.log($scope.MeetingList);
     }
 
     $scope.showMeetingDetail = function(data){
@@ -198,6 +212,9 @@ angular.module('app').controller('HomeController', function($scope, $cookies, $f
     $scope.daysInLastMonth = [];
     $scope.daysInNextMonth = [];
     $scope.Meeting = [];
+    $scope.CurrentDay = convertDateToFullThaiDateIgnoreTime(new Date());
+    $scope.MeetingList = [];
+    $scope.isFirstLoadPage = true;
     // load seminar
 
     $scope.loadCommodityStandard('commodity-standard/list/home');

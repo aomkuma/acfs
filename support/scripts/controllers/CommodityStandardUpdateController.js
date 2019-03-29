@@ -74,6 +74,11 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.Commodity_Standards = result.data.DATA.CommodityStandard;
+
+                if($scope.Commodity_Standards.step == '10'){
+                    $scope.CommodityStep = $scope.Commodity_Standards.step;
+                }
+
                 $scope.Commodity_Keywords_TH = result.data.DATA.Commodity_Keywords_TH;
                 $scope.Commodity_Keywords_EN = result.data.DATA.Commodity_Keywords_EN;
                 $scope.loadStakeholders($scope.ID);
@@ -140,6 +145,14 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 		$scope.Commodity_Standards.updateBy = $scope.currentUser.adminID;
         if($scope.Commodity_Standards.useDate != undefined && $scope.Commodity_Standards.useDate != null && $scope.Commodity_Standards.useDate != '' && $scope.Commodity_Standards.useDate != '0000-00-00 00:00:00'){
             $scope.Commodity_Standards.useDate = makeSQLDate($scope.Commodity_Standards.useDate);
+        }
+
+        if($scope.Commodity_Standards.echoDate != undefined && $scope.Commodity_Standards.echoDate != null && $scope.Commodity_Standards.echoDate != '' && $scope.Commodity_Standards.echoDate != '0000-00-00 00:00:00'){
+            $scope.Commodity_Standards.echoDate = makeSQLDate($scope.Commodity_Standards.echoDate);
+        }
+
+        if($scope.Commodity_Standards.cancelledDate != undefined && $scope.Commodity_Standards.cancelledDate != null && $scope.Commodity_Standards.cancelledDate != '' && $scope.Commodity_Standards.cancelledDate != '0000-00-00 00:00:00'){
+            $scope.Commodity_Standards.cancelledDate = makeSQLDate($scope.Commodity_Standards.cancelledDate);
         }
 		var params = {
 					'Commodity_Standards':$scope.Commodity_Standards
@@ -305,10 +318,12 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 	    	$scope.startMin = $scope.Meeting.startDate.getMinutes();
 	    	$scope.endHour = $scope.Meeting.endDate.getHours();
 	    	$scope.endMin = $scope.Meeting.endDate.getMinutes();
+            console.log($scope.Meeting.emailSentDate);
             if($scope.Meeting.emailSentDate != null){
                 $scope.Meeting.emailSentDate = makeDateTime($scope.Meeting.emailSentDate);
                 $scope.emailSentHour = $scope.Meeting.emailSentDate.getHours();
                 $scope.emailSentMin = $scope.Meeting.emailSentDate.getMinutes();
+                console.log($scope.emailSentHour, $scope.emailSentMin);
             }
             // load meeting attendee
             var params = {'meetingID' : $scope.Meeting.meetingID};
@@ -746,6 +761,7 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
 
     $scope.MinuteList = getMinuteList();
     $scope.HourList = getHourList();
+    $scope.YearList = getYearList(20);
 
 	// Begin Program
 	$scope.addKeywordTH();

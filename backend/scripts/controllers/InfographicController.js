@@ -73,7 +73,7 @@ angular.module('e-homework').controller('InfographicController', function($scope
     $scope.removeData = function(id){
         $scope.alertMessage = 'ต้องการลบข้อมูลนี้ ใช่หรือไม่ ?';
         var modalInstance = $uibModal.open({
-            animation : true,
+            animation : false,
             templateUrl : 'views/dialog_confirm.html',
             size : 'sm',
             scope : $scope,

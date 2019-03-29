@@ -33,6 +33,7 @@
                     ->join('Stakeholders', 'Stakeholders.stakeholderID', '=', 'Users.stakeholderID')
                     ->where('Users.email', $username)
                     ->where('Users.password',$password)
+                    ->where('Users.actives','Y')
                     ->first();      
         }
 

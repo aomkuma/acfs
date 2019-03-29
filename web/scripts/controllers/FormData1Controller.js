@@ -33,6 +33,17 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
         });
     }
 
+    $scope.loadIso = function(){
+        HTTPService.clientRequest('form-data1/list/iso', null).then(function(result){
+            if(result.data.STATUS == 'OK'){
+                $scope.Iso1List = result.data.DATA.List1;
+                $scope.Iso2List = result.data.DATA.List2;
+                $scope.Iso3List = result.data.DATA.List3;
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+    
     $scope.loadIsoAll = function(){
         var params = {'type' : 'all'};
         HTTPService.clientRequest('form-data1/list/iso', params).then(function(result){
@@ -62,5 +73,5 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
     $scope.getMenu('menu/get/type' ,$scope.page_type);
     $scope.loadList($scope.condition);
     $scope.loadIsoAll();
-
+    $scope.loadIso();
 });

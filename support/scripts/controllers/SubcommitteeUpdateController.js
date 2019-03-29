@@ -49,6 +49,19 @@ angular.module('app').controller('SubcommitteeUpdateController', function($scope
         });
     }
 
+    $scope.sendMail = function(data){
+        // console.log(data);
+        var params = {'Subcommittee' : data};
+        IndexOverlayFactory.overlayShow();
+        HTTPService.clientRequest('subcommittee/sendmail', params).then(function(result){  
+            if(result.data.STATUS == 'OK'){
+                
+                window.location.href = '#/stakeholder/2';
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
     $autocompleteUserResult = [];
     $scope.searchStakeholderAutoComplete = function (val, qtype){
         // val = encodeURIComponent(val);
@@ -324,6 +337,7 @@ angular.module('app').controller('SubcommitteeUpdateController', function($scope
                     ,'AttendeeList':AttendeeList
                     ,'MeetingFileList':MeetingFileList
                     ,'InviteFileList':InviteFileList
+                    ,'subcommitteeID':$scope.ID
                     };
         console.log(params);
         IndexOverlayFactory.overlayShow();            

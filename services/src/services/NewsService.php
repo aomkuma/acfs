@@ -15,7 +15,8 @@
         } 
 
         public static function getNewsList($news_type = '', $actives = '', $currentPage, $limitRowPerPage){
-
+            $currentPage = $currentPage - 1;
+            
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
@@ -32,7 +33,8 @@
                     ->orderBy('id', 'DESC')
                     ->get()->toArray());  
 
-            $totalRows = ceil($totalRows / $limitRowPerPage);    
+            // $TotalData = $totalRows;
+            // $totalRows = ceil($totalRows / $limitRowPerPage);    
 
             $DataList = News::where(function($query) use ($news_type, $actives){
                         if(!empty($news_type)){
@@ -59,6 +61,13 @@
                         $query->where('show_homepage', 'Y');
                     })
                     // ->orderBy('news_date', 'DESC')
+                    ->orderBy('id', 'DESC')
+                    ->get();      
+        }
+
+        public static function getNewsBanner(){
+            return News::where('actives', 'Y')
+                    ->where('show_banner', 'Y')
                     ->orderBy('id', 'DESC')
                     ->get();      
         }

@@ -1,0 +1,151 @@
+<div ng-include src="'views/header.html'"></div>
+
+<div style="margin-top:0px;">
+	<div class="row form-group" style="padding-top: 70px;">
+	  <div class="col-lg-10 col-lg-offset-1">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <span ng-repeat="data in MenuName">
+		        <img src="../files/img/pin-menu.png">
+		        {{data.menu_name_th}}
+		    </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
+
+	  </div>
+	</div>
+
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			มาตรฐาน (ไทย)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.standardNameThai" readonly="true">
+		</div>
+		<label class="form-control-static col-lg-2">
+			มาตรฐาน (อังกฤษ)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.standardNameEng" readonly="true">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			รหัสมาตรฐาน (ไทย)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.noThai" readonly="true">
+		</div>
+		<label class="form-control-static col-lg-2">
+			รหัสมาตรฐาน (อังกฤษ)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.noEng" readonly="true">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			Category (ไทย)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.standardGroup" readonly="true">
+		</div>
+		<label class="form-control-static col-lg-2">
+			Category (อังกฤษ)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.standardGroupEng">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			ประเภทมาตรฐาน (ไทย)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.standardType" readonly="true">
+		</div>
+		<label class="form-control-static col-lg-2">
+			ประเภทมาตรฐาน (อังกฤษ)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.standardTypeEng">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			ราชกิจจานุเบกษา (ไทย)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.bookNumberThai" readonly="true">
+		</div>
+		<label class="form-control-static col-lg-2">
+			ราชกิจจานุเบกษา (อังกฤษ)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.bookNumberEng" readonly="true">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			วันที่ประกาศ
+		</label>
+		<div class="col-lg-4">
+			<p class="input-group">
+				<input type="text" class="form-control" ng-model="Data.useDate" uib-datepicker-popup="yyyy-MM-dd" is-open="popup1.opened" datepicker-options="dateOptions1" readonly="true">
+				<span class="input-group-btn">
+	            	<button type="button" class="btn btn-default" ng-click="open1()" disabled="true"><i class="glyphicon glyphicon-calendar"></i></button>
+	          </span>
+		</div>
+		<label class="form-control-static col-lg-2">
+			รหัสชุดที่สอง
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.secondaryCode">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			คำอธิบาย (ไทย)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.descThai">
+		</div>
+		<label class="form-control-static col-lg-2">
+			คำอธิบาย (อังกฤษ)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.descEng">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			Scope (ไทย)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.accreditationScope" readonly="true">
+		</div>
+		<label class="form-control-static col-lg-2">
+			Scope (อังกฤษ)
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.accreditationScopeEng">
+		</div>
+	</div>
+	<div class="row form-group">
+		<label class="form-control-static col-lg-2">
+			กฎหมาย
+		</label>
+		<div class="col-lg-4">
+			<input class="form-control" ng-model="Data.standardPublishingType" readonly="true">
+		</div>
+	</div>
+	<div class="row form-group">
+		
+		<div class="col-lg-12 text-center">
+			<button class="btn btn-primary" ng-click="saveData(Data)">บันทึก</button>
+			<button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
+		</div>
+	</div>
+</div>

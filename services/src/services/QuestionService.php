@@ -40,11 +40,14 @@
         }
 
     	public static function getList($currentPage, $limitRowPerPage, $questionType = 'normal'){
+
+            $currentPage = $currentPage - 1;
+            
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
             $totalRows = Questionnaire::count();
-            $totalPage = ceil($totalRows / $limitRowPerPage);
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
             $DataList = Questionnaire::leftJoin("Commodity_Standards", "Commodity_Standards.standardID", '=', 'Questionnaires.standardID')
                         ->where('questionnaireType', $questionType)
                         ->skip($skip)
@@ -71,7 +74,7 @@
         }
 
         public static function getData($questionnaireID){
-            return Questionnaire::select("Questionnaires.*", "Subcommittee.subcommitteeName", "Commodity_Standards.standardNameThai AS standardName")
+            return Questionnaire::select("Questionnaires.*", "Subcommittee.subcommitteeName", "Commodity_Standards.standardNameThai AS standardName","Commodity_Standards.academicBoardName AS academicBoardName")
                                 ->where('questionnaireID', $questionnaireID)
                                 ->leftJoin("Subcommittee", "Subcommittee.subcommitteeID", '=' , 'Questionnaires.subcommitteeID')
                                 ->leftJoin("Commodity_Standards", "Commodity_Standards.standardID", '=' , 'Questionnaires.standardID')
@@ -88,6 +91,12 @@
                                 ->where('standardID', $standardID)
                                 ->with('question')
                                 ->get();
+        }
+
+        public static function countTotalResponse($questionnaireID){
+            return count(QuestionnaireResponse::where('questionnaire_id', $questionnaireID)
+                                ->groupBy('response_by')
+                                ->get()->toArray());
         }
 
         public static function updateData($obj){
@@ -166,7 +175,7 @@
         public static function getDisagreeComment($questionID){
             return QuestionnaireResponse::select("q_response_comment")
                     ->where('q_id', $questionID)
-                    ->where('q_response', 'disagree')
+                    // ->where('q_response', 'disagree')
                     ->whereNotNull('q_response_comment')
                     ->get()
                     ->toArray();

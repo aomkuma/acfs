@@ -20,7 +20,7 @@
 <hr>
 <uib-tabset active="ActiveTab" justified="true">
 	
-	<uib-tab index="0" heading="ผู้มีส่วนได้ส่วนเสีย" ng-click="loadStakeholder('stakeholder/list')">
+	<uib-tab index="0" heading="ผู้มีส่วนได้ส่วนเสีย" ng-click="changeTab(0)">
 		<br><br>
 		<div class="row form-group">
 			<div class="col col-lg-12">
@@ -63,36 +63,12 @@
 							</tr>
 						</tbody>
 					</table>
-					<ul class="pagination pull-right">
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(0)" aria-label="First">
-					        <span aria-hidden="true">First</span>
-					      </a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
-					        <span aria-hidden="true">Prev.</span>
-					      </a>
-					    </li>
-					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
-					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
-					        <span aria-hidden="true">Next</span>
-					      </a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
-					        <span aria-hidden="true">Last</span>
-					      </a>
-					    </li>
-					  </ul>
+					<ul class="pull-right" uib-pagination total-items="totalPages" ng-model="currentPage" max-size="limitDisplay" class="pagination-sm" items-per-page="limitRowPerPage" boundary-links="true" force-ellipses="true"  ng-change="pageChanged()"></ul>
 				</div>
 			</div>
 		</div>
 	</uib-tab>
-	<uib-tab index="1" heading="คณะกรรมการวิชาการ" ng-click="loadAcademicBoard('commodity-standard/academic-board/list')">
+	<uib-tab index="1" heading="คณะกรรมการวิชาการ" ng-click="changeTab(1)">
 		<br><br>
 		<div class="row form-group">
 			<div class="col-lg-12">
@@ -115,36 +91,12 @@
 							</tr>
 						</tbody>
 					</table>
-					<ul class="pagination pull-right">
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(0)" aria-label="First">
-					        <span aria-hidden="true">First</span>
-					      </a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
-					        <span aria-hidden="true">Prev.</span>
-					      </a>
-					    </li>
-					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
-					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
-					        <span aria-hidden="true">Next</span>
-					      </a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
-					        <span aria-hidden="true">Last</span>
-					      </a>
-					    </li>
-					  </ul>
+					<ul class="pull-right" uib-pagination total-items="totalPages" ng-model="currentPage" max-size="limitDisplay" class="pagination-sm" items-per-page="limitRowPerPage" boundary-links="true" force-ellipses="true"  ng-change="pageChanged()"></ul>
 				</div>
 			</div>
 		</div>
 	</uib-tab>
-	<uib-tab index="2" heading="คณะอนุกรรมการ" ng-click="loadSubcommittee('subcommittee/list')">
+	<uib-tab index="2" heading="คณะอนุกรรมการ" ng-click="changeTab(2)">
 		<br><br>
 		<div class="row form-group">
 			<div class="col col-lg-12">
@@ -175,31 +127,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<ul class="pagination pull-right">
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(0)" aria-label="First">
-					        <span aria-hidden="true">First</span>
-					      </a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(currentPage - 1)" aria-label="Prev">
-					        <span aria-hidden="true">Prev.</span>
-					      </a>
-					    </li>
-					    <li ng-repeat="page in [] | range : totalPages:currentPage:limitDisplay | limitTo:5" ng-class="{'active':page == (currentPage)}">
-					    	<a ng-click="goToPage(page)">{{page + 1}}</a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(currentPage + 1)" aria-label="Next">
-					        <span aria-hidden="true">Next</span>
-					      </a>
-					    </li>
-					    <li ng-show="totalPages > 1">
-					      <a ng-click="goToPage(totalPages - 1)" aria-label="Last">
-					        <span aria-hidden="true">Last</span>
-					      </a>
-					    </li>
-					  </ul>
+					<ul class="pull-right" uib-pagination total-items="totalPages" ng-model="currentPage" max-size="limitDisplay" class="pagination-sm" items-per-page="limitRowPerPage" boundary-links="true" force-ellipses="true"  ng-change="pageChanged()"></ul>
 				</div>
 			</div>
 		</div>

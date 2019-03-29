@@ -9,12 +9,23 @@
     
     class HearingReportService {
 
+        public static function getWebsiteSurveyList($create_date){
+            return HearingReport::where(function($query) use ($create_date){
+                        if(!empty($create_date)){
+                            $query->whereBetween('create_date', $create_date);
+                        }
+                    })
+                    ->where('report_type', 'comment')
+                    ->get();
+        }
+
     	public static function getList($create_date){
             return HearingReport::where(function($query) use ($create_date){
                         if(!empty($create_date)){
                             $query->whereBetween('create_date', $create_date);
                         }
                     })
+                    ->where('report_type', 'hearing')
                     ->with("hearingReportDetail")
                     ->get();
         }
@@ -25,6 +36,7 @@
                             $query->whereBetween('create_date', $create_date);
                         }
                     })
+                    ->where('report_type', 'hearing')
                     ->count();
         }
 
@@ -43,6 +55,7 @@
                             $query->where($column_name, $where_value);
                         }
                     })
+                    ->where('report_type', 'hearing')
                     ->groupBy($column_name)
                     ->first();
         }
@@ -58,6 +71,7 @@
                             $query->whereBetween('create_date', $create_date);
                         }
                     })
+                    ->where('report_type', 'hearing')
                     // ->groupBy($column_name)
                     ->first();
         }
@@ -78,6 +92,7 @@
                         }
                         $query->where('hearing_report_type', $detail_type);
                     })
+                    ->where('report_type', 'hearing')
                     ->groupBy('detail_desc')
                     ->first();
         }

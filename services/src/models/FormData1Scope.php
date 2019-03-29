@@ -16,4 +16,8 @@ class FormData1Scope extends \Illuminate\Database\Eloquent\Model {
     {
       return $this->hasMany('App\Model\FormData1SubScope', 'scope_id');
     }
+    public function formData1Certification()
+    {
+      return $this->hasMany('App\Model\FormData1Certification', 'scope_id');
+    }
 }

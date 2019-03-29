@@ -32,7 +32,7 @@
 				<div class="col-lg-12">
 					<div class="row">
 						<label class="form-control-static col-lg-2">
-							ไฟล์ภาษาไทย
+							ชื่อไฟล์ภาษาไทย
 						</label>
 						<div class="col-lg-4" >
 							<p class="input-group">
@@ -43,8 +43,8 @@
 			                  </span>
 			                </p>
 						</div>
-						<label class="form-control-static col-lg-2">
-							{{fle.attachFileTH.name}}
+						<label class="form-control-static col-lg-3">
+							{{fle.attachFileTH.name}}{{FileName[$index].file_name_th}}
 						</label>
 						<div class="col-lg-3">
 							<div class="file-alert" ng-show="fle.attachFileTH.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{fle.attachFileTH.invalidFile.$errorParam}}</div>
@@ -52,7 +52,7 @@
 					</div>
 					<div class="row">
 						<label class="form-control-static col-lg-2">
-							ไฟล์ภาษาอังกฤษ
+							ชื่อไฟล์ภาษาอังกฤษ
 						</label>
 						<div class="col-lg-4" >
 							<p class="input-group">
@@ -64,7 +64,7 @@
 			                </p>
 						</div>
 						<label class="form-control-static col-lg-2">
-							{{fle.attachFileEN.name}}
+							{{fle.attachFileEN.name}}{{FileName[$index].file_name_en}}
 						</label>
 						<div class="col
 						<div class="col-lg-3">

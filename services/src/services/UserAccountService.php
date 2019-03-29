@@ -13,11 +13,12 @@
     class UserAccountService {
 
     	public static function getAdminList($currentPage, $limitRowPerPage){
+            $currentPage = $currentPage - 1;
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
             $totalRows = Admin::count();
-            $totalPage = ceil($totalRows / $limitRowPerPage);
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
             $DataList = Admin::skip($skip)
                         ->take($limit)
                         ->get();
@@ -26,13 +27,14 @@
         }
 
         public static function getUserList($currentPage, $limitRowPerPage){
+            $currentPage = $currentPage - 1;
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
             $totalRows = User::join("Stakeholders", "Stakeholders.stakeholderID", '=' , 'Users.stakeholderID')
                         ->count();
 
-            $totalPage = ceil($totalRows / $limitRowPerPage);
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
 
             $DataList = User::select("Stakeholders.*"
                                 ,"Users.*")
@@ -150,6 +152,8 @@
             $skip = $offset * $limit;
             $totalRows = UserAccount::count();
 
+            $totalRows = ceil($totalRows / $limitRowPerPage);    
+            
             $DataList = UserAccount::select("User_Account.*", "UserRole.role_name")
                         ->join('UserRole', 'UserRole.id', '=' ,'User_Account.role')
                         ->skip($skip)

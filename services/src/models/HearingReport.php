@@ -6,6 +6,7 @@ class HearingReport extends \Illuminate\Database\Eloquent\Model {
   	protected $primaryKey = 'id';
   	public $timestamps = false;
   	protected $fillable = array('id'
+                , 'report_type'
                 , 'firstname'
                 , 'lastname'
                 , 'service_type'

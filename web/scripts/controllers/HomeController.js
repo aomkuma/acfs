@@ -5,6 +5,31 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     $scope.$parent.menu_selected_th = 'หน้าหลัก';
     var $user_session = sessionStorage.getItem('USER_LOGIN');
     $scope.$parent.currentUser = angular.fromJson($user_session);
+
+    $scope.$parent.ShowLandingPage = sessionStorage.getItem('ShowLandingPage');
+      console.log($scope.$parent.ShowLandingPage);
+      $scope.loadLandingPage = function(){
+          var params = {'actives' : 'Y'};
+          HTTPService.clientRequest('landing-page/list/view', params).then(function(result){
+              console.log('landing', result);
+              $scope.$parent.LandingPage = result.data.DATA;
+              // sessionStorage.setItem('ShowLandingPage', true);
+              if($scope.$parent.LandingPage != null){
+                $scope.$parent.ShowLandingPage  = true;
+              }
+          });
+      }
+
+      $scope.closeLandingPage = function(){
+          console.log('close landing page');
+        sessionStorage.setItem('ShowLandingPage', false);
+        $scope.$parent.ShowLandingPage = false;
+      }
+
+      if($scope.$parent.ShowLandingPage == null){
+        $scope.loadLandingPage();
+        
+      }
     // $scope.slides = [{'id':1, 'path':'../cio-files/img/slide/studio_x9450.jpg'}
     // 				,{'id':2, 'path':'../cio-files/img/slide/studio_x9450.jpg'}];
     $scope.loadMenu = function(action){
@@ -100,7 +125,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     }
 
     $scope.loadPurchase = function(action){
-        var params = {'page_type' : '', 'actives' : 'Y'};
+        var params = {'page_type' : 'e-bidding', 'actives' : 'Y'};
         HTTPService.clientRequest(action, params).then(function(result){
             // console.log(result);
             $scope.NewsList1 = result.data.DATA.List;
@@ -166,6 +191,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     }
 
     $scope.viewPurchaseDetail = function(data){
+        console.log(data);
         $scope.Detail = angular.copy(data);
         $scope.page_type = $scope.Detail.page_type;
         var modalInstance = $uibModal.open({
@@ -273,7 +299,7 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     $scope.link_prev_index = 0;
 
     $('.slide-shows').hover(function() {
-        console.log('mouse In');
+        // console.log('mouse In');
        if (varSetTimeout) {
         // Call clearTimeout() on hover()
         
@@ -282,10 +308,16 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     });
 
     $('.slide-shows').mouseout(function() {
-        console.log('mouse out');
+        // console.log('mouse out');
         // setTimeout(showSlides, 7000); 
         showSlides(slideIndex);
     });
+
+    $scope.currentSlide = function(index){
+        slideIndex = index;
+        console.log(slideIndex);
+        currentSlide(index);
+    }
 
 
 });
@@ -300,7 +332,7 @@ function plusSlides(n) {
 // Thumbnail image controls
 function currentSlide(n) {
     // console.log(slideIndex);
-    slideIndex += n;
+    slideIndex = n;
     setTimeout(showSlides(slideIndex), 500);
   
 }
@@ -358,7 +390,7 @@ function showSlides(index) {
         for (i = 0; i < dots.length; i++) {
             dots[i].className = dots[i].className.replace(" active", "");
         }
-        console.log('slideIndex ' + slideIndex);
+        // console.log('slideIndex ' + slideIndex);
         if(slides[slideIndex].style !== undefined){
             slides[slideIndex].style.display = "block";  
             text[slideIndex].style.display = "block";  
@@ -368,7 +400,7 @@ function showSlides(index) {
         if(slides.length > 1){
             // setTimeout(showSlides, 4000);
             // console.log(video_src);
-            console.log('slideIndex ' + slideIndex);
+            // console.log('slideIndex ' + slideIndex);
             
             if(isNaN(video_src.duration)){
                 varSetTimeout = setTimeout(showSlides, 7000); // Change image every 2 seconds

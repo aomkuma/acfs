@@ -1,0 +1,95 @@
+<div ng-include src="'views/header.html'"></div>
+
+<div style="margin-top:180px;">
+	<div class="row form-group" style="padding-top: 70px;">
+	  <div class="col-lg-10 col-lg-offset-1">
+	    <div class="row">
+	      <div class="col-lg-10" style="padding: 5px; font-weight: bolder; font-size: 1.3em;">
+	        <span ng-repeat="data in MenuName">
+		        <img src="../files/img/pin-menu.png">
+		        {{data.menu_name_th}}
+		    </span>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="col-lg-6">
+
+	  </div>
+	</div>
+<div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1 text-center" >
+			<span class="title-content">
+				<h2>{{(DEFAULT_LANGUAGE == 'TH'?MenuName[MenuName.length - 1].menu_name_th:MenuName[MenuName.length - 1].menu_name_en)}}</h2>
+			</span>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-lg-10 col-lg-offset-1 text-center" >
+			<img src="../files/img/header_line.png" style="width: 70%;">
+		</div>
+	</div>
+	<div class="row form-group">
+			<div class="col col-lg-10 col-lg-offset-1">
+				<div class="row form-group">
+					<label class="form-control-static col-lg-1">
+						ค้นหา
+					</label> 
+					<div class="col-lg-3">
+						<input class="form-control" ng-model="keyword">
+					</div>
+					<label class="form-control-static col-lg-1">
+						แสดงข้อมูล
+					</label> 
+					<div class="col-lg-3">
+						<select class="form-control" ng-model="standardType">
+							<option value="">ทั้งหมด</option>
+							<option value="ทั่วไป">ทั่วไป</option>
+							<option value="บังคับ">บังคับ</option>
+						</select>
+					</div>
+					<div class="col-lg-2">
+						<button class="btn btn-primary" ng-click="search(keyword, standardType)"> <span class="glyphicon glyphicon-search"></span> ค้นหา</button>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>ลำดับ</th>
+								<th>รหัสชุดที่สอง</th>
+								<th>Category</th>
+								<th>มาตรฐานสินค้า</th>
+								<th>ประเภทมาตรฐาน</th>
+								<th>รหัสมาตรฐาน</th>
+								<th>ราชกิจจานุเบกษา</th>
+								<th>วันที่ประกาศ</th>
+								<th>คำอธิบาย</th>
+								<th>Scope</th>
+								<th>กฎหมาย</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="data in CommodityStandard">
+								<td>{{$index + 1}}</td>
+								<td>{{data.standardID_certification==null?data.secondaryCode:data.secondaryCode_certification}}</td>
+								<td>{{data.standardID_certification == null?data.standardGroup:data.standardGroup_certification}}</td>
+								<td>{{data.standardID_certification==null?data.standardNameThai:data.standardNameThai_certification}}</td>
+								<td>{{data.standardID_certification==null?data.standardType:data.standardType_certification}}</td>
+								
+								<td>{{data.standardID_certification==null?data.noThai:data.noThai_certification}}</td>
+								<td>{{data.standardID_certification==null?data.bookNumberThai:data.bookNumberThai_certification}}</td>
+								<td>{{data.standardID_certification==null? makeDateString(data.useDate): makeDateString(data.useDate_certification) }}</td>
+								<td>{{data.descThai}}</td>
+								<td>{{data.standardID_certification==null?data.accreditationScope:data.accreditationScope_certification}}</td>
+								<td>{{data.standardID_certification==null?data.standardPublishingType:data.standardPublishingType_certification}}</td>
+								
+								
+							</tr>
+						</tbody>
+					</table>
+					<ul class="pull-right" uib-pagination total-items="totalPages" ng-model="currentPage" max-size="limitDisplay" class="pagination-sm" items-per-page="limitRowPerPage" boundary-links="true" force-ellipses="true"  ng-change="pageChanged()"></ul>
+				</div>
+			</div>
+		</div>
+	<div ng-include src="'views/footer.html'"></div>
+</div>

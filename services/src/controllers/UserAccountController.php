@@ -3,6 +3,7 @@
     namespace App\Controller;
     
     use App\Service\UserAccountService;
+    use App\Service\StakeholderService;
 
     class UserAccountController extends Controller {
         
@@ -126,12 +127,31 @@
                 $update_data['stakeholderID'] = $_User['stakeholderID'];
                 $update_data['email'] = $_User['email'];
                 $update_data['password'] = $_User['password'];
+                $update_data['actives'] = $_User['actives'];
                 $update_data['createBy'] = $_User['createBy'];
                 $update_data['createDate'] = $_User['createDate'];
                 $update_data['updateBy'] = $user_session['adminID'];
                 $update_data['updateDate'] = $_User['updateDate'];
 
                 $userID = UserAccountService::updateUserData($update_data);
+
+                // Update stakeholder data
+                $stakeholder_data = [];
+                $stakeholder_data['stakeholderID'] = $_User['stakeholderID'];
+                $stakeholder_data['nameThai'] = $_User['nameThai'];
+                $stakeholder_data['nameEng'] = $_User['nameEng'];
+                $stakeholder_data['lastNameThai'] = $_User['lastNameThai'];
+                $stakeholder_data['lastNameEng'] = $_User['lastNameEng'];
+                $stakeholder_data['positionThai'] = $_User['positionThai'];
+                $stakeholder_data['positionEng'] = $_User['positionEng'];
+                $stakeholder_data['responsible'] = $_User['responsible'];
+                $stakeholder_data['experience'] = $_User['experience'];
+                $stakeholder_data['institution'] = $_User['institution'];
+                $stakeholder_data['address'] = $_User['address'];
+                $stakeholder_data['phone'] = $_User['phone'];
+                $stakeholder_data['fax'] = $_User['fax'];
+                
+                StakeholderService::updateData($stakeholder_data);
 
                 $this->data_result['DATA']['userID'] = $userID;
 

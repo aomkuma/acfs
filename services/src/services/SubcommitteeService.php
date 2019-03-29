@@ -14,12 +14,12 @@
         }
         
         public static function getList($currentPage, $limitRowPerPage){
-            
+            $currentPage = $currentPage - 1;
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
             $totalRows = Subcommittee::count();
-            $totalPage = ceil($totalRows / $limitRowPerPage);
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
             $DataList = Subcommittee::skip($skip)
                         ->take($limit)
                         ->get();
@@ -37,6 +37,12 @@
                             }))
                         ->first();
         }     
+
+        public static function getSubcommtteePerson($subcommitteeID){   
+            return SubcommitteePerson::join('Stakeholders', 'Stakeholders.stakeholderID', '=', 'Subcommittee_Person.stakeholderID')
+                        ->where('subcommitteeID' , $subcommitteeID)
+                        ->get();
+        }
 
         public static function updateData($obj){
             if(empty($obj['subcommitteeID'])){
@@ -64,6 +70,8 @@
         public static function removeSubcommitteePerson($subcommitteePersonID){
             return SubcommitteePerson::find($subcommitteePersonID)->delete();
         }
+
+
 
     }    
 

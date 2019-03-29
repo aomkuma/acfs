@@ -32,10 +32,14 @@ $app->post('/commodity-standard/general/', 'CommodityStandardController:getListG
 $app->post('/commodity-standard/mandatory/', 'CommodityStandardController:getListMandatory');
 $app->post('/commodity-standard/get/', 'CommodityStandardController:getData');
 $app->post('/commodity-standard/update/', 'CommodityStandardController:updateData');
-$app->post('/commodity-standard/api/get/', 'CommodityStandardController:getDataAPI');
+$app->get('/commodity-standard/api/get/', 'CommodityStandardController:getDataAPI');
 $app->post('/commodity-standard/list/replace/', 'CommodityStandardController:getListReplace');
 $app->post('/commodity-standard/questionnaire/', 'CommodityStandardController:getListForQuestionnaire');
 $app->post('/commodity-standard/list/in-use/', 'CommodityStandardController:getListInUse');
+$app->post('/commodity-standard/list/pending/', 'CommodityStandardController:getListPending');
+$app->post('/commodity-standard/list/certification/', 'CommodityStandardController:getListCertification');
+$app->post('/commodity-standard/get/certification/', 'CommodityStandardController:getDataCertification');
+$app->post('/commodity-standard/update/certification/', 'CommodityStandardController:updateDataCertification');
 
 
 $app->post('/academic-board/list/', 'AcademicBoardController:getList');
@@ -54,7 +58,7 @@ $app->post('/meeting/add/attendee/', 'MeetingController:addAttendee');
 $app->post('/meeting/delete/attendee/', 'MeetingController:removeAttendee');
 $app->post('/meeting/upload/momfile/', 'MeetingController:uploadMOMFile');
 $app->post('/meeting/sendmail/', 'MeetingController:sendMail');
-
+$app->get('/meeting/sentmail/schedule/', 'MeetingController:sendMailSchedule');
 
 $app->post('/stakeholder/list/', 'StakeholderController:getList');
 $app->post('/stakeholder/get/', 'StakeholderController:getData');
@@ -67,6 +71,7 @@ $app->post('/subcommittee/get/', 'SubcommitteeController:getData');
 $app->post('/subcommittee/update/', 'SubcommitteeController:updateData');
 $app->post('/subcommittee/delete/', 'SubcommitteeController:deleteData');
 $app->post('/subcommittee/person/delete/', 'SubcommitteeController:deleteSubcommitteePersonData');
+$app->post('/subcommittee/sendmail/', 'SubcommitteeController:sendMail');
 
 $app->post('/user-account/list/admin/', 'UserAccountController:getAdminList');
 $app->post('/user-account/get/admin/', 'UserAccountController:getAdminData');
@@ -210,6 +215,7 @@ $app->post('/question-answer/list/', 'QuestionAnswerController:getList');
 $app->post('/question-answer/question/update/', 'QuestionAnswerController:updateQuestionData');
 $app->post('/question-answer/answer/update/', 'QuestionAnswerController:updateAnswerData');
 $app->post('/question-answer/delete/', 'QuestionAnswerController:deleteData');
+$app->post('/question-answer/answer/sendmail/', 'QuestionAnswerController:sendMail');
 
 $app->post('/freq-question/list/', 'FreqQuestionController:getList');
 $app->post('/freq-question/update/', 'FreqQuestionController:updateData');
@@ -220,9 +226,11 @@ $app->post('/meeting-result/update/', 'MeetingResultController:updateData');
 
 $app->post('/licensees/list/', 'LicenseesController:getList');
 $app->post('/licensees/update/', 'LicenseesController:updateData');
+$app->post('/licensees/update/upload/', 'LicenseesController:uploadData');
 
 $app->post('/product-code/list/', 'ProductCodeController:getList');
 $app->post('/product-code/update/', 'ProductCodeController:updateData');
+$app->post('/product-code/update/upload/', 'ProductCodeController:uploadData');
 
 $app->post('/country-list/list/', 'CountryListController:getList');
 $app->post('/country-list/update/', 'CountryListController:updateData');
@@ -241,6 +249,7 @@ $app->post('/online-service/update/', 'OnlineServiceController:updateData');
 
 $app->post('/hearing-report/list/', 'HearingReportController:getList');
 $app->post('/hearing-report/update/', 'HearingReportController:updateData');
+$app->post('/website-survey/query/', 'HearingReportController:getWebsiteSurveyList');
 
 $app->post('/fruit/list/', 'FruitController:getList');
 $app->post('/fruit/update/', 'FruitController:updateData');

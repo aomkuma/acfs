@@ -1,4 +1,4 @@
-angular.module('e-homework').controller('AttachFileMulti4Controller', function($scope, $compile, $cookies, $filter, $state, $routeParams, HTTPService, IndexOverlayFactory) {
+angular.module('e-homework').controller('AttachFileMulti4Controller', function($scope, $compile, $cookies, $filter, $state, $routeParams, $uibModal, HTTPService, IndexOverlayFactory) {
     IndexOverlayFactory.overlayShow();
     
     $scope.page_type = $routeParams.page_type;
@@ -49,6 +49,27 @@ angular.module('e-homework').controller('AttachFileMulti4Controller', function($
             $scope.DataList = result.data.DATA.DataList;
             IndexOverlayFactory.overlayHide();
 
+        });
+    }
+
+    $scope.viewDetail = function(data){
+        console.log(data);
+        $scope.Detail = angular.copy(data);
+        var modalInstance = $uibModal.open({
+            animation : false,
+            templateUrl : 'detail.html',
+            size : 'lg',
+            scope : $scope,
+            controller : 'ModalDialogCtrl',
+            resolve : {
+                params : function() {
+                    return {};
+                } 
+            },
+        });
+
+        modalInstance.result.then(function (valResult) {
+            
         });
     }
 

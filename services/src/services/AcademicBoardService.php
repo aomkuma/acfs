@@ -9,14 +9,19 @@
     
     class AcademicBoardService {
 
-    	public static function getAcademicBoardList($standardID){
+    	public static function findByStakeholderID($stakeholderID){
+            return AcademicBoard::where('stakeholderID' , $stakeholderID)
+            		->first();      
+        }
+
+        public static function getAcademicBoardList($standardID){
             return AcademicBoard::select('Academic_Boards.academicBoardID'
-            							,'Stakeholders.*'
-        								)
-            		->join("Stakeholders", 'Stakeholders.stakeholderID', '=', 'Academic_Boards.stakeholderID')
-            		->where('standardID' , $standardID)
-            		->orderBy('academicBoardID', 'ASC')
-            		->get();      
+                                        ,'Stakeholders.*'
+                                        )
+                    ->join("Stakeholders", 'Stakeholders.stakeholderID', '=', 'Academic_Boards.stakeholderID')
+                    ->where('standardID' , $standardID)
+                    ->orderBy('academicBoardID', 'ASC')
+                    ->get();      
         }
 
         public static function getSubtituteList($academicBoardID){

@@ -72,13 +72,13 @@
 			วงเงินงบประมาณ
 		</label>
 		<div class="col-lg-3">
-			<input class="form-control" ng-model="Data.budget_limit">
+			<input type="number" class="form-control" ng-model="Data.budget_limit">
 		</div>
 		<label class="form-control-static col-lg-2">
 			ราคารับ
 		</label>
 		<div class="col-lg-3">
-			<input class="form-control" ng-model="Data.main_price">
+			<input type="number" class="form-control" ng-model="Data.main_price">
 		</div>
 	</div>
 
@@ -197,7 +197,7 @@
 			<input class="form-control" ng-model="Data.org_th">
 		</div>
 		<label class="form-control-static col-lg-2">
-			สำนัก/กอง (ไทย)
+			สำนัก/กอง (ไทย)
 		</label>
 		<div class="col-lg-3">
 			<input class="form-control" ng-model="Data.office_th">
@@ -284,13 +284,13 @@
 			วงเงินงบประมาณ
 		</label>
 		<div class="col-lg-3">
-			<input class="form-control" ng-model="Data.budget_limit">
+			<input type="number" class="form-control" ng-model="Data.budget_limit">
 		</div>
 		<label class="form-control-static col-lg-2">
 			ราคากลาง
 		</label>
 		<div class="col-lg-3">
-			<input class="form-control" ng-model="Data.main_price">
+			<input type="number" class="form-control" ng-model="Data.main_price">
 		</div>
 	</div>
 
@@ -381,8 +381,8 @@
 		</label>
 		<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" >
 			<div class="btn-group">
-				<label class="btn btn-default btn-checkbox" ng-model="Data.actives" uib-btn-radio="'Y'" >Active</label>
-	            <label class="btn btn-default btn-checkbox" ng-model="Data.actives" uib-btn-radio="'N'" >Inactive</label>
+				<label class="btn btn-default btn-checkbox" ng-model="Data.actives" uib-btn-radio="'Y'" >ใช้งาน</label>
+	            <label class="btn btn-default btn-checkbox" ng-model="Data.actives" uib-btn-radio="'N'" >ไม่ใช้งาน</label>
 	        </div>
 		</div>
 	</div>
@@ -423,9 +423,9 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.org_th}}</td>
+					<td>{{data.office_th}}</td>
 					<td>{{data.project_th}}</td>
-					<td>{{data.budget_limit}}</td>
+					<td>{{data.budget_limit | number:2}}</td>
 					<td>{{getThaiDate(data.estimate_date)}}</td>
 					<td>{{getThaiDate(data.release_date)}}</td>
 					<td>{{data.actives=='Y'?'Active':'Inactive'}}</td>
@@ -443,7 +443,7 @@
 			</caption>
 			<thead>
 				<tr>
-					<th>หน่วยงาน</th>
+					<th>สำนัก/กอง</th>
 					<th>เรื่อง</th>
 					<th>วันที่เผยแพร่</th>
 					<th>วงเงินงบประมาณ</th>
@@ -454,11 +454,11 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.org_th}}</td>
+					<td>{{data.office_th}}</td>
 					<td>{{data.project_th}}</td>
 					<td>{{getThaiDate(data.release_date)}}</td>
-					<td>{{data.budget_limit}}</td>
-					<td>{{data.main_price}}</td>
+					<td>{{data.budget_limit | number:2}}</td>
+					<td>{{data.main_price | number:2}}</td>
 					<td>{{data.actives=='Y'?'Active':'Inactive'}}</td>
 					<td>
 						<button class="btn btn-warning" ng-click="updateData(data)">แก้ไข</button>
@@ -484,7 +484,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.org_th}}</td>
+					<td>{{data.office_th}}</td>
 					<td>{{data.project_th}}</td>
 					<td>{{getThaiDate(data.estimate_date)}}</td>
 					<td>{{getThaiDate(data.release_date)}}</td>
@@ -517,14 +517,14 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.org_th}}</td>
+					<td>{{data.office_th}}</td>
 					<td>{{data.project_no}}</td>
 					<td>{{data.project_th}}</td>
 					<td>{{data.item_no}}</td>
-					<td>{{data.budget_limit}}</td>
-					<td>{{data.main_price}}</td>
 					<td>{{getThaiDate(data.estimate_date)}}</td>
 					<td>{{getThaiDate(data.release_date)}}</td>
+					<td>{{data.budget_limit | number:2}}</td>
+					<td>{{data.main_price | number:2}}</td>
 					<td>{{data.actives=='Y'?'Active':'Inactive'}}</td>
 					<td>
 						<button class="btn btn-warning" ng-click="updateData(data)">แก้ไข</button>
@@ -534,15 +534,15 @@
 			</tbody>
 		</table>
 
-		<table class="table table-striped table-bordered" ng-show="page_type == 'selected-work' || page_type == 'selected-work-normal'">
+		<table class="table table-striped table-bordered" ng-show="page_type == 'selected-work'">
 			<caption>
 				<button class="btn btn-info pull-right" ng-click="updateData('')">เพิ่มข้อมูล</button>
 			</caption>
 			<thead>
 				<tr>
 					<th>หน่วยงาน</th>
-					<th>เลขที่ประกาศ</th>
-					<th>เรื่อง</th>
+					<th>เลขที่ โครงการ</th>
+					<th style="width: 20%">เรื่อง</th>
 					<th>วงเงินงบประมาณ</th>
 					<th>ราคากลาง</th>
 					<th>สถานะ</th>
@@ -551,11 +551,42 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.org_th}}</td>
-					<td>{{data.item_no}}</td>
+					<td>{{data.office_th}}</td>
+					<td>{{data.project_no}}</td>
 					<td>{{data.project_th}}</td>
-					<td>{{data.budget_limit}}</td>
-					<td>{{data.main_price}}</td>
+					<td>{{data.budget_limit | number:2}}</td>
+					<td>{{data.main_price | number:2}}</td>
+					<td>{{data.actives=='Y'?'Active':'Inactive'}}</td>
+					<td>
+						<button class="btn btn-warning" ng-click="updateData(data)">แก้ไข</button>
+						<button class="btn btn-danger" ng-click="removeData(data.id)">ลบ</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table class="table table-striped table-bordered" ng-show="page_type == 'selected-work-normal'">
+			<caption>
+				<button class="btn btn-info pull-right" ng-click="updateData('')">เพิ่มข้อมูล</button>
+			</caption>
+			<thead>
+				<tr>
+					<th>หน่วยงาน</th>
+					<th>เลขที่ โครงการ</th>
+					<th style="width: 20%">เรื่อง</th>
+					<th>วงเงินงบประมาณ</th>
+					<th>ราคากลาง</th>
+					<th>สถานะ</th>
+					<th>จัดการข้อมูล</th>
+				</tr>	
+			</thead>
+			<tbody>
+				<tr ng-repeat="data in DataList">
+					<td>{{data.office_th}}</td>
+					<td>{{data.project_no}}</td>
+					<td>{{data.project_th}}</td>
+					<td>{{data.budget_limit | number:2}}</td>
+					<td>{{data.main_price | number:2}}</td>
 					<td>{{data.actives=='Y'?'Active':'Inactive'}}</td>
 					<td>
 						<button class="btn btn-warning" ng-click="updateData(data)">แก้ไข</button>
@@ -582,11 +613,11 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.org_th}}</td>
+					<td>{{data.office_th}}</td>
 					<td>{{data.project_no}}</td>
 					<td>{{data.project_th}}</td>
-					<td>{{data.budget_limit}}</td>
-					<td>{{data.main_price}}</td>
+					<td>{{data.budget_limit | number:2}}</td>
+					<td>{{data.main_price | number:2}}</td>
 					<td>{{data.actives=='Y'?'Active':'Inactive'}}</td>
 					<td>
 						<button class="btn btn-warning" ng-click="updateData(data)">แก้ไข</button>
@@ -613,7 +644,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.org_th}}</td>
+					<td>{{data.office_th}}</td>
 					<td>{{data.project_no}}</td>
 					<td>{{data.project_th}}</td>
 					<td>{{data.change_desc_th}}</td>
@@ -634,7 +665,7 @@
 			<thead>
 				<tr>
 					<th>หน่วยงาน</th>
-					<th>เลขที่โครงการ</th>
+					<th>เลขที่ประกาศ</th>
 					<th>เรื่อง</th>
 					<th>วันที่ประกาศ</th>
 					<th>วันที่ขายทอดตลาด</th>
@@ -644,8 +675,8 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.org_th}}</td>
-					<td>{{data.project_no}}</td>
+					<td>{{data.office_th}}</td>
+					<td>{{data.item_no}}</td>
 					<td>{{data.project_th}}</td>
 					<td>{{getThaiDate(data.estimate_date)}}</td>
 					<td>{{getThaiDate(data.release_date)}}</td>
@@ -662,7 +693,7 @@
 			<thead>
 				<tr>
 					<th>หน่วยงาน</th>
-					<th>เลขที่โครงการ</th>
+					<th>เลขที่ประกาศ</th>
 					<th>เรื่อง</th>
 					<th>วันที่ประกาศ</th>
 					<th>สถานะ</th>
@@ -671,8 +702,8 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.org_th}}</td>
-					<td>{{data.project_no}}</td>
+					<td>{{data.office_th}}</td>
+					<td>{{data.item_no}}</td>
 					<td>{{data.project_th}}</td>
 					<td>{{getThaiDate(data.estimate_date)}}</td>
 					<td>{{data.actives=='Y'?'Active':'Inactive'}}</td>
@@ -729,11 +760,11 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="data in DataList">
-					<td>{{data.org_th}}</td>
+					<td>{{data.office_th}}</td>
 					<td>{{data.project_no}}</td>
 					<td>{{data.project_th}}</td>
 					<td>{{data.winning_name}}</td>
-					<td>{{data.main_price}}</td>
+					<td>{{data.main_price | number:2}}</td>
 					<td>{{getThaiDate(data.estimate_date)}}</td>
 					<td>{{data.actives=='Y'?'Active':'Inactive'}}</td>
 					<td>

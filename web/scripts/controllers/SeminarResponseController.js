@@ -40,6 +40,14 @@ angular.module('e-homework').controller('SeminarResponseController', function($s
         });
     }
 
+    $scope.loadData = function(action, id){
+        var params = {'id': id};
+        HTTPService.clientRequest(action, params).then(function(result){
+            $scope.Detail = result.data.DATA;
+            IndexOverlayFactory.overlayHide();
+        });
+    }
+
     $scope.saveResponse = function(Data, AttachFile){
 
         $scope.alertMessage = 'ต้องการตอบรับการฝีกอบรมนี้ ใช่หรือไม่ ?';
@@ -116,6 +124,7 @@ angular.module('e-homework').controller('SeminarResponseController', function($s
 
     $scope.loadMenu('menu/list');
     $scope.getMenu('menu/get/type', $scope.page_type);
+    $scope.loadData('seminar/get', $routeParams.id);
     // $scope.loadList('seminar/list');
     
 

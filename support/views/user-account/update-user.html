@@ -18,6 +18,7 @@
         </div>
 </div>
 <hr>
+<fieldset ng-disabled="currentUser.userType == 'admin'">
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาไทย)</label>
       <div class="col-lg-4 col-sm-12 col-xs-12">
@@ -102,6 +103,7 @@
         <input type="password" class="form-control" ng-model="confirmPassword" ng-disabled="User.stakeholderID != currentUser.adminID">
       </div>
  </div> 
+ </fieldset>
  <div class="row form-group" ng-show="currentUser.adminType == 'super'">
     <label class="col-lg-2 form-control-static">
         สถานะการใช้งาน

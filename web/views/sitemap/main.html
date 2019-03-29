@@ -37,6 +37,11 @@
 									<ul>
 										<li  ng-repeat="sub_manu2 in sub_manu1.sub_menu">
 											<a href="#/{{sub_manu2.menu_url}}">{{sub_manu2.menu_name_th}}</a>
+											<ul>
+												<li  ng-repeat="sub_manu3 in sub_manu2.sub_menu">
+													<a href="#/{{sub_manu3.menu_url}}">{{sub_manu3.menu_name_th}}</a>
+												</li>
+											</ul>
 										</li>
 									</ul>
 								</li>
@@ -57,6 +62,12 @@
 									<ul>
 										<li  ng-repeat="sub_manu2 in sub_manu1.sub_menu">
 											<a href="#/{{sub_manu2.menu_url}}">{{sub_manu2.menu_name_th}}</a>
+
+											<ul>
+												<li  ng-repeat="sub_manu3 in sub_manu2.sub_menu">
+													<a href="#/{{sub_manu3.menu_url}}">{{sub_manu3.menu_name_th}}</a>
+												</li>
+											</ul>
 										</li>
 									</ul>
 								</li>

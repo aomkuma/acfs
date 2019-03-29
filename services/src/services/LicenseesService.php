@@ -8,8 +8,38 @@
     
     class LicenseesService {
 
-    	public static function getList($condition, $actives){
-            return Licensees::where(function($query) use ($condition){
+    	public static function getList($condition, $actives, $currentPage, $limitRowPerPage){
+            $currentPage = $currentPage - 1;
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+
+            $totalRows = count(Licensees::where(function($query) use ($condition){
+                        
+                        if(!empty($condition['license_type'])){
+                            $query->where('license_type', $condition['license_type']);
+                        }
+                        if(!empty($condition['license_status'])){
+                            $query->where('license_status', $condition['license_status']);
+                        }
+                        if(!empty($condition['cert_status'])){
+                            $query->where('cert_status', 'LIKE', "'%" . DB::raw($condition['cert_status'] . "%'"));
+                        }
+                        if(!empty($condition['region'])){
+                            $query->where('region', $condition['region']);
+                        }
+                        if(!empty($condition['province'])){
+                            $query->where('province', $condition['province']);
+                        }
+                        if(!empty($condition['authorized_name'])){
+                            $query->where('authorized_name', 'LIKE', DB::raw("'%" . $condition['authorized_name'] . "%'"));
+                        }
+                    })
+                    ->get()->toArray());  
+
+            // $totalRows = ceil($totalRows / $limitRowPerPage);    
+
+            $DataList = Licensees::where(function($query) use ($condition){
                         
                         if(!empty($condition['license_type'])){
                             $query->where('license_type', $condition['license_type']);
@@ -31,7 +61,11 @@
                         }
                     })
                     ->orderBy('id', 'DESC')
+                    ->skip($skip)
+                    ->take($limit)
                     ->get();
+
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
         }
 
         public static function updateData($obj){

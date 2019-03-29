@@ -17,7 +17,7 @@
     
     class FormData1Service {
 
-    	public static function getList($menu_type, $keyword, $iso, $condition){
+    	public static function getList($menu_type, $keyword, $iso, $iso1, $iso2, $condition){
 
             return FormData1::select("Form_Data1.*"
                                     , DB::raw("Form_Data1_Detail.iso AS detail_iso")
@@ -42,14 +42,19 @@
                     ->leftJoin(DB::raw("Iso AS IsoSubScope"), DB::raw("IsoSubScope.id"), "=", "Form_Data1_SubScope.iso")
 
                     ->leftJoin("Form_Data1_Certification", "Form_Data1_SubScope.id", "=", "Form_Data1_Certification.scope_id")
-                    ->where(function($query) use ($keyword, $iso, $condition){
+                    ->where(function($query) use ($keyword, $iso, $iso1, $iso2, $condition){
                         if(!empty($iso)){
                             $query->where('Form_Data1_Detail.iso', $iso);
-                            $query->orWhere('Form_Data1_Scope.iso', $iso);
-                            $query->orWhere('Form_Data1_SubScope.iso', $iso);
+                        }
+                        if(!empty($iso1)){
+                            $query->where('Form_Data1_Scope.iso', $iso1);
+                        }
+                        if(!empty($iso2)){
+                            $query->where('Form_Data1_SubScope.iso', $iso2);
                         }
                         if(!empty($keyword)){
                             $query->where("group_name", 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                            $query->orWhere("item_no", 'LIKE', DB::raw("'%" . $keyword . "%'"));
                         }
 
                         if(!empty($condition['start_date']) && empty($condition['end_date'])){
@@ -66,13 +71,52 @@
                     ->get();
         }
 
+        public static function getListInspectionOperator($menu_type, $keyword, $iso, $condition){
+
+            return FormData1::select("Form_Data1.*"
+                                    , DB::raw("Form_Data1_Scope.iso AS scope_iso")
+                                    
+                                    , DB::raw("(SELECT GROUP_CONCAT(Iso.iso_name) AS iso_name FROM Iso INNER JOIN Form_Data1_Scope ON Iso.id = Form_Data1_Scope.iso WHERE form_data1_id = Form_Data1.id GROUP BY Form_Data1_Scope.form_data1_id) AS iso_name")
+                                    
+                                    , "Form_Data1_License.file_name"
+                                    , "Form_Data1_License.file_path"
+                                )
+                    ->leftJoin("Form_Data1_License", "Form_Data1.id", "=", "Form_Data1_License.form_data1_id")
+                    ->leftJoin("Form_Data1_Scope", "Form_Data1.id", "=", "Form_Data1_Scope.form_data1_id")
+                    
+                    ->where(function($query) use ($keyword, $iso, $condition){
+                        if(!empty($iso)){
+                            $query->where('Form_Data1_License.iso', $iso);
+                        }
+                        
+                        if(!empty($keyword)){
+                            $query->where("group_name", 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                        }
+
+                        if(!empty($condition['start_date']) && empty($condition['end_date'])){
+                            $query->where("Form_Data1_License.start_date", $condition['start_date']);
+                        }
+                        else if(!empty($condition['start_date']) && !empty($condition['end_date'])){
+                            $query->where("Form_Data1_License.start_date", '>=', $condition['start_date']);
+                            $query->where("Form_Data1_License.end_date", '<=', $condition['end_date']);
+                        }
+                        // $query->where("start_date", $condition['start_date']);
+                        // $query->where("end_date", $condition['end_date']);
+                    })
+                    ->where('Form_Data1.menu_type', $menu_type)
+                    ->groupBy('Form_Data1.id')
+                    ->get();
+        }
+
         public static function getData($id){
             return FormData1::where('id', $id)
                             ->with(array('formData1Detail' => function($query){
                                 $query->with(array('formData1Scope' => function($query1){
-                                    $query1->with(array('formData1SubScope' => function($query2){
-                                        $query2->with('formData1Certification');
-                                    }));
+                                    // $query1->with(array('formData1SubScope' => function($query2){
+                                        
+                                    // }));
+                                    $query1->with('formData1SubScope');
+                                    $query1->with('formData1Certification');
                                 }));
                                 $query->with('formData1StandardARC');
                             }))

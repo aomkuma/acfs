@@ -70,6 +70,15 @@ angular.module('e-homework').controller('NewsController', function($scope, $comp
         $scope.currentPage = page;
         $scope.load('news');
     }
+
+    $scope.setPage = function (pageNo) {
+        $scope.currentPage = pageNo;
+    };
+
+    $scope.pageChanged = function() {
+        $scope.goToPage($scope.currentPage);
+        // $log.log('Page changed to: ' + $scope.currentPage);
+    };
     
     if($routeParams.NEWS_TYPE != undefined || $routeParams.NEWS_TYPE != null){
         if($routeParams.NEWS_TYPE == '1'){
@@ -85,8 +94,8 @@ angular.module('e-homework').controller('NewsController', function($scope, $comp
     }
 
     $scope.totalPages = 0;
-    $scope.currentPage = 0;
-    $scope.limitRowPerPage = 12;
+    $scope.currentPage = 1;
+    $scope.limitRowPerPage = 9;
     $scope.limitDisplay = 10;
     
     $scope.loadMenu('menu/list');

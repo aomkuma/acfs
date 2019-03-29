@@ -19,32 +19,105 @@
             try{
                 $params = $request->getParsedBody();
                 $user_session = $params['user_session'];
+                $permission = $params['obj']['permission'];
 
-                if(empty($user_session)){
-                    $show_webpage = Y;
-                }
                 $MenuList = [];
-                // get main menu
-                $_Menu = MenuService::getMenuList(0, $show_webpage);
-                foreach ($_Menu as $key => $value) {
-                    // get child menu level 1
-                    $_Menu1 = MenuService::getMenuList($value['id']);
-                    // print_r($_Menu1);exit;
-                    $MenuList1 = [];
-                    foreach ($_Menu1 as $key1 => $value1) {
-                        $_Menu2 = MenuService::getMenuList($value1['id']);
-                        $MenuList2 = [];
-                        foreach ($_Menu2 as $key2 => $value2) {
-                            $_Menu3 = MenuService::getMenuList($value2['id']);
-                            $value2['sub_menu'] = $_Menu3;
-                            $MenuList2[] = $value2;
+                if(empty($user_session['id'])){
+                    $show_webpage = Y;
+                    $_Menu = MenuService::getMenuList(0, $show_webpage);
+                    foreach ($_Menu as $key => $value) {
+                        // get child menu level 1
+                        $_Menu1 = MenuService::getMenuList($value['id']);
+                        // print_r($_Menu1);exit;
+                        $MenuList1 = [];
+                        foreach ($_Menu1 as $key1 => $value1) {
+                            $_Menu2 = MenuService::getMenuList($value1['id']);
+                            $MenuList2 = [];
+                            foreach ($_Menu2 as $key2 => $value2) {
+                                $_Menu3 = MenuService::getMenuList($value2['id']);
+
+                                $MenuList3 = [];
+                                foreach ($_Menu3 as $key3 => $value3) {
+                                    $_Menu4 = MenuService::getMenuList($value3['id']);
+                                    // print_r($_Menu4 );
+                                    $value3['sub_menu'] = $_Menu4;
+                                    $MenuList3[] = $value3;
+                                }
+
+                                $value2['sub_menu'] = $MenuList3;
+                                $MenuList2[] = $value2;
+                            }
+                            $value1['sub_menu'] = $MenuList2;
+                            $MenuList1[] = $value1;
                         }
-                        $value1['sub_menu'] = $MenuList2;
-                        $MenuList1[] = $value1;
+                        $value['sub_menu'] = $MenuList1;
+                        $MenuList[] = $value;
                     }
-                    $value['sub_menu'] = $MenuList1;
-                    $MenuList[] = $value;
+                }else if($permission == 'Y'){
+                    $_Menu = MenuService::getMenuList(0);
+                    foreach ($_Menu as $key => $value) {
+                        // get child menu level 1
+                        $_Menu1 = MenuService::getMenuList($value['id']);
+                        // print_r($_Menu1);exit;
+                        $MenuList1 = [];
+                        foreach ($_Menu1 as $key1 => $value1) {
+                            $_Menu2 = MenuService::getMenuList($value1['id']);
+                            $MenuList2 = [];
+                            foreach ($_Menu2 as $key2 => $value2) {
+                                $_Menu3 = MenuService::getMenuList($value2['id']);
+
+                                $MenuList3 = [];
+                                foreach ($_Menu3 as $key3 => $value3) {
+                                    $_Menu4 = MenuService::getMenuList($value3['id']);
+                                    // print_r($_Menu4 );
+                                    $value3['sub_menu'] = $_Menu4;
+                                    $MenuList3[] = $value3;
+                                }
+
+                                $value2['sub_menu'] = $MenuList3;
+                                $MenuList2[] = $value2;
+                            }
+                            $value1['sub_menu'] = $MenuList2;
+                            $MenuList1[] = $value1;
+                        }
+                        $value['sub_menu'] = $MenuList1;
+                        $MenuList[] = $value;
+                    }
+                }else{
+                    $user_role = $user_session['role'];
+                    $_Menu = MenuService::getMenuListBackend(0, $user_role);
+                    foreach ($_Menu as $key => $value) {
+                        // get child menu level 1
+                        $_Menu1 = MenuService::getMenuListBackend($value['id'], $user_role);
+                        // print_r($_Menu1);exit;
+                        $MenuList1 = [];
+                        foreach ($_Menu1 as $key1 => $value1) {
+                            $_Menu2 = MenuService::getMenuListBackend($value1['id'], $user_role);
+                            $MenuList2 = [];
+                            foreach ($_Menu2 as $key2 => $value2) {
+                                $_Menu3 = MenuService::getMenuListBackend($value2['id'], $user_role);
+
+                                $MenuList3 = [];
+                                foreach ($_Menu3 as $key3 => $value3) {
+                                    $_Menu4 = MenuService::getMenuListBackend($value3['id'], $user_role);
+                                    // print_r($_Menu4 );
+                                    $value3['sub_menu'] = $_Menu4;
+                                    $MenuList3[] = $value3;
+                                }
+
+                                $value2['sub_menu'] = $MenuList3;
+                                $MenuList2[] = $value2;
+                            }
+                            $value1['sub_menu'] = $MenuList2;
+                            $MenuList1[] = $value1;
+                        }
+                        $value['sub_menu'] = $MenuList1;
+                        $MenuList[] = $value;
+                    }
                 }
+                
+                // get main menu
+                
 
                 // Update visitor count
                 $visitor_count = MenuService::updateVisitorCount();

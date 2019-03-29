@@ -19,12 +19,19 @@
                 $params = $request->getParsedBody();
                 $condition = $params['obj']['condition'];
                 $iso = $params['obj']['condition']['iso'];
+                $iso1 = $params['obj']['condition']['iso1'];
+                $iso2 = $params['obj']['condition']['iso2'];
                 $keyword = $params['obj']['condition']['keyword'];
                 $menu_type = $params['obj']['menu_type'];
 
 // print_r($condition);
 //             exit;
-                $_List = FormData1Service::getList($menu_type, $keyword, $iso, $condition);
+                if($menu_type != 'inspection-operator'){
+                    $_List = FormData1Service::getList($menu_type, $keyword, $iso, $iso1, $iso2, $condition);
+                }else{
+                    $_List = FormData1Service::getListInspectionOperator($menu_type, $keyword, $iso, $condition);
+                }
+                
 
                 $this->data_result['DATA']['List'] = $_List;
 
@@ -237,9 +244,9 @@
                         $SubScope = $value1['form_data1_sub_scope'];
                         unset($value1['form_data1_sub_scope']);
 
-                        $Certification = $value2['form_data1_certification'];
+                        $Certification = $value1['form_data1_certification'];
                         unset($value1['form_data1_certification']);
-
+                        // print_r($Certification);exit;
                         $value1['detail_id'] = $detail_id;
                         $value1['form_data1_id'] = $form_data1_id;
                         unset($value1['$hashKey']);

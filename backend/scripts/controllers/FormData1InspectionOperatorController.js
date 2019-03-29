@@ -12,7 +12,7 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
     $scope.DEFAULT_LANGUAGE = 'TH';
     $scope.$parent.menu_selected = 'authority';
 
-    $scope.page_type = $routeParams.page_type;
+    $scope.page_type = 'inspection-operator';//$routeParams.page_type;
 
      $scope.MenuPermission =  angular.fromJson(sessionStorage.getItem('MenuPermission'));
      $scope.loadMenu = function(action){
@@ -40,6 +40,7 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
 
     $scope.getMenu = function(action, menu_type){
         var params = {'menu_type' : menu_type};
+        console.log(menu_type);
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             $scope.MenuName = result.data.DATA.Menu;
@@ -78,7 +79,7 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
             con.end_date = makeSQLDate(con.end_date);
         }
 
-        var params = {'condition' : con, 'menu_type' : 'certification-list'};
+        var params = {'condition' : con, 'menu_type' : $scope.page_type};
         HTTPService.clientRequest('form-data1/list', params).then(function(result){
             if(result.data.STATUS == 'OK'){
                 $scope.DataList = result.data.DATA.List;
@@ -86,29 +87,6 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
             IndexOverlayFactory.overlayHide();
         });
     }
-
-    $scope.saveData = function(FormData1, form_data1_detail){
-
-        for(var i = 0; i < form_data1_detail.length; i++){
-            if(form_data1_detail[i].start_date !== null && form_data1_detail[i].start_date !== ''){
-                form_data1_detail[i].start_date = makeSQLDate(form_data1_detail[i].start_date);
-            }
-            if(form_data1_detail[i].end_date !== null && form_data1_detail[i].end_date !== ''){
-                form_data1_detail[i].end_date = makeSQLDate(form_data1_detail[i].end_date);
-            }
-            console.log($scope.UsageStatusList);
-            form_data1_detail[i].usage_status = $scope.UsageStatusList[i].usage_status.join();
-        }
-
-        var params = {'FormData1' : FormData1, 'form_data1_detail' : form_data1_detail};
-        HTTPService.uploadRequest('form-data1/update', params).then(function(result){
-            if(result.data.STATUS == 'OK'){
-                alert('บันทึกสำเร็จ');
-                $scope.PAGE = 'MAIN';
-            }
-            IndexOverlayFactory.overlayHide();
-        });
-    } 
 
     $scope.saveIso = function(ISO){
         var params = {'ISO' : ISO};
@@ -156,33 +134,44 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
         $scope.PAGE = 'ISO';
     }
 
+    
+    $scope.saveData = function(FormData1, form_data1_license, form_data1_scope){
+        for(var i = 0; i < form_data1_license.length; i++){
+            if(form_data1_license[i].start_date != undefined && form_data1_license[i].start_date != null && form_data1_license[i].start_date != ''){
+                form_data1_license[i].start_date = concatDateSQL(form_data1_license[i].start_date);
+            }
+            if(form_data1_license[i].end_date != undefined && form_data1_license[i].end_date != null && form_data1_license[i].end_date != ''){
+                form_data1_license[i].end_date = concatDateSQL(form_data1_license[i].end_date);
+            }
+            
+            
+        }
+
+        var params = {'FormData1' : FormData1, 'form_data1_license' : form_data1_license, 'form_data1_scope' : form_data1_scope};
+        HTTPService.uploadRequest('form-data1/operator/update', params).then(function(result){
+            if(result.data.STATUS == 'OK'){
+                alert('บันทึกสำเร็จ');
+                $scope.PAGE = 'MAIN';
+                $scope.loadList($scope.condition, $scope.operator_type);
+            }
+            IndexOverlayFactory.overlayHide();
+        });
+    } 
+
     $scope.updateData = function(id){
         if(id != ''){
             var params = {'id' : id};
-            HTTPService.clientRequest('form-data1/get', params).then(function(result){
+            HTTPService.clientRequest('form-data1/operator/get', params).then(function(result){
                 if(result.data.STATUS == 'OK'){
                     $scope.FormData1 = result.data.DATA;
-                    
-                    $scope.form_data1_detail = $scope.FormData1.form_data1_detail;
-                    for(var i = 0; i < $scope.form_data1_detail.length; i++){
-                        $scope.form_data1_detail[i].start_date = makeDate($scope.form_data1_detail[i].start_date);
-                        $scope.form_data1_detail[i].end_date = makeDate($scope.form_data1_detail[i].end_date);
-                        
-                        if($scope.form_data1_detail[i].usage_status !== null && $scope.form_data1_detail[i].usage_status !== ''){
-                            $scope.UsageStatusList.push({'usage_status':$scope.form_data1_detail[i].usage_status.split(',')});
-                        }else{
-                            $scope.UsageStatusList.push({'usage_status':[]});
-                        }
-                        console.log($scope.form_data1_detail[i].usage_status.indexOf('การบังคับใช้'));
-                        if($scope.form_data1_detail[i].usage_status.indexOf('การบังคับใช้') !== -1){
-                            $scope.form_data1_detail[i]['usage_status1'] = 'การบังคับใช้';
-                        }
-
-                        if($scope.form_data1_detail[i].usage_status.indexOf('ลดขอบข่าย') !== -1){
-                            $scope.form_data1_detail[i]['usage_status2'] = 'ลดขอบข่าย';
-                        }
+                    $scope.form_data1_license = $scope.FormData1.form_data1_license;
+                    $scope.form_data1_scope = $scope.FormData1.form_data1_scope;
+                    for(var i = 0; i < $scope.form_data1_license.length; i++){
+                        $scope.form_data1_license[i].start_date = makeDate($scope.form_data1_license[i].start_date);
+                        $scope.form_data1_license[i].end_date = makeDate($scope.form_data1_license[i].end_date);
+                        console.log($scope.form_data1_license[i].start_date);
                     }
-                    
+
                 }
                 IndexOverlayFactory.overlayHide();
             });
@@ -192,81 +181,58 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
                 ,'actives' : 'Y'
             };
 
-            $scope.form_data1_detail = [{'form_data1_scope' : [{
-                                                        'form_data1_sub_scope':[{'iso':null}]
-                                                        ,'form_data1_certification' : [{'certification':''}]
+            $scope.form_data1_license = [{'form_data1_standard_checked' : [{
+                                                        'form_data1_product_inspect':[{}]
                                                         }
                                                 ]
-                                            
-                                            ,'form_data1_standard_a_r_c' : [{'arc_name':''}]
                                            }
                 
             ];
-            console.log($scope.form_data1_detail);
-            $scope.UsageStatusList = [{'usage_status':[]}];
+
+            $scope.form_data1_scope = [{'form_data1_sub_scope':[{'iso':null}]}];
+            
+            console.log($scope.form_data1_license);
         }
-
-        
-
         $scope.loadIso();
         $scope.PAGE = 'UPDATE';
     }
 
     $scope.addDetail = function(){
-        $scope.form_data1_detail.push({'form_data1_scope' : [{
-                                                        'form_data1_sub_scope':[{'iso':null}]
-                                                        ,'form_data1_certification' : [{'certification':''}]
-                                                        }]
-                                        ,'form_data1_standard_a_r_c' : [{'arc_name':''}]    
+        $scope.form_data1_license.unshift({'form_data1_standard_checked' : [{
+                                                        'form_data1_product_inspect':[{}]
+                                                        }] 
                                     });
-
-        $scope.UsageStatusList.push({'usage_status':[]});
     }
 
     $scope.addScope = function(index){
-        $scope.form_data1_detail[index].form_data1_scope.push({
-                                                        'form_data1_sub_scope':[{'iso':null}]
-                                                        ,'form_data1_certification' : [{'certification':''}]
-                                                    });
+        $scope.form_data1_scope.push({
+                                    'form_data1_sub_scope':[{}]
+                                });
     }
 
-    $scope.addStandardARC = function(index){
-        $scope.form_data1_detail[index].form_data1_standard_a_r_c.push({'arc_name':''});
+    $scope.addSubScope = function(index){
+        $scope.form_data1_scope[index].form_data1_sub_scope.push({
+                                    'iso':null
+                                });
     }
 
-    $scope.addSubScope = function(detail_index, scope_index){
-        $scope.form_data1_detail[detail_index].form_data1_scope[scope_index].form_data1_sub_scope.push({'iso':null});
+    $scope.addStandardChecked = function(detail_index){
+        $scope.form_data1_license[detail_index].form_data1_standard_checked.push({'form_data1_product_inspect':[{}]});
     }
 
-    $scope.addCertification = function(detail_index, scope_index){
-        $scope.form_data1_detail[detail_index].form_data1_scope[scope_index].form_data1_certification.push({'certification':''});
+    $scope.addProductInspect = function(detail_index, scope_index){
+        $scope.form_data1_license[detail_index].form_data1_standard_checked[scope_index].form_data1_product_inspect.push({});
     }
 
     $scope.DatePoupObj = [];
     
     $scope.openStartDateObj = function(index) {
-        $scope.form_data1_detail[index].open_start_date = true;
+        $scope.form_data1_license[index].open_start_date = true;
     };
 
     $scope.openEndDateObj = function(index) {
-        $scope.form_data1_detail[index].open_end_date = true;
+        $scope.form_data1_license[index].open_end_date = true;
     };
-
-    $scope.toggleUsageStatus = function(index, name){
-        console.log(index);
-        var idx = $scope.UsageStatusList[index].usage_status.indexOf(name);
-
-        // Is currently selected
-        if (idx > -1) {
-          $scope.UsageStatusList[index].usage_status.splice(idx, 1);
-        }
-        // Is newly selected
-        else {
-          $scope.UsageStatusList[index].usage_status.push(name);
-        }
-        console.log($scope.UsageStatusList);
-    
-    }
 
     $scope.cancel = function(){
         $scope.PAGE = 'MAIN';

@@ -132,6 +132,10 @@ angular.module('e-homework').controller('MeetingResultController', function($sco
         $scope.PAGE = page;
     }
 
+    $scope.getShortDate = function(d){
+        return getShortDate(d);
+    }
+
     $scope.popup1 = {
         opened: false
     };

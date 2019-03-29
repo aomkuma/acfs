@@ -96,6 +96,7 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
         HTTPService.uploadRequest('form-data1/update', params).then(function(result){
             if(result.data.STATUS == 'OK'){
                 alert('บันทึกสำเร็จ');
+                $scope.loadList($scope.condition);
                 $scope.PAGE = 'MAIN';
             }
             IndexOverlayFactory.overlayHide();
@@ -142,6 +143,15 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
                         if($scope.form_data1_detail[i].usage_status.indexOf('ลดขอบข่าย') !== -1){
                             $scope.form_data1_detail[i]['usage_status2'] = 'ลดขอบข่าย';
                         }
+
+                        
+                        // console.log($scope.form_data1_detail[i] );
+                        for(var j = 0; j < $scope.form_data1_detail[i].form_data1_scope.length; j++){
+                            console.log($scope.form_data1_detail[i].form_data1_scope[j].form_data1_certification.length );
+                            if($scope.form_data1_detail[i].form_data1_scope[j].form_data1_certification.length == 0){
+                                $scope.form_data1_detail[i].form_data1_scope[j].form_data1_certification.push({'certification':''});
+                            }
+                        }    
                     
                         console.log($scope.form_data1_detail[i]);
                     }
@@ -165,6 +175,7 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
                 
             ];
             console.log($scope.form_data1_detail);
+            $scope.UsageStatusList = [{'usage_status':[]}];
         }
         $scope.loadIso();
         $scope.PAGE = 'UPDATE';
@@ -238,5 +249,6 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
     $scope.getMenu('menu/get/type' ,$scope.page_type);
     $scope.loadList($scope.condition);
     $scope.loadIsoAll();
+    $scope.loadIso();
 
 });

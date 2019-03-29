@@ -302,7 +302,7 @@ function convertDateToFullThaiDate(dateObj){
    if(minute.length == 1){
       minute = '0' + minute;
    }
-    return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear()) + ' ' + dateObj.getHours() + ':' + minute;
+    return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear() + 543) + ' ' + dateObj.getHours() + ':' + minute + ' น.';
 }
 
 function convertDateToFullThaiDateIgnoreTime(dateObj){
@@ -331,7 +331,7 @@ function convertDateToFullThaiDateIgnoreTime(dateObj){
         case 10 : monthTxt = 'พฤศจิกายน';break;
         case 11 : monthTxt = 'ธันวาคม';break;
     }
-    return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear());
+    return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear() + 543);
 }
 
 function convertDateToReportDate(dateObj){
@@ -419,7 +419,7 @@ function getHourList(){
 
 function getYearList(loop)
 {
-    var startYear = 2015;
+    var startYear = 2018;
     var yearList = [];
     for(var i =0 ; i < loop; i++){
         yearList.push({'yearValue': startYear + i + 543, 'yearText' : startYear + i});

@@ -67,8 +67,32 @@
                 $_Data['answer_date'] = date('Y-m-d H:i:s');
                 $id = QuestionAnswerService::updateData($_Data);
 
-                $email_settings = EmailService::getEmailDefault();
+                // exit;
+                $this->data_result['DATA']['id'] = $id;
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
                 
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function sendMail($request, $response, $args){
+            
+            try{
+                $params = $request->getParsedBody();
+                $_Data = $params['obj']['Data'];
+                foreach ($_Data as $key => $value) {
+                    if($value == 'null'){
+                        $_Data[$key] = '';
+                    }
+                }
+                $_Data['answer_date'] = date('Y-m-d H:i:s');
+                // $id = QuestionAnswerService::updateData($_Data);
+
+                $email_settings = EmailService::getEmailDefault();
+                // print_r($email_settings);
+                // exit;
                 $mail_content = "จากที่ท่านได้ส่งคำถามมาว่า " . $_Data['question_desc']
                                 . "<br>ขออนุญาตเรียนตอบคำถามดังนี้ "
                                 . "<br>" . $_Data['answer_desc']
@@ -82,14 +106,16 @@
                 $mailer->setSubject("คำตอบแบบสอบถามของคุณ " . $_Data['question_by']);
                 $mailer->setHTMLContent($mail_content);
                 $mailer->isHtml(true);
+                $mailer->setReceiver($_Data['question_email']);
 
                 $res = $mailer->sendMail();
                 if($res){
-                    echo 'Sent mail Room success';
+                    echo 'Sent mail q&a success';
+                    $this->logger->info('Sent mail q&a success');
                 }else{
                     // print_r($res);
                     // exit;
-                    echo 'Sent mail Room failed' . $res;
+                    $this->logger->info('Sent mail q&a failed');
                 }
                 // exit;
                 $this->data_result['DATA']['id'] = $id;

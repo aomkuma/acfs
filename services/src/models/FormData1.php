@@ -7,6 +7,7 @@ class FormData1 extends \Illuminate\Database\Eloquent\Model {
   	public $timestamps = false;
   	protected $fillable = array('id'
   							, 'menu_type'
+                , 'group_type'
   							, 'group_name'
   							, 'group_address'
                 , 'code_number'

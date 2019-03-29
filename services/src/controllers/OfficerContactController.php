@@ -55,7 +55,7 @@
                         $_Data[$key] = '';
                     }
                 }
-
+                unset($_Data['$hashKey']);
                 $id = OfficerContactService::updateDepData($_Data);
 
                 $this->data_result['DATA']['id'] = $id;
@@ -77,7 +77,7 @@
                         $_Data[$key] = '';
                     }
                 }
-
+                unset($_Data['$hashKey']);
                 $id = OfficerContactService::updateOfficerData($_Data);
 
                 $this->data_result['DATA']['id'] = $id;

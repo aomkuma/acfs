@@ -6,10 +6,104 @@
     use App\Model\CommodityStandardCancelled;
     use App\Model\CommodityKeyword;
     use App\Model\APICaller;
+    use App\Model\CommodityStandardCertification;
 
     use Illuminate\Database\Capsule\Manager as DB;
     
     class CommodityStandardService {
+
+        public static function getListCertification($currentPage, $limitRowPerPage, $keyword, $standardType){
+
+            $currentPage = $currentPage - 1;
+
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+
+            $totalRows = count(CommodityStandard::where(function($query) use ($standardType){
+                    if(!empty($standardType)){
+                        $query->where('Commodity_Standards.standardPublishingType', $standardType);
+                        // $query->orWhere('Commodity_Standard_Certification.standardPublishingType', $standardType);
+                    }
+                })
+                ->where(function($query) use ($keyword){
+                    if(!empty($keyword)){
+                        $query->where('Commodity_Standards.standardNameThai', $keyword);
+                        // $query->orWhere('Commodity_Standard_Certification.standardNameThai', $keyword);
+                        $query->orWhere('Commodity_Standards.noThai', $keyword);
+                        // $query->orWhere('Commodity_Standard_Certification.noThai', $keyword);
+                    }
+                })
+                ->where('Commodity_Standards.step', '9')
+                ->get());
+
+            // $totalRows = ceil($totalRows / $limitRowPerPage);    
+
+            $DataList = CommodityStandard::select(DB::raw('Commodity_Standards.*')
+                            , DB::raw('Commodity_Standards.standardID AS standardID_certification')
+                            , DB::raw('Commodity_Standards.secondaryCode AS secondaryCode_certification')
+                            , DB::raw('Commodity_Standards.standardGroup AS standardGroup_certification')
+                            , DB::raw('Commodity_Standards.standardNameThai AS standardNameThai_certification')
+                            , DB::raw('Commodity_Standards.standardPublishingType AS standardPublishingType_certification')
+                            , DB::raw('Commodity_Standards.noThai AS noThai_certification')
+                            , DB::raw('Commodity_Standards.useDate AS useDate_certification')
+                            , DB::raw('Commodity_Standards.bookNumberThai AS bookNumberThai_certification')
+                            , DB::raw('Commodity_Standards.useDate AS useDate_certification')
+                            , DB::raw('Commodity_Standards.descThai')
+                            , DB::raw('Commodity_Standards.accreditationScope AS accreditationScope_certification')
+                            , DB::raw('Commodity_Standards.standardType AS standardType_certification')
+                        )
+                ->where(function($query) use ($standardType){
+                    if(!empty($standardType)){
+                        $query->where('Commodity_Standards.standardPublishingType', $standardType);
+                        // $query->orWhere('Commodity_Standard_Certification.standardPublishingType', $standardType);
+                    }
+                })
+                ->where(function($query) use ($keyword){
+                    if(!empty($keyword)){
+                        $query->where('Commodity_Standards.standardNameThai', $keyword);
+                        // $query->orWhere('Commodity_Standard_Certification.standardNameThai', $keyword);
+                        $query->orWhere('Commodity_Standards.noThai', $keyword);
+                        // $query->orWhere('Commodity_Standard_Certification.noThai', $keyword);
+                    }
+                })
+                ->where('Commodity_Standards.step', '9')
+                ->skip($skip)
+                ->take($limit)
+                ->get();
+
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
+
+        }
+
+        public static function getDataCertification($standardID){
+            return CommodityStandard::find($standardID);
+        }
+
+        public static function getData($standardID){
+            return CommodityStandard::find($standardID);
+        }
+
+        public static function updateDataCertification($obj){
+            $model = CommodityStandard::find($obj['standardID']);
+            if(empty($model)){
+                $obj['createDate'] = date('Y-m-d H:i:s');
+                $obj['updateDate'] = date('Y-m-d H:i:s');
+                $model = CommodityStandard::create($obj);
+                return $model->standardID;
+            }else{
+                $CommodityStandard['updateDate'] = date('Y-m-d H:i:s');
+                CommodityStandard::where('standardID', $obj['standardID'])->update($obj);
+                return $obj['standardID'];
+            }
+        }
+
+        public static function getListPending(){
+            return CommodityStandard::where('status' , 'Active')
+                    ->whereIn('step', [1,2,3,4,5,6,7,8])
+                    ->orderBy('Commodity_Standards.standardID', 'DESC')
+                    ->get();
+        }
 
         public static function getListInUse(){
             return CommodityStandard::where('status' , 'Active')
@@ -58,8 +152,11 @@
                     ->get();
         }
 
-        public static function getCommodityStandardListSearch($currentPage, $limitRowPerPage, $keyword, $standardType, $standardDefineType){
+        public static function getCommodityStandardListSearch($currentPage, $limitRowPerPage, $keyword, $standardType, $standardDefineType, $standardGroup){
             // 
+
+            $currentPage = $currentPage - 1;
+
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
@@ -72,6 +169,11 @@
                         ->where(function($query) use ($standardDefineType){
                             if(!empty($standardDefineType)){
                                 $query->where('standardDefineType', $standardDefineType);
+                            }
+                        })
+                        ->where(function($query) use ($standardGroup){
+                            if(!empty($standardGroup)){
+                                $query->where('standardGroup', DB::raw("N'".$standardGroup."'"));
                             }
                         })
                         ->where(function($query) use ($stepList, $keyword, $standardDefineType){
@@ -88,7 +190,7 @@
                             }
                         })
                         ->where('status', 'Active')
-                        ->where('step', '<>', '11')
+                        ->where('step', '9')
                         ->groupBy('Commodity_Standards.standardID')
                         ->orderBy('Commodity_Standards.standardID', 'DESC')
                         ->get();
@@ -105,6 +207,11 @@
                                 $query->where('standardDefineType', $standardDefineType);
                             }
                         })
+                        ->where(function($query) use ($standardGroup){
+                            if(!empty($standardGroup)){
+                                $query->where('standardGroup', DB::raw("N'".$standardGroup."'"));
+                            }
+                        })
                         ->where(function($query) use ($stepList, $keyword, $standardDefineType){
                             //$query->where('step', '9');
                             if(!empty($keyword)){
@@ -115,7 +222,7 @@
                             }
                         })
                         ->where('status', 'Active')
-                        ->where('step', '<>', '11')
+                        ->where('step', '9')
                         ->groupBy('Commodity_Standards.standardID')
                         ->orderBy('Commodity_Standards.standardID', 'DESC')
                         ->skip($skip)
@@ -141,6 +248,8 @@
 
         public static function getCommodityStandardListPlan($currentPage, $limitRowPerPage, $keyword){
             // 
+
+            $currentPage = $currentPage - 1;
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
@@ -152,6 +261,7 @@
                                 $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
                             }
                         })
+                        ->whereIn('step', [1,2,3,4,5,6,7,8])
                         ->count();
 
             // $totalPage = ceil($totalRows / $limitRowPerPage);
@@ -162,6 +272,7 @@
                                 $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
                             }
                         })
+                        ->whereIn('step', [1,2,3,4,5,6,7,8])
                         ->orderBy('standardID', 'DESC')
                         ->skip($skip)
                         ->take($limit)
@@ -172,11 +283,14 @@
 
         public static function getCommodityStandardListByType($currentPage, $limitRowPerPage, $keyword, $defineType, $standardType,$stepList){
             // 
+
+            $currentPage = $currentPage - 1;
+
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
-            $totalRows = CommodityStandard::
-                        where(function($query) use ($keyword){
+            $totalRows = count(CommodityStandard::select("Commodity_Standards.*")
+                        ->where(function($query) use ($keyword){
                             //$query->where('step', '9');
                             if(!empty($keyword)){
                                 $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
@@ -188,14 +302,15 @@
                             //$query->where('step', '9');
                             
                             if(!empty($standardType)){
-                                $query->where('standardType', $standardType);
+                                $query->where('standardDefineType', $standardType);
                             }
                         })
                         ->where('status', 'Active')
                         ->whereIn('step', $stepList)
                         ->where('standardDefineType', $defineType)
                         ->leftJoin("Commodity_Keywords", 'Commodity_Keywords.standardID', '=', 'Commodity_Standards.standardID')
-                        ->count();
+                        ->groupBy('Commodity_Keywords.standardID')
+                        ->get()->toArray());
 
             // $totalPage = ceil($totalRows / $limitRowPerPage);
             $DataList = CommodityStandard::select("Commodity_Standards.*")
@@ -229,10 +344,13 @@
 
     	public static function getCommodityStandardList($currentPage, $limitRowPerPage, $_standardIDToIgnore, $stepList){
             // 
+
+            $currentPage = $currentPage - 1;
+
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
-            $totalRows = CommodityStandard::whereNotIn("standardID", $_standardIDToIgnore)
+            $totalRows = count(CommodityStandard::whereNotIn("standardID", $_standardIDToIgnore)
                         ->where(function($query) use ($stepList){
                             if($stepList[0] == 11){
                                 $query->where('status', 'Inactive');
@@ -241,7 +359,7 @@
                                 $query->where('status', 'Active');
                             }
                         })
-                        ->count();
+                        ->get()->toArray());
 
             // $totalPage = ceil($totalRows / $limitRowPerPage);
             $DataList = CommodityStandard::whereNotIn("standardID", $_standardIDToIgnore)
@@ -263,6 +381,9 @@
 
         public static function getCommodityStandardListWithCheckDate($currentPage, $limitRowPerPage){
             // 
+
+            $currentPage = $currentPage - 1;
+
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
@@ -280,15 +401,20 @@
         }
 
         public static function getCommodityStandardListForUser($userID, $currentPage, $limitRowPerPage, $_standardIDToIgnore){
+            
+            $currentPage = $currentPage - 1;
+
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
             $totalRows = CommodityStandard::whereNotIn("Commodity_Standards.standardID", $_standardIDToIgnore)
                         ->join("Academic_Boards", 'Academic_Boards.standardID', '=', 'Commodity_Standards.standardID')
+                        ->where('Academic_Boards.stakeholderID', $userID)
                         ->count();
             // $totalPage = ceil($totalRows / $limitRowPerPage);
             $DataList = CommodityStandard::select("Commodity_Standards.*")
                         ->whereNotIn("Commodity_Standards.standardID", $_standardIDToIgnore)
+                        ->where('Academic_Boards.stakeholderID', $userID)
                         ->join("Academic_Boards", 'Academic_Boards.standardID', '=', 'Commodity_Standards.standardID')
                         ->groupBy('Commodity_Standards.standardID')
                         ->orderBy('Commodity_Standards.standardID', 'DESC')
@@ -300,6 +426,9 @@
         }
 
         public static function getCommodityStandardListWithCheckDateForUser($userID, $currentPage, $limitRowPerPage){
+
+            $currentPage = $currentPage - 1;
+
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
@@ -321,6 +450,8 @@
 
         public static function getListAcademicBoard($currentPage, $limitRowPerPage){
             // 
+            $currentPage = $currentPage - 1;
+            
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
@@ -384,10 +515,10 @@
 
         public static function getListAPI(){
             return CommodityStandard::where('status' , 'Active')
-                    ->with(array('academicBoard' => function($query){
-                                    $query->with('stakeholders');
-                                }))
-                    ->with('meeting')
+                    // ->with(array('academicBoard' => function($query){
+                    //                 $query->with('stakeholders');
+                    //             }))
+                    // ->with('meeting')
                     ->orderBy('standardID', 'DESC')
                     ->get()->toArray();
         }
@@ -408,5 +539,12 @@
                 ->join('Commodity_Standards', 'Commodity_Standards.standardID', '=' ,'Commodity_Standard_Cancelled.id_cancelled')
                 ->first();
         }
+
+        public static function findCommodityStandardReplace($id){
+            return CommodityStandardCancelled::where('id_cancelled', $id)
+                ->join('Commodity_Standards', 'Commodity_Standards.standardID', '=' ,'Commodity_Standard_Cancelled.id_replaced')
+                ->first();
+        }
+
 
     }

@@ -101,6 +101,14 @@
                                 $menu_id = $value3['id'];
                                 
                                 UserRoleService::updateDataDetail($role_id, $menu_id, $checked_menu);
+
+                                foreach ($value3['sub_menu'] as $key4 => $value4) {
+                                    // print_r($value['checked_menu']);
+                                    $checked_menu = $value4['checked_menu'];
+                                    $menu_id = $value4['id'];
+                                    
+                                    UserRoleService::updateDataDetail($role_id, $menu_id, $checked_menu);
+                                }
                             }
                         }
                     }

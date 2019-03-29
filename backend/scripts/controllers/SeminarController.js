@@ -195,6 +195,10 @@ angular.module('e-homework').controller('SeminarController', function($scope, $c
         $scope.PAGE = page;
     }
 
+    $scope.getShortDate = function(d){
+        return getShortDate(d);
+    }
+
     $scope.popup1 = {
         opened: false
     };

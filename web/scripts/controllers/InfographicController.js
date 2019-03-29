@@ -86,6 +86,14 @@ angular.module('e-homework').controller('InfographicController', function($scope
         $scope.PAGE = page;
     }
     
+    $scope.getThaiDate = function(date){
+        // console.log('check date :'+date);
+        if(date != undefined){
+            // var splitDate = date.split(' ');
+            return convertDateToFullThaiDateIgnoreTime(new Date(date));
+        }
+    }
+
     $scope.next_index = 0;
     $scope.prev_index = 0;
     $scope.PictureList = [];

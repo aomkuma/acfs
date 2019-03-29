@@ -24,7 +24,7 @@
  </div> 
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ประเภทแบบสอบถาม</label>
-      <div class="col-lg-4 col-sm-10 col-xs-10">
+      <div class="col-lg-6 col-sm-10 col-xs-10">
         <select class="form-control" ng-model="Questionnaire.questionnaireSubType">
           <option value="">กรุณาเลือก..</option>
           <option value="standard">ร่างมาตรฐานสินค้าเกษตร</option>
@@ -34,15 +34,15 @@
  </div> 
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อแบบสอบถาม</label>
-      <div class="col-lg-4 col-sm-12 col-xs-12">
+      <div class="col-lg-6 col-sm-12 col-xs-12">
         <input type="text" class="form-control" ng-model="Questionnaire.questionName">
       </div>
  </div> 
- <div class="row form-group" ng-show="Questionnaire.questionnaireSubType == 'standard'">
+ <div class="row form-group" ng-show="Questionnaire.questionnaireSubType == 'standard'"><!-- -->
     <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">
       แบบสอบถามของมาตรฐาน
     </label>
-    <div class="col-lg-4 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-sm-12 col-xs-12">
       <!--<input type="text" class="form-control" ng-model="Questionnaire.standardName" uib-typeahead="user.standardNameThai for user in searchSubcommitteeAutoComplete($viewValue, 'STANDARD') | limitTo:20" typeahead-on-select="autocompleteStandardSelected($item, $model, $label);">
       <input type="hidden" ng-model="Questionnaire.standardID">-->
       <select class="form-control" ng-model="Questionnaire.standardID" ng-options="data.standardID as data.standardNameThai for data in CommodityStandardList">
@@ -54,9 +54,12 @@
     <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">
       แบบสอบถามของคณะอนุกรรมการ
     </label>
-    <div class="col-lg-4 col-sm-12 col-xs-12">
-      <input type="text" class="form-control" ng-model="Questionnaire.subcommitteeName" uib-typeahead="user.subcommitteeName for user in searchSubcommitteeAutoComplete($viewValue, 'SUBCOMMITTEE') | limitTo:20" typeahead-on-select="autocompleteSubcommitteeSelected($item, $model, $label);">
-      <input type="hidden" ng-model="Questionnaire.subcommitteeID">
+    <div class="col-lg-6 col-sm-12 col-xs-12">
+      <!-- <input type="text" class="form-control" ng-model="Questionnaire.subcommitteeName" uib-typeahead="user.subcommitteeName for user in searchSubcommitteeAutoComplete($viewValue, 'SUBCOMMITTEE') | limitTo:20" typeahead-on-select="autocompleteSubcommitteeSelected($item, $model, $label);">
+      <input type="hidden" ng-model="Questionnaire.subcommitteeID"> -->
+      <select class="form-control" ng-model="Questionnaire.subcommitteeID" ng-options="data.subcommitteeID as data.subcommitteeName for data in SubcommitteeList">
+        <option value="">กรุณาเลือก..</option>
+      </select>
     </div>
     <div class="col-lg-2 col-sm-2 col-xs-2" >
         <button class="btn btn-success btn-sm" ng-click="addQuestionnairePerson()">เพิ่มผู้รับเพิ่มเติม</button>
@@ -93,7 +96,7 @@
   </div>
   <div class="col-lg-4 col-sm-12 col-xs-12">
     <p class="input-group">
-        <input type="text" readonly="true" class="form-control" placeholder="เริ่มต้น" value="{{getDateString(Questionnaire.closeDate)}}" />
+        <input type="text" readonly="true" class="form-control" placeholder="สิ้นสุด" value="{{getDateString(Questionnaire.closeDate)}}" />
         <input type="text" readonly="true" class="form-control" uib-datepicker-popup="yyyy-MM-dd" ng-model="Questionnaire.closeDate" is-open="popup2.opened" datepicker-options="dateOptions2" placeholder="สิ้นสุด" ng-show="false" />
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -133,7 +136,8 @@
 </div>-->
  <div class="row form-group">
       <div class="col-lg-12 text-center">
-            <button class="btn btn-primary" ng-click="saveQuestionnaire(Questionnaire)">{{ Questionnaire.questionnaireSubType=='committee'?'ส่งแบบสอบถาม':'บันทึก' }}</button>
+            <button class="btn btn-primary" ng-click="saveQuestionnaire(Questionnaire)">{{ Questionnaire.questionnaireSubType=='committee'?'บันทึก':'บันทึก' }}</button>
+            <button class="btn btn-info" ng-click="sendMail()">ส่ง email</button>
             <button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
             <div uib-alert ng-class="'alert-success'" uib-alert class='repeat-item' ng-repeat="alert in alerts" type="alert.type"  dismiss-on-timeout="3000" close="alerts.splice($index, 1);" style="text-align: center; font-size:1.2em;">{{alert.msg}}
             </div>

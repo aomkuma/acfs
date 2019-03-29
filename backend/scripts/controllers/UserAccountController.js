@@ -128,6 +128,11 @@ angular.module('e-homework').controller('UserAccountController', function($scope
         
     }
 
+    $scope.goToPage = function(page){
+        $scope.currentPage = page;
+        $scope.load();
+    }
+
     $scope.totalPages = 0;
     $scope.currentPage = 0;
     $scope.limitRowPerPage = 10;

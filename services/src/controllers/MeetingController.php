@@ -7,6 +7,7 @@
     use App\Service\CommodityStandardService;
     use App\Service\AcademicBoardService;
     use App\Service\UserAccountService;
+    use App\Service\SubcommitteeService;
     use App\Controller\Mailer;
     
     class MeetingController extends Controller {
@@ -45,8 +46,24 @@
 
                 if($userType == 'admin'){
                     $userID = '';
+                    $_List = MeetingService::getListForHomepageAdmin();
+                }else{
+                    $ListNormal = MeetingService::getListForHomepage($userID);
+                    $ListAcademicBoard = MeetingService::getListForHomepageAcademicBoard($userID);
+                    $ListSubcommittee = MeetingService::getListForHomepageSubcommittee($userID);
+
+                    $_List = [];
+                    foreach ($ListNormal as $key => $value) {
+                        array_push($_List, $value);
+                    }
+                    foreach ($ListAcademicBoard as $key => $value) {
+                        array_push($_List, $value);
+                    }
+                    foreach ($ListSubcommittee as $key => $value) {
+                        array_push($_List, $value);
+                    }
                 }
-                $_List = MeetingService::getListForHomepage($userID);
+                
 
                 $this->data_result['DATA']['Meeting'] = $_List;
 
@@ -59,6 +76,174 @@
 
         public function getData($request, $response, $args){
             try{
+
+                return $this->returnResponse(200, $this->data_result, $response, false);
+                
+            }catch(\Exception $e){
+                return $this->returnSystemErrorResponse($this->logger, $this->data_result, $e, $response);
+            }
+        }
+
+        public function sendMailSchedule($request, $response, $args){
+            try{
+                // Load meeting
+                $List = MeetingService::getMailSchedule();
+                foreach ($List as $key => $value) {
+                    $meetingID = $value['meetingID'];
+
+                    $_Meeting = $value;
+                    $MailToAttendee = MeetingService::getAttendee($_Meeting['meetingID']);
+                    $email_settings = EmailService::getEmailAcademicBord($_Meeting['standardID']);
+
+                    $mailToType = 'คณะกรรมการวิชาการ';
+                    if($_Meeting['menuType'] == 'subcommittee'){
+                        $subcommitteeID = $_Meeting['standardID'];
+                        $mailToType = 'คณะอนุกรรมการ';
+                        $_AcademicBoard = SubcommitteeService::getSubcommtteePerson($subcommitteeID);
+                    }else{
+                        $_AcademicBoard = AcademicBoardService::getAcademicBoardList($_Meeting['standardID']);
+                    }
+
+
+                    // To attendee
+                    foreach ($MailToAttendee as $key => $value) {
+                        $mailer = new Mailer;
+                        // $mailer->setMailHost('smtp.gmail.com');
+                        // $mailer->setMailPort('465');
+                        // $mailer->setMailUsername($email_settings->email);
+                        // $mailer->setMailPassword($email_settings->password);
+                        $mailer = new Mailer;
+                        $mailer->setMailHost('tls://mail.acfs.go.th:587');
+                        $mailer->setMailPort('587');
+                        $mailer->setMailUsername('standarddevelopment@acfs.go.th');
+                        $mailer->setMailPassword('279sktX2DX');
+                        $mailer->setSubject("ขอเชิญประชุม$mailToTypeพิจารณามาตรฐานสินค้าเกษตร เรื่อง " . $_Meeting['meetingName']);
+                        $mailer->isHtml(true);
+
+                        // Prepare data
+                        $data = [];
+                        if($_Meeting['meetingType'] == 'convoke'){
+                            $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
+                            $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
+                            $data['startDate'] = $_Meeting['startDate'];
+                            $data['endDate'] = $_Meeting['endDate'];
+                            $data['address'] = $_Meeting['address'];
+                            $data['remark'] = $_Meeting['remark'];
+
+                            $mailer->setHTMLContent($this->generateMailConvokeContent($data));
+
+                        }else{
+                            $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
+                            $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
+                            $data['startDate'] = $_Meeting['startDate'];
+                            $data['endDate'] = $_Meeting['endDate'];
+                            $data['address'] = $_Meeting['address'];
+                            $data['remark'] = $_Meeting['remark'];
+                            $mailer->setSubject("ขอเชิญเข้าร่วมการสัมมนาระดมความเห็นต่อร่างมาตรฐานสินค้าเกษตรและร่างแนวปฏิบัติในการใช้มาตรฐานสินค้าเกษตร");
+                            $mailer->setHTMLContent($this->generateMailSeminarContent($data));
+                        }
+                        
+                        // Find email to 
+                        $userData = UserAccountService::getUserDataByStakeholderID($value['attendeeID']);
+                        $mailer->setReceiver($userData->email);
+
+                        // Add attach files
+
+                        $Invite_Files = MeetingService::getInviteFile($meetingID);
+                        // print_r($MOM_Files);exit;
+                        foreach ($Invite_Files as $_key => $_value) {
+                            $mailer->addAttachFile('../../' . $_value->filePath, $_value['fileName']);
+                        }
+
+                        $MOM_Files = MeetingService::getMeetingFile($meetingID);
+                        // print_r($MOM_Files);exit;
+                        foreach ($MOM_Files as $_key => $_value) {
+                            // echo '../../' . $value->filePath;
+                            $mailer->addAttachFile('../../' . $_value->filePath, $_value['fileName']);
+                        }
+
+                        $res = $mailer->sendMail();
+                        if($res){
+                            $this->logger->info('Meeting Sent mail Room success to ' . $userData->email);
+                        }else{
+                            // print_r($res);
+                            // exit;
+                            $this->logger->info('Meeting Sent mail Room failed' . $userData->email . $res);
+                        }
+                    }
+                    // End of send to attendee
+
+                    // To Academic board
+                    // get academic board list
+                    
+                    
+                    foreach ($_AcademicBoard as $key => $value) {
+                        
+                        // sent mail
+                        $mailer = new Mailer;
+                        // $mailer->setMailHost('smtp.gmail.com');
+                        // $mailer->setMailPort('465');
+                        // $mailer->setMailUsername($email_settings->email);
+                        // $mailer->setMailPassword($email_settings->password);
+                        $mailer = new Mailer;
+                        $mailer->setMailHost('tls://mail.acfs.go.th:587');
+                        $mailer->setMailPort('587');
+                        $mailer->setMailUsername('standarddevelopment@acfs.go.th');
+                        $mailer->setMailPassword('279sktX2DX');
+                        
+                        $mailer->isHtml(true);
+
+                        // Prepare data
+                        $data = [];
+                        if($_Meeting['meetingType'] == 'convoke'){
+                            $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
+                            $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
+                            $data['startDate'] = $_Meeting['startDate'];
+                            $data['endDate'] = $_Meeting['endDate'];
+                            $data['address'] = $_Meeting['address'];
+                            $data['remark'] = $_Meeting['remark'];
+                            $mailer->setSubject("ขอเชิญประชุม" . $mailToType . "พิจารณามาตรฐานสินค้าเกษตร");
+                            $mailer->setHTMLContent($this->generateMailConvokeContent($data, $mailToType));
+
+                        }else{
+                            $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
+                            $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
+                            $data['startDate'] = $_Meeting['startDate'];
+                            $data['endDate'] = $_Meeting['endDate'];
+                            $data['address'] = $_Meeting['address'];
+                            $data['remark'] = $_Meeting['remark'];
+                            $mailer->setSubject("ขอเชิญเข้าร่วมการสัมมนาระดมความเห็นต่อร่างมาตรฐานสินค้าเกษตรและร่างแนวปฏิบัติในการใช้มาตรฐานสินค้าเกษตร");
+                            $mailer->setHTMLContent($this->generateMailSeminarContent($data));
+                        }
+                        
+                        // Find email to 
+                        // $userData = UserAccountService::getUserDataByStakeholderID($value['attendeeID']);
+                        $mailer->setReceiver($value->email);
+
+                        // Add attach files
+                        $MOM_Files = MeetingService::getMeetingFile($meetingID);
+                        // print_r($MOM_Files);exit;
+                        foreach ($MOM_Files as $_key => $_value) {
+                            // echo '../../' . $value->filePath;
+                            $mailer->addAttachFile('../../' . $_value->filePath, $_value['fileName']);
+                        }
+                            // exit;
+                        
+
+                        $res = $mailer->sendMail();
+                        if($res){
+                            $this->logger->info('Academic Sent mail Room success ' . $value->email);
+                            // when finish
+                            MeetingService::updateSentEmailStatus($meetingID);
+                        }else{
+                            // print_r($res);
+                            // exit;
+                            $this->logger->info('Academic Sent mail Room failed '. $value->email . $res);
+                        }
+                    }
+
+
+                }
 
                 return $this->returnResponse(200, $this->data_result, $response, false);
                 
@@ -303,131 +488,169 @@
 
                 $params = $request->getParsedBody();
                 $_Meeting = $params['obj']['Meeting'];
-                
+                $meetingID = $_Meeting['meetingID'];
                 $_Meeting = MeetingService::getData($_Meeting['meetingID']);
                 // print_r($_Meeting);
                 // exit;
                 // Add Atendee
-                $MailToAttendee = [];
+
+                $MailToAttendee = MeetingService::getAttendee($_Meeting['meetingID']);
                 
                 // send e-mail if sentMailStatus = 'Default'
                 // if($_Meeting['sentEmailStatus'] == 'Default'){
-                    // Get e-mail hosting for send to attendee & academic board
-                    $email_settings = EmailService::getEmailAcademicBord($_Meeting['standardID']);
+                // Get e-mail hosting for send to attendee & academic board
+                $email_settings = EmailService::getEmailAcademicBord($_Meeting['standardID']);
 
-                    // To attendee
-                    foreach ($MailToAttendee as $key => $value) {
-                        
-                        // sent mail
-                        $mailer = new Mailer;
-                        $mailer->setMailHost('smtp.gmail.com');
-                        $mailer->setMailPort('465');
-                        $mailer->setMailUsername($email_settings->email);
-                        $mailer->setMailPassword($email_settings->password);
-                        $mailer->setSubject("ขอเชิญประชุมคณะกรรมการวิชาการพิจารณามาตรฐานสินค้าเกษตร");
-                        $mailer->isHtml(true);
+                if(empty($email_settings)){
+                    $email_settings = EmailService::getEmailDefault();
+                }
 
-                        // Prepare data
-                        $data = [];
-                        if($_Meeting['meetingType'] == 'convoke'){
-                            $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
-                            $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
-                            $data['startDate'] = $_Meeting['startDate'];
-                            $data['endDate'] = $_Meeting['endDate'];
-                            $data['address'] = $_Meeting['address'];
-                            $data['remark'] = $_Meeting['remark'];
-
-                            $mailer->setHTMLContent($this->generateMailConvokeContent($data));
-
-                        }else{
-
-                        }
-                        
-                        // Find email to 
-                        $userData = UserAccountService::getUserDataByStakeholderID($value['attendeeID']);
-                        $mailer->setReceiver($userData->email);
-
-                        // Add attach files
-                        $MOM_Files = MeetingService::getMeetingFile($meetingID);
-                        // print_r($MOM_Files);exit;
-                        foreach ($MOM_Files as $key => $value) {
-                            // echo '../../' . $value->filePath;
-                            $mailer->addAttachFile('../../' . $value->filePath, $value['fileName']);
-                        }
-                            // exit;
-                        
-
-                        $res = $mailer->sendMail();
-                        if($res){
-                            $this->logger->info('Sent mail Room success');
-                        }else{
-                            // print_r($res);
-                            // exit;
-                            $this->logger->info('Sent mail Room failed' . $res);
-                        }
-                    }
-                    // End of send to attendee
-
-                    // To Academic board
-                    // get academic board list
+                $mailToType = 'คณะกรรมการวิชาการ';
+                if($_Meeting['menuType'] == 'subcommittee'){
+                    $subcommitteeID = $_Meeting['standardID'];
+                    $mailToType = 'คณะอนุกรรมการ';
+                    $_AcademicBoard = SubcommitteeService::getSubcommtteePerson($subcommitteeID);
+                }else{
                     $_AcademicBoard = AcademicBoardService::getAcademicBoardList($_Meeting['standardID']);
-                    foreach ($_AcademicBoard as $key => $value) {
-                        
-                        // sent mail
-                        $mailer = new Mailer;
-                        $mailer->setMailHost('smtp.gmail.com');
-                        $mailer->setMailPort('465');
-                        $mailer->setMailUsername($email_settings->email);
-                        $mailer->setMailPassword($email_settings->password);
-                        
-                        $mailer->isHtml(true);
+                }
 
-                        // Prepare data
-                        $data = [];
-                        if($_Meeting['meetingType'] == 'convoke'){
-                            $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
-                            $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
-                            $data['startDate'] = $_Meeting['startDate'];
-                            $data['endDate'] = $_Meeting['endDate'];
-                            $data['address'] = $_Meeting['address'];
-                            $data['remark'] = $_Meeting['remark'];
-                            $mailer->setSubject("ขอเชิญประชุมคณะกรรมการวิชาการพิจารณามาตรฐานสินค้าเกษตร");
-                            $mailer->setHTMLContent($this->generateMailConvokeContent($data));
 
-                        }else{
-                            $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
-                            $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
-                            $data['startDate'] = $_Meeting['startDate'];
-                            $data['endDate'] = $_Meeting['endDate'];
-                            $data['address'] = $_Meeting['address'];
-                            $data['remark'] = $_Meeting['remark'];
-                            $mailer->setSubject("ขอเชิญเข้าร่วมการสัมมนาระดมความเห็นต่อร่างมาตรฐานสินค้าเกษตรและร่างแนวปฏิบัติในการใช้มาตรฐานสินค้าเกษตร");
-                            $mailer->setHTMLContent($this->generateMailSeminarContent($data));
-                        }
-                        
-                        // Find email to 
-                        // $userData = UserAccountService::getUserDataByStakeholderID($value['attendeeID']);
-                        $mailer->setReceiver($value->email);
+                // To attendee
+                foreach ($MailToAttendee as $key => $value) {
+                    // print_r($value);exit;
+                    // sent mail
+                    $mailer = new Mailer;
+                    $mailer->setMailHost('smtp.gmail.com');
+                    $mailer->setMailPort('465');
+                    $mailer->setMailUsername($email_settings->email);
+                    $mailer->setMailPassword($email_settings->password);
+                    // $mailer = new Mailer;
+                    // $mailer->setMailHost('tls://mail.acfs.go.th:587');
+                    // $mailer->setMailPort('587');
+                    // $mailer->setMailUsername('standarddevelopment@acfs.go.th');
+                    // $mailer->setMailPassword('279sktX2DX');
+                    $mailer->setSubject("ขอเชิญประชุม$mailToTypeพิจารณามาตรฐานสินค้าเกษตร เรื่อง " . $_Meeting['meetingName']);
+                    $mailer->isHtml(true);
 
-                        // Add attach files
-                        $MOM_Files = MeetingService::getMeetingFile($meetingID);
-                        // print_r($MOM_Files);exit;
-                        foreach ($MOM_Files as $key => $value) {
-                            // echo '../../' . $value->filePath;
-                            $mailer->addAttachFile('../../' . $value->filePath, $value['fileName']);
-                        }
-                            // exit;
-                        
+                    // Prepare data
+                    $data = [];
+                    if($_Meeting['meetingType'] == 'convoke'){
+                        $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
+                        $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
+                        $data['startDate'] = $_Meeting['startDate'];
+                        $data['endDate'] = $_Meeting['endDate'];
+                        $data['address'] = $_Meeting['address'];
+                        $data['remark'] = $_Meeting['remark'];
 
-                        $res = $mailer->sendMail();
-                        if($res){
-                            $this->logger->info('Sent mail Room success');
-                        }else{
-                            // print_r($res);
-                            // exit;
-                            $this->logger->info('Sent mail Room failed' . $res);
-                        }
+                        $mailer->setHTMLContent($this->generateMailConvokeContent($data));
+
+                    }else{
+                        $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
+                        $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
+                        $data['startDate'] = $_Meeting['startDate'];
+                        $data['endDate'] = $_Meeting['endDate'];
+                        $data['address'] = $_Meeting['address'];
+                        $data['remark'] = $_Meeting['remark'];
+                        $mailer->setSubject("ขอเชิญเข้าร่วมการสัมมนาระดมความเห็นต่อร่างมาตรฐานสินค้าเกษตรและร่างแนวปฏิบัติในการใช้มาตรฐานสินค้าเกษตร");
+                        $mailer->setHTMLContent($this->generateMailSeminarContent($data));
                     }
+                    
+                    // Find email to 
+                    $userData = UserAccountService::getUserDataByStakeholderID($value['attendeeID']);
+                    $mailer->setReceiver($userData->email);
+
+                    // Add attach files
+
+                    $Invite_Files = MeetingService::getInviteFile($meetingID);
+                    // print_r($MOM_Files);exit;
+                    foreach ($Invite_Files as $_key => $_value) {
+                        $mailer->addAttachFile('../../' . $_value->filePath, $_value['fileName']);
+                    }
+
+                    $MOM_Files = MeetingService::getMeetingFile($meetingID);
+                    // print_r($MOM_Files);exit;
+                    foreach ($MOM_Files as $_key => $_value) {
+                        // echo '../../' . $value->filePath;
+                        $mailer->addAttachFile('../../' . $_value->filePath, $_value['fileName']);
+                    }
+
+                    $res = $mailer->sendMail();
+                    if($res){
+                        $this->logger->info('Meeting Sent mail Room success to ' . $userData->email);
+                    }else{
+                        // print_r($res);
+                        // exit;
+                        $this->logger->info('Meeting Sent mail Room failed' . $userData->email . $res);
+                    }
+                }
+                // End of send to attendee
+
+                // To Academic board
+                // get academic board list
+                
+                
+                foreach ($_AcademicBoard as $key => $value) {
+                    
+                    // sent mail
+                    $mailer = new Mailer;
+                    $mailer->setMailHost('smtp.gmail.com');
+                    $mailer->setMailPort('465');
+                    $mailer->setMailUsername($email_settings->email);
+                    $mailer->setMailPassword($email_settings->password);
+                    // $mailer = new Mailer;
+                    // $mailer->setMailHost('tls://mail.acfs.go.th:587');
+                    // $mailer->setMailPort('587');
+                    // $mailer->setMailUsername('standarddevelopment@acfs.go.th');
+                    // $mailer->setMailPassword('279sktX2DX');
+                    
+                    $mailer->isHtml(true);
+
+                    // Prepare data
+                    $data = [];
+                    if($_Meeting['meetingType'] == 'convoke'){
+                        $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
+                        $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
+                        $data['startDate'] = $_Meeting['startDate'];
+                        $data['endDate'] = $_Meeting['endDate'];
+                        $data['address'] = $_Meeting['address'];
+                        $data['remark'] = $_Meeting['remark'];
+                        $mailer->setSubject("ขอเชิญประชุม" . $mailToType . "พิจารณามาตรฐานสินค้าเกษตร");
+                        $mailer->setHTMLContent($this->generateMailConvokeContent($data, $mailToType));
+
+                    }else{
+                        $data['toPerson'] = $value['nameThai'] . ' ' . $value['lastNameThai'];
+                        $data['meetingName'] = $_Meeting['meetingName'];//$CommodityStandard->standardNameThai;
+                        $data['startDate'] = $_Meeting['startDate'];
+                        $data['endDate'] = $_Meeting['endDate'];
+                        $data['address'] = $_Meeting['address'];
+                        $data['remark'] = $_Meeting['remark'];
+                        $mailer->setSubject("ขอเชิญเข้าร่วมการสัมมนาระดมความเห็นต่อร่างมาตรฐานสินค้าเกษตรและร่างแนวปฏิบัติในการใช้มาตรฐานสินค้าเกษตร");
+                        $mailer->setHTMLContent($this->generateMailSeminarContent($data));
+                    }
+                    
+                    // Find email to 
+                    // $userData = UserAccountService::getUserDataByStakeholderID($value['attendeeID']);
+                    $mailer->setReceiver($value->email);
+
+                    // Add attach files
+                    $MOM_Files = MeetingService::getMeetingFile($meetingID);
+                    // print_r($MOM_Files);exit;
+                    foreach ($MOM_Files as $_key => $_value) {
+                        // echo '../../' . $value->filePath;
+                        $mailer->addAttachFile('../../' . $_value->filePath, $_value['fileName']);
+                    }
+                        // exit;
+                    
+
+                    $res = $mailer->sendMail();
+                    if($res){
+                        $this->logger->info('Academic Sent mail Room success ' . $value->email);
+                    }else{
+                        // print_r($res);
+                        // exit;
+                        $this->logger->info('Academic Sent mail Room failed '. $value->email . $res);
+                    }
+                }
                     // End of send to academic board
                 // }
 
@@ -440,10 +663,10 @@
             }
         }
 
-        private function generateMailConvokeContent($data){
+        private function generateMailConvokeContent($data, $mailToType){
             $str = "เรียน คุณ" . $data['toPerson'];
             $str .= "<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-            $str .= "ด้วยสำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.) กำหนดจัดประชุมคณะกรรมการวิชาการพิจารณามาตรฐานสินค้าเกษตร เรื่อง";
+            $str .= "ด้วยสำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.) กำหนดจัดประชุม" . $mailToType . "พิจารณามาตรฐานสินค้าเกษตร เรื่อง";
             $str .= "<b>" . $data['meetingName'] ."</b>";
             if(date('Y-m-d', strtotime($data['startDate'])) == date('Y-m-d', strtotime($data['endDate']))){
                 $str .= " ในวัน" . $this->getDayOfWeek($data['startDate']) . "ที่ " . $this->makeThaiDateTime($data['startDate']);   
@@ -633,25 +856,32 @@
                 $email = $request->getAttribute('email');                
                 $mailer = new Mailer($this->logger);
                 $mailer->setMailHost('mail.acfs.go.th');
-                $mailer->setMailHost('tls://mail.acfs.go.th:587');
-                $mailer->setMailPort('587');
+                $mailer->setMailHost('mail.acfs.go.th');
+                $mailer->setMailPort('25');
                 $mailer->setMailUsername('standarddevelopment@acfs.go.th');
                 $mailer->setMailPassword('279sktX2DX');
+                // $password = UserAccountService::generatePassword('korapotu@gmail.com');
+                // $mailer->setMailHost('smtp.gmail.com');
+                // $mailer->setMailPort('465');
+                // $mailer->setMailUsername('korapotu@gmail.com');
+                // $mailer->setMailPassword('Aommy1989');
+
                 $mailer->setSubject("ขอเชิญประชุมคณะกรรมการวิชาการพิจารณามาตรฐานสินค้าเกษตร");
                 $mailer->isHtml(true);
-                $mailer->setHTMLContent('test content ssss s');
+                $mailer->setHTMLContent('test content ssss s ' . $password);
                 $mailer->setReceiver('korapotu@gmail.com');
 
                 $res = $mailer->sendMail();
                 if($res){
-                    $this->logger->info('Sent mail Room success');
+                    $this->logger->info('Sent mail Room success ' . $password);
                     $result = 'Sent mail Room success';
                 }else{
                     // print_r($res);
                     // exit;
                     $this->logger->info('Sent mail Room failed' . $res);
-                    $result = 'Sent mail Room success'.$res;
+                    $result = 'Sent mail Room fail'.$res;
                 }
+                echo "<pre>";
                 echo $result;exit;
                 $this->data_result['DATA']['result'] = $result;
                 return $this->returnResponse(200, $this->data_result, $response, false);

@@ -61,12 +61,25 @@ box-shadow: 0px 13px 32px -9px rgba(0,0,0,0.5); margin-right: 0px; margin-left: 
                       </a>
                       <ul class="dropdown-menu  sub-menu2" style="margin-right: 300px;" ng-show="sub_menu2.sub_menu.length > 0">
                         <li ng-repeat="sub_menu3 in sub_menu2.sub_menu">
-                          <a ng-show="sub_menu3.menu_type != 'EXLINK'" href="#/{{ sub_menu3.menu_url }}">
+                          <a ng-show="sub_menu3.menu_type != 'EXLINK'  && sub_menu3.sub_menu.length == 0" href="#/{{ sub_menu3.menu_url }}">
                             {{DEFAULT_LANGUAGE=='TH'?sub_menu3.menu_name_th:sub_menu3.menu_name_en}}
                           </a>
                           <a ng-show="sub_menu3.menu_type == 'EXLINK'" href="#/page/{{ sub_menu3.id }}">
                             {{DEFAULT_LANGUAGE=='TH'?sub_menu3.menu_name_th:sub_menu3.menu_name_en}}
                           </a>
+
+                          <a href="" tabindex="-1" class="test" ng-show="sub_menu3.menu_type == 'PARENT' && sub_menu3.sub_menu.length > 0">{{DEFAULT_LANGUAGE=='TH'?sub_menu3.menu_name_th:sub_menu3.menu_name_en}}
+                          </a>
+                          <ul class="dropdown-menu  sub-menu3" style="margin-right: 300px;" ng-show="sub_menu3.sub_menu.length > 0">
+                            <li ng-repeat="sub_menu4 in sub_menu3.sub_menu" ng-class="{'dropdown-submenu':sub_menu4.sub_menu.length > 0}">
+                              <a ng-show="sub_menu4.menu_type != 'EXLINK'" href="#/{{ sub_menu4.menu_url }}">
+                                {{DEFAULT_LANGUAGE=='TH'?sub_menu4.menu_name_th:sub_menu4.menu_name_en}}
+                              </a>
+                              <a ng-show="sub_menu4.menu_type == 'EXLINK'" href="{{ sub_menu3.menu_url }}" target="_blank">
+                                {{DEFAULT_LANGUAGE=='TH'?sub_menu4.menu_name_th:sub_menu4.menu_name_en}}
+                              </a>
+                            </li>
+                          </ul>
                         </li>
                       </ul>
                     </li>
@@ -156,6 +169,10 @@ h2{
   font-weight: bolder;
   text-decoration: underline;
   font-size: 1.2em;
+}
+
+.form-control-static{
+  font-size: 1.3em;
 }
 
 nav{
@@ -485,7 +502,7 @@ a.next {
 }
 
 .dropdown-menu .sub-menu {
-  left: 100%;
+  left: 50%;
   position: absolute;
   top: 0;
   visibility: hidden;
@@ -493,12 +510,14 @@ a.next {
 }
 
 .dropdown-menu .sub-menu .sub-menu2 {
-  left: 100%;
+  left: 50%;
   position: absolute;
   top: 0;
   visibility: hidden;
   margin-top: -1px;
 }
+
+
 
 .dropdown-menu li:hover .sub-menu {
   visibility: visible;
@@ -510,6 +529,18 @@ a.next {
 
 .dropdown:hover .dropdown-menu {
   display: block;
+}
+
+.sub-menu3 {
+  /*right: 100%;*/
+  position: absolute;
+  
+  visibility: hidden;
+  margin-top: -1px;
+}
+
+.sub-menu2 li:hover .sub-menu3 {
+  visibility: visible;
 }
 
 /*Mobile*/
@@ -572,5 +603,9 @@ a.next {
   margin-left:10px;
   border-bottom-left-radius:4px;
   border-top-left-radius:4px;
+}
+
+.table{
+  font-size: 1.3em;
 }
 </style>

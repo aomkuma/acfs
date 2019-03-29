@@ -75,8 +75,19 @@ angular.module('app').controller('CommodityStandardController', function($scope,
 
     $scope.goToPage = function(page){
         $scope.currentPage = page;
-        $scope.loadCommodityStandard('commodity-standard/list');
+        if($scope.ActiveTab == 0){
+            $scope.loadCommodityStandard('commodity-standard/list', 'pending')
+        }else if($scope.ActiveTab == 1){
+            $scope.loadCommodityStandard('commodity-standard/list', 'inuse')
+        }else if($scope.ActiveTab == 2){
+            $scope.loadCommodityStandard('commodity-standard/list', 'cancelled'); 
+        }
     }
+
+    $scope.pageChanged = function() {
+        $scope.goToPage($scope.currentPage);
+        // $log.log('Page changed to: ' + $scope.currentPage);
+    };
 
     $scope.makeDateString = function(d){
         if(d!= null && d != '' && d != '0000-00-00 00:00:00'){
@@ -84,6 +95,22 @@ angular.module('app').controller('CommodityStandardController', function($scope,
             return convertDateToFullThaiDateIgnoreTime(new Date(d.split(' ')[0]));    
         }
         return '';
+    }
+
+    $scope.changeTab = function(index){
+        $scope.totalPages = 0;
+        $scope.currentPage = 0;
+        $scope.limitRowPerPage = 10;
+        $scope.limitDisplay = 5;
+        $scope.ActiveTab = index;
+        if(index == 0){
+            $scope.loadCommodityStandard('commodity-standard/list', 'pending')
+        }else if(index == 1){
+            $scope.loadCommodityStandard('commodity-standard/list', 'inuse')
+        }else if(index == 2){
+            $scope.loadCommodityStandard('commodity-standard/list', 'cancelled'); 
+        }
+        
     }
 
     $scope.statusText = [''
@@ -105,6 +132,7 @@ angular.module('app').controller('CommodityStandardController', function($scope,
     $scope.currentPage = 0;
     $scope.limitRowPerPage = 10;
     $scope.limitDisplay = 5;
+    $scope.ActiveTab = 0;
 
     IndexOverlayFactory.overlayHide();
     $scope.loadCommodityStandard('commodity-standard/list', 'pending');

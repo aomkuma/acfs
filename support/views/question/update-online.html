@@ -20,7 +20,7 @@
 <hr>
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ประเภทแบบสอบถาม</label>
-      <div class="col-lg-4 col-sm-10 col-xs-10">
+      <div class="col-lg-6 col-sm-10 col-xs-10">
         <select class="form-control" ng-model="Questionnaire.questionnaireSubType">
           <option value="">กรุณาเลือก..</option>
           <option value="standard">ร่างมาตรฐานสินค้าเกษตร</option>
@@ -30,13 +30,13 @@
  </div> 
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อแบบสอบถาม</label>
-      <div class="col-lg-4 col-sm-12 col-xs-12">
+      <div class="col-lg-6 col-sm-12 col-xs-12">
         <input type="text" class="form-control" ng-model="Questionnaire.questionName">
       </div>
  </div>
  <div class="row form-group">
       <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">Link Google Doc.</label>
-      <div class="col-lg-4 col-sm-12 col-xs-12">
+      <div class="col-lg-6 col-sm-12 col-xs-12">
         <input type="text" class="form-control" ng-model="Questionnaire.filePath">
       </div>
  </div> 
@@ -44,7 +44,7 @@
     <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">
       แบบสอบถามของมาตรฐาน
     </label>
-    <div class="col-lg-4 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-sm-12 col-xs-12">
       <!--<input type="text" class="form-control" ng-model="Questionnaire.standardName" uib-typeahead="user.standardNameThai for user in searchSubcommitteeAutoComplete($viewValue, 'STANDARD') | limitTo:20" typeahead-on-select="autocompleteStandardSelected($item, $model, $label);">
       <input type="hidden" ng-model="Questionnaire.standardID">-->
       <select class="form-control" ng-model="Questionnaire.standardID" ng-options="data.standardID as data.standardNameThai for data in CommodityStandardList">
@@ -56,9 +56,12 @@
     <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">
       แบบสอบถามของคณะอนุกรรมการ
     </label>
-    <div class="col-lg-4 col-sm-12 col-xs-12">
-      <input type="text" class="form-control" ng-model="Questionnaire.subcommitteeName" uib-typeahead="user.subcommitteeName for user in searchSubcommitteeAutoComplete($viewValue, 'SUBCOMMITTEE') | limitTo:20" typeahead-on-select="autocompleteSubcommitteeSelected($item, $model, $label);">
-      <input type="hidden" ng-model="Questionnaire.subcommitteeID">
+    <div class="col-lg-6 col-sm-12 col-xs-12">
+      <!--<input type="text" class="form-control" ng-model="Questionnaire.subcommitteeName" uib-typeahead="user.subcommitteeName for user in searchSubcommitteeAutoComplete($viewValue, 'SUBCOMMITTEE') | limitTo:20" typeahead-on-select="autocompleteSubcommitteeSelected($item, $model, $label);">
+      <input type="hidden" ng-model="Questionnaire.subcommitteeID">-->
+      <select class="form-control" ng-model="Questionnaire.subcommitteeID" ng-options="data.subcommitteeID as data.subcommitteeName for data in SubcommitteeList">
+        <option value="">กรุณาเลือก..</option>
+      </select>
     </div>
     <div class="col-lg-2 col-sm-2 col-xs-2" >
         <button class="btn btn-success btn-sm" ng-click="addQuestionnairePerson()">เพิ่มผู้รับเพิ่มเติม</button>

@@ -1,5 +1,9 @@
 var serviceUrl = '../services/public/';
 
+
+'use strict';
+/* global FB */
+
 var app = angular.module('e-homework', ['ui.bootstrap' , 'ngRoute' , 'ngAnimate', 'ngCookies', 'ui.router', 'oc.lazyLoad', 'ngFileUpload', 'angular-bind-html-compile', '720kb.socialshare']);
 
 app.config(function($controllerProvider, $compileProvider, $filterProvider, $provide) {
@@ -130,27 +134,12 @@ angular.module('e-homework').controller('AppController', ['$cookies','$scope', '
   // $scope.LandingPage = sessionStorage.getItem('LandingPage');
   $scope.ShowLandingPage = sessionStorage.getItem('ShowLandingPage');
   console.log($scope.ShowLandingPage);
-  $scope.loadLandingPage = function(){
-      var params = {'actives' : 'Y'};
-      HTTPService.clientRequest('landing-page/list/view', params).then(function(result){
-          console.log('landing', result);
-          $scope.LandingPage = result.data.DATA;
-          // sessionStorage.setItem('ShowLandingPage', true);
-          if($scope.LandingPage != null){
-            $scope.ShowLandingPage  = true;
-          }
-      });
-  }
-
+  
   $scope.closeLandingPage = function(){
     sessionStorage.setItem('ShowLandingPage', false);
     $scope.ShowLandingPage = false;
   }
 
-  if($scope.ShowLandingPage == null){
-    $scope.loadLandingPage();
-    
-  }
 
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -197,4 +186,25 @@ function validateEmail(email) {
     }
   };
 })
+
+.directive('fbShare', [
+    function() {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                element.on('click', function() {
+                    FB.ui({
+                        method: 'feed',
+                        name: 'สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ aa',
+                        link: 'http://61.19.221.109/acfs/web/#/news/detail/12',
+                        picture: 'http://61.19.221.109/acfs/files/img/news/12_20190213130745_430751.jpg',
+                        caption: 'ภาพงานพิธีเปิดโครงการฝึกอบรมเชิงปฏิบัติการ เพื่อยกระดับขีดความสามารถ Q อาสา ด้านมาตรฐานเกษตรอินทรีย์ เพื่อยกระดับขีดความสามารถ Q อาสา ให้เป็นผู้ตรวจประเมินเบื้องต้น (Pre auditor) ด้านเกษตรอินทรีย์',
+                        description: 'นางสาวจูอะดี พงศ์มณีรัตน์ เลขาธิการสำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ (มกอช.) เป็นประธานเปิดโครงการฝึกอบรมเชิงปฏิบัติการ เพื่อยกระดับขีดความสามารถ Q อาสา ด้านมาตรฐานเกษตรอินทรีย์ เพื่อยกระดับขีดความสามารถ Q อาสา ให้เป็นผู้ตรวจประเมินเบื้องต้น (Pre auditor) ด้านเกษตรอินทรีย์ ในลักษณะเกษตรกรแนะนำเกษตรกรด้วยกันเองและเป็นกลไกในการขับเคลื่อน โครงการพัฒนาเกษตรกรรมยั่งยืน ร่วมกับเจ้าหน้าที่ภาครัฐที่เกี่ยวข้องในระดับพื้นที่ ผู้เข้าอบรมประกอบด้วย Q อาสา จากจังหวัดกำแพงเพชร พิจิตร พิษณุโลก เพชรบูรณ์ สระแก้ว และพัทลุง จำนวน 50 คน โดยมี นางสาวนลินทิพย์ เพณี ผู้อำนวยการกองส่งเสริมมาตรฐาน กล่าวรายงาน และร่วมต้อนรับ ณ โรงแรม ทีเค พาเลซ แอนด์ คอนเวนชั่น แจ้งวัฒนะ กรุงเทพฯ',
+                        message: 'สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ'
+                    });
+                });
+            }
+        };
+    }
+])
 ;

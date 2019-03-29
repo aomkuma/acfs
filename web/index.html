@@ -9,7 +9,7 @@
 
 		<title>สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ</title>
 
-		<meta property="og:url"           content="http://acfs.go.th" />
+		<meta property="og:url"           content="http://61.19.221.109/acfs/web/#/news/detail/78" />
 	  	<meta property="og:type"          content="website" />
 	  	<meta property="og:title"         content="ม.ก.อ.ช." />
 	  	<meta property="og:description"   content="สำนักงานมาตรฐานสินค้าเกษตรและอาหารแห่งชาติ" />
@@ -36,10 +36,10 @@
 
 		<script src="scripts/node_modules/angular-socialshare/dist/angular-socialshare.min.js"></script>
 		
-		<script src='scripts/e-homework-main.js?version=4'></script>
-		<script src='scripts/e-homework-on-go.js?version=4'></script>
-		<script src='scripts/factory.js?version=4'></script>
-		<script src='scripts/util.js?version=4'></script>
+		<script src='scripts/e-homework-main.js?version=9'></script>
+		<script src='scripts/e-homework-on-go.js?version=9'></script>
+		<script src='scripts/factory.js?version=9'></script>
+		<script src='scripts/util.js?version=9'></script>
 
 		<script src="scripts/ckeditor_sdk/vendor/ckeditor/ckeditor.js"></script>
 		<script src="scripts/ckeditor_sdk/samples/assets/picoModal-2.0.1.min.js"></script>
@@ -62,7 +62,7 @@
 		<!-- include css -->
 		<link rel="stylesheet" href="scripts/node_modules/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="scripts/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css">
-		<link rel="stylesheet" href="css/theme.css?version=1">
+		<link rel="stylesheet" href="css/theme.css?version=2">
 		<!-- include css end -->
 	</head>
 
@@ -94,6 +94,20 @@
 				ไปยังหน้าหลัก
 			</div>-->
 		</div>
+		<div id="fb-root"></div>
+		  <script>
+		  	console.log('Init fb');
+		    window.fbAsyncInit = function() {
+		        FB.init({appId: '1594156434062436', status: true, cookie: true,
+		        xfbml: true});
+		    };
+		    (function() {
+		        var e = document.createElement('script'); e.async = true;
+		        e.src = document.location.protocol +
+		        '//connect.facebook.net/en_US/all.js';
+		        document.getElementById('fb-root').appendChild(e);
+		    }());
+		  </script>
 	</body>
 	<style type="text/css" media="screen">
 		.overlay{

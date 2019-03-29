@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h3><strong>ACFS</strong></h3>
+  <a href="#/"><h3><strong>ACFS</strong></h3></a>
 </div>
 <nav class="navbar navbar-inverse" role="navigation" >
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -23,7 +23,7 @@
           <li ng-show="currentUser.userType == 'admin'" ng-class="{'active':menu_selected == 'stakeholder'}"><a href="#/stakeholder">รายชื่อผู้มีส่วนได้ส่วนเสีย</a></li>
           <li ng-show="currentUser.userType == 'admin'" ng-class="{'active':menu_selected == 'question'}"><a href="#/question">ตั้งค่าแบบสอบถาม</a></li>
           <li ng-show="currentUser.userType == 'admin'" ng-class="{'active':menu_selected == 'email'}"><a href="#/email">ตั้งค่า e-mail</a></li>
-          <li ng-show="currentUser.userType == 'admin'" ng-class="{'active':menu_selected == 'user-account'}" ng-show="currentUser.adminType == 'super'"><a href="#/user-account">บัญชีผู้ใช้</a></li>
+          <li ng-show="currentUser.userType == 'admin' && currentUser.adminType == 'super'" ng-class="{'active':menu_selected == 'user-account'}" ng-show="currentUser.adminType == 'super'"><a href="#/user-account">บัญชีผู้ใช้</a></li>
           <li ng-show="currentUser.userType == 'admin'" ng-class="{'active':menu_selected == 'report'}"><a href="#/report">รายงาน</a></li>
           
           <!--<li><a href="#">แก้ไขข้อมูลส่วนตัว</a></li>-->

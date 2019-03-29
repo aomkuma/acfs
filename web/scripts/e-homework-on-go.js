@@ -687,6 +687,18 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 		}
 	})
 
+	.when("/website-survey", {
+        templateUrl : "views/hearing-report/website-survey.html",
+        controller : "WebsiteSurveyController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/WebsiteSurveyController.js" ]
+				});
+			} ]
+		}
+	})
+
 	.when("/fruit", {
         templateUrl : "views/fruit/main.html",
         controller : "FruitController",
@@ -718,6 +730,18 @@ angular.module('e-homework').config(function($routeProvider, $locationProvider) 
 			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
 				return $ocLazyLoad.load({
 					files : [ "scripts/controllers/WarningController.js" ]
+				});
+			} ]
+		}
+	})
+
+	.when("/standard-commoditiy-certification", {
+        templateUrl : "views/standard-commodity/certification.html",
+        controller : "StandardCommodityCertificationController",
+        resolve : {
+			loadMyCtrl : [ '$ocLazyLoad', function($ocLazyLoad) {
+				return $ocLazyLoad.load({
+					files : [ "scripts/controllers/StandardCommodityCertificationController.js" ]
 				});
 			} ]
 		}

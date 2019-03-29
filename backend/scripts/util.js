@@ -305,7 +305,7 @@ function convertDateToFullThaiDate(dateObj){
    if(minute.length == 1){
       minute = '0' + minute;
    }
-    return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear()) + ' ' + dateObj.getHours() + ':' + minute;
+    return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear() + 543) + ' ' + dateObj.getHours() + ':' + minute;
 }
 
 function convertDateToFullThaiDateIgnoreTime(dateObj){
@@ -334,7 +334,7 @@ function convertDateToFullThaiDateIgnoreTime(dateObj){
         case 10 : monthTxt = 'พฤศจิกายน';break;
         case 11 : monthTxt = 'ธันวาคม';break;
     }
-    return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear());
+    return dateObj.getDate() + ' ' + monthTxt + ' ' + (dateObj.getFullYear() + 543);
 }
 
 function convertDateToReportDate(dateObj){
@@ -393,6 +393,16 @@ function convertSQLDateTimeToReportDate(d){
         case 12 : monthTxt = 'ธันวาคม';break;
     }
     return parseInt(date[2]) + ' ' + monthTxt + ' ' + (parseInt(date[0]) + 543);
+}
+
+function getShortDate(d){
+    if(d != null && d != '' && d != '0000-00-00'){
+        var date = d.split('-');
+        return date[2] + '/' + date[1] + '/' + (parseInt(date[0]) + 543);    
+    }else{
+        return '';
+    }
+    
 }
 
 function getThaiMonthName(month){

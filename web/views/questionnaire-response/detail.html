@@ -44,6 +44,15 @@
 			</div>
 			<div class="row form-group">
 				<label class="form-control-static col-lg-2">
+					ไฟล์แนบ
+				</label>
+				<abel class="form-control-static  col-lg-10">
+					<a href="../{{ Questionnaire.filePath }}" download="{{ Questionnaire.fileName }}">{{ Questionnaire.fileName }}</a>
+				</abel>
+				
+			</div>
+			<div class="row form-group">
+				<label class="form-control-static col-lg-2">
 					ผู้แสดงความคิดเห็น
 				</label>
 				<div class="col-lg-3">
@@ -72,7 +81,7 @@
 							      <br>
 							      <input id="disagree{{data.questionID + $index}}" type="radio" ng-model="data.q_response" value="disagree" required="true"> <label for="disagree{{data.questionID + $index}}">ไม่เห็นด้วย</label>
 							    </div>
-							    <div class="col-lg-10" ng-show="data.q_response == 'disagree'">
+							    <div class="col-lg-10" ><!--ng-show="data.q_response == 'disagree'"-->
 							    	<input class="form-control" ng-model="data.q_response_comment" maxlength="255" placeholder="หมายเหตุเพิ่มเติม">
 							    </div>
 							</div>

@@ -20,10 +20,17 @@
 <hr>
 <div ng-form name="update_form">
   <div class="row form-group">
-        <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อกลุ่มคณะอนุกรรมการ</label>
-        <div class="col-lg-4 col-sm-12 col-xs-12">
+        <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">คณะอนุกรรมการ</label>
+        <div class="col-lg-10 col-sm-12 col-xs-12">
         	<input type="text" class="form-control" ng-model="Subcommittee.subcommitteeName" required="true">
         </div>
+  </div>
+
+  <div class="row form-group" ng-show="Subcommittee.subcommitteeID == ''">
+      <div class="col-lg-12 text-center">
+          <button class="btn btn-primary" ng-click="saveSubcommittee(Subcommittee)" ng-disabled="update_form.$invalid">บันทึก</button>
+          <button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
+    </div>
   </div>
    
   <uib-tabset active="activeJustified" justified="true" ng-show="ID != null">
@@ -61,6 +68,17 @@
             </tr>
           </tbody>
       </table>
+      <div class="row form-group">
+        <div class="col-lg-12 text-center">
+              <button class="btn btn-primary" ng-click="saveSubcommittee(Subcommittee)" ng-disabled="update_form.$invalid">บันทึก</button>
+              <button class="btn btn-info" ng-click="sendMail(Subcommittee)" ng-disabled="update_form.$invalid">ส่ง email</button>
+              
+              <button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
+              <div uib-alert ng-class="'alert-success'" uib-alert class='repeat-item' ng-repeat="alert in alerts" type="alert.type"  dismiss-on-timeout="3000" close="alerts.splice($index, 1);" style="text-align: center; font-size:1.2em;">{{alert.msg}}
+              </div>
+              <br><br><br><br>
+        </div>
+  </div>
     </uib-tab>
     <uib-tab index="1" heading="การประชุม">
       <br><br>
@@ -119,17 +137,17 @@
           </div>
         </div>  
       </div>
-    </uib-tab>
-  </uib-tabset>
-   <div class="row form-group">
+      <div class="row form-group">
         <div class="col-lg-12 text-center">
-              <button class="btn btn-primary" ng-click="saveSubcommittee(Subcommittee)" ng-disabled="update_form.$invalid">บันทึก</button>
               <button class="btn btn-default" ng-click="cancelUpdate()">ยกเลิก</button>
               <div uib-alert ng-class="'alert-success'" uib-alert class='repeat-item' ng-repeat="alert in alerts" type="alert.type"  dismiss-on-timeout="3000" close="alerts.splice($index, 1);" style="text-align: center; font-size:1.2em;">{{alert.msg}}
               </div>
               <br><br><br><br>
         </div>
   </div>
+    </uib-tab>
+  </uib-tabset>
+   
 </div>
 <script type="text/ng-template" id="update_stakeholder.html">
     <div class="modal-header">
@@ -151,11 +169,11 @@
        <div class="row form-group">
             <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาไทย)</label>
             <div class="col-lg-4 col-sm-12 col-xs-12">
-              <input type="text" class="form-control" ng-model="Stakeholders.nameThai" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai + ' (' +user.positionThai + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteStakeholderSelected($item, $model, $label)">
+              <input type="text" class="form-control" ng-model="Stakeholders.nameThai" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai) for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteStakeholderSelected($item, $model, $label)">
             </div>
             <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาอังกฤษ)</label>
             <div class="col-lg-4 col-sm-12 col-xs-12">
-              <input type="text" class="form-control" ng-model="Stakeholders.nameEng" uib-typeahead="(user.nameEng + ' ' + user.lastNameEng + ' (' +user.positionEng + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMEENG') | limitTo:20" typeahead-on-select="autocompleteStakeholderSelected($item, $model, $label)">
+              <input type="text" class="form-control" ng-model="Stakeholders.nameEng" uib-typeahead="(user.nameEng + ' ' + user.lastNameEng) for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMEENG') | limitTo:20" typeahead-on-select="autocompleteStakeholderSelected($item, $model, $label)">
             </div>
        </div>
        <div class="row form-group">
@@ -235,11 +253,11 @@
               <div class="row form-group">
                   <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาไทย)</label>
                   <div class="col-lg-4 col-sm-12 col-xs-12">
-                    <input type="text" class="form-control" ng-model="Substitute.nameThai" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai + ' (' +user.positionThai + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteSubstituteSelected($item, $model, $label)">
+                    <input type="text" class="form-control" ng-model="Substitute.nameThai" uib-typeahead="(user.nameThai + ' ' + user.lastNameThai) for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMETHAI') | limitTo:20" typeahead-on-select="autocompleteSubstituteSelected($item, $model, $label)">
                   </div>
                   <label class="col-lg-2 col-sm-12 col-xs-12 form-control-static">ชื่อ (ภาษาอังกฤษ)</label>
                   <div class="col-lg-4 col-sm-12 col-xs-12">
-                    <input type="text" class="form-control" ng-model="Substitute.nameEng" uib-typeahead="(user.nameEng + ' ' + user.lastNameEng + ' (' +user.positionEng + ')') for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMEENG') | limitTo:20" typeahead-on-select="autocompleteSubstituteSelected($item, $index)">
+                    <input type="text" class="form-control" ng-model="Substitute.nameEng" uib-typeahead="(user.nameEng + ' ' + user.lastNameEng) for user in searchUserAutoComplete($viewValue, 'STAKEHOLDERNAMEENG') | limitTo:20" typeahead-on-select="autocompleteSubstituteSelected($item, $index)">
                   </div>
              </div>
              <div class="row form-group">

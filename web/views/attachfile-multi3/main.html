@@ -55,20 +55,20 @@
 				<table class="table table-bordered table-striped"  ng-show="page_type != 'skr' && page_type != 'paper'  && page_type != 'rule-food' && page_type != 'manual-inspection' && page_type != 'patrol' && page_type != 'standard-logo' && page_type != 'clipping-news' && page_type != 'work-application'">
 					<thead>
 						<tr>
-							<th>#</th>
+							<th>ลำดับ</th>
 							<th>ชื่อเอกสาร</th>
 							<th ng-show="page_type == 'condition'">รหัสเอกสาร</th>
 							<th>ดาวน์โหลด</th>
-							<th ng-show="page_type == 'condition'">หมายเหตุ</th>
+							
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="data in DataList">
 							<td>{{$index + 1 }}</td>
-							<td>{{data.AttachFiles[0].display_name}}</td>
+							<td style="width: 70%;">{{data.AttachFiles[0].display_name}}</td>
 							<td ng-show="page_type == 'condition'">{{data.AttachFiles[0].file_code}}</td>
 							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
-							<td ng-show="page_type == 'condition'"></td>
+							
 						</tr>
 					</tbody>
 				</table>
@@ -89,7 +89,7 @@
 					</caption>
 					<thead>
 						<tr>
-							<th>#</th>
+							<th>ลำดับ</th>
 							<th>ประจำปี</th>
 							<th>ดาวน์โหลด</th>
 						</tr>
@@ -119,7 +119,7 @@
 					</caption>
 					<thead>
 						<tr>
-							<th>#</th>
+							<th>ลำดับ</th>
 							<th>ชื่อเอกสาร</th>
 							<th>ดาวน์โหลด</th>
 						</tr>
@@ -169,14 +169,14 @@
 					</caption>
 					<thead>
 						<tr>
-							<th>#</th>
+							<th>ลำดับ</th>
 							<th>รายชื่อ</th>
 							<th>ดาวน์โหลด</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="data in DataList">
-							<td><img src="../files/img/{{findExtension(data.AttachFiles[0].file_name)}}.png" style="height: 2.5em;"></td>
+							<td>{{($index + 1)}}</td>
 							<td>{{data.AttachFiles[0].display_name}}</td>
 							<td><a href="../{{data.AttachFiles[0].file_path}}" role="button" class="btn btn-default" download="{{data.AttachFiles[0].file_name}}"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
 						</tr>

@@ -49,6 +49,10 @@ angular.module('e-homework').controller('MeetingResultController', function($sco
         $scope.loadList();
     }
 
+    $scope.getShortDate = function(d){
+        return getShortDate(d);
+    }
+
     $scope.MeetingTypeList = [{'meeting_type' : 'ผลการประชุมการรับรอง'}
                             ,{'meeting_type' : 'ผลการประชุม ISO'}
                             ,{'meeting_type' : 'ผลการประชุม CODEX'}

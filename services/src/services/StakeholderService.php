@@ -10,11 +10,14 @@
     class StakeholderService {
 
     	public static function getList($currentPage, $limitRowPerPage){
+
+            $currentPage = $currentPage - 1;
+            
             $limit = $limitRowPerPage;
             $offset = $currentPage;
             $skip = $offset * $limit;
             $totalRows = Stakeholder::count();
-            $totalPage = ceil($totalRows / $limitRowPerPage);
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
             $DataList = Stakeholder::skip($skip)
                         ->take($limit)
                         ->get();

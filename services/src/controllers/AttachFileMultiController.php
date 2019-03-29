@@ -128,7 +128,7 @@
                                     $ext = pathinfo($f->getClientFilename(), PATHINFO_EXTENSION);
                                     $FileName = $id . '_' . date('YmdHis').'_'.rand(100000,999999). '.'.$ext;
                                     $FilePath = $_WEB_FILE_PATH . '/attach-files/'.$FileName;
-
+                                    // echo $f->getSize();exit;
                                     $AttachFile = ['parent_id'=>$id
                                                     ,'menu_id'=>$menu_id
                                                     ,'page_type'=>$page_type
@@ -140,7 +140,7 @@
                                                     ,'file_path'=>$FilePath
                                                     ,'content_type'=>$f->getClientMediaType()
                                                     ,'order_no' => 1
-                                                    ,'file_size'=>number_format($f->getSize()/1024, 2)
+                                                    ,'file_size'=>$f->getSize()/1024
 
                                                 ];
                                     // print_r($AttachFile);exit;
@@ -169,7 +169,7 @@
                                                     ,'file_path'=>$FilePath
                                                     ,'content_type'=>$f->getClientMediaType()
                                                     ,'order_no' => 2
-                                                    ,'file_size'=>number_format($f->getSize()/1024, 2)
+                                                    ,'file_size'=>$f->getSize()/1024
 
                                                 ];
                                     // print_r($AttachFile);exit;
@@ -290,7 +290,7 @@
                                                     ,'file_path'=>$FilePath
                                                     ,'content_type'=>$f->getClientMediaType()
                                                     ,'order_no' => $order_no
-                                                    ,'file_size'=>number_format($f->getSize()/1024, 2)
+                                                    ,'file_size'=>$f->getSize()/1024
 
                                                 ];
                                     // print_r($AttachFile);exit;
@@ -319,7 +319,7 @@
                                                     ,'file_path'=>$FilePath
                                                     ,'content_type'=>$f->getClientMediaType()
                                                     ,'order_no' => $order_no
-                                                    ,'file_size'=>number_format($f->getSize()/1024, 2)
+                                                    ,'file_size'=>$f->getSize()/1024
 
                                                 ];
                                     // print_r($AttachFile);exit;

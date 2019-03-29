@@ -130,7 +130,7 @@
 	<div class="col-lg-12">
 		<button ng-click="add()" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</button>
 	</div>
-	<div class="col-lg-12 col-sm-12 col-xs-12" ng-repeat="data in DataList" style=" word-break:break-all;">
+	<!-- <div class="col-lg-12 col-sm-12 col-xs-12" ng-repeat="data in DataList" style=" word-break:break-all;">
 		<div class="row" style="height: 240px;">
 			<div class="col-lg-3 text-center">
 				<img src="../{{data.AttachFiles[0].file_path}}" alt="" style=" height: 250px; width: auto;">
@@ -157,6 +157,34 @@
 		</div>
 		
 		<hr>
+	</div> -->
+	<div class="col-lg-12">
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>ภาพประกอบ</th>
+						<th>รายการ</th>
+						<th>จำนวนเข้าชม</th>
+						<th>วันที่สร้าง</th>
+						<th>จัดการ</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="data in DataList">
+						<td><img ng-src="../{{data.AttachFiles[0].file_path}}" alt="" style="max-width: 100%; height: 80px;"></td>
+						<td>{{data.title_th}}</td>
+						<td>{{data.visit_count}}</td>
+						<td>{{data.publishing_date}}</td>
+						<td>
+							<button class="btn btn-warning" ng-click="updateData(data)">แก้ไข</button>
+							<button class="btn btn-danger" ng-click="removeData(data.id)">ลบ</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<ul class="pull-right" uib-pagination total-items="totalPages" ng-model="currentPage" max-size="limitDisplay" class="pagination-sm"  items-per-page="limitRowPerPage" boundary-links="true" force-ellipses="true"  ng-change="pageChanged()"></ul>
+		</div>
 	</div>
 	<div class="col-lg-12" style="text-align:center;" ng-show="tableLoad"><img src="img/ellipsis.gif"></div>
 </div>

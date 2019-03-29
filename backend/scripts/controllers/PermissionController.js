@@ -35,6 +35,19 @@ angular.module('e-homework').controller('PermissionController', function($scope,
 
     $scope.loadMenu('menu/list');
 
+    $scope.loadMenuPermission = function(action){
+        var params = {'permission' : 'Y'};
+        HTTPService.clientRequest(action, params).then(function(result){
+            //console.log(result);
+            $scope.MenuList = result.data.DATA.Menu;
+            IndexOverlayFactory.overlayHide();
+            $scope.checkMenuRoleAll();
+            
+        });
+    }
+
+    
+
     $scope.loadUserRoleDetail = function(role_id){
         var params = {'role_id': role_id};
         IndexOverlayFactory.overlayShow();
@@ -43,7 +56,7 @@ angular.module('e-homework').controller('PermissionController', function($scope,
             if(result.data.STATUS == 'OK'){
                 $scope.Data = result.data.DATA.Head;
                 $scope.Details = result.data.DATA.Detail;
-                $scope.checkMenuRoleAll();
+                $scope.loadMenuPermission('menu/list');
                 IndexOverlayFactory.overlayHide();
             }else{
                 IndexOverlayFactory.overlayHide();
@@ -73,7 +86,8 @@ angular.module('e-homework').controller('PermissionController', function($scope,
         $scope.Data = angular.copy(data);
         $scope.loadUserRoleDetail($scope.Data.id);
         $scope.PAGE = 'UPDATE';
-        $scope.MenuList = angular.copy($scope.Menu);
+        // $scope.MenuList = angular.copy($scope.Menu);
+        
         $scope.Details = [];
     }
 
@@ -82,7 +96,8 @@ angular.module('e-homework').controller('PermissionController', function($scope,
         $scope.Data = null;
         $scope.loadUserRoleDetail('');
         $scope.PAGE = 'UPDATE';
-        $scope.MenuList = angular.copy($scope.Menu);
+        // $scope.MenuList = angular.copy($scope.Menu);
+        $scope.loadMenuPermission('menu/list');
         $scope.Details = [];
     }
 
@@ -94,7 +109,7 @@ angular.module('e-homework').controller('PermissionController', function($scope,
     }
 
     $scope.saveData = function(Data, MenuList){
-        // console.log($scope.LinkUrl);
+        // console.log(MenuList);return;
         IndexOverlayFactory.overlayShow();
  
         var params = {'Data':Data, 'MenuList':MenuList};
@@ -172,6 +187,14 @@ angular.module('e-homework').controller('PermissionController', function($scope,
                             if($scope.Details[i].menu_id == $scope.MenuList[j].sub_menu[k].sub_menu[l].sub_menu[m].id && $scope.Details[i].actives == 'Y'){
                                 $scope.MenuList[j].sub_menu[k].sub_menu[l].sub_menu[m].checked_menu = 'Y';
                             }
+                            // console.log($scope.MenuList[j].sub_menu[k].sub_menu[l].sub_menu[m].sub_menu.length);
+                            if($scope.MenuList[j].sub_menu[k].sub_menu[l].sub_menu[m].sub_menu != undefined){
+                                for(var n = 0; n < $scope.MenuList[j].sub_menu[k].sub_menu[l].sub_menu[m].sub_menu.length; n++){
+                                    if($scope.Details[i].menu_id == $scope.MenuList[j].sub_menu[k].sub_menu[l].sub_menu[m].sub_menu[n].id && $scope.Details[i].actives == 'Y'){
+                                        $scope.MenuList[j].sub_menu[k].sub_menu[l].sub_menu[m].sub_menu[n].checked_menu = 'Y';
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -180,7 +203,7 @@ angular.module('e-homework').controller('PermissionController', function($scope,
     }
 
     $scope.checkAll = function(list, level, index, checked){
-        console.log(level, index, checked);
+        console.log(list);
         var check = '';
         var List = [];
         if(checked == 'Y'){
@@ -201,8 +224,12 @@ angular.module('e-homework').controller('PermissionController', function($scope,
                 for(var k = 0; k < list.sub_menu[i].sub_menu[j].sub_menu.length; k++){
                     list.sub_menu[i].sub_menu[j].sub_menu[k].checked_menu = check;
 
-                    for(var l = 0; l < list.sub_menu[i].sub_menu[j].sub_menu[k].length; l++){
+                    for(var l = 0; l < list.sub_menu[i].sub_menu[j].sub_menu[k].sub_menu.length; l++){
                         list.sub_menu[i].sub_menu[j].sub_menu[k].sub_menu[l].checked_menu = check;
+
+                        for(var m = 0; m < list.sub_menu[i].sub_menu[j].sub_menu[k].sub_menu[l].length; m++){
+                            list.sub_menu[i].sub_menu[j].sub_menu[k].sub_menu[l].sub_menu[m].checked_menu = check;
+                        }
                     }
                 }
             }

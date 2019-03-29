@@ -55,7 +55,7 @@
 				<table class="table table-bordered table-striped"  ng-show="page_type != 'skr' && page_type != 'paper'  && page_type != 'rule-food' && page_type != 'manual-inspection' && page_type != 'patrol' && page_type != 'standard-logo' && page_type != 'clipping-news'">
 					<thead>
 						<tr>
-							<th>#</th>
+							<th>ลำดับ</th>
 							<th>หัวข้อ</th>
 							<th>เอกสาร</th>
 							<!--<th>ดาวน์โหลด</th>-->
@@ -66,9 +66,9 @@
 							<td>{{$index + 1 }}</td>
 							<td>{{data.file_topic}}</td>
 							<td>
-								<span ng-repeat="file in data.AttachFiles">
-									<span ng-show="DEFAULT_LANGUAGE == file.file_language"><a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.display_name}}</a><br></span>
-								</span>
+								<button class="btn btn-default" ng-click="viewDetail(data)">
+									<span class="glyphicon glyphicon-zoom-in"></span>
+								</button>
 							</td>
 							
 							<!--<td>
@@ -252,3 +252,41 @@
 	</div>
 	<div ng-include src="'views/footer.html'"></div>
 </div>
+<script type="text/ng-template" id="detail.html">
+
+	<div class="modal-header  text-center">
+		<img src="../files/img/logo_acfs.png" style="height: 80px; width: auto;">
+		<br><br>
+		<h4 class="modal-title">{{MenuName.menu_name_th}}</h4>
+	</div>
+		<div class="modal-body" ng-show="Detail.menu_type == 'work-application'">
+
+		
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				หัวข้อ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<b>{{ Detail.file_topic }}</b>
+			</label>
+		</div>
+		
+		<div  class="row">
+			<label class="col-lg-3 form-control-static">
+				ไฟล์แนบ
+			</label>
+			<label class="col-lg-9 form-control-static">
+				<div class="row" ng-repeat="file in Detail.AttachFiles">
+					<label class="col-lg-12 form-control-static">
+						<a href="../{{file.file_path}}" download="{{file.file_name}}">{{file.display_name != null && file.display_name != ''?file.display_name:file.file_name}}</a>
+					</label>
+				</div>
+			</label>
+		</div>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-default" ng-click="cancel()">ปิด</button>
+	</div>
+
+</script>
