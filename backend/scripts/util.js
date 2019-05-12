@@ -435,6 +435,16 @@ function getYearList(loop)
     return yearList;
 }
 
+function getYearListForBudget(loop)
+{
+    var startYear = 2013;
+    var yearList = [];
+    for(var i =0 ; i < loop; i++){
+        yearList.push({'yearValue': startYear + i + 543, 'yearText' : startYear + i});
+    }
+    return yearList;
+}
+
 function getMonthList(){
     return [{'monthValue' : 1, 'monthText' : 'มกราคม'}
             , {'monthValue' : 2, 'monthText' : 'กุมภาพันธ์'}

@@ -127,7 +127,7 @@ angular.module('e-homework').controller('BudgetDisbursementController', function
     $scope.AttachFile = null;
     $scope.Data = null;
 
-    $scope.YearList = getYearList(20);
+    $scope.YearList = getYearListForBudget(20);
     $scope.MonthList = getMonthList();
 
     $scope.PAGE = 'MAIN';

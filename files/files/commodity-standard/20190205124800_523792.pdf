@@ -1,0 +1,653 @@
+<script>window.open('UploadedPicInformaion/img25620127231037.pdf','_new')</script>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	สำนักงานคณะกรรมการนโยบายรัฐวิสาหกิจ (สคร.)
+</title>
+      <script type="text/javascript">
+        function UploadFile1(fileUpload) { if (fileUpload.value != '') { document.getElementById("ContentPlaceHolder1_UpImg").click(); } }
+     function UploadFile2(fileUpload2) { if (fileUpload2.value != '') { document.getElementById("ContentPlaceHolder1_UpImg1").click(); } }
+     
+    </script>
+<link rel="stylesheet" type="text/css" href="../../../css/SEPOStyle.css" />
+     <script type="text/javascript">
+function Logout() {
+            if (confirm("คุณต้องการออกจากระบบ ใช่ หรือ ไม่?")) {
+                return true;
+            }
+            return false;
+        }
+ </script>
+    <style type="text/css">
+        @import url(fonts/thsarabunnew.css);
+@font-face {
+    font-family: 'THSarabunNew';
+    src: url('thsarabunnew-webfont.eot');
+    src: url('thsarabunnew-webfont.eot?#iefix') format('embedded-opentype'), url('thsarabunnew-webfont.woff') format('woff'), url('thsarabunnew-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'THSarabunNew';
+    src: url('thsarabunnew_bolditalic-webfont.eot');
+    src: url('thsarabunnew_bolditalic-webfont.eot?#iefix') format('embedded-opentype'), url('thsarabunnew_bolditalic-webfont.woff') format('woff'), url('thsarabunnew_bolditalic-webfont.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'THSarabunNew';
+    src: url('thsarabunnew_italic-webfont.eot');
+    src: url('thsarabunnew_italic-webfont.eot?#iefix') format('embedded-opentype'), url('thsarabunnew_italic-webfont.woff') format('woff'), url('thsarabunnew_italic-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'THSarabunNew';
+    src: url('thsarabunnew_bold-webfont.eot');
+    src: url('thsarabunnew_bold-webfont.eot?#iefix') format('embedded-opentype'), url('thsarabunnew_bold-webfont.woff') format('woff'), url('thsarabunnew_bold-webfont.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+        #nav
+        {
+            margin: 0px;
+            position: absolute;
+            z-index:1;
+        }
+        #nav ul
+        {
+            padding:0;
+            list-style:none;
+        }
+        #nav ul li
+        {
+            float:left;
+            text-align:center;
+            width:200px;
+            margin:0px;
+        }
+         #nav ul li ul li
+        {
+            z-index: -1;
+            float:left;
+            text-align:center;
+            width:280px;
+            margin:0px;
+        }
+        #nav ul li a
+        {
+            color:#000;
+            text-decoration:none;
+            font-family:'THSarabunNew';
+            font-size:14px;
+            background:#fff;
+            display:block;
+            padding:5px;
+        }
+       
+        #nav ul li a:hover
+        {
+            background:#8ca4e4;
+            color:#1904b7;
+        }
+        #nav ul li ul
+        {
+            display:none;
+            
+        }
+        #nav ul li:hover ul
+        {
+            display:block;
+            z-index: 9999;
+        }
+       
+        .auto-style2 {
+            font-family: 'THSarabunNew', sans-serif;
+            font-size: 16px;
+            background: #fff;
+        }
+        .auto-style3 {
+            left: 10px;
+            top: 96px;
+            height: auto;
+        }
+       
+        .auto-style4 {
+            height: 55px;
+        }
+       
+    </style>
+</head>
+<body style="background-color: transparent; background-image: url(Image/background.png);">
+    <form method="post" action="./RateofSalary.aspx" id="form1" enctype="multipart/form-data">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="71920A54" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="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" />
+</div>
+         <table cellspacing="0" cellpadding="0"">
+                <tr  class="body" bordercolor="">
+                    <td>
+                        <img id="Image2" src="../../../Image/logosepo.png" style="height:63px;width:262px;" />
+                        </td>
+                    <td class="MainMasterHeaderUser">ชื่อผู้ใช้งาน :<span id="Label1">  สคร.</span>
+                    </td>
+                    <td class="MainMasterHeaderLogin">
+                        <a id="LinkButton1" href="javascript:__doPostBack(&#39;ctl00$LinkButton1&#39;,&#39;&#39;)" style="display:inline-block;text-decoration:none;width:120px;">เปลี่ยนรหัสผ่าน</a>
+                        <a onclick="return confirm(&#39;คุณต้องการออกจากระบบ ใช่ หรือ ไม่?&#39;);" id="LinkButton8" href="javascript:__doPostBack(&#39;ctl00$LinkButton8&#39;,&#39;&#39;)" style="display:inline-block;color:Red;text-decoration:none;width:120px;">Logout</a>
+                    </td>
+                </tr>
+              <tr>
+                    <td class="auto-style2" colspan="3">
+                        <br />
+                               <div id="nav" style="margin-top:-33px;" class="auto-style3">
+            <ul>
+
+                <li id="menu01" style="width: 80px"><a href="#">ฐานข้อมูลกลาง</a>
+                    <ul>
+                        
+                        <li id="menu011" style="text-align:left"><a href="/Area/User/Views/UserListSEPO.aspx">ข้อมูลบัญชีผู้ใช้งาน</a></li>
+                        <li id="menu012" style="text-align:left"><a href="/Area/User/Views/DepartmentSEPO.aspx">ข้อมูลกระทรวง</a></li>
+                        <li id="menu013" style="text-align:left"><a href="/Area/User/Views/DivisionSEPO.aspx">ข้อมูลหน่วยงาน</a></li>
+                        <li id="menu014" style="text-align:left"><a href="/Area/User/Views/CalendarManagement.aspx">บริหารจัดการวันหยุด</a></li>
+                    </ul>
+                </li>
+                <li id="menu02" style="width: 100px"><a href="#">ข้อมูลพื้นฐานงบการเงิน</a>
+                    <ul>
+                        <li id="menu021" style="text-align:left"><a href="/Area/User/Views/FisicalYearProfitandLoss.aspx?id=1">กำหนดรอบการนำส่งข้อมูลงบการเงิน</a></li>
+                        <li id="menu022" style="text-align:left"><a href="/Area/User/Views/FisicalYearProfitandLoss.aspx?id=2">กำหนดรอบการนำส่งข้อมูลงบลงทุน</a></li>
+                        <li id="menu023" style="text-align:left"><a href="/Area/User/Views/FisicalYearProfitandLoss.aspx?id=3">กำหนดรอบการนำส่งข้อมูลทั่วไป</a></li>
+                        <li id="menu024" style="text-align:left"><a href="/Area/User/Views/SetupSEPOAccount.aspx">ตั้งค่าหมวดบัญชี</a></li>                        
+                        <li id="menu025" style="text-align:left"><a href="/Area/User/Views/SetupFormDivision.aspx">กำหนดแบบฟอร์มรัฐวิสาหกิจ</a></li>
+                    </ul>
+                </li>
+                <li id="menu03" style="width: 100px"><a href="#">ข้อมูลพื้นฐานงบลงทุน</a>
+                    <ul>
+                        <li id="menu031" style="text-align:left"><a href="/Area/User/Views/DataInvestmentSEPO.aspx">สร้างงบลงทุน</a></li>
+                    </ul>
+                </li>
+                 <li id="menu04" style="width: 70px;height:60px"><a href="#" class="auto-style4">นำส่งงบ</a>
+                    <ul>
+                        <li id="menu041" style="text-align:left"><a href="/Area/User/Views/UploadFinanceBudget.aspx?id=0""">นำส่งงบการเงิน</a></li>
+                        <li id="menu042" style="text-align:left"><a href="/Area/User/Views/UploadInvestmentBudget.aspx?id=0">นำส่งงบลงทุน</a></li>
+                        <li id="menu043" style="text-align:left"><a href="/Area/User/Views/UploadProfit.aspx">นำส่งข้อมูลประมาณการรายได้</a></li>
+                
+                    </ul>
+                </li>
+                <li id="menu05" style="width: 100px;height:46px"><a href="#" class="auto-style4">ข้อมูลทั่วไป</a>
+                    <ul>
+                        <li id="menu051" style="text-align:left"><a href="/Area/User/Views/DivisionDetail.aspx">ข้อมูลทั่วไปหน่วยงาน</a></li>
+                        <li id="menu052" style="text-align:left"><a href="/Area/User/Views/ShareholderList.aspx">รายชื่อผู้ถือหุ้น 10 อันดับแรก</a></li>
+                        <li id="menu053" style="text-align:left"><a href="/Area/User/Views/HoldsharesList.aspx">บริษัทที่รัฐวิสาหกิจเข้าไปถือหุ้น</a></li>
+                        <li id="menu054" style="text-align:left"><a href="/Area/User/Views/ExecutivInformationList.aspx">ข้อมูลผู้บริหารรัฐวิสาหกิจ</a></li>
+                        <li id="menu055" style="text-align:left"><a href="/Area/User/Views/SetupBoardMember.aspx">ตั้งค่าคณะกรรมการ</a></li>
+                        <li id="menu056" style="text-align:left"><a href="/Area/User/Views/BoardofProfessionallist.aspx">ข้อมูลกรรมการ</a></li>
+                        <li id="menu057" style="text-align:left"><a href="/Area/User/Views/BoardofDirectors.aspx">คณะกรรมการชุดใหญ่</a></li>
+                        <li id="menu058" style="text-align:left"><a href="/Area/User/Views/SetupSubcommitteeList.aspx">คณะกรรมการชุดย่อย</a></li>
+                        <li id="menu059" style="text-align:left"><a href="/Area/User/Views/PrivilegeEmployeeList.aspx">สิทธิประโยชน์พนักงาน</a></li>
+                        <li id="menu0510" style="text-align:left"><a href="/Area/User/Views/EmployeeList.aspx">ข้อมูลโครงสร้างองค์กร</a></li>
+                        <li id="menu0511" style="text-align:left"><a href="/Area/User/Views/RateofSalary.aspx">โครงสร้างอัตราเงินเดือน</a></li>
+                        <li id="menu0512" style="text-align:left"><a href="/Area/User/Views/BonusEmployee.aspx">ข้อมูลโบนัสพนักงาน</a></li>
+                    </ul>
+                </li>
+                <li id="menu06" style="width: 100px"><a href="#">รายงานงบการเงิน</a>
+                    <ul>
+                        <li id="menu061" style="width: 400px;text-align:left"><a href="/Area/User/Views/PrintFinanceBudget.aspx">รายงานสถานะงบการเงิน</a></li>
+                        <li id="menu062" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report205.aspx">รายงานงบการเงินภาพรวมรายไตรมาส</a></li>
+                        <li id="menu063" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report206.aspx">รายงานงบการเงินภาพรวมสาขารายปี</a></li>
+                        <li id="menu064" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report207.aspx">รายงานงบการเงินภาพรวมสาขารายไตรมาส</a></li>
+                        <li id="menu065" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report208.aspx">รายงานรายปีแบ่งตามสาขา แยกรายรัฐวิสาหกิจ</a></li>
+                        <li id="menu066" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report209.aspx">รายงานรายไตรมาสแบ่งตามสาขาและแยกรายรัฐวิสาหกิจ</a></li>
+                        <li id="menu067" style="width: 400px;text-align:left"><a href="/Area/User/Views/ReportTest.aspx">รายงานงบการเงินรายแห่ง</a></li>
+                        <li id="menu068" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report214.aspx">กราฟงบการเงิน</a></li>
+                        <li id="menu069" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report210.aspx">รายงานรายการเปลี่ยนแปลงสินทรัพย์ถาวร</a></li>
+                        <li id="menu0610" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report211.aspx">รายงานค่าใช้จ่ายพนักงาน</a></li>
+                        <li id="menu0611" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report213.aspx">รายงานข้อมูลวิเคราะห์งบการเงิน</a></li>
+                        <li id="menu0612" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report212.aspx">รายงาน SNA</a></li>
+                        <li id="menu0613" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report215.aspx">รายงานเงินนำส่งรายได้แผ่นดินของรัฐวิสาหกิจและกิจการที่กระทรวงการคลังถือหุ้นต่ำกว่าร้อยละ 50ประจำปี</a></li>
+                        <li id="menu0614" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report216.aspx">รายงานเงินนำส่งรายได้แผ่นดินของรัฐวิสาหกิจและกิจการที่กระทรวงการคลังถือหุ้นต่ำกว่าร้อยละ 50ประจำเดือน</a></li>
+                        <li id="menu0615" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report218.aspx">รายงานการนำส่งเงินรายได้แผ่นดินของรัฐวิสาหกิจและกิจการที่กระทรวงการคลังถือหุ้นต่ำกว่าร้อยละ 50 ย้อนหลัง 3 ปี</a></li>
+                        <li id="menu0616" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report219.aspx">กราฟรายงานเงินนำส่งรายได้แผ่นดินของรัฐวิสาหกิจและกิจการที่กระทรวงการคลังถือหุ้นต่ำกว่าร้อยละ 50ประจำปี</a></li>
+                        <li id="menu0617" style="width: 400px;text-align:left"><a href="/Area/User/Views/Report220.aspx">กราฟรายงานเงินนำส่งรายได้แผ่นดินของรัฐวิสาหกิจและกิจการที่กระทรวงการคลังถือหุ้นต่ำกว่าร้อยละ 50ประจำเดือน</a></li>
+                        <li id="menu0618" style="width: 400px;text-align:left"><a href="/Area/User/Views/ReadProfitFile.aspx">อ่านข้อมูลข้อมูลรายได้นำส่งแผ่นดิน</a></li>
+                        <li id="menu0619" style="width: 400px;text-align:left"><a href="/Area/User/Views/ListZSOE01ELfile.aspx">ข้อมูลการเบิกจ่ายงบประมาณแผ่นดิน</a></li>
+                    </ul>
+                </li>
+                 <li id="menu07" style="width: 100px"><a href="#">รายงานงบลงทุน</a>
+                    <ul>
+                        <li id="menu071" style="text-align:left"><a href="/Area/User/Views/PrintUploadInvestment.aspx">รายงานสถานะงบลงทุน</a></li>
+                        <li id="menu072" style="text-align:left"><a href="/Area/User/Views/Report222.aspx">งบลงทุน (ภาพรวม)</a></li>
+                        <li id="menu073" style="text-align:left"><a href="/Area/User/Views/Report223.aspx">งบลงทุน (สำหรับปี)</a></li>
+                        <li id="menu074" style="text-align:left"><a href="/Area/User/Views/Report224.aspx">โครงการลงทุน (สัญญา)</a></li>
+                        <li id="menu075" style="text-align:left"><a href="/Area/User/Views/Report225.aspx">โครงการลงทุน (สำหรับปี)</a></li>
+                        <li id="menu076" style="text-align:left"><a href="/Area/User/Views/Report226.aspx">รายงานสรุปแผน/ผลการเบิกจ่ายแยกแยกตามปีบัญชี</a></li>
+                        <li id="menu077" style="text-align:left"><a href="/Area/User/Views/Report227.aspx">รายงานสรุปแผน/ผลการเบิกจ่ายแยกตามปีปฏิทิน</a></li>
+                        <li id="menu078" style="text-align:left"><a href="/Area/User/Views/Report228.aspx">รายงานสรุปแผน/ผลการเบิกจ่ายแยกตามสาขา (sector)</a></li>                        
+                        <li id="menu079" style="text-align:left"><a href="/Area/User/Views/Report230.aspx">รายงานสรุปแผน/ผลการเบิกจ่ายงบลงทุนย้อนหลัง 3 ปี (ปีบัญชีรัฐวิสาหกิจ)</a></li>
+                        <li id="menu0710" style="text-align:left"><a href="/Area/User/Views/Report231.aspx">รายงานสรุปแผน/ผลการเบิกจ่ายงบลงทุนย้อนหลัง 3 ปี (ปีปฎิทิน)</a></li>
+                    </ul>
+                </li>
+                <li id="menu08" style="width: 100px"><a href="#">รายงานข้อมูลทั่วไป</a>
+                    <ul>                       
+                        <li id="menu081" style="text-align:left"><a href="/Area/User/Views/Report235.aspx">สถานะข้อมูลทั่วไปของรัฐวิสาหกิจ ผู้บริหาร พนักงาน และกรรมการ</a></li>
+                        <li id="menu082" style="text-align:left"><a href="/Area/User/Views/Report236.aspx">ข้อมูลทั่วไปรัฐวิสาหกิจ</a></li>
+                        <li id="menu083" style="text-align:left"><a href="/Area/User/Views/Report237.aspx">ข้อมูลผู้ถือหุ้น 10 อันดับแรก </a></li>
+                        <li id="menu084" style="text-align:left"><a href="/Area/User/Views/Report238.aspx">รายชื่อบริษัทที่รัฐวิสาหกิจเข้าไปถือหุ้น</a></li>
+                       
+                        
+                    </ul>
+                </li>
+                <li id="menu09" style="width: 100px"><a href="#">รายงานข้อมูลพนักงาน</a>
+                    <ul>              
+                                 
+                        <li id="menu091" style="text-align:left"><a href="/Area/User/Views/Report255.aspx">รายงานจำนวนพนักงานรายปี</a></li>
+                        <li id="menu092" style="text-align:left"><a href="/Area/User/Views/Report256.aspx">รายงานจำนวนพนักงาน 3 ปีย้อนหลัง</a></li>
+                        <li id="menu093" style="text-align:left"><a href="/Area/User/Views/Report258.aspx">รายงานโครงสร้างเงินเดือน</a></li>
+                        <li id="menu094" style="text-align:left"><a href="/Area/User/Views/Report259.aspx">รายงานสิทธิประโยชน์พนักงาน</a></li>
+                        <li id="menu095" style="text-align:left"><a href="/Area/User/Views/Report260.aspx">รายงานโบนัสพนักงานและกรรมการ </a></li>
+                        <li id="menu096" style="text-align:left"><a href="/Area/User/Views/Report245.aspx">รายงานรายชื่อกรรมการทั้งคณะสำหรับผู้บริหาร </a></li>
+                        <li id="menu097" style="text-align:left"><a href="/Area/User/Views/Report246.aspx">รายงานที่ 1 สำหรับเจ้าหน้าที่ สบล. </a></li>
+                        <li id="menu098" style="text-align:left"><a href="/Area/User/Views/Report247.aspx">รายงานที่ 2 สำหรับเจ้าหน้าที่ สบล. </a></li>
+                        <li id="menu099" style="text-align:left"><a href="/Area/User/Views/Report248.aspx">รายงานกรรมการที่ว่าง </a></li>
+                        <li id="menu0910" style="text-align:left"><a href="/Area/User/Views/Report250.aspx">รายงานคณะกรรมการชุดย่อย </a></li>
+                        <li id="menu0911" style="text-align:left"><a href="/Area/User/Views/Report251.aspx">รายงานประวัติคณะกรรมการรายบุคคล </a></li>
+                        <li id="menu0912" style="text-align:left"><a href="/Area/User/Views/Report242.aspx">รายงานข้อมูลผู้บริหารรายบุคคล </a></li>
+                        <li id="menu0913" style="text-align:left"><a href="/Area/User/Views/Report252.aspx">รายงานชื่อกรรมการทั้งคณะ </a></li>
+                        <li id="menu0914" style="text-align:left"><a href="/Area/User/Views/Report253.aspx">รายงานสิทธิประโยชน์กรรมการ </a></li>
+                      
+                       
+                        
+                    </ul>
+                </li>
+                 <li style="width: 100px"><a href="/Area/User/Views/SystemLog.aspx""">System Log</a></li>
+            </ul>
+        </div>
+                       &nbsp;</td>
+                </tr>
+                <tr class="MainMasterHeaderButton">
+                    
+                   
+                </tr>
+                <tr>
+                        <td colspan="3">
+
+            </td>
+                   
+                </tr>
+                <tr>
+                        <td colspan="3">
+
+                            &nbsp;</td>
+                   
+                </tr>
+                <tr>
+                        <td colspan="3">
+
+                            &nbsp;</td>
+                   
+                </tr>
+            </table>
+        
+    <div>
+        
+     <div style=" width:100%" class="showfont">
+        <table style="border-collapse: collapse; " class="table01white">
+            
+                
+                <tr><td colspan="6" class="table01head">ค้นหา </td>
+                    
+                </tr>
+                <tr>
+                <td class="table01search">
+
+                    <br />
+
+                    <span id="ContentPlaceHolder1_Label5">รัฐวิสาหกิจ :</span>
+                    &nbsp;<select name="ctl00$ContentPlaceHolder1$ddlOrganizaton" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ctl00$ContentPlaceHolder1$ddlOrganizaton\&#39;,\&#39;\&#39;)&#39;, 0)" id="ContentPlaceHolder1_ddlOrganizaton" class="showfont" style="width:250px;">
+	<option value="S315">บริษัท อู่กรุงเทพ จำกัด</option>
+	<option value="S310">บริษัท วิทยุการบินแห่งประเทศไทย จำกัด</option>
+	<option value="S405">บริษัท สหโรงแรมไทยและการท่องเที่ยว จำกัด</option>
+	<option value="S711">บรรษัทประกันสินเชื่ออุตสาหกรรมขนาดย่อม</option>
+	<option value="S319">บริษัท ไปรษณีย์ไทย จำกัด</option>
+	<option value="S904">บริษัท ธนารักษ์พัฒนาสินทรัพย์ จำกัด</option>
+	<option value="S713">บริษัทบริหารสินทรัพย์ ธนาคารอิสลามแห่งประเทศไทย จำกัด</option>
+	<option value="S702">ธนาคารกรุงไทย จำกัด (มหาชน)</option>
+	<option value="S307">บริษัท การบินไทย จำกัด (มหาชน)</option>
+	<option value="S507">บริษัท ปตท. จำกัด (มหาชน)</option>
+	<option value="S317">บริษัท&#160;ทีโอที จำกัด (มหาชน)</option>
+	<option value="S306">บริษัท ท่าอากาศยานไทย จำกัด (มหาชน)</option>
+	<option value="S316">บริษัท กสท โทรคมนาคม จำกัด (มหาชน)</option>
+	<option value="S318">บริษัท อสมท จำกัด (มหาชน)</option>
+	<option value="S709">ธนาคารอิสลามแห่งประเทศไทย </option>
+	<option value="20170">มหาวิทยาลัยเทคโนโลยีราชมงคลล้านนา</option>
+	<option value="S314">บริษัท ขนส่ง จำกัด</option>
+	<option value="19006">สำนักงานพัฒนาเทคโนโลยีอวกาศและภูมิสารสนเทศ</option>
+	<option value="S603">การเคหะแห่งชาติ</option>
+	<option value="15009">กรุงเทพมหานคร</option>
+	<option value="08006">กรมทางหลวง</option>
+	<option value="08004">กรมการขนส่งทางบก</option>
+	<option value="20006">สำนักงานคณะกรรมการอาชีวศึกษา</option>
+	<option value="8008">สำนักงานนโยบายและแผนการขนส่งจราจร</option>
+	<option value="08003">กรมเจ้าท่า</option>
+	<option value="S207">การยาสูบแห่งประเทศไทย</option>
+	<option value="S606">สำนักงานธนานุเคราะห์ กรมพัฒนาสังคมและสวัสดิการ</option>
+	<option value="S302">องค์การขนส่งมวลชนกรุงเทพ</option>
+	<option value="S705">ธนาคารอาคารสงเคราะห์</option>
+	<option value="S605">องค์การสวนสัตว์</option>
+	<option value="S704">ธนาคารออมสิน</option>
+	<option value="S602">การประปาส่วนภูมิภาค</option>
+	<option value="S703">ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร</option>
+	<option value="S201">การนิคมอุตสาหกรรมแห่งประเทศไทย</option>
+	<option value="S505">การไฟฟ้านครหลวง</option>
+	<option value="S105">องค์การอุตสาหกรรมป่าไม้</option>
+	<option value="S404">การท่องเที่ยวแห่งประเทศไทย</option>
+	<option value="S204">องค์การเภสัชกรรม</option>
+	<option value="S604">การกีฬาแห่งประเทศไทย</option>
+	<option value="S205">องค์การสุรา กรมสรรพสามิต</option>
+	<option value="S301">การทางพิเศษแห่งประเทศไทย</option>
+	<option value="S208">โรงพิมพ์ตำรวจ</option>
+	<option value="S601">การประปานครหลวง</option>
+	<option value="S304">การท่าเรือแห่งประเทศไทย</option>
+	<option value="S506">การไฟฟ้าส่วนภูมิภาค</option>
+	<option value="S206">โรงงานไพ่ กรมสรรพสามิต</option>
+	<option value="S101">องค์การตลาดเพื่อเกษตรกร</option>
+	<option value="S402">องค์การคลังสินค้า</option>
+	<option value="S403">สำนักงานสลากกินแบ่งรัฐบาล</option>
+	<option value="S501">สถาบันวิจัยวิทยาศาสตร์และเทคโนโลยีแห่งประเทศไทย</option>
+	<option value="S401">องค์การตลาด</option>
+	<option value="S313">การรถไฟฟ้าขนส่งมวลชนแห่งประเทศไทย</option>
+	<option value="S311">สถาบันการบินพลเรือน</option>
+	<option value="S706">ธนาคารเพื่อการส่งออกและนำเข้าแห่งประเทศไทย</option>
+	<option value="S312">การรถไฟแห่งประเทศไทย</option>
+	<option value="S502">องค์การพิพิธภัณฑ์วิทยาศาสตร์แห่งชาติ</option>
+	<option value="S708">ธนาคารพัฒนาวิสาหกิจขนาดกลางและขนาดย่อมแห่งประเทศไทย</option>
+	<option value="S510">องค์การจัดการน้ำเสีย</option>
+	<option value="S710">บรรษัทตลาดรองสินเชื่อที่อยู่อาศัย</option>
+	<option value="S104">องค์การส่งเสริมกิจการโคนมแห่งประเทศไทย</option>
+	<option value="21004">กรมควบคุมโรค</option>
+	<option value="21002">สำนักงานปลัดกระทรวงสาธารณสุข</option>
+	<option value="21003">กรมการแพทย์</option>
+	<option value="S504">การไฟฟ้าฝ่ายผลิตแห่งประเทศไทย</option>
+	<option value="S503">องค์การสวนพฤกษศาสตร์</option>
+	<option value="20107">มหาวิทยาลัยนเรศวร</option>
+	<option value="S103">องค์การสะพานปลา</option>
+	<option value="S110">การยางแห่งประเทศไทย</option>
+	<option value="S102">องค์การสวนยาง</option>
+	<option selected="selected" value="S999">รัฐวิสาหกิจตัวอย่าง</option>
+
+</select>
+
+                    <br />
+&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+
+                    &nbsp;</td>
+            </tr>
+        </table>
+    </div>
+     <div >
+       <table class="showfont">
+           <tr>
+               <td colspan="4" class="showfontbold">
+                    <span id="ContentPlaceHolder1_Label11" style="font-weight:bold;font-style:normal;">โครงสร้างอัตราเงินเดือน</span>
+               </td>
+             
+           </tr>
+           <tr>
+               <td class="table0125per">
+                   &nbsp;</td>
+               <td class="table0125per">
+                   </td>
+              <td class="table0125per"  style="text-align:right" >
+
+                 </td>
+               <td >
+
+                  </td>
+           </tr>
+           <tr id="ContentPlaceHolder1_gridshow2">
+	<td colspan="2" style="text-align:left">
+
+                   &nbsp;</td>
+	<td colspan="2" style="text-align:right">
+
+                  
+
+                  
+
+                  <input type="submit" name="ctl00$ContentPlaceHolder1$btnUpload" value="อัพโหลดไฟล์" id="ContentPlaceHolder1_btnUpload" class="showfont" />
+
+               </td>
+</tr>
+
+           <tr id="ContentPlaceHolder1_gridshow1">
+	<td colspan="4" style="text-align:left">
+
+                   <div>
+		<table cellspacing="0" cellpadding="3" rules="all" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt" style="background-color:White;border-color:#CCCCCC;border-width:1px;border-style:None;width:100%;border-collapse:collapse;">
+			<tr style="color:Black;background-color:#93CDDD;font-weight:bold;">
+				<th class="showfontbold" scope="col">วันเวลาที่อัพโหลด</th><th class="showfontbold" scope="col">ชื่อไฟล์</th><th class="showfontbold" scope="col">โหลดไฟล์</th><th class="showfontbold" scope="col">จัดการ</th>
+			</tr><tr style="color:Black;">
+				<td class="showfont" align="center" style="width:30%;">22/01/2562 09:43:24</td><td class="showfont" align="center" style="width:50%;">org_egat_thai.pdf</td><td align="center" style="width:10%;">
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$ImageButton" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton_0" title="แก้ไข" src="../../../Image/pdf.png" />                                
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$hddPEFileName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEFileName_0" value="img25620117211839.pdf" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$hddPEFileNameOld" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEFileNameOld_0" value="org_egat_thai.pdf" />   
+                               </td><td class="showfont" align="center" style="width:15%;">
+                                                             
+                                    <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$ImageButton2" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton2_0" title="แก้ไข" src="../../../Image/edit.png" />
+                                  
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$ImageButton6" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton6_0" title="ลบ" src="../../../Image/delete.png" onclick=" return confirm(&#39;คุณต้องลบ ใช่ หรือ ไม่ ?&#39;);" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$hddPEDivisionCode" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEDivisionCode_0" value="S999" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$hddPEPosition" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEPosition_0" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$hddPELevel" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPELevel_0" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$hddPEMinSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEMinSalary_0" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$hddPEMaxSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEMaxSalary_0" />
+                                    <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$hddPEPathName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEPathName_0" />
+                                   
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$hddPERow" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPERow_0" value="1" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl02$hddPEYear" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEYear_0" value="2561" />
+                               </td>
+			</tr><tr style="color:Black;">
+				<td class="showfont" align="center" style="width:30%;">19/01/2562 19:37:58</td><td class="showfont" align="center" style="width:50%;">งบแสดงฐานะการเงิน (33).xlsx</td><td align="center" style="width:10%;">
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$ImageButton" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton_1" title="แก้ไข" src="../../../Image/pdf.png" />                                
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$hddPEFileName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEFileName_1" value="img25620119193754.xlsx" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$hddPEFileNameOld" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEFileNameOld_1" value="งบแสดงฐานะการเงิน (33).xlsx" />   
+                               </td><td class="showfont" align="center" style="width:15%;">
+                                                             
+                                    <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$ImageButton2" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton2_1" title="แก้ไข" src="../../../Image/edit.png" />
+                                  
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$ImageButton6" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton6_1" title="ลบ" src="../../../Image/delete.png" onclick=" return confirm(&#39;คุณต้องลบ ใช่ หรือ ไม่ ?&#39;);" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$hddPEDivisionCode" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEDivisionCode_1" value="S999" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$hddPEPosition" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEPosition_1" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$hddPELevel" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPELevel_1" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$hddPEMinSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEMinSalary_1" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$hddPEMaxSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEMaxSalary_1" />
+                                    <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$hddPEPathName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEPathName_1" />
+                                   
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$hddPERow" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPERow_1" value="2" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl03$hddPEYear" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEYear_1" value="2561" />
+                               </td>
+			</tr><tr style="color:Black;">
+				<td class="showfont" align="center" style="width:30%;">21/01/2562 10:45:22</td><td class="showfont" align="center" style="width:50%;">Structure.pdf</td><td align="center" style="width:10%;">
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$ImageButton" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton_2" title="แก้ไข" src="../../../Image/pdf.png" />                                
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$hddPEFileName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEFileName_2" value="img25620121104514.pdf" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$hddPEFileNameOld" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEFileNameOld_2" value="Structure.pdf" />   
+                               </td><td class="showfont" align="center" style="width:15%;">
+                                                             
+                                    <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$ImageButton2" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton2_2" title="แก้ไข" src="../../../Image/edit.png" />
+                                  
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$ImageButton6" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton6_2" title="ลบ" src="../../../Image/delete.png" onclick=" return confirm(&#39;คุณต้องลบ ใช่ หรือ ไม่ ?&#39;);" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$hddPEDivisionCode" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEDivisionCode_2" value="S999" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$hddPEPosition" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEPosition_2" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$hddPELevel" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPELevel_2" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$hddPEMinSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEMinSalary_2" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$hddPEMaxSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEMaxSalary_2" />
+                                    <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$hddPEPathName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEPathName_2" />
+                                   
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$hddPERow" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPERow_2" value="3" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl04$hddPEYear" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEYear_2" value="2561" />
+                               </td>
+			</tr><tr style="color:Black;">
+				<td class="showfont" align="center" style="width:30%;">21/01/2562 14:47:53</td><td class="showfont" align="center" style="width:50%;">Structure.pdf</td><td align="center" style="width:10%;">
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$ImageButton" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton_3" title="แก้ไข" src="../../../Image/pdf.png" />                                
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$hddPEFileName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEFileName_3" value="img25620121144749.pdf" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$hddPEFileNameOld" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEFileNameOld_3" value="Structure.pdf" />   
+                               </td><td class="showfont" align="center" style="width:15%;">
+                                                             
+                                    <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$ImageButton2" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton2_3" title="แก้ไข" src="../../../Image/edit.png" />
+                                  
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$ImageButton6" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton6_3" title="ลบ" src="../../../Image/delete.png" onclick=" return confirm(&#39;คุณต้องลบ ใช่ หรือ ไม่ ?&#39;);" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$hddPEDivisionCode" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEDivisionCode_3" value="S999" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$hddPEPosition" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEPosition_3" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$hddPELevel" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPELevel_3" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$hddPEMinSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEMinSalary_3" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$hddPEMaxSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEMaxSalary_3" />
+                                    <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$hddPEPathName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEPathName_3" />
+                                   
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$hddPERow" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPERow_3" value="4" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl05$hddPEYear" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEYear_3" value="2561" />
+                               </td>
+			</tr><tr style="color:Black;">
+				<td class="showfont" align="center" style="width:30%;">27/01/2562 23:10:40</td><td class="showfont" align="center" style="width:50%;">NewOrg.pdf</td><td align="center" style="width:10%;">
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$ImageButton" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton_4" title="แก้ไข" src="../../../Image/pdf.png" />                                
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$hddPEFileName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEFileName_4" value="img25620127231037.pdf" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$hddPEFileNameOld" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEFileNameOld_4" value="NewOrg.pdf" />   
+                               </td><td class="showfont" align="center" style="width:15%;">
+                                                             
+                                    <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$ImageButton2" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton2_4" title="แก้ไข" src="../../../Image/edit.png" />
+                                  
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$ImageButton6" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_ImageButton6_4" title="ลบ" src="../../../Image/delete.png" onclick=" return confirm(&#39;คุณต้องลบ ใช่ หรือ ไม่ ?&#39;);" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$hddPEDivisionCode" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEDivisionCode_4" value="S999" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$hddPEPosition" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEPosition_4" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$hddPELevel" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPELevel_4" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$hddPEMinSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEMinSalary_4" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$hddPEMaxSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEMaxSalary_4" />
+                                    <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$hddPEPathName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEPathName_4" />
+                                   
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$hddPERow" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPERow_4" value="5" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeListAtt$ctl06$hddPEYear" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeListAtt_hddPEYear_4" value="2561" />
+                               </td>
+			</tr>
+		</table>
+	</div>
+                  
+               </td>
+</tr>
+
+           <tr id="ContentPlaceHolder1_gridlist">
+	<td colspan="2" style="text-align:left">
+
+                   &nbsp;</td>
+	<td colspan="2" style="text-align:right">
+
+                  
+
+               </td>
+</tr>
+
+           <tr id="ContentPlaceHolder1_gridlist1">
+	<td colspan="4" class="showfont">
+                   <div>
+		<table cellspacing="0" cellpadding="3" rules="all" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList" style="background-color:White;border-color:#CCCCCC;border-width:1px;border-style:None;width:100%;border-collapse:collapse;">
+			<tr style="color:Black;background-color:#93CDDD;font-weight:bold;">
+				<th class="showfontbold" scope="col">ตำแหน่ง</th><th class="showfontbold" scope="col">ระดับ</th><th class="showfontbold" scope="col">เงินเดือนขั้นต่ำ</th><th class="showfontbold" scope="col">เงินเดือนขั้นสูง</th><th class="showfontbold" scope="col">โหลดไฟล์</th><th class="showfontbold" scope="col">จัดการ</th>
+			</tr><tr style="color:Black;">
+				<td class="showfont" align="center" style="width:25%;">1</td><td class="showfont" align="center" style="width:10%;">1</td><td class="showfont" align="center" style="width:10%;">500,000.00</td><td class="showfont" align="center" style="width:10%;">1,000,000.00</td><td align="center" style="width:10%;">
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$ImageButton1" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_ImageButton1_0" title="แก้ไข" src="../../../Image/pdf.png" />                                
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$hddPEFileName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEFileName_0" />
+                               </td><td class="showfont" align="center" style="width:15%;">
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$ImageButton2" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_ImageButton2_0" title="แก้ไข" src="../../../Image/edit.png" />
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$ImageButton3" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_ImageButton3_0" title="ลบ" src="../../../Image/delete.png" onclick=" return confirm(&#39;คุณต้องลบ ใช่ หรือ ไม่ ?&#39;);" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$hddPEDivisionCode" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEDivisionCode_0" value="S999" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$hddPEPosition" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEPosition_0" value="1" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$hddPELevel" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPELevel_0" value="1" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$hddPEMinSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEMinSalary_0" value="500000" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$hddPEMaxSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEMaxSalary_0" value="1000000" />
+                               <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$hddPEPathName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEPathName_0" />
+                                   
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$hddPERow" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPERow_0" value="2" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl02$hddPEYear" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEYear_0" value="2561" />
+                               </td>
+			</tr><tr style="color:Black;">
+				<td class="showfont" align="center" style="width:25%;">&nbsp;</td><td class="showfont" align="center" style="width:10%;">&nbsp;</td><td class="showfont" align="center" style="width:10%;">&nbsp;</td><td class="showfont" align="center" style="width:10%;">&nbsp;</td><td align="center" style="width:10%;">
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$ImageButton1" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_ImageButton1_1" title="แก้ไข" src="../../../Image/pdf.png" />                                
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$hddPEFileName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEFileName_1" />
+                               </td><td class="showfont" align="center" style="width:15%;">
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$ImageButton2" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_ImageButton2_1" title="แก้ไข" src="../../../Image/edit.png" />
+                                   <input type="image" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$ImageButton3" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_ImageButton3_1" title="ลบ" src="../../../Image/delete.png" onclick=" return confirm(&#39;คุณต้องลบ ใช่ หรือ ไม่ ?&#39;);" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$hddPEDivisionCode" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEDivisionCode_1" value="S999" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$hddPEPosition" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEPosition_1" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$hddPELevel" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPELevel_1" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$hddPEMinSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEMinSalary_1" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$hddPEMaxSalary" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEMaxSalary_1" />
+                               <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$hddPEPathName" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEPathName_1" />
+                                   
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$hddPERow" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPERow_1" value="3" />
+                                   <input type="hidden" name="ctl00$ContentPlaceHolder1$grdSEPOPrivilegeEmployeeList$ctl03$hddPEYear" id="ContentPlaceHolder1_grdSEPOPrivilegeEmployeeList_hddPEYear_1" value="2561" />
+                               </td>
+			</tr>
+		</table>
+	</div>
+                  
+               </td>
+</tr>
+
+           <tr>
+               <td class="table01">
+                   &nbsp;</td>
+               <td class="table02">
+                    &nbsp;</td>
+              <td class="table03">
+
+                  &nbsp;</td>
+               <td class="table04">
+
+                   &nbsp;</td>
+           </tr>
+                  
+               
+           </table>
+      </div>
+
+    </div>
+        
+
+
+
+
+
+
+    </form>
+</body>
+</html>

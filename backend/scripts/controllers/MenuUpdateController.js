@@ -178,6 +178,7 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
             ,'title_en':''
             ,'contents':''
             ,'contents_en':''
+            , 'show_index' : 'N'
         };
     }
 
@@ -186,7 +187,7 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
     if($scope.ID != undefined && $scope.ID != null){
         $scope.load('menu/get', $scope.ID);
     }else{
-        $scope.MenuData = {'actives':'Y'};
+        $scope.MenuData = {'actives':'Y', 'show_index' : 'N'};
         $scope.loadParentMenuList();
         CKEDITOR.config.extraPlugins = 'colorbutton';
         CKEDITOR.config.colorButton_enableAutomatic = false;

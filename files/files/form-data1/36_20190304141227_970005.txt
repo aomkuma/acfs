@@ -1,0 +1,12 @@
+﻿Back office เว็บ มกอช.
+http://61.19.221.109/acfs/backend 
+User: Test@gmail.com 
+Pass: 1234
+
+เว็บสนับสนุนการกำหนดมาตรฐาน
+http://61.19.221.109/acfs/support/#/ 
+User: koaskd@gmail.com
+Pass: 1234
+
+หน้าเว็บ มกอช.
+http://61.19.221.109/acfs/web/#

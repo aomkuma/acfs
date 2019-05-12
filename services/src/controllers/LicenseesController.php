@@ -149,12 +149,12 @@
                 $Item = [];
                 
                 foreach ($value as $k => $v) {
-                    if($cnt_col >= 0 && $cnt_col <= 4){
+                    // if($cnt_col >= 0 && $cnt_col <= 4){
                         
-                        $Item[ $field_array[$cnt_field] ] = $v;
+                        $Item[ $field_array[$cnt_field] ] = trim($v);
                         $cnt_field++;
                         
-                    }
+                    // }
                     $cnt_col++;
                 }
                 
