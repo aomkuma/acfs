@@ -122,6 +122,7 @@
 
             $model = Menu::find($id);
             $model->menu_url = 'page/'. $id;
+            $model->menu_type = $id;
             $model->save();
             return $model->id;
         }

@@ -419,7 +419,7 @@ function getHourList(){
 
 function getYearList(loop)
 {
-    var startYear = 2018;
+    var startYear = 2002;
     var yearList = [];
     for(var i =0 ; i < loop; i++){
         yearList.push({'yearValue': startYear + i + 543, 'yearText' : startYear + i});

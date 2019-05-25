@@ -25,7 +25,7 @@ return [
             'password' => '',
             'charset' => 'utf8',
             'prefix'    => '',
-            'port' => '3307'
+            'port' => '3306'
         ]
     ],
 ];
