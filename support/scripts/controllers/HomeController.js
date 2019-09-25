@@ -13,8 +13,8 @@ angular.module('app').controller('HomeController', function($scope, $cookies, $f
     $scope.loadCommodityStandard = function(action){
         var params = {'userType':$scope.currentUser.userType
 	        			, 'userID': $scope.currentUser.adminID
-	        			, 'currentPage': $scope.currentPage
-	        			, 'limitRowPerPage': $scope.limitRowPerPage
+	        			, 'currentPage': $scope.Pagination.currentPage
+	        			, 'limitRowPerPage': $scope.Pagination.limitRowPerPage
 	        			, 'standardIDToIgnore' : $scope.standardIDToIgnore
         			};
         IndexOverlayFactory.overlayShow();
@@ -22,7 +22,7 @@ angular.module('app').controller('HomeController', function($scope, $cookies, $f
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.dataset = result.data.DATA.CommodityStandard;
-                $scope.totalPages = result.data.DATA.Total;
+                $scope.Pagination.totalPages = result.data.DATA.Total;
                 $scope.standardIDToIgnore = result.data.DATA.standardIDToIgnore;
                 IndexOverlayFactory.overlayHide();
             }else{
@@ -61,6 +61,11 @@ angular.module('app').controller('HomeController', function($scope, $cookies, $f
         $scope.currentPage = page;
         $scope.loadCommodityStandard('commodity-standard/list/home');
     }
+
+    $scope.pageChanged = function() {
+        $scope.goToPage($scope.currentPage);
+        // $log.log('Page changed to: ' + $scope.currentPage);
+    };
 
     $scope.makeDateString = function(d){
     	if(d!= null && d != ''){
@@ -216,6 +221,7 @@ angular.module('app').controller('HomeController', function($scope, $cookies, $f
     $scope.MeetingList = [];
     $scope.isFirstLoadPage = true;
     // load seminar
+    $scope.Pagination = {'totalPages' : 0, 'currentPage' : 0, 'limitRowPerPage' : 5, 'limitDisplay' : 5};
 
     $scope.loadCommodityStandard('commodity-standard/list/home');
     $scope.loadMeeting('meeting/list/home');

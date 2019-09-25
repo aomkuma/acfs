@@ -56,7 +56,7 @@ angular.module('e-homework').controller('FormData1Controller', function($scope, 
 
     $scope.loadList = function(condition){
         IndexOverlayFactory.overlayShow();
-        var params = {'condition' : condition, 'menu_type' : $scope.page_type};
+        var params = {'condition' : condition, 'menu_type' : $scope.page_type, 'actives' : 'Y'};
         HTTPService.clientRequest('form-data1/list', params).then(function(result){
             if(result.data.STATUS == 'OK'){
                 $scope.DataList = result.data.DATA.List;

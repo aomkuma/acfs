@@ -112,22 +112,23 @@
                     /*
                     */
                     $limitRow = $limitRowPerPage;
-                    $_Result = CommodityStandardService::getCommodityStandardList($currentPage, $limitRow, $standardIDToIgnore, $stepList);
-                    $_CommodityStandard = $_Result['DataList'];
-                    $_Total = $_Result['Total'];
-                    $TotalRemove = 0;
-                    $cur_year = date('Y') + 543;
-                    foreach ($_CommodityStandard as $key => $value) {
-                        if($value['years'] == $cur_year){
-                            array_push($CommodityStandard, $value);    
-                        }else if($value['years'] < $cur_year && $value['step'] < 9){
-                            array_push($CommodityStandard, $value);    
-                        }else{
-                            $TotalRemove++;
-                        }
+                    $_Result = CommodityStandardService::getCommodityStandardListHomePage($currentPage, $limitRow, $standardIDToIgnore, $stepList);
+                    $CommodityStandard = $_Result['DataList'];
+                    $Total = $_Result['Total'];
+                    // $TotalRemove = 0;
+                    // $cur_year = date('Y') + 543;
+                    // foreach ($_CommodityStandard as $key => $value) {
+                    //     if($value['years'] == $cur_year){
+                    //         array_push($CommodityStandard, $value);    
+                    //     }else if($value['years'] < $cur_year && $value['step'] < 9){
+                    //         array_push($CommodityStandard, $value);    
+                    //     }else{
+                    //         $TotalRemove++;
+
+                    //     }
                         
-                    }
-                    $Total += $_Total - $TotalRemove;
+                    // }
+                    // $Total += $_Total - $TotalRemove;
 
                 }else{
                     /*
@@ -153,8 +154,10 @@
 
                 }
 
-                $Total = ceil($Total / $limitRowPerPage);
+                // $Total = ceil($Total / $limitRowPerPage);
                 $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
+                
+                $this->data_result['DATA']['DataList'] = $_Result['DataList'];
                 $this->data_result['DATA']['Total'] = $Total;
                 $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
                 
@@ -231,7 +234,7 @@
 
                 $Total += $_Total;
 
-                $Total = ceil($Total / $limitRowPerPage);
+                // $Total = ceil($Total / $limitRowPerPage);
                 $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
                 $this->data_result['DATA']['Total'] = $Total;
                 $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
@@ -268,7 +271,7 @@
                 }
                 $Total += $_Total;
 
-                $Total = ceil($Total / $limitRowPerPage);
+                // $Total = ceil($Total / $limitRowPerPage);
                 $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
                 $this->data_result['DATA']['Total'] = $Total;
                 $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
@@ -309,7 +312,7 @@
                 }
                 $Total += $_Total - $TotalRemove;
 
-                $Total = ceil($Total / $limitRowPerPage);
+                // $Total = ceil($Total / $limitRowPerPage);
                 $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
                 $this->data_result['DATA']['OldCommodityStandard'] = $_CommodityStandard;
                 $this->data_result['DATA']['Total'] = $Total;
@@ -361,9 +364,11 @@
                 }
                 $Total += $_Total;
 
-                $Total = ceil($Total / $limitRowPerPage);
+                // $Total = ceil($Total / $limitRowPerPage);
                 $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
-                $this->data_result['DATA']['Total'] = $Total;
+                $this->data_result['DATA']['ActCommodityStandard'] = $_CommodityStandard;
+                $this->data_result['DATA']['Total'] = $_Total;
+                $this->data_result['DATA']['ActTotal'] = $_Total;
                 $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
 
                 return $this->returnResponse(200, $this->data_result, $response, false);
@@ -413,7 +418,7 @@
                 }
                 $Total += $_Total;
 
-                $Total = ceil($Total / $limitRowPerPage);
+                // $Total = ceil($Total / $limitRowPerPage);
                 $this->data_result['DATA']['CommodityStandard'] = $CommodityStandard;
                 $this->data_result['DATA']['Total'] = $Total;
                 $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;
@@ -443,7 +448,7 @@
                 }
                 $Total += $_Total;
 
-                $Total = ceil($Total / $limitRowPerPage);
+                // $Total = ceil($Total / $limitRowPerPage);
                 $this->data_result['DATA']['AcademicBoard'] = $AcademicBoard;
                 $this->data_result['DATA']['Total'] = $Total;
                 $this->data_result['DATA']['standardIDToIgnore'] = $standardIDToIgnore;

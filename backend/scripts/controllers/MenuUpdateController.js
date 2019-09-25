@@ -78,12 +78,13 @@ angular.module('e-homework').controller('MenuUpdateController', function($scope,
     $scope.load = function(action, id){
         var params = {'id' : id};
         HTTPService.clientRequest(action, params).then(function(result){
-            //console.log(result);
+            console.log(result);
 
             $scope.ParentMenuList = result.data.DATA.ParentMenuList;
             $scope.MenuData = result.data.DATA.Menu;
             if($scope.MenuData.menu_type == 'PAGE'){
                 $scope.PageContent =  result.data.DATA.PageContent;
+                console.log($scope.PageContent);
                 if($scope.PageContent == null){
                     $scope.setPage();
                 }

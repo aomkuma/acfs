@@ -104,6 +104,13 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
         HTTPService.clientRequest(action, null).then(function(result){
             // console.log(result);
             $scope.LinkUrl = result.data.DATA.LinkUrl;
+
+            var totalLinkUrl = Math.ceil($scope.LinkUrl.length / 12);
+            if(totalLinkUrl > 1){
+                $scope.link_next_index = 0;
+            }else{
+
+            }
             $scope.slideLinkImage($scope.link_next_index);
             IndexOverlayFactory.overlayHide();
         });
@@ -252,21 +259,24 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
 
     // Highlight
     $scope.slideImage = function(index){
-        console.log(index);
-        var cnt = 0;
-        var position = index;
-        $scope.ShowHighlightList = [];
 
-        while(cnt < 5 && position < $scope.HighlightList.length){
-            
-            $scope.ShowHighlightList.push($scope.HighlightList[position]);
-            position++;
-            cnt++;
-            // console.log('do : '+cnt);
-            // console.log('index : ' + index);
+        if(index >= 0){
+            console.log(index);
+            var cnt = 0;
+            var position = index;
+            $scope.ShowHighlightList = [];
+
+            while(cnt < 5 && position < $scope.HighlightList.length){
+                
+                $scope.ShowHighlightList.push($scope.HighlightList[position]);
+                position++;
+                cnt++;
+                // console.log('do : '+cnt);
+                // console.log('index : ' + index);
+            }
+            $scope.next_index = index + 1;
+            $scope.prev_index = index - 1;
         }
-        $scope.next_index = index + 1;
-        $scope.prev_index = index - 1;
         // console.log($scope.next_index);
         // console.log($scope.prev_index);
     }
@@ -277,22 +287,27 @@ angular.module('e-homework').controller('HomeController', function($scope, $cook
     // Link
     $scope.slideLinkImage = function(index){
         // console.log('ฺำเรื หสรกำ สรืา');
-        var cnt = 0;
-        var position = index;
-        $scope.ShowLinkUrl = [];
 
-        while(cnt < 8 && position < $scope.LinkUrl.length){
-            
-            $scope.ShowLinkUrl.push($scope.LinkUrl[position]);
-            position++;
-            cnt++;
-            // console.log('do : '+cnt);
-            // console.log('index : ' + index);
+        if(index < $scope.LinkUrl.length && index >= 0){
+            var cnt = 0;
+            var position = index;
+            console.log('position : ' + position);
+            $scope.ShowLinkUrl = [];
+
+            while(cnt < 12 && position < $scope.LinkUrl.length){
+                
+                $scope.ShowLinkUrl.push($scope.LinkUrl[position]);
+                position++;
+                cnt++;
+                // console.log('do : '+cnt);
+                // console.log('index : ' + index);
+            }
+            $scope.link_next_index = position;
+            $scope.link_prev_index = position - 12 - 1;
+            // console.log($scope.link_next_index);
+            // console.log($scope.link_prev_index);
+
         }
-        $scope.link_next_index = index + 1;
-        $scope.link_prev_index = index - 1;
-        // console.log($scope.link_next_index);
-        // console.log($scope.link_prev_index);
     }
     
     $scope.link_next_index = 0;

@@ -14,8 +14,8 @@ angular.module('app').controller('CommodityStandardController', function($scope,
     $scope.loadCommodityStandard = function(action, viewType){
         var params = {'userType':$scope.currentUser.userType
                         , 'userID': $scope.currentUser.adminID
-                        , 'currentPage': $scope.currentPage
-                        , 'limitRowPerPage': $scope.limitRowPerPage
+                        , 'currentPage': $scope.Pagination.currentPage
+                        , 'limitRowPerPage': $scope.Pagination.limitRowPerPage
                         , 'standardIDToIgnore' : $scope.standardIDToIgnore
                         , 'viewType' : viewType
                     };
@@ -24,7 +24,7 @@ angular.module('app').controller('CommodityStandardController', function($scope,
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.dataset = result.data.DATA.CommodityStandard;
-                $scope.totalPages = result.data.DATA.Total;
+                $scope.Pagination.totalPages = result.data.DATA.Total;
                 $scope.standardIDToIgnore = result.data.DATA.standardIDToIgnore;
                 IndexOverlayFactory.overlayHide();
             }else{
@@ -98,10 +98,10 @@ angular.module('app').controller('CommodityStandardController', function($scope,
     }
 
     $scope.changeTab = function(index){
-        $scope.totalPages = 0;
-        $scope.currentPage = 0;
-        $scope.limitRowPerPage = 10;
-        $scope.limitDisplay = 5;
+        $scope.Pagination.totalPages = 0;
+        $scope.Pagination.currentPage = 0;
+        $scope.Pagination.limitRowPerPage = 10;
+        $scope.Pagination.limitDisplay = 10;
         $scope.ActiveTab = index;
         if(index == 0){
             $scope.loadCommodityStandard('commodity-standard/list', 'pending')
@@ -128,10 +128,11 @@ angular.module('app').controller('CommodityStandardController', function($scope,
                         ];
 
     $scope.AcademicBoard = [];
-    $scope.totalPages = 0;
-    $scope.currentPage = 0;
-    $scope.limitRowPerPage = 10;
-    $scope.limitDisplay = 5;
+    $scope.Pagination = {'totalPages' : 0, 'currentPage' : 0, 'limitRowPerPage' : 10, 'limitDisplay' : 10};
+    // $scope.totalPages = 0;
+    // $scope.currentPage = 0;
+    // $scope.limitRowPerPage = 10;
+    // $scope.limitDisplay = 5;
     $scope.ActiveTab = 0;
 
     IndexOverlayFactory.overlayHide();

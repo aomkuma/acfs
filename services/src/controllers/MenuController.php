@@ -246,7 +246,7 @@
                     // Get content
                     $PageContent = MenuService::getPageContent($_Menu->id);
                     // Get attach file
-                    $AttachFiles = MenuService::getAttachFiles($_Menu->id);
+                    $AttachFiles = MenuService::getAttachFiles($_Menu->id, $_Menu->page_type);
 
                     $this->data_result['DATA']['PageContent'] = $PageContent;
                     $this->data_result['DATA']['AttachFiles'] = $AttachFiles;

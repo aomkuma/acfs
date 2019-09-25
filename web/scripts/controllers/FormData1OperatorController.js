@@ -35,7 +35,7 @@ angular.module('e-homework').controller('FormData1OperatorController', function(
     $scope.loadList = function(condition, operator_type){
         $scope.operator_type = operator_type;
         IndexOverlayFactory.overlayShow();
-        var params = {'condition' : condition, 'menu_type' : $scope.page_type, 'operator_type' : operator_type};
+        var params = {'condition' : condition, 'menu_type' : $scope.page_type, 'operator_type' : operator_type, 'actives' : 'Y'};
         HTTPService.clientRequest('form-data1/operator/list', params).then(function(result){
             if(result.data.STATUS == 'OK'){
                 $scope.DataList = result.data.DATA.List;

@@ -88,9 +88,10 @@
 								<td class="text-center">{{data.standardType}}</td>
 								<td class="text-center">{{(data.standardGroup == null || data.standardGroup == ''?'-':data.standardGroup)}}</td>
 								<td class="text-center">{{(data.noThai == null || data.noThai == ''?'-':data.noThai)}}</td>
-								<td class="text-center">-</td><!--{{(data.useDate == null || data.useDate == '' || data.useDate == '0000-00-00 00:00:00'?'-':makeDateString(data.useDate))}}-->
+								<td class="text-center">{{makeDateString(data.echoDate)}}</td><!--{{(data.useDate == null || data.useDate == '' || data.useDate == '0000-00-00 00:00:00'?'-':makeDateString(data.useDate))}}-->
 								<td class="text-center">
-									<a href="../{{data.standardFilePath}}" role="button" class="btn btn-default" download="{{data.standardFileName}}" ng-show="data.standardFileName != null"><img src="../files/img/attach-file.png" style="height: 2em;"></a>
+									<a href="../{{data.standardFilePath}}" role="button" class="btn btn-default" download="{{data.standardFileName}}" ng-show="data.standardFileName != null && data.standardFileName != '' && DEFAULT_LANGUAGE == 'TH'"><img src="../files/img/attach-file.png" style="height: 2em;"></a>
+									<a href="../{{data.standardFilePathEN}}" role="button" class="btn btn-default" download="{{data.standardFileNameEN}}" ng-show="data.standardFileNameEN != null && data.standardFileNameEN != ''"><img src="../files/img/attach-file.png" style="height: 2em;"></a>
 								</td>
 							</tr>
 						</tbody>

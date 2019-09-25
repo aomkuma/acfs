@@ -56,7 +56,7 @@ angular.module('e-homework').controller('FormData1InspectionOperatorController',
             con.end_date = makeSQLDate(con.end_date);
         }
 
-        var params = {'condition' : con, 'menu_type' : 'certification-list'};
+        var params = {'condition' : con, 'menu_type' : 'certification-list', 'actives' : 'Y'};
         HTTPService.clientRequest('form-data1/list', params).then(function(result){
             if(result.data.STATUS == 'OK'){
                 $scope.DataList = result.data.DATA.List;

@@ -44,7 +44,7 @@
 	<div class="col-lg-10 col-lg-offset-1">
 		<div class="row form-group">
 	        
-	        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="vertical-align: text-bottom;padding-top: 2em;">
+	        <div class="col-lg-5 col-md-4 col-sm-12 col-xs-12" style="vertical-align: text-bottom;padding-top: 2em;">
 	          <div style="float: left;" ng-show="NewsType == 'news'">
 	            <span style="font-size: 2em; color: #000; font-weight: bolder;">ข่าวสาร</span> &nbsp;&nbsp;&nbsp; <span style="font-size: 2em; color: #d18237; font-weight: bolder;">NEWS</span>
 
@@ -60,7 +60,7 @@
 	          <div style="height: 1px; background-color: #13569A; width: 100%; margin-top:3em;"></div>
 	        </div>
 
-	        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 visible-md visible-lg">
+	        <div class="col-lg-7 col-md-8 col-sm-12 col-xs-12 visible-md visible-lg">
 	        	<button class="button-news   pull-right" ng-click="viewNews('work-application')" ng-class="{'yellow':NewsType == 'work-application'}" style="width: 10em;">  <span class="text-button">{{DEFAULT_LANGUAGE=='TH'? 'สมัครงาน':'Applying for a job'}}</span>  </button>
 	        	<button class="button-news   pull-right" ng-click="viewNews('purchase')" ng-class="{'yellow':NewsType == 'purchase'}" style=" width: 9em;">  <span class="text-button">{{DEFAULT_LANGUAGE=='TH'? 'จัดซื้อ / จัดจ้าง':'Purchase'}}</span>  </button>
 	        	<button class="button-news pull-right" ng-click="viewNews('news')" ng-class="{'yellow':NewsType == 'news'}" style=" width: 9em;">  <span class="text-button">{{DEFAULT_LANGUAGE=='TH'? 'ข่าวประชาสัมพันธ์':'News'}}</span> </button>
@@ -228,10 +228,10 @@
 			    	</div>
 			    	<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"  style="width: 95%;">
 			    		
-						<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 text-center" ng-repeat="link in ShowLinkUrl | limitTo:8"  style="height: 120px;">
+						<div class="col-lg-2 col-md-3 col-sm-6 col-xs-12 text-center" ng-repeat="link in ShowLinkUrl"  style="height: 120px;">
 							<br>
 							<a target="_blank" href="{{link.link_url}}">
-								<img src="{{ '../' + link.image_path }}" style="height:60px; width:180px;" class="news-main" >
+								<img src="{{ '../' + link.image_path }}" style="height:60px; width:140px;" class="news-main" >
 							</a>			
 							<br>
 						</div>
@@ -239,8 +239,8 @@
 					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-right" style="display: flex;
 				  display: -webkit-flex;
 				  flex-wrap: wrap; width: 2.5%;">
-						&nbsp;
-						<a class="next" ng-click="slideLinkImage(link_next_index)" ng-show="link_next_index < LinkUrl.length && ShowLinkUrl.length == 8" style="margin-top: 50%;">
+						&nbsp; 
+						<a class="next" ng-click="slideLinkImage(link_next_index)" ng-show="link_next_index < LinkUrl.length" style="margin-top: 50%;">
 				    		<span style="font-size: 3em;  color:#FFF; font-weight: bold;">&#10095;</span>
 				    	</a>
 			    	</div>

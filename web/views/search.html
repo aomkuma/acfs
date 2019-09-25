@@ -17,14 +17,16 @@
 
 	  </div>
 	</div>
-	<div class="row form-group" ng-repeat="data in SearchList">
+	<div class="row form-group" ng-repeat="data in SearchList" style="border-bottom: 1px solid #ccc;">
 		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
 			<a ng-show="data.file_name == undefined" href="{{data.url}}" bind-html-compile="data.title_th | htmlToPlaintext"></a>
-			<a ng-show="data.file_name != ''" target="_self" href="../{{data.url}}" download="{{data.file_name}}" class="ng-binding">{{data.file_name}}</a>
+			<a ng-show="data.file_name != ''" target="_self" href="../{{data.url}}" download="{{data.file_name}}" class="ng-binding">{{data.title_th}}</a>
+			<br> 
 		</div>
-		<div class="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-1">
-			<span bind-html-compile="data.contents | htmlToPlaintext | cut:true:200:' ...'"></span>
+		<div class="col-lg-10 col-lg-offset-1 col-md-10col-md-offset-1">
+			<a href="{{data.url}}" ><span bind-html-compile="data.contents | htmlToPlaintext | cut:true:200:' ...'"></span></a>
 		</div>
+
 	</div>
 	
 	<div ng-include src="'views/footer.html'"></div>

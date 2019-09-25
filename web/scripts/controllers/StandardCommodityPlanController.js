@@ -70,6 +70,7 @@ angular.module('e-homework').controller('StandardCommodityPlanController', funct
     }
 
     $scope.pageChanged = function() {
+        console.log($scope.currentPage);
         $scope.goToPage($scope.currentPage);
         // $log.log('Page changed to: ' + $scope.currentPage);
     };

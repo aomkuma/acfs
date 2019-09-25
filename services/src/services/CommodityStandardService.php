@@ -295,6 +295,12 @@
                             if(!empty($keyword)){
                                 $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
                                 $query->orWhere('Commodity_Keywords.keyword', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('noThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('bookNumberThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('noEng', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('bookNumberEng', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('standardGroup', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                
                             }
                             
                         })
@@ -302,14 +308,14 @@
                             //$query->where('step', '9');
                             
                             if(!empty($standardType)){
-                                $query->where('standardDefineType', $standardType);
+                                $query->where('standardType', $standardType);
                             }
                         })
                         ->where('status', 'Active')
                         ->whereIn('step', $stepList)
                         ->where('standardDefineType', $defineType)
                         ->leftJoin("Commodity_Keywords", 'Commodity_Keywords.standardID', '=', 'Commodity_Standards.standardID')
-                        ->groupBy('Commodity_Keywords.standardID')
+                        ->groupBy('Commodity_Standards.standardID')
                         ->get()->toArray());
 
             // $totalPage = ceil($totalRows / $limitRowPerPage);
@@ -319,6 +325,12 @@
                             if(!empty($keyword)){
                                 $query->where('standardNameThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
                                 $query->orWhere('Commodity_Keywords.keyword', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('noThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('bookNumberThai', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('noEng', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('bookNumberEng', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                $query->orWhere('standardGroup', 'LIKE', DB::raw("'%" . $keyword . "%'"));
+                                
                             }
                             
                         })
@@ -375,6 +387,51 @@
                         ->skip($skip)
                         ->take($limit)
                 		->get();      
+
+            return ['DataList'=>$DataList, 'Total' => $totalRows];
+        }
+
+        public static function getCommodityStandardListHomePage($currentPage, $limitRowPerPage, $_standardIDToIgnore, $stepList){
+            // 
+
+            $currentPage = $currentPage - 1;
+
+            $limit = $limitRowPerPage;
+            $offset = $currentPage;
+            $skip = $offset * $limit;
+            $totalRows = count(CommodityStandard::whereNotIn("standardID", $_standardIDToIgnore)
+                        ->where(function($query) use ($stepList){
+                            if($stepList[0] == 11){
+                                $query->where('status', 'Inactive');
+                            }else{
+                                $query->whereIn('step', $stepList);
+                                $query->where('status', 'Active');
+                            }
+                        })
+                        ->where(function($query) use ($stepList){
+                            $query->where('years', date('Y') + 543);
+                            $query->orWhere('step', '<', 9);
+                        })
+                        ->get()->toArray());
+
+            // $totalPage = ceil($totalRows / $limitRowPerPage);
+            $DataList = CommodityStandard::whereNotIn("standardID", $_standardIDToIgnore)
+                        ->where(function($query) use ($stepList){
+                            if($stepList[0] == 11){
+                                $query->where('status', 'Inactive');
+                            }else{
+                                $query->whereIn('step', $stepList);
+                                $query->where('status', 'Active');
+                            }
+                        })
+                        ->where(function($query) use ($stepList){
+                            $query->where('years', date('Y') + 543);
+                            $query->orWhere('step', '<', 9);
+                        })
+                        ->orderBy('standardID', 'DESC')
+                        ->skip($skip)
+                        ->take($limit)
+                        ->get();      
 
             return ['DataList'=>$DataList, 'Total' => $totalRows];
         }
@@ -514,7 +571,39 @@
         }
 
         public static function getListAPI(){
-            return CommodityStandard::where('status' , 'Active')
+            return CommodityStandard::select(
+                        // 'standardID',
+                        'years'
+                        , 'standardNameThai'
+                        , 'standardNameEng'
+                        , 'standardType'
+                        , 'noThai'
+                        , 'bookNumberThai'
+                        , 'noEng'
+                        , 'bookNumberEng'
+                        , 'detail'
+                        , 'step'
+                        , 'status'
+                        , 'standardFileName'
+                        , 'standardFilePath'
+                        , 'standardFileNameEN'
+                        , 'standardFilePathEN'
+                        , 'standardDefineType'
+                        , 'standardPublishingType'
+                        , 'standardGroup'
+                        , 'secondaryCode'
+                        , 'accreditationScope'
+                        , 'useDate'
+                        , 'echoDate'
+                        , 'cancelledDate'
+                        , 'standardTypeEng'
+                        , 'standardGroupEng'
+                        , 'accreditationScopeEng'
+                        , 'descThai'
+                        , 'descEng'
+                    )
+                    ->where('status' , 'Active')
+                    ->where('step', 9)
                     // ->with(array('academicBoard' => function($query){
                     //                 $query->with('stakeholders');
                     //             }))

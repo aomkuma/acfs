@@ -17,7 +17,7 @@
     
     class FormData1Service {
 
-    	public static function getList($menu_type, $keyword, $iso, $iso1, $iso2, $condition){
+    	public static function getList($menu_type, $keyword, $iso, $iso1, $iso2, $condition, $actives){
 
             return FormData1::select("Form_Data1.*"
                                     , DB::raw("Form_Data1_Detail.iso AS detail_iso")
@@ -67,11 +67,17 @@
                         // $query->where("start_date", $condition['start_date']);
                         // $query->where("end_date", $condition['end_date']);
                     })
+                    ->where(function($query) use ($actives){
+                        if(!empty($actives)){
+                            $query->where('Form_Data1.actives', $actives);
+                        }
+                        
+                    })
                     ->where('Form_Data1.menu_type', $menu_type)
                     ->get();
         }
 
-        public static function getListInspectionOperator($menu_type, $keyword, $iso, $condition){
+        public static function getListInspectionOperator($menu_type, $keyword, $iso, $condition, $actives){
 
             return FormData1::select("Form_Data1.*"
                                     , DB::raw("Form_Data1_Scope.iso AS scope_iso")
@@ -102,6 +108,12 @@
                         }
                         // $query->where("start_date", $condition['start_date']);
                         // $query->where("end_date", $condition['end_date']);
+                    })
+                    ->where(function($query) use ($actives){
+                        if(!empty($actives)){
+                            $query->where('Form_Data1.actives', $actives);
+                        }
+                        
                     })
                     ->where('Form_Data1.menu_type', $menu_type)
                     ->groupBy('Form_Data1.id')
@@ -237,7 +249,7 @@
         
         }
 
-        public static function getListOperator($keyword, $operator_type){
+        public static function getListOperator($keyword, $operator_type, $actives){
             return FormData1::where('Form_Data1.menu_type', 'operator-list')
                     ->where('Form_Data1.operator_type', $operator_type)
                     ->where(function($query) use ($keyword){
@@ -248,6 +260,12 @@
                     ->with(array('formData1License'=>function($query){
                         $query->with('formData1StandardChecked');
                     }))
+                    ->where(function($query) use ($actives){
+                        if(!empty($actives)){
+                            $query->where('Form_Data1.actives', $actives);
+                        }
+                        
+                    })
                     ->get();
         }
 

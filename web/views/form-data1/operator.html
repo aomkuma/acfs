@@ -59,7 +59,10 @@
 					<tbody>
 						<tr ng-repeat="data in DataList">
 							<td><a ng-click="updateData(data.id)">{{data.group_name}}</a></td>
-							<td>{{data.contact_name}} {{data.contact_phone}} {{data.contact_fax}}</td>
+							<td>{{data.contact_name}}
+							<br>{{data.group_address}} 
+								<br>โทรศัพท์ : {{data.contact_phone}} 
+								<br>โทรสาร : {{data.contact_fax}}</td>
 							<td>
 								<span ng-repeat="license in data.form_data1_license">
 									<span ng-repeat="standard in license.form_data1_standard_checked">
@@ -68,7 +71,12 @@
 								</span>
 							</td>
 							<td>{{data.code_number}}</td>
-							<td><a role="button" class="btn btn-default"  href="../{{data.file_path}}" download="{{data.file_name}}"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
+							<td>
+								<!-- <a role="button" class="btn btn-default"  href="../{{data.file_path}}" download="{{data.file_name}}"  ng-show="data.file_name != '' && data.file_name != null && data.file_name != 'null'"><img src="../files/img/attach-file.png" style="height: 2em;"></a> -->
+								<div ng-repeat="file in data.form_data1_license">
+									<a role="button" class="btn btn-default"  href="../{{file.file_path}}" download="{{file.file_name}}"  ng-show="file.file_name != '' && data.file_name != null && file.file_name != 'null'"><img src="../files/img/attach-file.png" style="height: 2em;"></a>
+								</div>
+							</td>
 						</tr>
 					</tbody>
 				</table>

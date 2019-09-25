@@ -40,7 +40,7 @@
 
                 $PurchaseResult = PurchaseService::searchPurchase($keyword);
                 foreach ($PurchaseResult as $key => $value) {
-                    $value['title_th'] = $value['prefix_name_th']. $value['firstname_th'] . ' ' . $value['lastname_th'];
+                    $value['title_th'] = $value['prefix_name_th']. $value['firstname_th'] . ' ' . $value['lastname_th']. ' '   . ' ' . $value['project_th'];
                     $value['url'] = '#/palace';
                     array_push($SearchResult, $value);
                 }

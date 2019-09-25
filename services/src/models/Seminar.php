@@ -22,6 +22,7 @@ class Seminar extends \Illuminate\Database\Eloquent\Model {
                 , 'participant_filepath_th'
                 , 'participant_filename_en'
                 , 'participant_filepath_en'
+                , 'download_form_path'
                 , 'actives'
                 , 'create_date'
                 , 'update_date'

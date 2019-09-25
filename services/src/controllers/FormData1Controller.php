@@ -23,13 +23,14 @@
                 $iso2 = $params['obj']['condition']['iso2'];
                 $keyword = $params['obj']['condition']['keyword'];
                 $menu_type = $params['obj']['menu_type'];
+                $actives = $params['obj']['actives'];
 
 // print_r($condition);
 //             exit;
                 if($menu_type != 'inspection-operator'){
-                    $_List = FormData1Service::getList($menu_type, $keyword, $iso, $iso1, $iso2, $condition);
+                    $_List = FormData1Service::getList($menu_type, $keyword, $iso, $iso1, $iso2, $condition, $actives);
                 }else{
-                    $_List = FormData1Service::getListInspectionOperator($menu_type, $keyword, $iso, $condition);
+                    $_List = FormData1Service::getListInspectionOperator($menu_type, $keyword, $iso, $condition, $actives);
                 }
                 
 
@@ -47,8 +48,9 @@
                 $params = $request->getParsedBody();
                 $keyword = $params['obj']['condition']['keyword'];
                 $operator_type = $params['obj']['operator_type'];
+                $actives = $params['obj']['actives'];
                 
-                $_List = FormData1Service::getListOperator($keyword, $operator_type);
+                $_List = FormData1Service::getListOperator($keyword, $operator_type, $actives);
 
                 $this->data_result['DATA']['List'] = $_List;
 

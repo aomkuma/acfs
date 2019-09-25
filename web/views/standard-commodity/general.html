@@ -66,12 +66,13 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="data in dataset">
-								<td><span uib-popover-html="data.cancelled_data" popover-trigger="'mouseenter'">{{data.standardNameThai}}</span></td>
+								<td><span uib-popover-html="data.cancelled_data" popover-trigger="'mouseenter'">{{DEFAULT_LANGUAGE == 'TH'?data.standardNameThai:data.standardNameEng}}</span></td>
 								<td>{{data.standardType}}</td>
-								<td>{{data.noThai}}</td>
-								<td>{{data.bookNumberThai}}</td>
-								<td>{{makeDateString(data.useDate)}}</td>
-								<td><a href="../{{data.standardFilePath}}" role="button" class="btn btn-default" download="{{data.standardFileName}}" ng-show="data.standardFileName != null && data.standardFileName != ''"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
+								<td>{{DEFAULT_LANGUAGE == 'TH'?data.noThai:data.noEng}}</td>
+								<td>{{DEFAULT_LANGUAGE == 'TH'?data.bookNumberThai:data.bookNumberEng}}</td>
+								<td>{{makeDateString(data.echoDate)}}</td>
+								<td><a href="../{{data.standardFilePath}}" role="button" class="btn btn-default" download="{{data.standardFileName}}" ng-show="data.standardFileName != null && data.standardFileName != '' && DEFAULT_LANGUAGE == 'TH'"><img src="../files/img/attach-file.png" style="height: 2em;"></a>
+									<a href="../{{data.standardFilePathEN}}" role="button" class="btn btn-default" download="{{data.standardFileNameEN}}" ng-show="data.standardFileNameEN != null && data.standardFileNameEN != ''"><img src="../files/img/attach-file.png" style="height: 2em;"></a></td>
 							</tr>
 						</tbody>
 					</table>

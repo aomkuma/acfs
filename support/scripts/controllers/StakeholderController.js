@@ -12,15 +12,15 @@ angular.module('app').controller('StakeholderController', function($scope, $comp
     $scope.$parent.menu_selected = 'stakeholder';
 
     $scope.loadStakeholder = function(action){
-        var params = {'currentPage': $scope.currentPage
-                    , 'limitRowPerPage': $scope.limitRowPerPage 
-                    };
+        var params = {'currentPage': $scope.Pagination.currentPage
+                        , 'limitRowPerPage': $scope.Pagination.limitRowPerPage
+                        };
         IndexOverlayFactory.overlayShow();
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.Stakeholders = result.data.DATA.Stakeholder;
-                $scope.totalPages = result.data.DATA.Total;
+                $scope.Pagination.totalPages = result.data.DATA.Total;
                  IndexOverlayFactory.overlayHide();
             }else{
                 IndexOverlayFactory.overlayHide();
@@ -30,15 +30,15 @@ angular.module('app').controller('StakeholderController', function($scope, $comp
 
     $scope.loadSubcommittee = function(action){
         console.log(action);
-        var params = {'currentPage': $scope.currentPage
-                    , 'limitRowPerPage': $scope.limitRowPerPage 
+        var params = {'currentPage': $scope.Pagination.currentPage
+                        , 'limitRowPerPage': $scope.Pagination.limitRowPerPage
                     };
         IndexOverlayFactory.overlayShow();
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.Subcommittee = result.data.DATA.Subcommittee;
-                $scope.totalPages = result.data.DATA.Total;
+                $scope.Pagination.totalPages = result.data.DATA.Total;
                  IndexOverlayFactory.overlayHide();
             }else{
                 IndexOverlayFactory.overlayHide();
@@ -48,15 +48,15 @@ angular.module('app').controller('StakeholderController', function($scope, $comp
 
     $scope.loadAcademicBoard = function(action){
         console.log(action);
-        var params = {'currentPage': $scope.currentPage
-                    , 'limitRowPerPage': $scope.limitRowPerPage 
+        var params = {'currentPage': $scope.Pagination.currentPage
+                        , 'limitRowPerPage': $scope.Pagination.limitRowPerPage
                     };
         IndexOverlayFactory.overlayShow();
         HTTPService.clientRequest(action, params).then(function(result){
             console.log(result);
             if(result.data.STATUS == 'OK'){
                 $scope.AcademicBoardList = result.data.DATA.AcademicBoard;
-                $scope.totalPages = result.data.DATA.Total;
+                $scope.Pagination.totalPages = result.data.DATA.Total;
                  IndexOverlayFactory.overlayHide();
                  console.log($scope.AcademicBoard);
             }else{
@@ -172,10 +172,10 @@ angular.module('app').controller('StakeholderController', function($scope, $comp
     }
 
     $scope.changeTab = function(index){
-        $scope.totalPages = 0;
-        $scope.currentPage = 0;
-        $scope.limitRowPerPage = 10;
-        $scope.limitDisplay = 5;
+        $scope.Pagination.totalPages = 0;
+        $scope.Pagination.currentPage = 0;
+        $scope.Pagination.limitRowPerPage = 10;
+        $scope.Pagination.limitDisplay = 10;
         $scope.ActiveTab = index;
         if(index == 0){
             $scope.loadStakeholder('stakeholder/list');    
@@ -187,10 +187,8 @@ angular.module('app').controller('StakeholderController', function($scope, $comp
         
     }
 
-    $scope.totalPages = 0;
-    $scope.currentPage = 0;
-    $scope.limitRowPerPage = 10;
-    $scope.limitDisplay = 5;
+    $scope.Pagination = {'totalPages' : 0, 'currentPage' : 0, 'limitRowPerPage' : 10, 'limitDisplay' : 10};
+    
 
     $scope.ActiveTab = 0;
 

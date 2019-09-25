@@ -80,11 +80,13 @@
         }
 
         public static function updateMenu($obj){
-
+// print_r($obj);exit;
         	$model = Menu::find($obj['id']);
         	if(empty($model)){
         		$model = new Menu;
         	}
+
+
             // $model->update_date = date('Y-m-d H:i:s');
             $model->menu_name_th = $obj['menu_name_th'];
             $model->menu_name_en = $obj['menu_name_en'];
@@ -122,17 +124,28 @@
 
             $model = Menu::find($id);
             $model->menu_url = 'page/'. $id;
-            $model->menu_type = $id;
+            if($model->page_type == 'PAGE'){
+               $model->page_type = $id; 
+            }
+            
             $model->save();
             return $model->id;
         }
 
         public static function getPageContent($menu_id){
-            return Page::where('menu_id', $menu_id)->first();
+            return Page::select("Pages.*", "Menus.menu_type", 'Menus.page_type')
+                    ->join('Menus', 'Menus.id', '=', 'Pages.menu_id')
+                    ->where('menu_id', $menu_id)->first();
         }
 
-        public static function getAttachFiles($menu_id){
-            return AttachFile::where('menu_id', $menu_id)->get();
+        public static function getAttachFiles($menu_id, $page_type){
+            return AttachFile::where('menu_id', $menu_id)
+                    // ->where('page_type', $page_type)
+                    ->where(function($query) use ($page_type){
+                        $query->where('page_type' , 'file');
+                        $query->orWhere('page_type' , 'link');
+                    })
+                    ->get();
         }
 
         public static function getMostVisit($email){

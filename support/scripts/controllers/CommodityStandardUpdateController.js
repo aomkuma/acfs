@@ -84,6 +84,9 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
                 $scope.loadStakeholders($scope.ID);
                 $scope.loadMeetings($scope.ID);
                 $scope.Commodity_Standards.useDate = makeDateTime($scope.Commodity_Standards.useDate);
+                $scope.Commodity_Standards.echoDate = makeDateTime($scope.Commodity_Standards.echoDate);
+                $scope.Commodity_Standards.cancelledDate = makeDateTime($scope.Commodity_Standards.cancelledDate);
+                
                 IndexOverlayFactory.overlayHide();
             }else{
                 IndexOverlayFactory.overlayHide();
@@ -142,20 +145,21 @@ angular.module('app').controller('CommodityStandardUpdateController', function($
     }
 
 	$scope.save = function(){
+        var Data = angular.copy($scope.Commodity_Standards);
 		$scope.Commodity_Standards.updateBy = $scope.currentUser.adminID;
-        if($scope.Commodity_Standards.useDate != undefined && $scope.Commodity_Standards.useDate != null && $scope.Commodity_Standards.useDate != '' && $scope.Commodity_Standards.useDate != '0000-00-00 00:00:00'){
-            $scope.Commodity_Standards.useDate = makeSQLDate($scope.Commodity_Standards.useDate);
+        if(Data.useDate != undefined && Data.useDate != null && Data.useDate != '' && Data.useDate != '0000-00-00 00:00:00'){
+            Data.useDate = makeSQLDate(Data.useDate);
         }
 
-        if($scope.Commodity_Standards.echoDate != undefined && $scope.Commodity_Standards.echoDate != null && $scope.Commodity_Standards.echoDate != '' && $scope.Commodity_Standards.echoDate != '0000-00-00 00:00:00'){
-            $scope.Commodity_Standards.echoDate = makeSQLDate($scope.Commodity_Standards.echoDate);
+        if(Data.echoDate != undefined && Data.echoDate != null && Data.echoDate != '' && Data.echoDate != '0000-00-00 00:00:00'){
+            Data.echoDate = makeSQLDate(Data.echoDate);
         }
 
-        if($scope.Commodity_Standards.cancelledDate != undefined && $scope.Commodity_Standards.cancelledDate != null && $scope.Commodity_Standards.cancelledDate != '' && $scope.Commodity_Standards.cancelledDate != '0000-00-00 00:00:00'){
-            $scope.Commodity_Standards.cancelledDate = makeSQLDate($scope.Commodity_Standards.cancelledDate);
+        if(Data.cancelledDate != undefined && Data.cancelledDate != null && Data.cancelledDate != '' && Data.cancelledDate != '0000-00-00 00:00:00'){
+            Data.cancelledDate = makeSQLDate(Data.cancelledDate);
         }
 		var params = {
-					'Commodity_Standards':$scope.Commodity_Standards
+					'Commodity_Standards':Data
 					, 'Commodity_Keywords_TH':$scope.Commodity_Keywords_TH
 					, 'Commodity_Keywords_EN':$scope.Commodity_Keywords_EN
                     , 'ID_Replaced':($scope.ID_Replaced==undefined?'':$scope.ID_Replaced.id)

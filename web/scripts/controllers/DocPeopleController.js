@@ -37,7 +37,7 @@ angular.module('e-homework').controller('DocPeopleController', function($scope, 
 
 
     $scope.loadPatrolList = function(){
-        var params = {'menu_type' : 'patrol', 'actives' : 'Y'};
+        var params = {'menu_type' : 'manual-inspection', 'actives' : 'Y'};
         HTTPService.clientRequest('attachfile-multi/get/type', params).then(function(result){
             console.log(result);
             $scope.DataListPatrol = result.data.DATA.DataList;

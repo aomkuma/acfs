@@ -142,7 +142,23 @@
                         $file_en->moveTo('../../' . $FilePath);
                     }        
                 }
-                
+
+                $download_form_path = $files['obj']['DownloadForm']['attachFile'];
+                if($download_form_path != null){
+                    if($download_form_path->getClientFilename() != ''){
+                        // Unset old image if exist
+                        
+                        $ext = pathinfo($download_form_path->getClientFilename(), PATHINFO_EXTENSION);
+                        $FileName = date('YmdHis').'_'.rand(100000,999999). '.'.$ext;
+                        $FilePath = $_WEB_FILE_PATH . '/seminar/'.$FileName;
+                        
+                        // $_Seminar['download_form_path'] = $download_form_path->getClientFilename();
+                        $_Seminar['download_form_path'] = $FilePath;
+                        
+                        $download_form_path->moveTo('../../' . $FilePath);
+                    }        
+                }
+
                 $id = SeminarService::updateData($_Seminar);
                 
                 $this->data_result['DATA']['id'] = $id;

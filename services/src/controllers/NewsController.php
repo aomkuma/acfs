@@ -22,7 +22,7 @@
                 $actives  =$params['obj']['actives'];
                 $currentPage = filter_var($params['obj']['currentPage'], FILTER_SANITIZE_NUMBER_INT);
                 $limitRowPerPage = filter_var($params['obj']['limitRowPerPage'], FILTER_SANITIZE_NUMBER_INT);
-                $actives = '';
+                // $actives = '';
 
                 $_News = NewsService::getNewsList($news_type, $actives, $currentPage, $limitRowPerPage);
                 // print_r($_News);

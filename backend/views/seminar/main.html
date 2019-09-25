@@ -328,6 +328,27 @@
 			<hr>
 			<div class="row form-group">
 				<label class="form-control-static col-lg-2">
+					ไฟล์ใบสมัคร
+				</label>
+				<div class="col-lg-4" >
+					<p class="input-group">
+	                  <input type="text" class="form-control" ng-model="DownloadForm.attachFile.name"   />
+	                  <span class="input-group-btn">
+	                    <button class="btn btn-default" ngf-select ng-model="DownloadForm.attachFile" ngf-max-size="25MB"  ngf-model-invalid="DownloadForm.attachFileใinvalidFile">เลือก</button>
+	                    
+	                  </span>
+	                </p>
+				</div>
+				<label class="form-control-static col-lg-2">
+					{{Data.download_form_path}}
+				</label>
+				<div class="col-lg-3">
+					<div class="file-alert" ng-show="DownloadForm.attachFile.invalidFile.$error === 'maxSize'">ขนาดไฟล์ต้องไม่เกิน : {{DownloadForm.attachFile.invalidFile.$errorParam}}</div>
+				</div>
+			</div>
+			
+			<div class="row form-group">
+				<label class="form-control-static col-lg-2">
 					สถานะ
 				</label>
 				<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12" >

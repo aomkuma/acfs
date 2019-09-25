@@ -104,7 +104,7 @@ angular.module('e-homework').controller('SeminarController', function($scope, $c
         Data.content_th = CKEDITOR.instances.editor1.getData();
         Data.content_en = CKEDITOR.instances.editor2.getData();
 
-        var params = {'Data' : Data, 'ScheduleFile' : ScheduleFile, 'ParticipantFile' : ParticipantFile};
+        var params = {'Data' : Data, 'ScheduleFile' : ScheduleFile, 'ParticipantFile' : ParticipantFile, 'DownloadForm' : $scope.DownloadForm};
         HTTPService.uploadRequest('seminar/update', params).then(function(result){
             alert('บันทึกสำเร็จ');
             $scope.loadList();
@@ -156,6 +156,7 @@ angular.module('e-homework').controller('SeminarController', function($scope, $c
 
         $scope.ScheduleFile = {'attachFileTH' : null, 'attachFileEN' : null};
         $scope.ParticipantFile = {'attachFileTH' : null, 'attachFileEN' : null};
+        $scope.DownloadForm = {'attachFile' : null};
 
         if (CKEDITOR.instances.editor1) CKEDITOR.instances.editor1.destroy();
         if (CKEDITOR.instances.editor2) CKEDITOR.instances.editor2.destroy();
